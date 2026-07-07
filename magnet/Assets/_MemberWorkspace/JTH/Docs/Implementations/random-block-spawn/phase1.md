@@ -39,6 +39,6 @@
 
 | 보려는 것 | 경로 |
 |-----------|------|
-| 공용 계약 | `Assets/Shared/Magnet.Contracts/BlockShapes/IBlockShape.cs` |
+| 공용 계약 | `Assets/_Shared/Magnet.Contracts/BlockShapes/IBlockShape.cs` |
 | JTH 임시 구현 | `Scripts/Domain/BlockShapeData.cs` |
 | JTH 개발용 프리셋 | `Scripts/Domain/BlockShapePresets.cs` |

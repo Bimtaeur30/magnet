@@ -191,6 +191,18 @@ Use LitMotion for all tweening and value interpolation.
 - For sequences, combine with UniTask: `.ToUniTask()`
 - Unify UI animation, camera movement, and value interpolation on LitMotion.
 
+## Defensive Checks / Assertions
+
+방어 코드는 **정말 필요할 때만** 넣는다. 남발하지 않는다.
+
+- "일어나면 안 되는" 개발자 설정 오류(예: `[SerializeField]` 미할당, 잘못된 사용)는 `if (x == null) { Debug.LogError(...); return; }` 대신 **`Debug.Assert`** 를 쓴다.
+  - 예: `Debug.Assert(config != null, "[BoardView] BoardConfigSO is not assigned.", this);`
+  - 이유: `Debug.Assert`는 에디터/개발 빌드에서 크게 실패하고 릴리스 빌드에서 제거된다. 정상 흐름을 방해하지 않고 코드가 짧아진다.
+- 다음 경우에만 명시적 처리(early return, 예외, 로그)를 쓴다.
+  - 런타임에 **실제로 발생 가능한** 입력(외부 데이터, 네트워크, 사용자 입력).
+  - 실패 시 **복구·대체 동작**이 필요한 경우.
+- 불가능한 시나리오에 대한 방어 코드는 만들지 않는다 (`CLAUDE.md` §2 Simplicity First와 동일 취지).
+
 ## Encoding
 
 - Save Markdown, C# source, and Unity text assets as UTF-8.

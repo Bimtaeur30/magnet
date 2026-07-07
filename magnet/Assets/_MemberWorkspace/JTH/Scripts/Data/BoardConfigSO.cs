@@ -1,26 +1,19 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace JTH.Scripts.Data
 {
     [CreateAssetMenu(fileName = "BoardConfig", menuName = "Magnet/Board Config")]
     public sealed class BoardConfigSO : ScriptableObject
     {
-        [FormerlySerializedAs("_boardSize")]
-        [FormerlySerializedAs("boardSize")]
         [SerializeField] private int cellsPerSide = 4;
-        [FormerlySerializedAs("_cellSize")]
         [SerializeField] private float cellSize = 1f;
-        [FormerlySerializedAs("_cellColor")]
         [SerializeField] private Color cellColor = new(0.2f, 0.22f, 0.28f, 1f);
-        [FormerlySerializedAs("_magnetAxisColor")]
         [SerializeField] private Color magnetAxisColor = new(0.95f, 0.75f, 0.2f, 1f);
 
         /// <summary>자석(0,0)에서 한쪽 끝까지 칸 수. 전체 한 변 = CellsPerSide * 2 + 1.</summary>
         public int CellsPerSide => cellsPerSide;
 
         public int BoardSize => cellsPerSide * 2 + 1;
-        public int HalfExtent => cellsPerSide;
         public float CellSize => cellSize;
         public Color CellColor => cellColor;
         public Color MagnetAxisColor => magnetAxisColor;

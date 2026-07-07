@@ -11,11 +11,23 @@
 - 생성: `Scripts/Domain/BlockShapeData.cs`
 - 생성: `Scripts/Domain/BlockShapePresets.cs`
 
+**변경 상세 (왜/무엇)**
+
+- 파일: `Scripts/Domain/IBlockShape.cs`
+  - 심볼: `IBlockShape` (추가)
+  - 이유: 에디터(SCRUM-25)에서 형태를 만들더라도, 인게임 로직은 “형태 계약”만 보도록 분리하기 위해.
+- 파일: `Scripts/Domain/BlockShapeData.cs`
+  - 심볼: `BlockShapeData` (추가)
+  - 이유: SO 없이도 `new BlockShapeData(id, offsets)`로 임시 형태를 주입해 작업을 진행하기 위해.
+- 파일: `Scripts/Domain/BlockShapePresets.cs`
+  - 심볼: `BlockShapePresets` (추가)
+  - 이유: 기본 형태(1×1, 1×2, 1×3, 2×2, L 등)를 코드로 빠르게 제공해, 배치/흡착 구현(SCRUM-19)에서 즉시 사용하기 위해.
+
 ## 2 — 2026-07-07 · 공용 어셈블리로 계약 이동
 
 **바뀐 것**
 
-- 생성: `Assets/Shared/Magnet.Contracts/` — `Magnet.Contracts.asmdef`
+- 생성: `Assets/_Shared/Magnet.Contracts/` — `Magnet.Contracts.asmdef`
 - 이동: `IBlockShape`, `BlockShapeBounds` → `Magnet.Contracts.BlockShapes`
 - 수정: `Magnet.JTH.asmdef` — `Magnet.Contracts` 참조 추가
 - 삭제: `Scripts/Domain/IBlockShape.cs`, `BlockShapeBounds.cs` (JTH 중복)
@@ -30,9 +42,9 @@
 
 **바뀐 것**
 
-- 수정: `Assets/Shared/Magnet.Contracts/BlockShapes/IBlockShape.cs` — `BoundsSize` 제거 (최소 계약)
+ - 수정: `Assets/_Shared/Magnet.Contracts/BlockShapes/IBlockShape.cs` — `BoundsSize` 제거 (최소 계약)
 - 수정: `Scripts/Domain/BlockShapeData.cs` — `BoundsSize` 및 계산 로직 제거
-- 삭제: `Assets/Shared/Magnet.Contracts/BlockShapes/BlockShapeBounds.cs`
+- 삭제: `Assets/_Shared/Magnet.Contracts/BlockShapes/BlockShapeBounds.cs`
 
 **메모**
 

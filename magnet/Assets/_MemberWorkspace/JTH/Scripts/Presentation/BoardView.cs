@@ -1,5 +1,4 @@
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,11 +21,7 @@ namespace JTH.Scripts.Presentation
 
         private void Start()
         {
-            if (config == null)
-            {
-                Debug.LogError("[BoardView] BoardConfigSO is not assigned.", this);
-                return;
-            }
+            Debug.Assert(config != null, "[BoardView] BoardConfigSO is not assigned.", this);
 
             BuildBoardLines();
         }
@@ -36,7 +31,7 @@ namespace JTH.Scripts.Presentation
             EnsureLinesRoot();
             ClearLines();
 
-            int half = BoardCoordinates.HalfExtent(config.BoardSize);
+            int half = config.CellsPerSide;
             float cellSize = config.CellSize;
             float min = (-half - 0.5f) * cellSize;
             float max = (half + 0.5f) * cellSize;

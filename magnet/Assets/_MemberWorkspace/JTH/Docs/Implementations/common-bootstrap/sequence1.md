@@ -21,3 +21,15 @@
 - `RootScope`는 **씬에 두지 않음**. prefab + ReflexSettings 등록만.
 - MCP 메뉴로 `Assets/` 루트에 잘못 생긴 `ReflexSettings.asset`, `RootScope.prefab` 있으면 **삭제** (JTH 쪽 사용).
 - 이 구현은 워크플로 미준수(계획 승인 없이 구현, play 모드 검증) → 이후 `CLAUDE.md` 워크플로 따름.
+
+**변경 상세 (왜/무엇)**
+
+- 파일: `Scripts/Magnet.JTH.asmdef`
+  - 심볼: `Magnet.JTH` 어셈블리 정의 (추가)
+  - 이유: 멤버 Workspace 단위로 의존성을 고정하고(Reflex/EventChannel/UniTask), 컴파일 경계를 명확히 하기 위해.
+- 파일: `Scripts/Events/MagnetGameEvents.cs`
+  - 심볼: `GameEvents` + `GameEvent` 파생 이벤트들 (추가)
+  - 이유: 오브젝트 간 직접 참조 없이 `EventChannelSO`로 통신하는 프로젝트 규칙(DESIGN 6.4)을 따르기 위해.
+- 파일: `Scripts/Bootstrap/MagnetProjectInstaller.cs`
+  - 심볼: `InstallBindings` (추가)
+  - 이유: 씬 런타임에서 사용할 `EventChannelSO`를 Reflex 컨테이너에 등록해 DI로 전달하기 위해.
