@@ -10,8 +10,8 @@
 
 | 문서 | 설명 |
 |------|------|
-| [AI_COLLAB_GUIDE.md](./AI_COLLAB_GUIDE.md) | **팀원용** — Cursor·Claude·Codex 공통 프롬프트, MCP, Phase·Sequence |
-| [DESIGN.md](./DESIGN.md) | 게임 규칙, 시스템, 기술 아키텍처, **구현 Phase**, Jira 매핑 |
+| [AI_COLLAB_GUIDE.md](./AI_COLLAB_GUIDE.md) | **팀원용** — Cursor·Claude·Codex 공통 프롬프트, MCP, 구현·Phase·Sequence |
+| [DESIGN.md](./DESIGN.md) | 게임 규칙, 시스템, 기술 아키텍처, **마일스톤(M0~M10)**, Jira 매핑 |
 | [TODO.md](./TODO.md) | 팀원별 할 일 (자기 섹션만 수정) |
 | [CLAUDE.md](../CLAUDE.md) | AI 코딩 규칙 (Cursor가 `.cursor/rules/main.mdc`로 자동 로드) |
 
@@ -26,10 +26,10 @@
 
 | 멤버 | 코드 | 작업 기록 (Unity `Assets/` 안) |
 |------|------|--------------------------------|
-| JTH | `Assets/MemberWorkspace/JTH/` | `Docs/SEQUENCE.md` · `Docs/Sequence/phaseN.md` |
-| KTJ | `Assets/MemberWorkspace/KTJ/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
-| PMS | `Assets/MemberWorkspace/PMS/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
-| PTY | `Assets/MemberWorkspace/PTY/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
+| JTH | `Assets/MemberWorkspace/JTH/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/[slug]/` |
+| KTJ | `Assets/MemberWorkspace/KTJ/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
+| PMS | `Assets/MemberWorkspace/PMS/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
+| PTY | `Assets/MemberWorkspace/PTY/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
 
 팀 공용 설계: `Docs/DESIGN.md` · AI 규칙: `CLAUDE.md` (프로젝트 루트)
 
@@ -46,8 +46,8 @@
 ## 시작하기
 
 1. Unity에서 `magnet` 프로젝트 열기
-2. `Docs/DESIGN.md` Phase 순서 확인
-3. 담당 Phase 하나씩 구현 → 완료 후 표 상태 갱신
+2. `Docs/DESIGN.md` 마일스톤·게임 규칙 확인
+3. Jira·`IMPLEMENTATIONS.md` 기준으로 구현 → Phase → Sequence 단위 작업
 4. **타인 `MemberWorkspace` 수정 금지**
 
 ## 레퍼런스

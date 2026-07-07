@@ -113,14 +113,23 @@ Before implementing a new feature or changing an existing structure, use the gri
 
 If the structure is unclear, do not guess. Ask the user in Korean before implementing.
 
-## Phase Implementation
+## Implementation / Phase / Sequence Workflow
 
-`Docs/DESIGN.md`의 Phase 표를 기준으로 진행한다. **코드·에셋·씬을 건드리기 전에** 아래 순서를 반드시 따른다.
+개인 작업은 **구현 → Phase → Sequence** 3단계로 기록한다. `Docs/DESIGN.md` **마일스톤(M0~M10)** 은 팀 전체 로드맵이며, 개인 Phase와 **다른 개념**이다.
 
-### Phase 워크플로 (필수)
+| 용어 | 범위 | 문서 |
+|------|------|------|
+| **마일스톤** | 게임 전체 기능 영역 (M0~M10) | `Docs/DESIGN.md` §8 |
+| **구현** | 개인 기능·Jira 이슈·요청 단위 (예: 인벤토리) | `IMPLEMENTATIONS.md` |
+| **Phase** | 그 구현을 쪼갠 단계. **뭘 어떻게 구현하는지 자세히** 적는다 (예: 구조 → 핵심 기능 → 부가 기능) | `Implementations/[slug]/phaseN.md` |
+| **Sequence** | 그 Phase에서 **뭐가 바뀌었는지** 순서대로 적는 변경 기록. **Phase 파일과 1:1** | `Implementations/[slug]/sequenceN.md` |
+
+**코드·에셋·씬을 건드리기 전에** 아래 순서를 반드시 따른다.
+
+### 워크플로 (필수)
 
 1. **계획 제시 (구현 전)** — 사용자에게 **한국어**로 다음을 먼저 전달한다.
-   - 이번 Phase 목표·완료 기준 (`DESIGN.md` 기준)
+   - 대상 **구현**·**Phase** 목표·완료 기준 (`phaseN.md`에 들어갈 「뭘 어떻게」)
    - 생성·수정할 파일·폴더 목록
    - 클래스 책임·구조 (grill-me로 검토한 내용 요약)
    - 검증 방법 (컴파일 에러 확인 등)
@@ -128,14 +137,15 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
    - 승인 예: 「진행해」, 「허락」, 「시작」, 「OK」
    - 「Phase N 시작」만으로는 계획 승인이 아니다. 계획을 보여준 뒤 별도 승인을 받는다.
 3. **구현** — 승인 후 **한 Phase만** 구현한다. 여러 Phase를 한 번에 하지 않는다.
-4. **기록** — Phase 작업이 끝나면 `Assets/MemberWorkspace/[username]/Docs/Sequence/phaseN.md`를 갱신하고, `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` 인덱스 상태를 맞춘다.
-5. **완료 처리** — 사용자가 결과를 확인하고 완료를 알려준 뒤에만 `DESIGN.md` / `TODO.md`의 Phase 상태를 `✅`로 갱신한다.
+4. **기록** — 계획·구조는 `phaseN.md`에, 실제로 바뀐 것은 짝이 되는 `sequenceN.md`에 `## N — 날짜 · 제목` 항목으로 **추가** → `phases.md` → `IMPLEMENTATIONS.md` 순으로 인덱스를 맞춘다.
+5. **완료 처리** — 사용자가 결과를 확인하고 완료를 알려준 뒤에만 `DESIGN.md` 마일스톤 / `TODO.md` 상태를 `✅`로 갱신한다.
 
 ### 추가 규칙
 
-- 별도 md 파일을 읽으라고 지시받으면, 그 파일의 Phase 순서대로 진행한다.
+- 새 **구현** 시작 전: 기능을 Phase로 쪼개는 계획을 먼저 제시한다 (코드 X). 예: 인벤토리 → 1) 구조 2) 아이템 넣기 3) 부가 기능(단축키·드래그).
+- 별도 md 파일을 읽으라고 지시받으면, 그 구현의 Phase 순서대로 진행한다.
 - 구조가 불명확하면 grill-me로 검토하고, 여전히 불명확하면 한국어로 질문한다. 추측 구현 금지.
-- 모든 Phase가 끝나면 완료 보고서를 작성한다.
+- 한 **구현**의 모든 Phase·Sequence가 끝나면 완료 보고서를 작성한다.
 
 ## Dependency Injection (Reflex)
 
@@ -206,11 +216,11 @@ Each member has a separate workspace. Follow these location rules when creating 
 - Create code only inside `Assets/MemberWorkspace/[username]/`.
   - Never modify code in another member's `MemberWorkspace` folder.
 - Write the user's personal work log under `Assets/MemberWorkspace/[username]/Docs/`.
-  - **One file per Phase:** `Sequence/phase0.md`, `phase1.md`, … (`Docs/DESIGN.md` Phase 번호와 맞춤).
-  - Each file answers: **what was done in this Phase** → **which code paths to read** (표로 경로 정리).
-  - Sections: 목표 · 한 일(포함/제외) · 코드·에셋 맵 · 메모(함정·비자명한 결정만).
-  - Maintain `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` as a **Phase index** with status.
-  - New sessions (AI): read `SEQUENCE.md` + **current** `Sequence/phaseN.md` only. Paths are under `Assets/` so Unity Project 창에서도 열 수 있음.
+  - **구현 인덱스:** `IMPLEMENTATIONS.md`
+  - **구현별 Phase 인덱스:** `Implementations/[slug]/phases.md`
+  - **Phase 계획 (뭘 어떻게):** `Implementations/[slug]/phaseN.md` — 목표(완료 기준) · 구현 내용(클래스·책임·방식 상세) · 범위 밖 · 코드·에셋 맵
+  - **Sequence 변경 기록:** `Implementations/[slug]/sequenceN.md` — **Phase와 1:1** 파일. `## N — 날짜 · 제목` 항목을 순서대로 추가 (항목마다 파일 분리 X). 각 항목: 바뀐 것(생성/수정/삭제 파일) · 메모.
+  - New sessions (AI): read `IMPLEMENTATIONS.md` + **current** 구현의 `phases.md` + **current** `phaseN.md`·`sequenceN.md` only. Paths are under `Assets/` so Unity Project 창에서도 열 수 있음.
 - Shared docs (`Docs/README.md`, `Docs/DESIGN.md`, `Docs/TODO.md`): any member may edit.
   - In `Docs/TODO.md`, each member owns a `## [username]` section. Edit only the current user's own section; `## Common` may be edited by anyone.
   - `Docs/README.md` and `Docs/DESIGN.md` change less often. Keep edits small, and summarize what changed and why to the user so they can share it with the team.
@@ -221,14 +231,16 @@ If you don't know the username when work starts, ask the user before creating co
 
 | What | Path |
 |------|------|
-| Team design & Phase table | `Docs/DESIGN.md` |
+| Team design & milestone table | `Docs/DESIGN.md` |
 | Team TODO | `Docs/TODO.md` |
 | AI prompt guide | `Docs/AI_COLLAB_GUIDE.md` |
 | This rule file | `CLAUDE.md` |
-| **Member Phase index** | `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` |
-| **Member Phase log** | `Assets/MemberWorkspace/[username]/Docs/Sequence/phaseN.md` |
+| **Member implementation index** | `Assets/MemberWorkspace/[username]/Docs/IMPLEMENTATIONS.md` |
+| **Phase index (per implementation)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/phases.md` |
+| **Phase plan (what & how)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/phaseN.md` |
+| **Sequence change log (1:1 with Phase)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/sequenceN.md` |
 
-On a new session: read `SEQUENCE.md` + **current** `phaseN.md` only (not full history). Personal docs live under `Assets/` so they appear in Unity Project window.
+On a new session: read `IMPLEMENTATIONS.md` + **current** `phases.md` + **current** `phaseN.md`·`sequenceN.md` only (not full history). Personal docs live under `Assets/` so they appear in Unity Project window.
 
 ## Debugging (Token Saving)
 

@@ -1,22 +1,27 @@
-# JTH Workspace — 폴더·asmdef 합의 (Phase 0)
+# JTH Workspace — 폴더·asmdef 합의 (M0 공통 기반)
 
 팀원은 각자 `Assets/MemberWorkspace/[username]/` 아래 동일 패턴을 따른다.
 
 ```
 MemberWorkspace/[username]/
   Docs/
-    SEQUENCE.md              # Phase 인덱스
-    Sequence/
-      phase0.md, phase1.md …
+    IMPLEMENTATIONS.md           # 구현 인덱스
+    Implementations/
+      [slug]/                    # 예: block-coordinates, inventory
+        phases.md                # Phase 인덱스
+        phase1.md                # Phase 1 계획 (뭘 어떻게 구현)
+        sequence1.md             # Phase 1 변경 기록 (1:1)
+        phase2.md
+        sequence2.md
   Scripts/
-    [Username].asmdef          # 예: Magnet.JTH
-    Bootstrap/                 # Reflex Installer, 씬 진입
-    Events/                    # GameEvent 파생 클래스
-    Data/                      # ScriptableObject 정의 (Phase 1+)
-    Domain/                    # 순수 로직 (Phase 1+)
-    Presentation/              # 뷰·이펙트 (Phase 1+)
-  ScriptableObjects/           # SO 에셋
-  Resources/                   # ReflexSettings (필수)
+    [Username].asmdef            # 예: Magnet.JTH
+    Bootstrap/
+    Events/
+    Data/
+    Domain/
+    Presentation/
+  ScriptableObjects/
+  Resources/                     # ReflexSettings (필수)
   Prefabs/
   Scenes/
 ```
@@ -31,8 +36,8 @@ MemberWorkspace/[username]/
 
 ## 공용 런타임 코드
 
-- Phase 0 시점: **각자 Workspace에 구현**, JTH `Events/`·`Bootstrap/`를 참조 구현으로 사용.
-- `Assets/Shared/` 통합은 팀 합의 후 별도 Phase에서 진행.
+- M0 시점: **각자 Workspace에 구현**, JTH `Events/`·`Bootstrap/`를 참조 구현으로 사용.
+- `Assets/Shared/` 통합은 팀 합의 후 별도 마일스톤에서 진행.
 
 ## Reflex 부트스트랩
 
