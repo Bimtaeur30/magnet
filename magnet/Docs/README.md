@@ -10,7 +10,7 @@
 
 | 문서 | 설명 |
 |------|------|
-| [AI_COLLAB_GUIDE.md](./AI_COLLAB_GUIDE.md) | **팀원용** — 프롬프트, MCP 연결, Phase·Sequence 워크플로 |
+| [AI_COLLAB_GUIDE.md](./AI_COLLAB_GUIDE.md) | **팀원용** — Cursor·Claude·Codex 공통 프롬프트, MCP, Phase·Sequence |
 | [DESIGN.md](./DESIGN.md) | 게임 규칙, 시스템, 기술 아키텍처, **구현 Phase**, Jira 매핑 |
 | [TODO.md](./TODO.md) | 팀원별 할 일 (자기 섹션만 수정) |
 | [CLAUDE.md](../CLAUDE.md) | AI 코딩 규칙 (Cursor가 `.cursor/rules/main.mdc`로 자동 로드) |
@@ -24,12 +24,16 @@
 
 ## 팀 Workspace
 
-| 멤버 | 코드 | 작업 로그 |
-|------|------|-----------|
-| JTH | `Assets/MemberWorkspace/JTH/` | `Docs/Member/JTH/SEQUENCE.md` (인덱스) · `Docs/Member/JTH/Sequence/` |
-| KTJ | `Assets/MemberWorkspace/KTJ/` | `Docs/Member/KTJ/SEQUENCE.md` · `Docs/Member/KTJ/Sequence/` |
-| PMS | `Assets/MemberWorkspace/PMS/` | `Docs/Member/PMS/SEQUENCE.md` · `Docs/Member/PMS/Sequence/` |
-| PTY | `Assets/MemberWorkspace/PTY/` | `Docs/Member/PTY/SEQUENCE.md` · `Docs/Member/PTY/Sequence/` |
+| 멤버 | 코드 | 작업 기록 (Unity `Assets/` 안) |
+|------|------|--------------------------------|
+| JTH | `Assets/MemberWorkspace/JTH/` | `Docs/SEQUENCE.md` · `Docs/Sequence/phaseN.md` |
+| KTJ | `Assets/MemberWorkspace/KTJ/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
+| PMS | `Assets/MemberWorkspace/PMS/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
+| PTY | `Assets/MemberWorkspace/PTY/` | `Docs/SEQUENCE.md` · `Docs/Sequence/` |
+
+팀 공용 설계: `Docs/DESIGN.md` · AI 규칙: `CLAUDE.md` (프로젝트 루트)
+
+> 개인 작업 기록은 예전 `Docs/Member/[이름]/` 가 아니라 **각자 `MemberWorkspace/[이름]/Docs/`** 에 둡니다. (`Docs/Member` 폴더는 삭제됨)
 
 ## 기술 스택
 

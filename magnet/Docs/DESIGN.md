@@ -11,6 +11,19 @@
 - 팀원별 작업 범위와 **Phase 구현 순서**의 기준 문서로 사용한다.
 - 세부 수치 밸런스·아트 스펙·광고/부스터 등 출시 이후 메타는 범위 밖이며, 필요 시 후속 문서에서 다룬다.
 
+### 1.1 문서 위치 (AI·팀 공통)
+
+| 종류 | 경로 | 용도 |
+|------|------|------|
+| 팀 설계·Phase 표 | `Docs/DESIGN.md` | 구현 순서·완료 기준 |
+| 팀 TODO | `Docs/TODO.md` | 미정 사항 (멤버별 `## [이름]` 섹션) |
+| AI 협업 가이드 | `Docs/AI_COLLAB_GUIDE.md` | 프롬프트·워크플로 |
+| AI 행동 규칙 | `CLAUDE.md` (루트) | Cursor 자동 로드 |
+| **개인 Phase 인덱스** | `Assets/MemberWorkspace/[이름]/Docs/SEQUENCE.md` | 현재 Phase·링크 |
+| **개인 Phase 기록** | `Assets/MemberWorkspace/[이름]/Docs/Sequence/phaseN.md` | 무엇을 했는지·어떤 코드를 볼지 |
+
+새 AI 세션: `@Docs/DESIGN.md` + `@Assets/MemberWorkspace/[이름]/Docs/SEQUENCE.md` + **현재** `phaseN.md`만 읽는다 (전체 히스토리 X).
+
 ---
 
 ## 2. 게임 개요
@@ -196,11 +209,28 @@
 - MonoBehaviour는 표현·입력·DI 바인딩. 규칙 판정은 테스트 가능한 클래스로 분리.
 - 오브젝트 간 통신은 `EventChannelSO` (직접 C# event / UnityEvent 지양).
 
+### 6.2.1 Reflex vs SerializeField (확정)
+
+| 대상 | 연결 |
+|------|------|
+| ScriptableObject·에셋 참조 | Inspector `[SerializeField]` — **Reflex 사용 안 함** (프리팹 분리 시에도 유지) |
+| 씬 내 다른 오브젝트·런타임 서비스 | Reflex `[Inject]` |
+
+### 6.2.2 보드 좌표 (확정)
+
+- **격자 좌표:** 자석 = **(0, 0)**. N=9 유효 보드 = `gx, gy ∈ [-4 .. 4]`. 자석 옆 = `(1, 0)`.
+- **월드:** `GridToWorld` — `(gx * cellSize, gy * cellSize)`, 자석 = `Vector2.zero`.
+- **변환:** `BoardCoordinates.GridToWorld` / `WorldToGrid` (+ `IsInBounds`).
+- **점유 상태:** `BoardGrid` — `Dictionary<Vector2Int, bool>` (배열 없음). 보드 밖 칸도 키로 넣은 뒤 `IsInBounds`로 경계 이탈 판정 (Phase 4).
+
 ### 6.3 폴더·소유권
 
 - 개인 코드: `Assets/MemberWorkspace/[username]/`
 - **타 멤버 Workspace 수정 금지**
-- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`
+- 개인 작업 기록(Sequence): `Assets/MemberWorkspace/[username]/Docs/`
+  - 인덱스: `SEQUENCE.md` · Phase 본문: `Sequence/phaseN.md` (Unity Project 창에서 열기)
+- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`, `Docs/AI_COLLAB_GUIDE.md`
+- AI 규칙: `CLAUDE.md` (루트), Cursor `.cursor/rules/main.mdc`
 - 공용 런타임 코드 위치(예: `Assets/Shared/`)는 팀 합의 후 Phase 0에서 확정. 미정 시 각자 Workspace에 구현 후 통합.
 
 ### 6.4 주요 이벤트 (초안)
@@ -274,7 +304,7 @@
 ### Phase 진행 규칙
 
 1. 구현 전 **grill-me**로 구조·소유 클래스 확인 → **한국어 계획 제시** → **담당자 승인 후** 구현 (`CLAUDE.md` Phase 워크플로).
-2. 한 Phase 완료 → **컴파일 에러 없음**(콘솔 확인) → 담당자 확인 → `Sequence/phaseN.md` 갱신 → 위 표 `✅` 갱신.
+2. 한 Phase 완료 → **컴파일 에러 없음**(콘솔 확인) → 담당자 확인 → `Assets/MemberWorkspace/[이름]/Docs/Sequence/phaseN.md` 갱신 → 위 표 `✅` 갱신.
 3. 다음 Phase는 담당자가 “시작”이라고 명시한 뒤, **1번(계획·승인)** 을 다시 거친다.
 4. 에이전트는 Unity **플레이 모드에 직접 진입하지 않는다**. 런타임 확인은 담당자 플레이 후 콘솔 로그로 한다 (`CLAUDE.md` Debugging).
 

@@ -128,7 +128,7 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
    - 승인 예: 「진행해」, 「허락」, 「시작」, 「OK」
    - 「Phase N 시작」만으로는 계획 승인이 아니다. 계획을 보여준 뒤 별도 승인을 받는다.
 3. **구현** — 승인 후 **한 Phase만** 구현한다. 여러 Phase를 한 번에 하지 않는다.
-4. **기록** — Phase 작업이 끝나면 `Docs/Member/[username]/Sequence/phaseN.md`를 갱신하고, `SEQUENCE.md` 인덱스 상태를 맞춘다.
+4. **기록** — Phase 작업이 끝나면 `Assets/MemberWorkspace/[username]/Docs/Sequence/phaseN.md`를 갱신하고, `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` 인덱스 상태를 맞춘다.
 5. **완료 처리** — 사용자가 결과를 확인하고 완료를 알려준 뒤에만 `DESIGN.md` / `TODO.md`의 Phase 상태를 `✅`로 갱신한다.
 
 ### 추가 규칙
@@ -139,12 +139,27 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
 
 ## Dependency Injection (Reflex)
 
-Use Reflex DI for all dependency injection.
+런타임 **씬 오브젝트 간** 참조가 필요할 때만 Reflex를 쓴다.
 
-- Do not create service dependencies directly with `new`.
-- Do not access services via singletons or static classes from MonoBehaviour.
-- Use constructor injection or Reflex's `[Inject]` attribute.
-- Do not resolve dependencies manually outside the DI container.
+### Reflex 사용 (O)
+
+- 씬에 있는 다른 `MonoBehaviour` / 런타임 서비스를 주입할 때
+- 프리팹 인스턴스끼리 씬에서 연결하기 어려운 **동적 의존성**
+- `[Inject]` 또는 Installer `RegisterValue` — 대상이 **씬·런타임 객체**일 때
+
+### Reflex 사용 안 함 (X) — Inspector `SerializeField`
+
+- **ScriptableObject** (`BoardConfigSO`, `BlockShapeSO`, `EventChannelSO` 등 **에셋**)
+- 프리팹에 넣어도 참조가 유지되는 **에셋·프리팹 참조**
+- 이유: SO/에셋은 프리팹 분리·씬 저장 시 SerializeField로 충분하고, DI 컨테이너에 넣을 필요 없음
+
+### 공통
+
+- `new`로 서비스 직접 생성 금지 (순수 Domain 데이터 클래스 제외)
+- 싱글톤 / static 서비스 접근 금지
+- 컨테이너 밖에서 수동 `Resolve` 금지
+
+**예 (Phase 1+):** `BoardView` → `[SerializeField] BoardConfigSO` · 턴 오케스트레이터 → `[Inject] EventChannelSO`는 **에셋이면 SerializeField**, 씬 매니저 참조만 `[Inject]`
 
 ## Async / Await (UniTask)
 
@@ -181,8 +196,8 @@ Use `EventChannelSO` channeling for object-to-object event communication.
 - Define event data as classes inheriting `GameEvent`.
 - Subscribe: `channel.AddListener<MyEvent>(OnMyEvent)`
 - Unsubscribe: `channel.RemoveListener<MyEvent>(OnMyEvent)` — always in OnDisable or OnDestroy.
-- Raise: `channel.RaiseEvent(new MyEvent(...))`
-- Inject the `EventChannelSO` asset via Inspector (DI or SerializeField).
+- Raise: `channel.RaiseEvent(GameEvents.MyEvent.Init(...))` — `GameEvents` static 인스턴스 + `Init()`, `new` 금지
+- **에셋(`EventChannelSO`)은 `[SerializeField]`로 연결.** Reflex 주입하지 않음 (`CLAUDE.md` DI 규칙).
 
 ## Folder & File Ownership (Team)
 
@@ -190,17 +205,30 @@ Each member has a separate workspace. Follow these location rules when creating 
 
 - Create code only inside `Assets/MemberWorkspace/[username]/`.
   - Never modify code in another member's `MemberWorkspace` folder.
-- Write the user's personal work log under `Docs/Member/[username]/Sequence/`.
-  - **One file per Phase:** `phase0.md`, `phase1.md`, … (`DESIGN.md` Phase 번호와 맞춤).
+- Write the user's personal work log under `Assets/MemberWorkspace/[username]/Docs/`.
+  - **One file per Phase:** `Sequence/phase0.md`, `phase1.md`, … (`Docs/DESIGN.md` Phase 번호와 맞춤).
   - Each file answers: **what was done in this Phase** → **which code paths to read** (표로 경로 정리).
   - Sections: 목표 · 한 일(포함/제외) · 코드·에셋 맵 · 메모(함정·비자명한 결정만).
-  - Maintain `Docs/Member/[username]/SEQUENCE.md` as a **Phase index** with status.
-  - New sessions: read the **current Phase** file only, not the full history.
+  - Maintain `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` as a **Phase index** with status.
+  - New sessions (AI): read `SEQUENCE.md` + **current** `Sequence/phaseN.md` only. Paths are under `Assets/` so Unity Project 창에서도 열 수 있음.
 - Shared docs (`Docs/README.md`, `Docs/DESIGN.md`, `Docs/TODO.md`): any member may edit.
   - In `Docs/TODO.md`, each member owns a `## [username]` section. Edit only the current user's own section; `## Common` may be edited by anyone.
   - `Docs/README.md` and `Docs/DESIGN.md` change less often. Keep edits small, and summarize what changed and why to the user so they can share it with the team.
 
 If you don't know the username when work starts, ask the user before creating code or personal docs.
+
+## Document Locations (AI sessions)
+
+| What | Path |
+|------|------|
+| Team design & Phase table | `Docs/DESIGN.md` |
+| Team TODO | `Docs/TODO.md` |
+| AI prompt guide | `Docs/AI_COLLAB_GUIDE.md` |
+| This rule file | `CLAUDE.md` |
+| **Member Phase index** | `Assets/MemberWorkspace/[username]/Docs/SEQUENCE.md` |
+| **Member Phase log** | `Assets/MemberWorkspace/[username]/Docs/Sequence/phaseN.md` |
+
+On a new session: read `SEQUENCE.md` + **current** `phaseN.md` only (not full history). Personal docs live under `Assets/` so they appear in Unity Project window.
 
 ## Debugging (Token Saving)
 
