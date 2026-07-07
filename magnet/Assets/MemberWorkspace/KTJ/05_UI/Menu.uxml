@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Container" style="flex-grow: 1;">
+        <ui:Label text="게임제목" name="Title" parse-escape-sequences="false" style="position: absolute; left: 50%; top: 50%; font-size: 98px; -unity-text-align: upper-center;"/>
+    </ui:VisualElement>
+</ui:UXML>
