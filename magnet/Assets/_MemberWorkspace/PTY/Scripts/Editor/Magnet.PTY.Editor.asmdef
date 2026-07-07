@@ -1,0 +1,19 @@
+{
+    "name": "Magnet.PTY.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Magnet.PTY",
+        "GUID:eb415e56e20154449aab8a7efaff0147"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
