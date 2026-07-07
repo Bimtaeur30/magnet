@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804598183972756154}
   - component: {fileID: 4862234505244316482}
+  - component: {fileID: 5829471630251847396}
   m_Layer: 0
   m_Name: ProjectInstaller
   m_TagString: Untagged
@@ -44,7 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a911c0e0411726459146cf74771f71d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::Magnet.JTH.Bootstrap.MagnetProjectInstaller
-  _mainEventChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+--- !u!114 &5829471630251847396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052757021274531173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa6dd9b6690dc441b52ce03a2e80791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Bootstrap.BlockShapeSourceInstaller
+  blockShapeSource: {fileID: 11400000, guid: e8f4a2b1c3d54e6f9a0b1c2d3e4f5a6b, type: 2}
 --- !u!1 &2998233491169765304
 GameObject:
   m_ObjectHideFlags: 0

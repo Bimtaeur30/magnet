@@ -1,18 +1,15 @@
-using GameLib.EventChannelSystem;
 using Reflex.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace JTH.Scripts.Bootstrap
 {
+    /// <summary>
+    /// JTH 루트 Reflex Installer. EventChannelSO는 [SerializeField] 직렬화 — 여기서 등록하지 않는다.
+    /// </summary>
     public sealed class MagnetProjectInstaller : MonoBehaviour, IInstaller
     {
-        [FormerlySerializedAs("_mainEventChannel")]
-        [SerializeField] private EventChannelSO mainEventChannel;
-
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterValue(mainEventChannel);
         }
     }
 }

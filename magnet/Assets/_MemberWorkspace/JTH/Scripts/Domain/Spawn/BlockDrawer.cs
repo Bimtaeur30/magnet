@@ -3,8 +3,7 @@ using Magnet.Contracts.BlockShapes;
 namespace JTH.Scripts.Domain.Spawn
 {
     /// <summary>
-    /// 형태 소스에서 IRandom으로 블록 형태 1개를 뽑는다.
-    /// Phase 2: 균등 확률. 가중치는 Phase 4에서 Draw 내부만 교체한다 (소스·공급기 불변).
+    /// 형태 소스에서 IRandom으로 블록 형태 1개를 뽑는다. 균등 확률.
     /// </summary>
     public sealed class BlockDrawer
     {

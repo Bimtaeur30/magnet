@@ -163,13 +163,23 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
 - 프리팹에 넣어도 참조가 유지되는 **에셋·프리팹 참조**
 - 이유: SO/에셋은 프리팹 분리·씬 저장 시 SerializeField로 충분하고, DI 컨테이너에 넣을 필요 없음
 
+### 예외 — 직렬화가 불가능할 때만 Reflex 허용
+
+**SO가 아닌** 것 중, Inspector `[SerializeField]`로 연결할 수 없을 때만 Reflex `[Inject]`를 쓴다.
+
+- **인터페이스 계약** (`IBlockShapeSource` 등) — 구체 구현이 다른 asmdef·다른 멤버 Workspace에 있을 때
+
+**SO는 예외 없음:** 모든 `ScriptableObject`는 소비 `MonoBehaviour`에 `[SerializeField]`로 연결. `[Inject]`·Installer `RegisterValue`로 SO를 넘기지 않는다.
+
+패턴: **SO = `[SerializeField]`** · **크로스-asmdef 계약 = Installer `RegisterValue` + `[Inject]` 계약 타입**
+
 ### 공통
 
 - `new`로 서비스 직접 생성 금지 (순수 Domain 데이터 클래스 제외)
 - 싱글톤 / static 서비스 접근 금지
 - 컨테이너 밖에서 수동 `Resolve` 금지
 
-**예 (Phase 1+):** `BoardView` → `[SerializeField] BoardConfigSO` · 턴 오케스트레이터 → `[Inject] EventChannelSO`는 **에셋이면 SerializeField**, 씬 매니저 참조만 `[Inject]`
+**예:** `BoardView` → `[SerializeField] BoardConfigSO boardConfig` · `Phase0Bootstrap` → `[SerializeField] EventChannelSO magnetGameChannel` · `BlockSpawnBootstrap` → `[Inject] IBlockShapeSource` (인터페이스, 직렬화 불가)
 
 ## Async / Await (UniTask)
 
@@ -219,7 +229,7 @@ Use `EventChannelSO` channeling for object-to-object event communication.
 - Subscribe: `channel.AddListener<MyEvent>(OnMyEvent)`
 - Unsubscribe: `channel.RemoveListener<MyEvent>(OnMyEvent)` — always in OnDisable or OnDestroy.
 - Raise: `channel.RaiseEvent(GameEvents.MyEvent.Init(...))` — `GameEvents` static 인스턴스 + `Init()`, `new` 금지
-- **에셋(`EventChannelSO`)은 `[SerializeField]`로 연결.** Reflex 주입하지 않음 (`CLAUDE.md` DI 규칙).
+- 메인 채널: `[SerializeField] EventChannelSO magnetGameChannel` — **모든 SO와 동일, `[Inject]` 금지** (`CLAUDE.md` DI · `jth-event-channel.mdc`)
 
 ## Folder & File Ownership (Team)
 

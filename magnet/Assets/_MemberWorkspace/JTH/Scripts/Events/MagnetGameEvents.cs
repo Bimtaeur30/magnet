@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.BlockShapes;
 
 namespace JTH.Scripts.Events
 {
@@ -12,6 +14,7 @@ namespace JTH.Scripts.Events
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly SkinUnlockedEvent SkinUnlockedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
+        public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -86,4 +89,15 @@ namespace JTH.Scripts.Events
 
     /// <summary>Phase 0 검증용. 이후 Phase에서 제거 가능.</summary>
     public sealed class Phase0ReadyEvent : GameEvent { }
+
+    public sealed class BlockCandidatesUpdatedEvent : GameEvent
+    {
+        public IReadOnlyList<IBlockShape> Candidates { get; private set; }
+
+        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
+        {
+            Candidates = candidates;
+            return this;
+        }
+    }
 }
