@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MVP.Interaction;
 using MVP.System;
@@ -31,9 +32,11 @@ namespace MVP.Editor
 
         // 기능 1 — 스크립트 생성
         private bool _showGenerator = true;
+        private string _genBaseFolder = "";
         private string _genCategory = "";
         private string _genName = "";
         private string _genExclude;
+        private Vector2 _namespaceSegmentScroll;
 
         // 기능 3 — Form 부착 검색
         private string _formAttachSearch = "";
@@ -54,6 +57,8 @@ namespace MVP.Editor
                 .ToArray();
 
             _genExclude = MVPScriptGenerator.LoadExcludeKeywordsRaw();
+            _genBaseFolder = MVPScriptGenerator.LoadBaseFolderRaw();
+            _genCategory = MVPScriptGenerator.LoadCategoryRaw();
             RestoreRoot();
 
             if (_profile == null)
@@ -63,6 +68,13 @@ namespace MVP.Editor
                     _profile = AssetDatabase.LoadAssetAtPath<InteractionFeedbackProfile>(
                         AssetDatabase.GUIDToAssetPath(guid));
             }
+        }
+
+        private void OnDisable()
+        {
+            MVPScriptGenerator.SaveBaseFolderRaw(_genBaseFolder);
+            MVPScriptGenerator.SaveCategoryRaw(_genCategory);
+            MVPScriptGenerator.SaveExcludeKeywordsRaw(_genExclude);
         }
 
         private void OnGUI()
@@ -126,17 +138,30 @@ namespace MVP.Editor
 
             using (new EditorGUI.IndentLevelScope())
             {
-                _genCategory = EditorGUILayout.TextField("분류", _genCategory);
-                _genName = EditorGUILayout.TextField("이름", _genName);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    EditorGUI.BeginChangeCheck();
+                    _genBaseFolder = EditorGUILayout.TextField(
+                        new GUIContent("출력 경로", "Assets/ 로 시작하는 폴더 경로. 최종 경로는 {출력 경로}/{분류}/{이름}"),
+                        _genBaseFolder);
+                    if (EditorGUI.EndChangeCheck())
+                        MVPScriptGenerator.SaveBaseFolderRaw(_genBaseFolder);
+
+                    if (GUILayout.Button("...", GUILayout.Width(28f)))
+                        BrowseGenerateFolder();
+                }
 
                 EditorGUI.BeginChangeCheck();
-                _genExclude = EditorGUILayout.TextField(
-                    new GUIContent("네임스페이스 제외(,)", "쉼표로 구분. 경로 세그먼트 중 이 키워드는 네임스페이스에서 제외"),
-                    _genExclude);
+                _genCategory = EditorGUILayout.TextField("분류", _genCategory);
                 if (EditorGUI.EndChangeCheck())
-                    MVPScriptGenerator.SaveExcludeKeywordsRaw(_genExclude);
+                    MVPScriptGenerator.SaveCategoryRaw(_genCategory);
 
-                bool ready = !string.IsNullOrWhiteSpace(_genCategory)
+                _genName = EditorGUILayout.TextField("이름", _genName);
+
+                DrawNamespaceExcludePicker();
+
+                bool ready = MVPScriptGenerator.TryNormalizeAssetFolderPath(_genBaseFolder, out _, out _)
+                             && !string.IsNullOrWhiteSpace(_genCategory)
                              && !string.IsNullOrWhiteSpace(_genName);
                 using (new EditorGUI.DisabledScope(!ready))
                 {
@@ -150,7 +175,10 @@ namespace MVP.Editor
         private void RunGenerate()
         {
             MVPScriptGenerator.Result result = MVPScriptGenerator.Generate(
-                _genCategory, _genName, MVPScriptGenerator.ParseKeywords(_genExclude));
+                _genBaseFolder,
+                _genCategory,
+                _genName,
+                MVPScriptGenerator.ParseKeywords(_genExclude));
 
             if (result.Success)
             {
@@ -162,6 +190,88 @@ namespace MVP.Editor
             {
                 EditorUtility.DisplayDialog("MVP 생성 실패", result.Message, "확인");
             }
+        }
+
+        private void BrowseGenerateFolder()
+        {
+            string startFolder = Application.dataPath;
+            if (MVPScriptGenerator.TryNormalizeAssetFolderPath(_genBaseFolder, out string normalized, out _))
+            {
+                string absolute = Path.Combine(
+                    Application.dataPath,
+                    normalized["Assets/".Length..].Replace('/', Path.DirectorySeparatorChar));
+                if (Directory.Exists(absolute))
+                    startFolder = absolute;
+            }
+
+            string picked = EditorUtility.OpenFolderPanel("MVP 출력 폴더 선택", startFolder, "");
+            if (string.IsNullOrEmpty(picked))
+                return;
+
+            string assetPath = MVPScriptGenerator.ToAssetFolderPath(picked);
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                EditorUtility.DisplayDialog("폴더 선택 실패", "프로젝트 Assets 폴더 안의 경로만 선택할 수 있습니다.", "확인");
+                return;
+            }
+
+            _genBaseFolder = assetPath;
+            MVPScriptGenerator.SaveBaseFolderRaw(_genBaseFolder);
+            GUIUtility.keyboardControl = 0;
+        }
+
+        private void DrawNamespaceExcludePicker()
+        {
+            if (!MVPScriptGenerator.TryBuildPreviewFolderPath(
+                    _genBaseFolder, _genCategory, _genName, out string folder))
+            {
+                EditorGUILayout.HelpBox(
+                    "출력 경로와 분류를 입력하면 네임스페이스 세그먼트를 선택할 수 있습니다.",
+                    MessageType.Info);
+                return;
+            }
+
+            string[] segments = MVPScriptGenerator.GetFolderSegments(folder);
+            HashSet<string> excluded = MVPScriptGenerator.ParseExcludeSegmentSet(_genExclude);
+
+            EditorGUILayout.LabelField(
+                new GUIContent("네임스페이스 제외", "클릭한 세그먼트는 네임스페이스에서 제외됩니다."),
+                EditorStyles.boldLabel);
+
+            _namespaceSegmentScroll = EditorGUILayout.BeginScrollView(
+                _namespaceSegmentScroll, GUILayout.Height(28f));
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                for (int i = 0; i < segments.Length; i++)
+                {
+                    string segment = segments[i];
+                    bool isExcluded = excluded.Contains(segment);
+                    Color previousColor = GUI.backgroundColor;
+                    GUI.backgroundColor = isExcluded
+                        ? new Color(0.75f, 0.75f, 0.75f)
+                        : new Color(0.55f, 0.8f, 0.55f);
+
+                    if (GUILayout.Button(segment, EditorStyles.miniButton))
+                    {
+                        if (isExcluded)
+                            excluded.Remove(segment);
+                        else
+                            excluded.Add(segment);
+
+                        _genExclude = MVPScriptGenerator.BuildExcludeKeywordsRaw(excluded);
+                        MVPScriptGenerator.SaveExcludeKeywordsRaw(_genExclude);
+                    }
+
+                    GUI.backgroundColor = previousColor;
+
+                    if (i < segments.Length - 1)
+                        GUILayout.Label(".", GUILayout.Width(8f));
+                }
+            }
+            EditorGUILayout.EndScrollView();
+
+            string preview = MVPScriptGenerator.DeriveNamespace(folder, excluded);
+            EditorGUILayout.LabelField("네임스페이스 미리보기", preview);
         }
 
         // ── 기능 4: 루트 GO 영속화 ────────────────────────────────────────────────

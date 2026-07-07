@@ -14,8 +14,10 @@ namespace MVP.Editor
     public static class MVPScriptGenerator
     {
         public const string DefaultExcludeKeywords = "Assets,_Scripts";
+        public const string DefaultBaseFolder = "Assets/_Scripts/UI";
         private const string ExcludePrefsKey = "MVP.ScriptGen.ExcludeKeywords";
-        private const string BaseFolder = "Assets/_Scripts/UI";
+        private const string BaseFolderPrefsKey = "MVP.ScriptGen.BaseFolder";
+        private const string CategoryPrefsKey = "MVP.ScriptGen.Category";
         private const string UIIdPath = "Assets/HwanLib/MVP/System/GenerateUI/UIId.cs";
         private const string OpenMarker = "// <generated>";
         private const string CloseMarker = "// </generated>";
@@ -54,12 +56,105 @@ namespace MVP.Editor
         public static string[] ParseKeywords(string raw) =>
             (raw ?? "").Split(',').Select(s => s.Trim()).Where(s => s.Length > 0).ToArray();
 
+        public static HashSet<string> ParseExcludeSegmentSet(string raw) =>
+            new HashSet<string>(ParseKeywords(raw));
+
+        public static string BuildExcludeKeywordsRaw(IEnumerable<string> excludedSegments) =>
+            string.Join(",", excludedSegments ?? Enumerable.Empty<string>());
+
+        public static string[] GetFolderSegments(string folderPath) =>
+            folderPath
+                .Replace('\\', '/')
+                .Split('/')
+                .Where(s => !string.IsNullOrEmpty(s))
+                .ToArray();
+
+        public static bool TryBuildPreviewFolderPath(
+            string baseFolder,
+            string category,
+            string name,
+            out string folder)
+        {
+            folder = "";
+            if (!TryNormalizeAssetFolderPath(baseFolder, out string normalizedBase, out _))
+                return false;
+
+            category = (category ?? "").Trim();
+            name = (name ?? "").Trim();
+            if (string.IsNullOrEmpty(category))
+                return false;
+
+            folder = string.IsNullOrEmpty(name)
+                ? $"{normalizedBase}/{category}"
+                : $"{normalizedBase}/{category}/{name}";
+            return true;
+        }
+
+        public static string LoadBaseFolderRaw() =>
+            EditorPrefs.GetString(BaseFolderPrefsKey, DefaultBaseFolder);
+
+        public static void SaveBaseFolderRaw(string raw) =>
+            EditorPrefs.SetString(BaseFolderPrefsKey, NormalizeAssetFolderPath(raw));
+
+        public static string LoadCategoryRaw() =>
+            EditorPrefs.GetString(CategoryPrefsKey, "");
+
+        public static void SaveCategoryRaw(string raw) =>
+            EditorPrefs.SetString(CategoryPrefsKey, (raw ?? "").Trim());
+
+        public static bool TryNormalizeAssetFolderPath(string raw, out string normalized, out string error)
+        {
+            normalized = NormalizeAssetFolderPath(raw);
+            if (string.IsNullOrWhiteSpace(normalized))
+            {
+                error = "출력 경로를 입력하세요.";
+                return false;
+            }
+
+            if (!normalized.StartsWith("Assets/", StringComparison.Ordinal)
+                && !string.Equals(normalized, "Assets", StringComparison.Ordinal))
+            {
+                error = "출력 경로는 'Assets' 또는 'Assets/'로 시작해야 합니다.";
+                return false;
+            }
+
+            if (normalized.Contains("..", StringComparison.Ordinal))
+            {
+                error = "출력 경로에 '..'는 사용할 수 없습니다.";
+                return false;
+            }
+
+            error = "";
+            return true;
+        }
+
+        public static string ToAssetFolderPath(string absolutePath)
+        {
+            if (string.IsNullOrWhiteSpace(absolutePath))
+                return "";
+
+            string assetsRoot = Application.dataPath.Replace('\\', '/');
+            string normalized = absolutePath.Replace('\\', '/').TrimEnd('/');
+            if (!normalized.StartsWith(assetsRoot, StringComparison.OrdinalIgnoreCase))
+                return "";
+
+            string relative = normalized.Substring(assetsRoot.Length).TrimStart('/');
+            return string.IsNullOrEmpty(relative) ? "Assets" : $"Assets/{relative}";
+        }
+
         // ── 생성 ────────────────────────────────────────────────────────────────────
 
-        public static Result Generate(string category, string name, IEnumerable<string> excludeKeywords)
+        public static Result Generate(
+            string baseFolder,
+            string category,
+            string name,
+            IEnumerable<string> excludeKeywords)
         {
             if (string.IsNullOrWhiteSpace(category) || string.IsNullOrWhiteSpace(name))
                 return Fail("분류와 이름을 모두 입력하세요.");
+
+            if (!TryNormalizeAssetFolderPath(baseFolder, out string normalizedBase, out string pathError))
+                return Fail(pathError);
 
             category = category.Trim();
             name = name.Trim();
@@ -67,7 +162,7 @@ namespace MVP.Editor
             if (!IsValidIdentifier(name))
                 return Fail($"이름이 유효한 C# 식별자가 아닙니다: '{name}'");
 
-            string folder = $"{BaseFolder}/{category}/{name}";
+            string folder = $"{normalizedBase}/{category}/{name}";
             string ns = DeriveNamespace(folder, excludeKeywords);
 
             var files = new Dictionary<string, string>
@@ -167,6 +262,9 @@ namespace MVP.Editor
         }
 
         private static Result Fail(string message) => new() { Success = false, Message = message };
+
+        private static string NormalizeAssetFolderPath(string raw) =>
+            (raw ?? "").Replace('\\', '/').Trim().TrimEnd('/');
 
         private static string ToAbsolute(string assetPath)
         {
