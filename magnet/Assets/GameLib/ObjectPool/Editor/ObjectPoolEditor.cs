@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using GGMLib.ObjectPool.Runtime;
+using GameLib.ObjectPool.Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Path = System.IO.Path;
 
-namespace GGMLib.ObjectPool.Editor
+namespace GameLib.ObjectPool.Editor
 {
     public class ObjectPoolEditor : EditorWindow
     {

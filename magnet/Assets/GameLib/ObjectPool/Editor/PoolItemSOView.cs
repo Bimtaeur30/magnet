@@ -1,10 +1,10 @@
-using GGMLib.ObjectPool.Runtime;
+using GameLib.ObjectPool.Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GGMLib.ObjectPool.Editor
+namespace GameLib.ObjectPool.Editor
 {
     [CustomEditor(typeof(PoolItemSO))]
     public class PoolItemSOView : UnityEditor.Editor

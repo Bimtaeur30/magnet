@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace GGMLib.ObjectPool.Editor
+namespace GameLib.ObjectPool.Editor
 {
     [UxmlElement]
     public partial class GGMSplitView : TwoPaneSplitView

@@ -1,4 +1,4 @@
-﻿namespace GGMLib.EventChannelSystem
+﻿namespace GameLib.EventChannelSystem
 {
     public class GameEvent
     { }

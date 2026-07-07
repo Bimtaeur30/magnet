@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GGMLib.EventChannelSystem
+namespace GameLib.EventChannelSystem
 {
     [CreateAssetMenu(fileName = "Event Channel", menuName = "Lib/EventChannel", order = 40)]
-    public class GameEventChannelSO : ScriptableObject
+    public class EventChannelSO : ScriptableObject
     {
         private Dictionary<Type, Action<GameEvent>> _events = new();
         private Dictionary<Delegate, Action<GameEvent>> _lookUp = new(); //중복구독 방지를 위한 테이블

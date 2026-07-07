@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GGMLib.ObjectPool.Runtime
+namespace GameLib.ObjectPool.Runtime
 {
     public class Pool
     {

@@ -4,13 +4,13 @@
         <ui:VisualElement name="TopBar" __unity-builder-selected-element="" class="top-bar">
             <ui:Button text="New Item" name="CreateBtn"/>
         </ui:VisualElement>
-        <GGMLib.ObjectPool.Editor.GGMSplitView fixed-pane-initial-dimension="250">
+        <GameLib.ObjectPool.Editor.GGMSplitView fixed-pane-initial-dimension="250">
             <ui:VisualElement name="LeftPanel" style="flex-grow: 1;">
                 <ui:ScrollView name="ItemView" style="flex-grow: 1;"/>
             </ui:VisualElement>
             <ui:VisualElement name="RightPanel" style="flex-grow: 1;">
                 <ui:VisualElement name="InspectorView" style="flex-grow: 1;"/>
             </ui:VisualElement>
-        </GGMLib.ObjectPool.Editor.GGMSplitView>
+        </GameLib.ObjectPool.Editor.GGMSplitView>
     </ui:VisualElement>
 </ui:UXML>

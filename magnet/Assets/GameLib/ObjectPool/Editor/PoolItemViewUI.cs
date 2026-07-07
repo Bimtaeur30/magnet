@@ -1,8 +1,8 @@
 using System;
-using GGMLib.ObjectPool.Runtime;
+using GameLib.ObjectPool.Runtime;
 using UnityEngine.UIElements;
 
-namespace GGMLib.ObjectPool.Editor
+namespace GameLib.ObjectPool.Editor
 {
     public class PoolItemViewUI
     {
