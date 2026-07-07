@@ -1,0 +1,23 @@
+{
+    "name": "MVPSystem_Assembly",
+    "rootNamespace": "",
+    "references": [
+        "Utility_Assembly",
+        "Unity.TextMeshPro",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "EventChannel_Assembly",
+        "Coffee.UIParticle",
+        "SoundSystem_Assembly",
+        "LitMotion",
+        "LitMotion.Extensions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
