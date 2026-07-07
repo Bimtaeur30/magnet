@@ -15,13 +15,10 @@ namespace JTH.Scripts.Domain
         {
             ShapeId = shapeId;
             this.cellOffsets = cellOffsets;
-            BoundsSize = BlockShapeBounds.ComputeSize(cellOffsets);
         }
 
         public string ShapeId { get; }
 
         public IReadOnlyList<Vector2Int> CellOffsets => cellOffsets;
-
-        public Vector2Int BoundsSize { get; }
     }
 }

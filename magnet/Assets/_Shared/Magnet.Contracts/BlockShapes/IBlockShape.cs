@@ -14,8 +14,5 @@ namespace Magnet.Contracts.BlockShapes
 
         /// <summary>배치 피벗 (0,0) 기준 상대 격자 좌표. 자석 축 좌표계와 동일.</summary>
         IReadOnlyList<Vector2Int> CellOffsets { get; }
-
-        /// <summary>칸들이 차지하는 축 정렬 경계 상자 크기 (가로×세로 칸 수).</summary>
-        Vector2Int BoundsSize { get; }
     }
 }

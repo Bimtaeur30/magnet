@@ -15,15 +15,13 @@
 
 | 클래스 | 책임 |
 |--------|------|
-| `IBlockShape` (`Magnet.Contracts`) | 공용 계약 — `ShapeId`, `CellOffsets`, `BoundsSize` |
-| `BlockShapeBounds` (`Magnet.Contracts`) | offsets → `BoundsSize` 계산 |
+| `IBlockShape` (`Magnet.Contracts`) | 공용 계약 — `ShapeId`, `CellOffsets` |
 | `BlockShapeData` (JTH) | JTH 임시 구현. `new BlockShapeData(id, offsets)` |
 | `BlockShapePresets` (JTH) | DESIGN 4.2 기본 형태 정적 프리셋 (`All` 배열) |
 
 ### 좌표 규칙
 
 - `CellOffsets`: 배치 피벗 `(0,0)` 기준, `BoardCoordinates`와 동일 축
-- `BoundsSize`: 칸들의 AABB 가로×세로 칸 수 (L자 등 비직사각 채움도 외접 상자)
 
 ### SO 연동 시 (예정)
 
@@ -42,6 +40,5 @@
 | 보려는 것 | 경로 |
 |-----------|------|
 | 공용 계약 | `Assets/Shared/Magnet.Contracts/BlockShapes/IBlockShape.cs` |
-| 경계 계산 | `Assets/Shared/Magnet.Contracts/BlockShapes/BlockShapeBounds.cs` |
 | JTH 임시 구현 | `Scripts/Domain/BlockShapeData.cs` |
 | JTH 개발용 프리셋 | `Scripts/Domain/BlockShapePresets.cs` |
