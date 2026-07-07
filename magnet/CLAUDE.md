@@ -115,19 +115,35 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
 
 ## Phase Implementation
 
-- When told to read a separate md file, implement the phases listed in that file in order.
-- Never implement multiple phases at once. Implement ONE phase, then wait until the user says to start the next.
-- Before implementing, always use the grill-me skill to confirm the structure first.
-- When a phase is done and tested and the user confirms completion, mark it done in the md file and summarize or remove phases no longer needed.
-- When all phases are complete, write a completion report describing how it was implemented and verified.
+`Docs/DESIGN.md`의 Phase 표를 기준으로 진행한다. **코드·에셋·씬을 건드리기 전에** 아래 순서를 반드시 따른다.
 
-## Dependency Injection (Reflect)
+### Phase 워크플로 (필수)
 
-Use Reflect DI for all dependency injection.
+1. **계획 제시 (구현 전)** — 사용자에게 **한국어**로 다음을 먼저 전달한다.
+   - 이번 Phase 목표·완료 기준 (`DESIGN.md` 기준)
+   - 생성·수정할 파일·폴더 목록
+   - 클래스 책임·구조 (grill-me로 검토한 내용 요약)
+   - 검증 방법 (컴파일 에러 확인 등)
+2. **사용자 승인 대기** — 사용자가 명시적으로 허락할 때까지 **구현하지 않는다**.
+   - 승인 예: 「진행해」, 「허락」, 「시작」, 「OK」
+   - 「Phase N 시작」만으로는 계획 승인이 아니다. 계획을 보여준 뒤 별도 승인을 받는다.
+3. **구현** — 승인 후 **한 Phase만** 구현한다. 여러 Phase를 한 번에 하지 않는다.
+4. **기록** — Phase 작업이 끝나면 `Docs/Member/[username]/Sequence/phaseN.md`를 갱신하고, `SEQUENCE.md` 인덱스 상태를 맞춘다.
+5. **완료 처리** — 사용자가 결과를 확인하고 완료를 알려준 뒤에만 `DESIGN.md` / `TODO.md`의 Phase 상태를 `✅`로 갱신한다.
+
+### 추가 규칙
+
+- 별도 md 파일을 읽으라고 지시받으면, 그 파일의 Phase 순서대로 진행한다.
+- 구조가 불명확하면 grill-me로 검토하고, 여전히 불명확하면 한국어로 질문한다. 추측 구현 금지.
+- 모든 Phase가 끝나면 완료 보고서를 작성한다.
+
+## Dependency Injection (Reflex)
+
+Use Reflex DI for all dependency injection.
 
 - Do not create service dependencies directly with `new`.
 - Do not access services via singletons or static classes from MonoBehaviour.
-- Use constructor injection or Reflect's injection.
+- Use constructor injection or Reflex's `[Inject]` attribute.
 - Do not resolve dependencies manually outside the DI container.
 
 ## Async / Await (UniTask)
@@ -174,8 +190,12 @@ Each member has a separate workspace. Follow these location rules when creating 
 
 - Create code only inside `Assets/MemberWorkspace/[username]/`.
   - Never modify code in another member's `MemberWorkspace` folder.
-- Write the user's personal work log to `Docs/Member/[username]/SEQUENCE.md`.
-  - Each entry records the prompt, changed files, changes, and WHY.
+- Write the user's personal work log under `Docs/Member/[username]/Sequence/`.
+  - **One file per Phase:** `phase0.md`, `phase1.md`, … (`DESIGN.md` Phase 번호와 맞춤).
+  - Each file answers: **what was done in this Phase** → **which code paths to read** (표로 경로 정리).
+  - Sections: 목표 · 한 일(포함/제외) · 코드·에셋 맵 · 메모(함정·비자명한 결정만).
+  - Maintain `Docs/Member/[username]/SEQUENCE.md` as a **Phase index** with status.
+  - New sessions: read the **current Phase** file only, not the full history.
 - Shared docs (`Docs/README.md`, `Docs/DESIGN.md`, `Docs/TODO.md`): any member may edit.
   - In `Docs/TODO.md`, each member owns a `## [username]` section. Edit only the current user's own section; `## Common` may be edited by anyone.
   - `Docs/README.md` and `Docs/DESIGN.md` change less often. Keep edits small, and summarize what changed and why to the user so they can share it with the team.
@@ -184,11 +204,22 @@ If you don't know the username when work starts, ask the user before creating co
 
 ## Debugging (Token Saving)
 
-When using Unity MCP, debug via the Console log only.
+Unity MCP로 디버깅할 때 **콘솔 로그만** 사용한다. 플레이 모드는 토큰을 많이 소모한다.
 
-- Do not start with play tests (running the game directly), which use many tokens.
-- Read error messages and `Debug.Log` output from the Console to find issues.
-- Only suggest a play test to the user when the Console log alone can't find the cause.
+### 금지
+
+- `manage_editor`의 **play / pause / stop**으로 에이전트가 직접 플레이 모드에 진입하는 것.
+- 런타임 검증을 핑계로 에이전트가 임의로 플레이 테스트를 실행하는 것.
+
+### 허용·권장
+
+- `read_console`로 **컴파일 에러·경고**를 확인한다 (에디터가 스크립트를 리컴파일한 뒤의 콘솔).
+- 이미 사용자가 플레이한 뒤 남은 `Debug.Log` 출력이 있으면 그것만 읽는다.
+- 런타임 동작 확인이 필요하면 **사용자에게 플레이를 요청**하고, 사용자가 플레이한 뒤 콘솔 결과를 읽는다.
+
+### 예외
+
+- 사용자가 명시적으로 「플레이해서 확인해」, 「Play 모드로 테스트해」라고 요청한 경우에만 에이전트가 플레이 모드에 진입할 수 있다.
 
 ## How to work in this repo
 
