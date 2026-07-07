@@ -22,7 +22,7 @@ namespace JTH.Scripts.Bootstrap
         private void Start()
         {
             Debug.Log("[Phase0] Bootstrap started — raising Phase0ReadyEvent");
-            _eventChannel.RaiseEvent(GameEvents.Phase0ReadyEvent);
+            _eventChannel.RaiseEvent(MagnetGameEvents.Phase0ReadyEvent);
         }
 
         private void OnPhase0Ready(Phase0ReadyEvent _)

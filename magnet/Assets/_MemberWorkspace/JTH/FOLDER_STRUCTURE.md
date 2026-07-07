@@ -1,9 +1,9 @@
 # JTH Workspace — 폴더·asmdef 합의 (M0 공통 기반)
 
-팀원은 각자 `Assets/MemberWorkspace/[username]/` 아래 동일 패턴을 따른다.
+팀원은 각자 `Assets/_MemberWorkspace/[username]/` 아래 동일 패턴을 따른다.
 
 ```
-MemberWorkspace/[username]/
+_MemberWorkspace/[username]/
   Docs/
     IMPLEMENTATIONS.md           # 구현 인덱스
     Implementations/

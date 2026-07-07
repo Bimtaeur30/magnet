@@ -2,7 +2,7 @@ using GameLib.EventChannelSystem;
 
 namespace JTH.Scripts.Events
 {
-    public static class GameEvents
+    public static class MagnetGameEvents
     {
         public static readonly Phase0ReadyEvent Phase0ReadyEvent = new();
         public static readonly BlockPlacedEvent BlockPlacedEvent = new();

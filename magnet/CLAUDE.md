@@ -225,9 +225,9 @@ Use `EventChannelSO` channeling for object-to-object event communication.
 
 Each member has a separate workspace. Follow these location rules when creating or editing files.
 
-- Create code only inside `Assets/MemberWorkspace/[username]/`.
-  - Never modify code in another member's `MemberWorkspace` folder.
-- Write the user's personal work log under `Assets/MemberWorkspace/[username]/Docs/`.
+- Create code only inside `Assets/_MemberWorkspace/[username]/`.
+  - Never modify code in another member's `_MemberWorkspace` folder.
+- Write the user's personal work log under `Assets/_MemberWorkspace/[username]/Docs/`.
   - **구현 인덱스:** `IMPLEMENTATIONS.md`
   - **구현별 Phase 인덱스:** `Implementations/[slug]/phases.md`
   - **Phase 계획 (뭘 어떻게):** `Implementations/[slug]/phaseN.md` — 목표(완료 기준) · 구현 내용(클래스·책임·방식 상세) · 범위 밖 · 코드·에셋 맵
@@ -247,10 +247,10 @@ If you don't know the username when work starts, ask the user before creating co
 | Team TODO | `Docs/TODO.md` |
 | AI prompt guide | `Docs/AI_COLLAB_GUIDE.md` |
 | This rule file | `CLAUDE.md` |
-| **Member implementation index** | `Assets/MemberWorkspace/[username]/Docs/IMPLEMENTATIONS.md` |
-| **Phase index (per implementation)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/phases.md` |
-| **Phase plan (what & how)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/phaseN.md` |
-| **Sequence change log (1:1 with Phase)** | `Assets/MemberWorkspace/[username]/Docs/Implementations/[slug]/sequenceN.md` |
+| **Member implementation index** | `Assets/_MemberWorkspace/[username]/Docs/IMPLEMENTATIONS.md` |
+| **Phase index (per implementation)** | `Assets/_MemberWorkspace/[username]/Docs/Implementations/[slug]/phases.md` |
+| **Phase plan (what & how)** | `Assets/_MemberWorkspace/[username]/Docs/Implementations/[slug]/phaseN.md` |
+| **Sequence change log (1:1 with Phase)** | `Assets/_MemberWorkspace/[username]/Docs/Implementations/[slug]/sequenceN.md` |
 
 On a new session: read `IMPLEMENTATIONS.md` + **current** `phases.md` + **current** `phaseN.md`·`sequenceN.md` only (not full history). Personal docs live under `Assets/` so they appear in Unity Project window.
 

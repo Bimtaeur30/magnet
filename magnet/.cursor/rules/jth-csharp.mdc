@@ -1,6 +1,6 @@
 ---
 description: JTH C# 네이밍 — 직렬화 필드 규칙
-globs: Assets/MemberWorkspace/JTH/**/*.cs
+globs: Assets/_MemberWorkspace/JTH/**/*.cs
 alwaysApply: false
 ---
 
