@@ -142,7 +142,7 @@ namespace MVP.Editor
                 {
                     EditorGUI.BeginChangeCheck();
                     _genBaseFolder = EditorGUILayout.TextField(
-                        new GUIContent("출력 경로", "Assets/ 로 시작하는 폴더 경로. 최종 경로는 {출력 경로}/{분류}/{이름}"),
+                        new GUIContent("출력 경로", "Assets/ 로 시작하는 폴더 경로. 분류가 있으면 {출력 경로}/{분류}/{이름}, 없으면 {출력 경로}/{이름}"),
                         _genBaseFolder);
                     if (EditorGUI.EndChangeCheck())
                         MVPScriptGenerator.SaveBaseFolderRaw(_genBaseFolder);
@@ -152,7 +152,9 @@ namespace MVP.Editor
                 }
 
                 EditorGUI.BeginChangeCheck();
-                _genCategory = EditorGUILayout.TextField("분류", _genCategory);
+                _genCategory = EditorGUILayout.TextField(
+                    new GUIContent("분류", "선택. 비우면 출력 경로 바로 아래에 생성됩니다."),
+                    _genCategory);
                 if (EditorGUI.EndChangeCheck())
                     MVPScriptGenerator.SaveCategoryRaw(_genCategory);
 
@@ -161,7 +163,6 @@ namespace MVP.Editor
                 DrawNamespaceExcludePicker();
 
                 bool ready = MVPScriptGenerator.TryNormalizeAssetFolderPath(_genBaseFolder, out _, out _)
-                             && !string.IsNullOrWhiteSpace(_genCategory)
                              && !string.IsNullOrWhiteSpace(_genName);
                 using (new EditorGUI.DisabledScope(!ready))
                 {
@@ -226,7 +227,7 @@ namespace MVP.Editor
                     _genBaseFolder, _genCategory, _genName, out string folder))
             {
                 EditorGUILayout.HelpBox(
-                    "출력 경로와 분류를 입력하면 네임스페이스 세그먼트를 선택할 수 있습니다.",
+                    "출력 경로를 입력하면 네임스페이스 세그먼트를 선택할 수 있습니다.",
                     MessageType.Info);
                 return;
             }

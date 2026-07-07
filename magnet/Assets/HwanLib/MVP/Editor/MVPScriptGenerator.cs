@@ -79,15 +79,22 @@ namespace MVP.Editor
             if (!TryNormalizeAssetFolderPath(baseFolder, out string normalizedBase, out _))
                 return false;
 
+            folder = BuildOutputFolderPath(normalizedBase, category, name);
+            return true;
+        }
+
+        public static string BuildOutputFolderPath(string normalizedBase, string category, string name)
+        {
             category = (category ?? "").Trim();
             name = (name ?? "").Trim();
-            if (string.IsNullOrEmpty(category))
-                return false;
 
-            folder = string.IsNullOrEmpty(name)
-                ? $"{normalizedBase}/{category}"
-                : $"{normalizedBase}/{category}/{name}";
-            return true;
+            if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(name))
+                return $"{normalizedBase}/{category}/{name}";
+            if (!string.IsNullOrEmpty(category))
+                return $"{normalizedBase}/{category}";
+            if (!string.IsNullOrEmpty(name))
+                return $"{normalizedBase}/{name}";
+            return normalizedBase;
         }
 
         public static string LoadBaseFolderRaw() =>
@@ -150,19 +157,19 @@ namespace MVP.Editor
             string name,
             IEnumerable<string> excludeKeywords)
         {
-            if (string.IsNullOrWhiteSpace(category) || string.IsNullOrWhiteSpace(name))
-                return Fail("분류와 이름을 모두 입력하세요.");
+            if (string.IsNullOrWhiteSpace(name))
+                return Fail("이름을 입력하세요.");
 
             if (!TryNormalizeAssetFolderPath(baseFolder, out string normalizedBase, out string pathError))
                 return Fail(pathError);
 
-            category = category.Trim();
+            category = (category ?? "").Trim();
             name = name.Trim();
 
             if (!IsValidIdentifier(name))
                 return Fail($"이름이 유효한 C# 식별자가 아닙니다: '{name}'");
 
-            string folder = $"{normalizedBase}/{category}/{name}";
+            string folder = BuildOutputFolderPath(normalizedBase, category, name);
             string ns = DeriveNamespace(folder, excludeKeywords);
 
             var files = new Dictionary<string, string>
