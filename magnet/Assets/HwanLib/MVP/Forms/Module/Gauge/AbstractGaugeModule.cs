@@ -1,7 +1,7 @@
-﻿using LitMotion;
+using LitMotion;
 using UnityEngine;
 
-namespace MVP.Forms.Module.Gauge
+namespace HwanLib.MVP.Forms.Module.Gauge
 {
     public abstract class AbstractGaugeModule
     {

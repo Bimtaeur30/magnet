@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Linq;
-using MVP.System.GenerateUI;
+using HwanLib.MVP.System.GenerateUI;
 using UnityEditor;
 using UnityEngine;
 
-namespace MVP.Editor
+namespace HwanLib.MVP.Editor
 {
     /// <summary>
     /// 씬별 "시작 시 자동으로 열릴 UI" 매트릭스 편집기.

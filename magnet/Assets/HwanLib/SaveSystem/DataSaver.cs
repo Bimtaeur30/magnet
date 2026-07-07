@@ -4,7 +4,7 @@ using HwanLib.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SaveSystem
+namespace HwanLib.SaveSystem
 {
     [DefaultExecutionOrder(FirstSaveExecutionOrder)]
     public class DataSaver : LightSingleton<DataSaver>

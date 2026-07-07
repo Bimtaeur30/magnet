@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MVP.Forms.Module.Fade
+namespace HwanLib.MVP.Forms.Module.Fade
 {
     // 씬 전환 모션 1종 = 머티리얼 1개 = 이 에셋 1개.
     // FadeForm은 preset만 받아 머티리얼을 교체하고 _Cutoff를 보간한다(효과별 분기 없음).

@@ -1,9 +1,9 @@
-﻿using HwanLib.Util;
+using HwanLib.Util;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
 
-namespace MVP.Forms.Module.Gauge
+namespace HwanLib.MVP.Forms.Module.Gauge
 {
     internal class PosYGaugeModule : AbstractGaugeModule
     {

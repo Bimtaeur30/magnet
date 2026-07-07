@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using TMPro;
 
-namespace MVP.Forms.Module
+namespace HwanLib.MVP.Forms.Module
 {
     public class TextModule
     {

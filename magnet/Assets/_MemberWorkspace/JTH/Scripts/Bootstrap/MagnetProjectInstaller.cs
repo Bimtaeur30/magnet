@@ -1,16 +1,18 @@
 using GameLib.EventChannelSystem;
 using Reflex.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JTH.Scripts.Bootstrap
 {
     public sealed class MagnetProjectInstaller : MonoBehaviour, IInstaller
     {
-        [SerializeField] private EventChannelSO _mainEventChannel;
+        [FormerlySerializedAs("_mainEventChannel")]
+        [SerializeField] private EventChannelSO mainEventChannel;
 
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterValue(_mainEventChannel);
+            containerBuilder.RegisterValue(mainEventChannel);
         }
     }
 }

@@ -1,6 +1,6 @@
 using GameLib.EventChannelSystem;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     public static class UIEvents
     {

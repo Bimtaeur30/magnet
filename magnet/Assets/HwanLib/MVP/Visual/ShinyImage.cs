@@ -2,7 +2,7 @@ using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
 
-namespace MVP.Visual
+namespace HwanLib.MVP.Visual
 {
     /// <summary>
     /// 하이라이트 RectTransform을 좌→우로 주기적으로 스윕하는 광택 연출.

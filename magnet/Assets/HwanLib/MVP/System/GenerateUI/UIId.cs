@@ -1,4 +1,4 @@
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     // 라우팅 키. UI 추가 시 이 enum에 항목 하나만 추가.
     // <generated> 영역은 MVP 생성기가 자동 관리한다. 손으로 값을 재배열/삭제하지 말 것

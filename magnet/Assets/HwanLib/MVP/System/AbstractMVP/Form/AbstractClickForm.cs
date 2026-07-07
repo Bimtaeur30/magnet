@@ -1,9 +1,9 @@
-using MVP.System.BaseMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.System.BaseMVP.Form;
+using HwanLib.MVP.UIData;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace MVP.System.AbstractMVP.Form
+namespace HwanLib.MVP.System.AbstractMVP.Form
 {
     /// <summary>
     /// 클릭 의미를 발행하는 Form. 포인터 좌클릭과 패드/키보드 Submit을 동일하게 취급한다.

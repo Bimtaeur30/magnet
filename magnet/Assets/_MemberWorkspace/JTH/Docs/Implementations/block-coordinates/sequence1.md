@@ -18,3 +18,24 @@
 
 - SO는 Reflex 없이 `BoardView` Inspector 연결.
 - 플레이 시 9×9 격자 + 가운데 금색(자석) 칸 확인.
+
+## 2 — 2026-07-07 · BoardView LineRenderer 전환
+
+**바뀐 것**
+
+- 수정: `Scripts/Presentation/BoardView.cs` — 칸마다 GO+SpriteRenderer(81개) 제거 → `LineRenderer` 격자선 + 자석 축 윤곽 (`Grid`·`MagnetAxis` 자식 2개)
+
+**메모**
+
+- 보드 배경은 고정 라인만. 블록 피스는 Phase 2+에서 별도 프리팹/풀로 스폰·부착 예정.
+
+## 3 — 2026-07-07 · LineRenderer GO 분리 (DisallowMultipleComponent)
+
+**바뀐 것**
+
+- 수정: `Scripts/Presentation/BoardView.cs` — `Grid`/`MagnetAxis` 컨테이너에 `LineRenderer`를 중복 `AddComponent`하던 방식 제거. 선·루프마다 자식 GO(`Line`/`Loop`)를 만들고 GO당 `LineRenderer` 1개씩 부착.
+
+**메모**
+
+- `LineRenderer`는 GO당 1개만 허용 → 두 번째 `AddComponent`가 null 반환·NRE 원인이었음.
+- Material static 공유는 유지. `Start()` 1회 빌드이므로 추가 캐싱 없음.

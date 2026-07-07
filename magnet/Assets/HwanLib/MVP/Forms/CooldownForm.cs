@@ -1,8 +1,8 @@
-﻿using MVP.Forms.Module.Gauge;
-using MVP.System.AbstractMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.Forms.Module.Gauge;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.UIData;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     public class CooldownForm : AbstractVisualForm
     {

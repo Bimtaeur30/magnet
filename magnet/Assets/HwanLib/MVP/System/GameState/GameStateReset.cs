@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MVP.System.GameState
+namespace HwanLib.MVP.System.GameState
 {
     /// <summary>
     /// 씬 전환 시 <see cref="TimeManager"/>/<see cref="CursorManager"/>의 holder 잔재를 청소한다.

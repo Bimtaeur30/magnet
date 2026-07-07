@@ -1,7 +1,7 @@
 using System;
-using MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP;
 
-namespace MVP.System
+namespace HwanLib.MVP.System
 {
     public static class MVPTypeUtil
     {

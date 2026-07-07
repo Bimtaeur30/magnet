@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     /// <summary>
     /// 상호작용 연출 전담 컴포넌트 (Heat Element들의 복붙 패턴을 단일화).

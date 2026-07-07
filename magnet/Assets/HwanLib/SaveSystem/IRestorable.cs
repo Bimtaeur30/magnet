@@ -1,4 +1,4 @@
-﻿namespace SaveSystem
+namespace HwanLib.SaveSystem
 {
     public interface IRestorable : ISaveable
     {

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using LitMotion;
 using LitMotion.Extensions;
-using MVP.System.AbstractMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.UIData;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     // 값이 줄어들 때 "깎인 구간"을 고스트(흰색) 슬라이더가 잠시 보여주다가 Lerp로 따라 내려오는 게이지.
     // 메인 슬라이더는 즉시 스냅, 고스트는 ghostDelay 뒤 ghostDuration 동안 내려온다. 회복/증가 시엔 둘 다 즉시.

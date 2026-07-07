@@ -1,4 +1,4 @@
-﻿namespace MVP.Forms.Module.Gauge
+namespace HwanLib.MVP.Forms.Module.Gauge
 {
     public enum GaugeType
     {

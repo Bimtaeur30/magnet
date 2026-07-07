@@ -20,7 +20,7 @@
 | Data | `BoardConfigSO` | N(홀수 검증), cellSize, 일반 칸 색, 자석 축 색. `[CreateAssetMenu]` |
 | Domain | `BoardCoordinates` | `GridToWorld` / `WorldToGrid`, `IsInBounds`. 자석 = `(0,0)` 기준 순수 static 유틸 |
 | Domain | `BoardGrid` | `Dictionary<Vector2Int, bool>` 점유 상태. 배열 없이 보드 밖 좌표도 키로 허용 (경계 판정은 `IsInBounds`) |
-| Presentation | `BoardView` | `[SerializeField] BoardConfigSO` (Reflex X). `-half..half` 이중 루프로 셀 스프라이트 생성, 자석 칸만 색 교체 |
+| Presentation | `BoardView` | `[SerializeField] BoardConfigSO`. `LineRenderer`로 격자선 + 자석 축 사각형 하이라이트 (GO 2~3개). 칸마다 SpriteRenderer X |
 
 ### 좌표 규칙
 

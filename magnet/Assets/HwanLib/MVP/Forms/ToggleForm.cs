@@ -1,11 +1,11 @@
-﻿using MVP.System;
-using MVP.System.AbstractMVP.Form;
-using MVP.System.BaseMVP;
-using MVP.System.BaseMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.System;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP.Form;
+using HwanLib.MVP.UIData;
 using UnityEngine.UI;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     public class ToggleForm : AbstractVisualForm, IInteractable, IInitializable
     {

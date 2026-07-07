@@ -1,6 +1,6 @@
 using HwanLib.GGMLib.SoundSystem;
 
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     public interface ISoundable
     {

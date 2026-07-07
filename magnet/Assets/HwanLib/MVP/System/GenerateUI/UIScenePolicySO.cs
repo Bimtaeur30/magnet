@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     // 씬별 "시작 시 자동으로 열릴 UI" 정책. Physics 충돌 매트릭스처럼
     // 열=씬, 행=UIId 그리드로 편집한다(Tools/MVP/Scene UI Matrix).

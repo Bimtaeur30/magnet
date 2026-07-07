@@ -1,4 +1,4 @@
-﻿namespace MVP.System.BaseMVP
+namespace HwanLib.MVP.System.BaseMVP
 {
     public interface IInitializable
     {

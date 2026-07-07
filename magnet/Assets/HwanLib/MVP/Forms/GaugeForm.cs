@@ -1,11 +1,11 @@
-﻿using LitMotion;
-using MVP.Forms.Module.Gauge;
-using MVP.System.AbstractMVP.Form;
-using MVP.System.BaseMVP;
-using MVP.UIData;
+using LitMotion;
+using HwanLib.MVP.Forms.Module.Gauge;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.UIData;
 using UnityEngine;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     public class GaugeForm : AbstractVisualForm, IInitializable
     {

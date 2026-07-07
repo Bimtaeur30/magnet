@@ -1,6 +1,6 @@
 using GameLib.EventChannelSystem;
 
-namespace SaveSystem
+namespace HwanLib.SaveSystem
 {
     public static class SaveEvents
     {

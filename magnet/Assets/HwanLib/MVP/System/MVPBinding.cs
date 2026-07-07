@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MVP.UIData;
+using HwanLib.MVP.UIData;
 
-namespace MVP.System
+namespace HwanLib.MVP.System
 {
     /// <summary>
     /// Model의 메서드를 규약(interact: void M(UIParam) / update: UIParam M())에 따라

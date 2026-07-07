@@ -5,7 +5,7 @@ using LitMotion.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     // CountBarForm의 새 칸(fill)이 켜질 때 "벽을 뚫고 튀어나오는" 연출을 재생한다.
     // 렌더링은 Form이, 연출은 이 컴포넌트가 담당(접근 B 분리). 같은 GameObject에 붙는다.

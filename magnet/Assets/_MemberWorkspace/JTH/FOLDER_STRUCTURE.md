@@ -30,14 +30,17 @@ MemberWorkspace/[username]/
 
 | Assembly | GUID |
 |----------|------|
+| **Magnet.Contracts** (공용 계약) | `eb415e56e20154449aab8a7efaff0147` |
 | EventChannel_Assembly | `4f4fe35fbc82e694093dc30123d90eb6` |
 | Reflex | `1530a967b84cfb44dbdd5e8a1989764f` |
 | UniTask | `f51ebe6a0ceec4240a699833d6309b23` |
 
 ## 공용 런타임 코드
 
+- **멤버 간 계약** (인터페이스·순수 데이터): `Assets/Shared/Magnet.Contracts/`
+  - 타 멤버 Workspace를 참조하지 않음. SO 구현체는 각자 Workspace에서 `Magnet.Contracts`만 참조.
 - M0 시점: **각자 Workspace에 구현**, JTH `Events/`·`Bootstrap/`를 참조 구현으로 사용.
-- `Assets/Shared/` 통합은 팀 합의 후 별도 마일스톤에서 진행.
+- 추가 공용 코드는 `Assets/Shared/` 아래 합의 후 확장.
 
 ## Reflex 부트스트랩
 

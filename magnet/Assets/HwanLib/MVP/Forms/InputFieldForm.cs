@@ -1,12 +1,12 @@
-using MVP.System;
-using MVP.System.AbstractMVP.Form;
-using MVP.System.BaseMVP;
-using MVP.System.BaseMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.System;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP.Form;
+using HwanLib.MVP.UIData;
 using TMPro;
 using UnityEngine;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     /// <summary>
     /// TMP_InputField 텍스트 입력 위젯. onEndEdit 시점에 문자열을 발행한다(매 글자 발행 안 함).

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     [CreateAssetMenu(fileName = "UIRegistry", menuName = "UI/MVP/UI Registry")]
     public class UIRegistrySO : ScriptableObject

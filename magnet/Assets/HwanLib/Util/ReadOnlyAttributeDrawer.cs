@@ -1,10 +1,25 @@
 #region ReadOnly 인스펙터 생성이 가능하도록 함.
 
 using System;
+using UnityEditor;
 using UnityEngine;
 
+namespace HwanLib.Util
+{
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ReadOnlyAttribute : PropertyAttribute
+    {
+        public readonly bool runtimeOnly;
+        public ReadOnlyAttribute(bool runtimeOnly = false)
+        {
+            this.runtimeOnly = runtimeOnly;
+        }
+    }
+}
+
 #if UNITY_EDITOR
-namespace UnityEditor
+
+namespace HwanLib.Util.Editor
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute), true)]
     public class ReadOnlyAttributeDrawer : PropertyDrawer
@@ -25,13 +40,4 @@ namespace UnityEditor
 }
 #endif
 
-[AttributeUsage(AttributeTargets.Field)]
-public class ReadOnlyAttribute : PropertyAttribute
-{
-    public readonly bool runtimeOnly;
-    public ReadOnlyAttribute(bool runtimeOnly = false)
-    {
-        this.runtimeOnly = runtimeOnly;
-    }
-}
 #endregion

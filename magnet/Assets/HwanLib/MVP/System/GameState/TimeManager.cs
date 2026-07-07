@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MVP.System.GameState
+namespace HwanLib.MVP.System.GameState
 {
     /// <summary>
     /// 시간정지의 전역 holder 저장소.

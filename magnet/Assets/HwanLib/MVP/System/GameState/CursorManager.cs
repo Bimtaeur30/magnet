@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MVP.System.GameState
+namespace HwanLib.MVP.System.GameState
 {
     /// <summary>
     /// 커서 자유(보이기+잠금해제)의 전역 holder 저장소.
