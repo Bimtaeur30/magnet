@@ -8,8 +8,25 @@
 ## 1. 문서 목적
 
 - 신규 하이퍼 캐주얼 블록 퍼즐 **MAGNET SQUARE**의 핵심 규칙·시스템·구현 방향을 정의한다.
-- 팀원별 작업 범위와 **Phase 구현 순서**의 기준 문서로 사용한다.
+- 팀원별 작업 범위와 **게임 전체 마일스톤**의 기준 문서로 사용한다.
 - 세부 수치 밸런스·아트 스펙·광고/부스터 등 출시 이후 메타는 범위 밖이며, 필요 시 후속 문서에서 다룬다.
+
+### 1.1 문서 위치 (AI·팀 공통)
+
+| 종류 | 경로 | 용도 |
+|------|------|------|
+| 팀 설계·마일스톤 표 | `Docs/DESIGN.md` | 게임 전체 기능 영역·완료 기준 (M0~M10) |
+| 팀 TODO | `Docs/TODO.md` | 미정 사항 (멤버별 `## [이름]` 섹션) |
+| AI 협업 가이드 | `Docs/AI_COLLAB_GUIDE.md` | 프롬프트·워크플로 |
+| AI 행동 규칙 | `CLAUDE.md` (루트) | Cursor 자동 로드 |
+| **개인 구현 인덱스** | `Assets/MemberWorkspace/[이름]/Docs/IMPLEMENTATIONS.md` | 담당 구현·Jira·상태 |
+| **구현별 Phase 인덱스** | `.../Implementations/[slug]/phases.md` | 그 구현의 Phase 목록 |
+| **Phase 계획** | `.../Implementations/[slug]/phaseN.md` | 그 Phase에서 **뭘 어떻게** 구현하는지 상세 |
+| **Sequence 변경 기록** | `.../Implementations/[slug]/sequenceN.md` | **Phase와 1:1** — 뭐가 바뀌었는지 순서대로 |
+
+새 AI 세션: `@Docs/DESIGN.md` + `@IMPLEMENTATIONS.md` + **진행 중 구현**의 `phases.md` + 해당 **`phaseN.md`·`sequenceN.md`** 만 읽는다 (전체 히스토리 X).
+
+> **용어:** `DESIGN.md`의 **마일스톤(M0~M10)** = 게임 전체 로드맵. 개인 **Phase** = 특정 구현을 쪼갠 단계 (뭘 어떻게 구현하는지 상세). **Sequence** = 그 Phase에서 뭐가 바뀌었는지 순서대로 적는 기록 — Phase 파일과 **1:1**, 항목은 한 파일 안에 쌓음.
 
 ---
 
@@ -196,12 +213,31 @@
 - MonoBehaviour는 표현·입력·DI 바인딩. 규칙 판정은 테스트 가능한 클래스로 분리.
 - 오브젝트 간 통신은 `EventChannelSO` (직접 C# event / UnityEvent 지양).
 
+### 6.2.1 Reflex vs SerializeField (확정)
+
+| 대상 | 연결 |
+|------|------|
+| ScriptableObject·에셋 참조 | Inspector `[SerializeField]` — **Reflex 사용 안 함** (프리팹 분리 시에도 유지) |
+| 씬 내 다른 오브젝트·런타임 서비스 | Reflex `[Inject]` |
+
+### 6.2.2 보드 좌표 (확정)
+
+- **격자 좌표:** 자석 = **(0, 0)**. N=9 유효 보드 = `gx, gy ∈ [-4 .. 4]`. 자석 옆 = `(1, 0)`.
+- **월드:** `GridToWorld` — `(gx * cellSize, gy * cellSize)`, 자석 = `Vector2.zero`.
+- **변환:** `BoardCoordinates.GridToWorld` / `WorldToGrid` (+ `IsInBounds`).
+- **점유 상태:** `BoardGrid` — `Dictionary<Vector2Int, bool>` (배열 없음). 보드 밖 칸도 키로 넣은 뒤 `IsInBounds`로 경계 이탈 판정 (Phase 4).
+
 ### 6.3 폴더·소유권
 
 - 개인 코드: `Assets/MemberWorkspace/[username]/`
 - **타 멤버 Workspace 수정 금지**
-- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`
-- 공용 런타임 코드 위치(예: `Assets/Shared/`)는 팀 합의 후 Phase 0에서 확정. 미정 시 각자 Workspace에 구현 후 통합.
+- 개인 작업 기록: `Assets/MemberWorkspace/[username]/Docs/`
+  - 구현 인덱스: `IMPLEMENTATIONS.md`
+  - 구현별 Phase 인덱스: `Implementations/[slug]/phases.md`
+  - Phase 계획: `Implementations/[slug]/phaseN.md` · Sequence 변경 기록: `sequenceN.md` (Phase와 1:1)
+- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`, `Docs/AI_COLLAB_GUIDE.md`
+- AI 규칙: `CLAUDE.md` (루트), Cursor `.cursor/rules/main.mdc`
+- 공용 런타임 코드 위치(예: `Assets/Shared/`)는 팀 합의 후 M0에서 확정. 미정 시 각자 Workspace에 구현 후 통합.
 
 ### 6.4 주요 이벤트 (초안)
 
@@ -219,12 +255,12 @@
 
 ## 7. 팀 역할 분배
 
-| 역할 | 담당 범위 | 멤버 | 담당 Phase |
-|------|-----------|------|------------|
-| **코어 게임플레이 (리드)** | 격자, 흡착, 경계, 폭발 판정, 회전, 게임오버, 턴 FSM | **JTH** | 0(공동), **1–6** |
-| **시스템** | 점수, 블록 공급/풀, 스킨 해금 조건, Save/Load | _TBD_ | 2(공급 로직 협업), **7–8** |
-| **UI / 인벤토리** | 메뉴, HUD, 인벤토리, 장착 UI, 해금 알림 | _TBD_ | **7**, **9** |
-| **인게임 클라이언트** | 입력, 블록 스킨 적용, 이펙트, 빌드·QA | _TBD_ | 3(입력 협업), **10** |
+| 역할 | 담당 범위 | 멤버 | 담당 마일스톤 |
+|------|-----------|------|---------------|
+| **코어 게임플레이 (리드)** | 격자, 흡착, 경계, 폭발 판정, 회전, 게임오버, 턴 FSM, **점수 로직** | **JTH** | M0(공동), **M1–M6**, 점수 로직(SCRUM-23) |
+| **시스템** | 점수, 블록 공급/풀, 스킨 해금 조건, Save/Load | _TBD_ | M2(공급 협업), **M7–M8** |
+| **UI / 인벤토리** | 메뉴, HUD, 인벤토리, 장착 UI, 해금 알림 | _TBD_ | **M7**, **M9** |
+| **인게임 클라이언트** | 입력, 블록 스킨 적용, 이펙트, 빌드·QA | _TBD_ | M3(입력 협업), **M10** |
 
 ### 7.1 Jira (SCRUM) 연동
 
@@ -235,17 +271,18 @@
 | JTH 계정 | `hwanji203@gmail.com` |
 | Cursor 연동 | `~/.cursor/mcp.json` → `Atlassian-MCP-Server` (OAuth, 최초 1회 로그인) |
 
-**JTH 담당 Phase ↔ Jira 이슈 매핑 (에픽/스토리 제목 가이드)**
+**JTH 담당 Jira 이슈 (소스 오브 트루스)** — UI/HUD/인벤토리 이슈 없음
 
-| Phase | Jira 검색 키워드 (제목·라벨) | 구현 범위 |
-|-------|------------------------------|-----------|
-| 0 | `Phase0`, `공통기반`, `EventChannel` | Reflect DI, EventChannelSO, asmdef 합의 |
-| 1 | `Phase1`, `보드`, `자석축` | N×N 격자, BoardConfigSO |
-| 2 | `Phase2`, `블록공급`, `BlockShape` | BlockShapeSO, 3후보 추첨 |
-| 3 | `Phase3`, `흡착`, `배치` | x축 입력, 자석 스냅 시뮬 |
-| 4 | `Phase4`, `게임오버`, `경계` | 경계 이탈·배치 불가 판정 |
-| 5 | `Phase5`, `폭발`, `정사각형` | 테두리/내부 클리어, 제거 |
-| 6 | `Phase6`, `회전` | 90° 회전 (LitMotion) |
+| Jira | 제목 | 마일스톤 (참고) | 구현 범위 |
+|------|------|-----------------|-----------|
+| — | (공통 기반) | M0 | Reflect DI, EventChannelSO, asmdef 합의 |
+| SCRUM-17 | 인게임-블록 좌표 구조 설계 | M1 | N×N 격자, BoardConfigSO, 좌표 변환 |
+| SCRUM-18 | 인게임-랜덤 블록 생성 | M2 | BlockShapeSO, 3후보 추첨 **로직** |
+| SCRUM-19 | 인게임-블록 배치 | M3 | x축 입력, 자석 스냅 시뮬, 부착 |
+| SCRUM-22 | 인게임-게임 오버 판정 | M4 | 경계 이탈·배치 불가 판정 |
+| SCRUM-20 | 인게임-블록 파괴 판정 & 파괴 | M5 | 테두리/내부 클리어, 제거 |
+| SCRUM-21 | 인게임-전체 블록 회전 & 턴 흐름 | M6 | 90° 회전 (LitMotion), 턴 FSM |
+| SCRUM-23 | 인게임-점수 관리 | M7 (로직) | 점수 계산·이벤트 (**HUD UI 제외**) |
 
 > 새 세션에서 MCP 연결 후: *「SCRUM 프로젝트에서 hwanji203@gmail.com 에 할당된 이슈 목록 보여줘」* 로 동기화 확인.
 
@@ -253,30 +290,31 @@
 
 ---
 
-## 8. 구현 Phase (한 번에 하나만 진행)
+## 8. 게임 마일스톤 (M0~M10)
 
-에이전트·개발 모두 **Phase 단위**로 완료·검증 후 다음 Phase로 넘어간다.
+팀 **전체** 기능 영역·완료 순서. **개인 Phase와 다름** — 개인 작업은 `IMPLEMENTATIONS.md` → `phases.md` → `phaseN.md`(계획) + `sequenceN.md`(변경 기록)로 기록.
 
-| Phase | 목표 | Owner | 완료 기준 | 상태 |
-|-------|------|-------|-----------|------|
-| **0** | 공통 기반 | 공동 | Reflect 부트스트랩, EventChannelSO 에셋, asmdef/폴더 합의, 빈 씬 진입 | ✅ |
-| **1** | 보드·자석 축 | JTH | N×N 격자 렌더, 중앙 축 표시, BoardConfigSO | ⬜ |
-| **2** | 블록 데이터·공급 | JTH (+시스템 협업) | BlockShapeSO, 3후보 UI/로직, 랜덤 추첨 | ⬜ |
-| **3** | x축 입력·흡착 | JTH (+클라이언트 협업) | 드래그 입력, 축 방향 스냅 시뮬, 부착 | ⬜ |
-| **4** | 경계·게임오버 | JTH | 부착 후 이탈 판정, 배치 불가 판정 | ⬜ |
-| **5** | 폭발 판정 | JTH | 테두리/내부 정사각형 검사, 제거, 점수 이벤트 | ⬜ |
-| **6** | 90° 회전 | JTH | 폭발 후 보드·블록 회전 (LitMotion) | ⬜ |
-| **7** | 점수·베스트 | 시스템+UI | HUD, 베스트 스코어, 게임오버 UI | ⬜ |
-| **8** | 스킨 해금·저장 | 시스템 | N점 해금, PlayerPrefs/JSON 세이브 | ⬜ |
-| **9** | 인벤토리 UI | UI | 목록, 장착, 잠금 표시 | ⬜ |
-| **10** | 스킨 적용·폴리시 | 클라이언트 | 장착 스킨 블록 반영, 흡착/폭발 이펙트, 프리뷰 라인 | ⬜ |
+| 마일스톤 | 목표 | Owner | 완료 기준 | 상태 |
+|----------|------|-------|-----------|------|
+| **M0** | 공통 기반 | 공동 | Reflect 부트스트랩, EventChannelSO 에셋, asmdef/폴더 합의, 빈 씬 진입 | ✅ |
+| **M1** | 보드·자석 축 | JTH | N×N 격자 렌더, 중앙 축 표시, BoardConfigSO | ⬜ |
+| **M2** | 블록 데이터·공급 | JTH (SCRUM-18) | BlockShapeSO, 3후보 추첨 로직 (UI는 M7·M9) | ⬜ |
+| **M3** | x축 입력·흡착 | JTH (+클라이언트 협업) | 드래그 입력, 축 방향 스냅 시뮬, 부착 | ⬜ |
+| **M4** | 경계·게임오버 | JTH | 부착 후 이탈 판정, 배치 불가 판정 | ⬜ |
+| **M5** | 폭발 판정 | JTH | 테두리/내부 정사각형 검사, 제거, 점수 이벤트 | ⬜ |
+| **M6** | 90° 회전 | JTH | 폭발 후 보드·블록 회전 (LitMotion) | ⬜ |
+| **M7** | 점수·베스트 | 시스템+UI | HUD, 베스트 스코어, 게임오버 UI | ⬜ |
+| **M8** | 스킨 해금·저장 | 시스템 | N점 해금, PlayerPrefs/JSON 세이브 | ⬜ |
+| **M9** | 인벤토리 UI | UI | 목록, 장착, 잠금 표시 | ⬜ |
+| **M10** | 스킨 적용·폴리시 | 클라이언트 | 장착 스킨 블록 반영, 흡착/폭발 이펙트, 프리뷰 라인 | ⬜ |
 
-### Phase 진행 규칙
+### 마일스톤 진행 규칙 (팀)
 
-1. 구현 전 **grill-me**로 구조·소유 클래스 확인 → **한국어 계획 제시** → **담당자 승인 후** 구현 (`CLAUDE.md` Phase 워크플로).
-2. 한 Phase 완료 → **컴파일 에러 없음**(콘솔 확인) → 담당자 확인 → `Sequence/phaseN.md` 갱신 → 위 표 `✅` 갱신.
-3. 다음 Phase는 담당자가 “시작”이라고 명시한 뒤, **1번(계획·승인)** 을 다시 거친다.
-4. 에이전트는 Unity **플레이 모드에 직접 진입하지 않는다**. 런타임 확인은 담당자 플레이 후 콘솔 로그로 한다 (`CLAUDE.md` Debugging).
+1. 팀 마일스톤은 **참고·완료 체크**용. 개인 구현은 Jira·`IMPLEMENTATIONS.md` 기준.
+2. 개인 **Phase** 구현 전: **grill-me** → **한국어 계획** → **승인** → 구현 (`CLAUDE.md`).
+3. Phase 작업 완료 → 컴파일 에러 없음 → 담당자 확인 → `sequenceN.md`(변경 기록)·`phaseN.md`·`phases.md`·`IMPLEMENTATIONS.md` 갱신.
+4. 팀 마일스톤 `✅`는 담당자 확인 후 `DESIGN.md` / `TODO.md` 갱신.
+5. 에이전트는 Unity **플레이 모드 직접 진입 금지** (`CLAUDE.md` Debugging).
 
 ---
 
@@ -287,13 +325,13 @@
 | 회전으로 다음 수 예측 어려움 | 튜토리얼, 초반 작은 보드·단순 블록 풀 |
 | 정사각형 클리어 규칙이 직관적이지 않음 | 폭발 가능 영역 프리뷰·튜토리얼 하이라이트 |
 | 흡착 결과가 의도와 다름 | 배치 전 고스트/가이드 라인 |
-| 4인 병렬 시 통합 충돌 | Phase 0에서 이벤트·SO·공유 폴더 합의 |
+| 4인 병렬 시 통합 충돌 | M0에서 이벤트·SO·공유 폴더 합의 |
 
 ### 확정 필요 (TBD)
 
 - [ ] 보드 기본 크기 N (권장: 9)
 - [ ] 스킨 해금 간격 N점
-- [x] JTH ↔ 코어 게임플레이 (리드) — Phase 1–6
+- [x] JTH ↔ 코어 게임플레이 (리드) — M1–M6
 - [ ] KTJ / PMS / PTY 역할 매핑
 - [ ] 공용 런타임 코드 폴더 경로
 - [ ] 회전 방향(시계) 고정 여부
@@ -306,3 +344,6 @@
 |------|------|------|
 | 0.1 | 2026-07-06 | 최초 작성 — 세미 기획서·스킨 시스템 반영 |
 | 0.2 | 2026-07-06 | JTH 역할·Phase Owner·Jira SCRUM 매핑 추가 |
+| 0.3 | 2026-07-07 | JTH Jira 이슈(SCRUM-17~23) 기준으로 매핑 정정, UI 범위 분리 |
+| 0.4 | 2026-07-07 | 팀 Phase → **마일스톤(M0~M10)** 용어 분리, 개인 **구현→Phase→Sequence** 계층 반영 |
+| 0.5 | 2026-07-07 | Phase = 계획(`phaseN.md`, 뭘 어떻게) / Sequence = 변경 기록(`sequenceN.md`, 뭐가 바뀌었는지) — **1:1 파일** 구조 확정 |

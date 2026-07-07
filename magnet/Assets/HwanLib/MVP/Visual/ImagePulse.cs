@@ -3,7 +3,7 @@ using LitMotion.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVP.Visual
+namespace HwanLib.MVP.Visual
 {
     /// <summary>
     /// 대상 Graphic의 알파 또는 localScale를 min↔max로 주기 반복하는 독립 연출.

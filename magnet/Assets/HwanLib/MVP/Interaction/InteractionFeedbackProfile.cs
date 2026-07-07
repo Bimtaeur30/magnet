@@ -3,7 +3,7 @@ using HwanLib.GGMLib.SoundSystem;
 using LitMotion;
 using UnityEngine;
 
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     /// <summary>
     /// 상태별 연출값 + 사운드 클립. 프로젝트에서 SO 몇 개로 공유해 "버튼 느낌"을 한 곳에서 관리한다.

@@ -1,6 +1,6 @@
 using HwanLib.GGMLib.SoundSystem;
 
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     /// <summary>
     /// 전역 UI 사운드 접근점. UISoundService가 미등록이면 무음으로 동작한다.

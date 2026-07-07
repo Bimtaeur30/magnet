@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
-using MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP;
 using HwanLib.Util;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     public class UIManager : LightSingleton<UIManager>
     {

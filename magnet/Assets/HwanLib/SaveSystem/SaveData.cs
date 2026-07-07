@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SaveSystem
+namespace HwanLib.SaveSystem
 {
     [CreateAssetMenu(fileName = "new Save data", menuName = "Save/Save data", order = 0)]
     public class SaveData : ScriptableObject

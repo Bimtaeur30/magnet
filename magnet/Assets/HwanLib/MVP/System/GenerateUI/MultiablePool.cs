@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     public class MultiablePool
     {

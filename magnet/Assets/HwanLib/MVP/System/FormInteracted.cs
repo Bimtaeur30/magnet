@@ -1,6 +1,6 @@
-using MVP.UIData;
+using HwanLib.MVP.UIData;
 
-namespace MVP.System
+namespace HwanLib.MVP.System
 {
     public delegate void FormInteracted(UIParam value = null);
 }

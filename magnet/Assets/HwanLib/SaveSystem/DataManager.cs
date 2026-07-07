@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GameLib.EventChannelSystem;
 using HwanLib.Util;
 using UnityEngine;
 
-namespace SaveSystem
+namespace HwanLib.SaveSystem
 {
     public class DataManager : LightSingleton<DataManager>
     {

@@ -1,6 +1,6 @@
-using MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.AbstractMVP.Form;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     /// <summary>
     /// 의미(클릭)만 가진 버튼 Form. 비주얼 연출은 InteractionFeedback이 전담한다.

@@ -1,9 +1,9 @@
-using MVP.System.AbstractMVP.Form;
-using MVP.System.BaseMVP;
-using MVP.UIData;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.UIData;
 using UnityEngine;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     // 바인딩된 배율(UIFloatParam)에 따라 RectTransform의 가로폭을 키운다.
     //  - 기준폭 W0 = Initialize 시점의 저작된 sizeDelta.x (배율 1일 때의 크기).

@@ -2,7 +2,7 @@ using GameLib.EventChannelSystem;
 using HwanLib.GGMLib.SoundSystem;
 using UnityEngine;
 
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     /// <summary>
     /// UIManager GO에 한 번만 붙인다. SoundManager로 PlaySoundEvent를 중계한다.

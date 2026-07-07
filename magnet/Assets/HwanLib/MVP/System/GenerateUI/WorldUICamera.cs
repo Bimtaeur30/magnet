@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     [DefaultExecutionOrder(0)]
     [RequireComponent(typeof(Camera))]

@@ -1,7 +1,7 @@
-using MVP.System.BaseMVP.Form;
+using HwanLib.MVP.System.BaseMVP.Form;
 using UnityEditor;
 
-namespace MVP.Editor
+namespace HwanLib.MVP.Editor
 {
     [CustomEditor(typeof(BaseForm), true)]
     public class BaseFormEditor : UnityEditor.Editor

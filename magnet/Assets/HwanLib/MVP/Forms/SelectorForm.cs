@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using MVP.System;
-using MVP.System.AbstractMVP.Form;
-using MVP.System.BaseMVP;
-using MVP.System.BaseMVP.Form;
-using MVP.UIData;
+using HwanLib.MVP.System;
+using HwanLib.MVP.System.AbstractMVP.Form;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP.Form;
+using HwanLib.MVP.UIData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     /// <summary>
     /// 좌우 선택 위젯. prev/next 버튼으로 옵션 인덱스를 바꾸고 라벨을 갱신, int 인덱스를 발행한다.

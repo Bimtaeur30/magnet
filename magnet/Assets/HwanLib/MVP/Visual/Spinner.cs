@@ -2,7 +2,7 @@ using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
 
-namespace MVP.Visual
+namespace HwanLib.MVP.Visual
 {
     /// <summary>
     /// RectTransform을 일정 속도로 무한 Z회전시키는 로딩 인디케이터.

@@ -1,9 +1,9 @@
-using MVP.Interaction;
-using MVP.System.BaseMVP.Form;
+using HwanLib.MVP.Interaction;
+using HwanLib.MVP.System.BaseMVP.Form;
 using UnityEditor;
 using UnityEngine;
 
-namespace MVP.Editor
+namespace HwanLib.MVP.Editor
 {
     /// <summary>
     /// 하이라키 창 각 행 우측에 장착된 Form 타입과 바인딩 메서드를 표시.

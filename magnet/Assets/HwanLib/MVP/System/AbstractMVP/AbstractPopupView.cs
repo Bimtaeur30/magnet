@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using MVP.Forms;
-using MVP.System.BaseMVP;
-using MVP.System.BaseMVP.Form;
+using HwanLib.MVP.Forms;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP.Form;
 using HwanLib.Util;
 using UnityEngine;
 
-namespace MVP.System.AbstractMVP
+namespace HwanLib.MVP.System.AbstractMVP
 {
     // Popup 연출 전용 View. 닫기 트리거는 BasePresenter.closeTriggers에서 처리한다.
     public abstract class AbstractPopupView : BaseView

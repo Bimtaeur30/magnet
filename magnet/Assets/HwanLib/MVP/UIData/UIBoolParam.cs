@@ -1,4 +1,4 @@
-﻿namespace MVP.UIData
+namespace HwanLib.MVP.UIData
 {
     public class UIBoolParam : UIParam
     {

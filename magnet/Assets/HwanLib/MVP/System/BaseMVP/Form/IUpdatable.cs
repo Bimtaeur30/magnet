@@ -1,7 +1,7 @@
 using System;
-using MVP.UIData;
+using HwanLib.MVP.UIData;
 
-namespace MVP.System.BaseMVP.Form
+namespace HwanLib.MVP.System.BaseMVP.Form
 {
     public interface IUpdatable
     {

@@ -1,4 +1,4 @@
-namespace MVP.Interaction
+namespace HwanLib.MVP.Interaction
 {
     public enum FeedbackState
     {

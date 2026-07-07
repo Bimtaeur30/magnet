@@ -1,0 +1,38 @@
+---
+description: JTH C# 네이밍 — 직렬화 필드 규칙
+globs: Assets/MemberWorkspace/JTH/**/*.cs
+alwaysApply: false
+---
+
+# JTH C# Field Naming
+
+## SerializeField / Unity 직렬화 필드
+
+`[SerializeField]`, `public` 직렬화 필드, `[field: SerializeField]`에는 **`_` 접두사를 붙이지 않는다.**
+
+```csharp
+// BAD
+[SerializeField] private BoardConfigSO _config;
+
+// GOOD
+[SerializeField] private BoardConfigSO config;
+```
+
+필드명 변경 시 기존 에셋·씬·프리팹 참조를 유지하려면 `[FormerlySerializedAs("oldName")]`를 함께 둔다.
+
+## 비직렬화 private 필드
+
+런타임 캐시·상태 등 Inspector에 노출되지 않는 private 필드는 `_` 접두사를 쓴다.
+
+```csharp
+private MotionHandle _handle;
+private static Material _sharedLineMaterial;
+```
+
+## Reflex `[Inject]` 필드
+
+DI 주입 필드는 직렬화 대상이 아니므로 `_` 접두사를 쓴다.
+
+```csharp
+[Inject] private readonly EventChannelSO _eventChannel;
+```

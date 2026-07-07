@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace MVP.Editor
+namespace HwanLib.MVP.Editor
 {
     /// <summary>
     /// M/P/V 스크립트 3종 템플릿 생성기. 씬/프리팹 배선은 하지 않고 파일만 만든다.
@@ -282,7 +282,7 @@ namespace MVP.Editor
         // ── 템플릿 ──────────────────────────────────────────────────────────────────
 
         private static string ModelTemplate(string ns, string name) =>
-$@"using MVP.System.BaseMVP;
+$@"using HwanLib.MVP.System.BaseMVP;
 
 namespace {ns}
 {{
@@ -293,7 +293,7 @@ namespace {ns}
 ";
 
         private static string PresenterTemplate(string ns, string name) =>
-$@"using MVP.System.BaseMVP;
+$@"using HwanLib.MVP.System.BaseMVP;
 
 namespace {ns}
 {{
@@ -304,7 +304,7 @@ namespace {ns}
 ";
 
         private static string ViewTemplate(string ns, string name) =>
-$@"using MVP.System.BaseMVP;
+$@"using HwanLib.MVP.System.BaseMVP;
 
 namespace {ns}
 {{

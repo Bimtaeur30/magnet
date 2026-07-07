@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using MVP.Forms.Module.Fade;
-using MVP.System.BaseMVP;
-using MVP.System.BaseMVP.Form;
+using HwanLib.MVP.Forms.Module.Fade;
+using HwanLib.MVP.System.BaseMVP;
+using HwanLib.MVP.System.BaseMVP.Form;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVP.Forms
+namespace HwanLib.MVP.Forms
 {
     // 씬 전환 모션의 비주얼 Form. 데이터 바인딩은 없고(IInitializable로 targetImage만 준비),
     // Presenter가 FadeOut/FadeIn 코루틴을 명령형으로 호출한다. (Easy Transition Fade/TransitionEffect 로직 이전)

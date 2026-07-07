@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MVP.System.GenerateUI
+namespace HwanLib.MVP.System.GenerateUI
 {
     /// <summary>
     /// UI 열림 차단의 전역 근거 저장소.
