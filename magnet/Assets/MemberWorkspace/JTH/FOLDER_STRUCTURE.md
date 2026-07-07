@@ -4,6 +4,10 @@
 
 ```
 MemberWorkspace/[username]/
+  Docs/
+    SEQUENCE.md              # Phase 인덱스
+    Sequence/
+      phase0.md, phase1.md …
   Scripts/
     [Username].asmdef          # 예: Magnet.JTH
     Bootstrap/                 # Reflex Installer, 씬 진입
