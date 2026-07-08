@@ -1,0 +1,60 @@
+Unity: 6000.3.10f1
+Project: C:/develop/Magnet/magnet/Assets
+Scene: 01_Menu
+ScenePath: Assets/MemberWorkspace/KTJ/01_Scene/01_Menu.unity
+RootCount: 4
+
+- Main Camera
+  Active: True
+  Position: (0.00, 0.00, -10.00)
+  Rotation: (0.00, 0.00, 0.00)
+  Scale: (1.00, 1.00, 1.00)
+  Components: Transform, Camera, AudioListener
+- Canvas
+  Active: False
+  Position: (0.00, 0.00, 0.00)
+  Rotation: (0.00, 0.00, 0.00)
+  Scale: (0.00, 0.00, 0.00)
+  Components: RectTransform, Canvas, CanvasScaler, GraphicRaycaster
+  - Background
+    Active: True
+    Position: (0.00, 0.00, 0.00)
+    Rotation: (0.00, 0.00, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    Components: RectTransform
+    - Image
+      Active: True
+      Position: (0.00, 0.00, 0.00)
+      Rotation: (0.00, 0.00, 0.00)
+      Scale: (1.00, 1.00, 1.00)
+      Components: RectTransform, CanvasRenderer, Image
+  - SafeArea
+    Active: True
+    Position: (0.00, 0.00, 0.00)
+    Rotation: (0.00, 0.00, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    Components: RectTransform, SafeArea
+    - Image
+      Active: True
+      Position: (0.00, 0.00, 0.00)
+      Rotation: (0.00, 0.00, 0.00)
+      Scale: (1.00, 1.00, 1.00)
+      Components: RectTransform, CanvasRenderer, Image
+    - Image (1)
+      Active: True
+      Position: (0.00, 0.00, 0.00)
+      Rotation: (0.00, 0.00, 0.00)
+      Scale: (1.00, 1.00, 1.00)
+      Components: RectTransform, CanvasRenderer, Image
+- EventSystem
+  Active: True
+  Position: (0.00, 0.00, 0.00)
+  Rotation: (0.00, 0.00, 0.00)
+  Scale: (1.00, 1.00, 1.00)
+  Components: Transform, EventSystem, InputSystemUIInputModule
+- Circle
+  Active: True
+  Position: (0.00, 0.00, 0.00)
+  Rotation: (0.00, 0.00, 0.00)
+  Scale: (1.00, 1.00, 1.00)
+  Components: Transform, SpriteRenderer

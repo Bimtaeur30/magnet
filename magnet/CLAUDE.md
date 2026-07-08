@@ -78,7 +78,7 @@ Assumptions must be explicitly labeled as assumptions. Do not silently turn assu
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
 
-## Language Rule
+## Language Rulef
 
 All explanations, plans, summaries, implementation notes, and questions written to the user must be in Korean.
 

@@ -16,6 +16,7 @@ namespace HwanLib.MVP.System.GenerateUI
         Fade = 7,
         Select = 8,
         Title = 9,
+        TitleUI = 10,
         // </generated>
     }
 }

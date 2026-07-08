@@ -1,0 +1,4 @@
+Codex Bridge OK
+Project: C:/develop/Magnet/magnet/Assets
+Unity: 6000.3.10f1
+Time: 2026-07-07T10:54:37.9930952+09:00
