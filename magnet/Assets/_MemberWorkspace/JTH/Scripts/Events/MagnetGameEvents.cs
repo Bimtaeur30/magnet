@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.BlockShapes;
+using UnityEngine;
 
 namespace JTH.Scripts.Events
 {
-    public static class GameEvents
+    public static class MagnetGameEvents
     {
         public static readonly Phase0ReadyEvent Phase0ReadyEvent = new();
         public static readonly BlockPlacedEvent BlockPlacedEvent = new();
@@ -12,15 +15,29 @@ namespace JTH.Scripts.Events
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly SkinUnlockedEvent SkinUnlockedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
+        public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
     {
         public int BlockId { get; private set; }
+        public int SlotIndex { get; private set; }
+        public string ShapeId { get; private set; }
+        public Vector2Int Pivot { get; private set; }
+        public IReadOnlyList<Vector2Int> CellPositions { get; private set; }
 
-        public BlockPlacedEvent Init(int blockId)
+        public BlockPlacedEvent Init(
+            int blockId,
+            int slotIndex,
+            string shapeId,
+            Vector2Int pivot,
+            IReadOnlyList<Vector2Int> cellPositions)
         {
             BlockId = blockId;
+            SlotIndex = slotIndex;
+            ShapeId = shapeId;
+            Pivot = pivot;
+            CellPositions = cellPositions;
             return this;
         }
     }
@@ -86,4 +103,15 @@ namespace JTH.Scripts.Events
 
     /// <summary>Phase 0 검증용. 이후 Phase에서 제거 가능.</summary>
     public sealed class Phase0ReadyEvent : GameEvent { }
+
+    public sealed class BlockCandidatesUpdatedEvent : GameEvent
+    {
+        public IReadOnlyList<IBlockShape> Candidates { get; private set; }
+
+        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
+        {
+            Candidates = candidates;
+            return this;
+        }
+    }
 }

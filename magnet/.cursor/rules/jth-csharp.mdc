@@ -1,6 +1,6 @@
 ---
 description: JTH C# 네이밍 — 직렬화 필드 규칙
-globs: Assets/MemberWorkspace/JTH/**/*.cs
+globs: Assets/_MemberWorkspace/JTH/**/*.cs
 alwaysApply: false
 ---
 
@@ -31,8 +31,8 @@ private static Material _sharedLineMaterial;
 
 ## Reflex `[Inject]` 필드
 
-DI 주입 필드는 직렬화 대상이 아니므로 `_` 접두사를 쓴다.
+DI 주입 필드는 직렬화 대상이 아니므로 `_` 접두사를 쓴다. **모든 SO는 `[Inject]` 금지** — `jth-event-channel.mdc` · `CLAUDE.md` DI.
 
 ```csharp
-[Inject] private readonly EventChannelSO _eventChannel;
+[Inject] private readonly IBlockShapeSource _blockShapeSource;
 ```

@@ -2,7 +2,8 @@
     "name": "Magnet.PTY",
     "rootNamespace": "",
     "references": [
-        "GUID:eb415e56e20154449aab8a7efaff0147"
+        "GUID:eb415e56e20154449aab8a7efaff0147",
+        "GUID:1530a967b84cfb44dbdd5e8a1989764f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

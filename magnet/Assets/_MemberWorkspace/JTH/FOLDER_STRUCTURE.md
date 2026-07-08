@@ -1,9 +1,9 @@
 # JTH Workspace — 폴더·asmdef 합의 (M0 공통 기반)
 
-팀원은 각자 `Assets/MemberWorkspace/[username]/` 아래 동일 패턴을 따른다.
+팀원은 각자 `Assets/_MemberWorkspace/[username]/` 아래 동일 패턴을 따른다.
 
 ```
-MemberWorkspace/[username]/
+_MemberWorkspace/[username]/
   Docs/
     IMPLEMENTATIONS.md           # 구현 인덱스
     Implementations/
@@ -48,7 +48,9 @@ MemberWorkspace/[username]/
 2. `Prefabs/RootScope.prefab` — `ContainerScope` + `MagnetProjectInstaller`
 3. 씬에 `SceneScope` (`ContainerScope`) + 게임 오브젝트
 
+**SO ↔ Reflex:** **모든 SO**는 소비 `MonoBehaviour`에 `[SerializeField]` — **`[Inject]`·Installer `RegisterValue` 금지** (`CLAUDE.md`, `jth-event-channel.mdc`). 크로스-asmdef **인터페이스**만 Installer + `[Inject]`.
+
 ## 이벤트 채널
 
-- 에셋: `ScriptableObjects/MainEventChannel.asset` (`GameEventChannelSO`)
-- DI: `MagnetProjectInstaller`에서 `RegisterValue`
+- 에셋: `ScriptableObjects/MainEventChannel.asset`
+- 필드명: `[SerializeField] EventChannelSO magnetGameChannel` (각 소비 컴포넌트)

@@ -26,14 +26,14 @@
 
 | 멤버 | 코드 | 작업 기록 (Unity `Assets/` 안) |
 |------|------|--------------------------------|
-| JTH | `Assets/MemberWorkspace/JTH/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/[slug]/` |
-| KTJ | `Assets/MemberWorkspace/KTJ/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
-| PMS | `Assets/MemberWorkspace/PMS/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
-| PTY | `Assets/MemberWorkspace/PTY/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
+| JTH | `Assets/_MemberWorkspace/JTH/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/[slug]/` |
+| KTJ | `Assets/_MemberWorkspace/KTJ/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
+| PMS | `Assets/_MemberWorkspace/PMS/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
+| PTY | `Assets/_MemberWorkspace/PTY/` | `Docs/IMPLEMENTATIONS.md` · `Docs/Implementations/` |
 
 팀 공용 설계: `Docs/DESIGN.md` · AI 규칙: `CLAUDE.md` (프로젝트 루트)
 
-> 개인 작업 기록은 예전 `Docs/Member/[이름]/` 가 아니라 **각자 `MemberWorkspace/[이름]/Docs/`** 에 둡니다. (`Docs/Member` 폴더는 삭제됨)
+> 개인 작업 기록은 예전 `Docs/Member/[이름]/` 가 아니라 **각자 `_MemberWorkspace/[이름]/Docs/`** 에 둡니다. (`Docs/Member` 폴더는 삭제됨)
 
 ## 기술 스택
 
@@ -48,7 +48,7 @@
 1. Unity에서 `magnet` 프로젝트 열기
 2. `Docs/DESIGN.md` 마일스톤·게임 규칙 확인
 3. Jira·`IMPLEMENTATIONS.md` 기준으로 구현 → Phase → Sequence 단위 작업
-4. **타인 `MemberWorkspace` 수정 금지**
+4. **타인 `_MemberWorkspace` 수정 금지**
 
 ## 레퍼런스
 

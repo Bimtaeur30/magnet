@@ -9,8 +9,8 @@
 |-------------|------|------|--------------|------|
 | [common-bootstrap](./Implementations/common-bootstrap/phases.md) | 공통 기반 (Reflex·이벤트) | — | phase1 완료 | 구현됨 · 확인 대기 |
 | [block-coordinates](./Implementations/block-coordinates/phases.md) | 블록 좌표·보드 격자 | [SCRUM-17](https://bimtaeur30.atlassian.net/browse/SCRUM-17) | phase1 완료 | 구현됨 · 확인 대기 |
-| [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase1 진행 중 (계약만) | IBlockShape·임시 데이터 완료 |
-| block-placement | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | — | 미착수 |
+| [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase3 완료 | 균등 추첨·3후보 공급 (가중치 없음) |
+| [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase1 완료 | Domain 스냅·배치 (입력·뷰는 Phase 2~) |
 | game-over | 게임 오버 판정 | [SCRUM-22](https://bimtaeur30.atlassian.net/browse/SCRUM-22) | — | 미착수 |
 | block-destruction | 블록 파괴 판정 | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | — | 미착수 |
 | board-rotation | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | — | 미착수 |

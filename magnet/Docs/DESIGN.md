@@ -19,7 +19,7 @@
 | 팀 TODO | `Docs/TODO.md` | 미정 사항 (멤버별 `## [이름]` 섹션) |
 | AI 협업 가이드 | `Docs/AI_COLLAB_GUIDE.md` | 프롬프트·워크플로 |
 | AI 행동 규칙 | `CLAUDE.md` (루트) | Cursor 자동 로드 |
-| **개인 구현 인덱스** | `Assets/MemberWorkspace/[이름]/Docs/IMPLEMENTATIONS.md` | 담당 구현·Jira·상태 |
+| **개인 구현 인덱스** | `Assets/_MemberWorkspace/[이름]/Docs/IMPLEMENTATIONS.md` | 담당 구현·Jira·상태 |
 | **구현별 Phase 인덱스** | `.../Implementations/[slug]/phases.md` | 그 구현의 Phase 목록 |
 | **Phase 계획** | `.../Implementations/[slug]/phaseN.md` | 그 Phase에서 **뭘 어떻게** 구현하는지 상세 |
 | **Sequence 변경 기록** | `.../Implementations/[slug]/sequenceN.md` | **Phase와 1:1** — 뭐가 바뀌었는지 순서대로 |
@@ -229,9 +229,9 @@
 
 ### 6.3 폴더·소유권
 
-- 개인 코드: `Assets/MemberWorkspace/[username]/`
+- 개인 코드: `Assets/_MemberWorkspace/[username]/`
 - **타 멤버 Workspace 수정 금지**
-- 개인 작업 기록: `Assets/MemberWorkspace/[username]/Docs/`
+- 개인 작업 기록: `Assets/_MemberWorkspace/[username]/Docs/`
   - 구현 인덱스: `IMPLEMENTATIONS.md`
   - 구현별 Phase 인덱스: `Implementations/[slug]/phases.md`
   - Phase 계획: `Implementations/[slug]/phaseN.md` · Sequence 변경 기록: `sequenceN.md` (Phase와 1:1)
