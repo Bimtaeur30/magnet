@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts.BlockShapes;
+using UnityEngine;
 
 namespace JTH.Scripts.Events
 {
@@ -20,10 +21,23 @@ namespace JTH.Scripts.Events
     public sealed class BlockPlacedEvent : GameEvent
     {
         public int BlockId { get; private set; }
+        public int SlotIndex { get; private set; }
+        public string ShapeId { get; private set; }
+        public Vector2Int Pivot { get; private set; }
+        public IReadOnlyList<Vector2Int> CellPositions { get; private set; }
 
-        public BlockPlacedEvent Init(int blockId)
+        public BlockPlacedEvent Init(
+            int blockId,
+            int slotIndex,
+            string shapeId,
+            Vector2Int pivot,
+            IReadOnlyList<Vector2Int> cellPositions)
         {
             BlockId = blockId;
+            SlotIndex = slotIndex;
+            ShapeId = shapeId;
+            Pivot = pivot;
+            CellPositions = cellPositions;
             return this;
         }
     }
