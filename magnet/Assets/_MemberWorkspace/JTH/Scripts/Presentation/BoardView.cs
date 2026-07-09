@@ -130,18 +130,9 @@ namespace JTH.Scripts.Presentation
 
         private static Material GetLineMaterial()
         {
-            if (_sharedLineMaterial != null)
-            {
-                return _sharedLineMaterial;
-            }
-
-            Shader shader = Shader.Find("Sprites/Default");
-            if (shader == null)
-            {
-                shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default");
-            }
-
-            _sharedLineMaterial = new Material(shader);
+            _sharedLineMaterial ??= new Material(
+                Shader.Find("Sprites/Default")
+                ?? Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default"));
             return _sharedLineMaterial;
         }
     }

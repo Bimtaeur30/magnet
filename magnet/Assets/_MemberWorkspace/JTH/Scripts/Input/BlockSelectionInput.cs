@@ -28,15 +28,8 @@ namespace JTH.Scripts.Input
 
         private void OnDisable()
         {
-            if (magnetInput != null)
-            {
-                magnetInput.OnSlotSelected -= OnSlotSelected;
-            }
-
-            if (magnetGameChannel != null)
-            {
-                magnetGameChannel.RemoveListener<BlockCandidatesUpdatedEvent>(OnCandidatesUpdated);
-            }
+            magnetInput?.OnSlotSelected -= OnSlotSelected;
+            magnetGameChannel?.RemoveListener<BlockCandidatesUpdatedEvent>(OnCandidatesUpdated);
         }
 
         private void OnCandidatesUpdated(BlockCandidatesUpdatedEvent evt)
