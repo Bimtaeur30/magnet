@@ -1594,6 +1594,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1386891759277158149}
+  - component: {fileID: 3585339314274636952}
+  - component: {fileID: 9056853646989901591}
   m_Layer: 0
   m_Name: TItleUI
   m_TagString: Untagged
@@ -1617,6 +1619,31 @@ Transform:
   - {fileID: 3663401216764693287}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &3585339314274636952
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348116775724835221}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &9056853646989901591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348116775724835221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea0239af6035b04e978407decdc02a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::Game.UI.TItleUIView
+  tItleUIAlpha: {fileID: 3585339314274636952}
 --- !u!1 &3798814786899664179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,6 +1655,7 @@ GameObject:
   - component: {fileID: 3412658506454233723}
   - component: {fileID: 6082200136533692727}
   - component: {fileID: 5829939046543770208}
+  - component: {fileID: 8501895301767218193}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1692,6 +1720,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8501895301767218193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3798814786899664179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45535d53f5004a8dbdaee2368a3950ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MVPSystem_Assembly::HwanLib.MVP.Forms.SliderForm
+  interactMethod: BuyBUttonClickHandler
+  updateMethod: UpdateSlider
 --- !u!1 &4071025152997204838
 GameObject:
   m_ObjectHideFlags: 0
