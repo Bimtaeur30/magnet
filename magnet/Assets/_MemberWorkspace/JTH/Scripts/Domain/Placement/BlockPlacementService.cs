@@ -30,48 +30,26 @@ namespace JTH.Scripts.Domain.Placement
                 return result;
             }
 
-            int blockId = _session.AllocateBlockId();
-            ApplyPlacement(shape, result.FinalPivot, blockId);
-            return PlacementResult.Succeeded(result.FinalPivot, result.CellPositions, result.HasCellsOutsideBounds);
-        }
-
-        private void ApplyPlacement(IBlockShape shape, Vector2Int finalPivot, int blockId)
-        {
-            BoardGrid grid = _session.Grid;
-            List<Vector2Int> finalCells = BlockPlacementCells.ToAbsolute(shape, finalPivot);
-
-            foreach (Vector2Int cell in finalCells)
-            {
-                grid.SetOccupied(cell, true);
-            }
-
-            _session.RegisterPlacedBlock(new PlacedBlock(
-                blockId,
-                shape.ShapeId,
-                finalPivot,
-                new List<Vector2Int>(shape.CellOffsets)));
+            int blockId = _session.AddPlacedBlock(shape.ShapeId, result.FinalPivot, shape.CellOffsets);
+            return result.WithBlockId(blockId);
         }
 
         private PlacementResult BuildResult(IBlockShape shape, Vector2Int startPivot)
         {
             BoardGrid grid = _session.Grid;
-            List<Vector2Int> startCells = BlockPlacementCells.ToAbsolute(shape, startPivot);
 
-            PlacementFailureReason startOverlap = BlockPlacementCells.GetOverlapReason(startCells, grid);
+            PlacementFailureReason startOverlap = BlockPlacementCells.GetOverlapReason(shape, startPivot, grid);
             if (startOverlap != PlacementFailureReason.None)
             {
                 return PlacementResult.Failed(startOverlap);
             }
 
-            Vector2Int finalPivot = _snapSimulator.Snap(shape, startPivot, grid);
-            List<Vector2Int> finalCells = BlockPlacementCells.ToAbsolute(shape, finalPivot);
-
-            PlacementFailureReason finalOverlap = BlockPlacementCells.GetOverlapReason(finalCells, grid);
-            if (finalOverlap != PlacementFailureReason.None)
+            if (!_snapSimulator.TrySnap(shape, startPivot, grid, out Vector2Int finalPivot))
             {
-                return PlacementResult.Failed(finalOverlap);
+                return PlacementResult.Failed(PlacementFailureReason.NoSnapTarget);
             }
 
+            List<Vector2Int> finalCells = BlockPlacementCells.ToAbsolute(shape, finalPivot);
             bool hasCellsOutsideBounds = BlockPlacementCells.HasAnyCellOutsideBounds(finalCells, grid);
             return PlacementResult.Succeeded(finalPivot, finalCells, hasCellsOutsideBounds);
         }

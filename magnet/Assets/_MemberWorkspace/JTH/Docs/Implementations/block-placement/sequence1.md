@@ -109,5 +109,131 @@
 **메모**
 
 - Y 경계 밖 스테이징 진입: 스냅 중 `|y| > half` 는 **이동 방향 반대쪽** 경계에서만 정지. X 경계는 스냅 중 검사하지 않음 (`HasCellsOutsideBounds`로 SCRUM-22에 위임).
+- Domain의 1칸 단위 진행은 **연출이 아니라 최종 정착 좌표 계산**이다. 부드러운 이동은 Phase 4 Presentation(LitMotion)에서 final pivot으로 처리.
+
+---
+
+## 2 — 2026-07-08 · TryPlace 결과 재생성 제거
+
+**바뀐 것**
+
+- 수정: `Scripts/Domain/Placement/BlockPlacementService.cs`
+
+**변경 상세 (왜/무엇)**
+
+- 파일: `Scripts/Domain/Placement/BlockPlacementService.cs`
+  - 심볼: `TryPlace` (수정)
+    - 설명: 성공 시 `PlacementResult.Succeeded(...)`로 동일 결과를 다시 만들지 않고, `BuildResult`가 준 `result`를 그대로 반환한다.
+    - 이유: 같은 pivot/칸/경계 정보로 새 인스턴스를 만드는 것은 불필요 할당·읽기 비용만 늘린다.
+  - 심볼: `ApplyPlacement(...)` (수정)
+    - 설명: `ToAbsolute`를 다시 호출하지 않고 `result.CellPositions`를 받아 점유 등록에 사용한다.
+    - 이유: 판정 단계에서 이미 만든 절대 칸 좌표를 재사용해 중복 계산을 없애기 위해.
+
+**검증**
+
+- 이번 변경은 동작 동일·할당만 줄인 리팩터. IDE 린트 확인.
+
+**메모**
+
+- (구) BlockId를 Result에 안 넣던 방식 → `## 3`에서 `WithBlockId`로 수정.
+
+---
+
+## 3 — 2026-07-08 · BlockId·세션 API·겹침 규칙 정리
+
+**바뀐 것**
+
+- 수정: `Scripts/Domain/Placement/PlacementResult.cs`
+- 수정: `Scripts/Domain/BoardSession.cs`
+- 수정: `Scripts/Domain/Placement/BlockPlacementService.cs`
+- 수정: `Scripts/Domain/Placement/MagnetSnapSimulator.cs`
+- 수정: `Scripts/Domain/Placement/BlockPlacementCells.cs`
+
+**변경 상세 (왜/무엇)**
+
+- 파일: `Scripts/Domain/Placement/PlacementResult.cs`
+  - 심볼: `BlockId` 프로퍼티 (추가), `WithBlockId(int)` (추가)
+    - 설명: 성공 배치 후 발급된 블록 ID를 결과에 실어 반환한다. `Simulate`는 `BlockId == 0`.
+    - 이유: `TryPlace` 호출부가 `Session.PlacedBlocks` Last를 뒤지지 않고도 이벤트 Raise에 쓸 ID를 바로 얻게 하기 위해.
+  - 심볼: `Succeeded(..., int blockId = 0)` (시그니처 확장)
+    - 설명: 기본은 0(시뮬). 부착 확정 후 `WithBlockId`로 ID를 채운다.
+    - 이유: 판정 결과와 ID 발급 시점을 분리하면서도 반환 타입은 하나로 유지.
+- 파일: `Scripts/Domain/BoardSession.cs`
+  - 심볼: `AllocateBlockId` / `RegisterPlacedBlock` (삭제)
+  - 심볼: `AddPlacedBlock(shapeId, pivot, cellOffsets)` (추가)
+    - 설명: ID 발급 + `PlacedBlock` 목록 등록을 한 메서드에서 처리하고 발급 ID를 반환한다.
+    - 이유: ID만 발급하고 등록을 빠진 상태를 불가능하게 만들기 위해.
+- 파일: `Scripts/Domain/Placement/BlockPlacementService.cs`
+  - 심볼: `TryPlace` (수정)
+    - 설명: 점유 반영 → `AddPlacedBlock` → `result.WithBlockId(blockId)` 반환.
+    - 이유: BlockId를 Result에 실어 Phase 4 이벤트와 맞추기 위해.
+  - 심볼: `ApplyPlacement` (삭제)
+    - 설명: 점유 루프를 `TryPlace`에 인라인, 블록 기록은 `BoardSession.AddPlacedBlock`에 위임.
+    - 이유: 얇은 private 래퍼가 세션 API와 책임이 겹쳐 제거.
+  - 심볼: `BuildResult` — final `GetOverlapReason` 호출 (삭제)
+    - 설명: 최종 겹침 재검사를 제거. Snap이 이미 점유·자석에서 멈춤.
+    - 이유: 시작 겹침만 통과하면 final은 동일 규칙상 안전 — 죽은 검사 제거.
+- 파일: `Scripts/Domain/Placement/MagnetSnapSimulator.cs` / `BlockPlacementCells.cs`
+  - 심볼: `CanStep` → `BlockPlacementCells.HasOverlap(shape, nextPivot, grid)` (수정)
+  - 심볼: `GetOverlapReason(IBlockShape, Vector2Int, BoardGrid)` (추가)
+    - 설명: 자석·점유 겹침 규칙을 Cells 한곳에만 두고 Snap이 재사용. Y 경계만 Snap 쪽에 남김.
+    - 이유: 규칙이 두 파일에 복제되면 나중에 자석 규칙 변경 시 어긋나기 쉬움.
+  - 심볼: `GetOverlapReason(IReadOnlyList<...>)` (삭제)
+    - 설명: shape+pivot 경로로 통일해 미사용 오버로드 제거.
+
+**검증**
+
+- IDE 린트 확인 예정. Unity `read_console`은 에디터 연결 시.
+
+**메모**
+
+- `WithBlockId`는 새 `PlacementResult`를 만든다. 이전 “동일 Succeeded 재생성”과는 다름 — **추가된 필드(BlockId)를 채우기 위한** 복사.
+
+---
+
+## 4 — 2026-07-08 · 흡착 규칙 정정 (경계 ≠ 스냅 대상)
+
+**바뀐 것**
+
+- 수정: `Scripts/Domain/Placement/MagnetSnapSimulator.cs`
+- 수정: `Scripts/Domain/Placement/BlockPlacementService.cs`
+- 수정: `Scripts/Domain/Placement/PlacementFailureReason.cs`
+- 수정: `Docs/DESIGN.md` (§2.1·§3·§4.3·§4.6, 변경 이력 0.6)
+- 수정: `Docs/Implementations/block-placement/phase1.md`
+
+**변경 상세 (왜/무엇)**
+
+- 파일: `Scripts/Domain/Placement/PlacementFailureReason.cs`
+  - 심볼: `NoSnapTarget` (추가)
+    - 설명: 흡착 경로에서 블록·자석을 못 만나 Y 경계에만 닿았을 때의 실패 사유.
+    - 이유: “그 x에 놓을 수 없음”을 점유/자석 겹침과 구분하기 위해.
+- 파일: `Scripts/Domain/Placement/MagnetSnapSimulator.cs`
+  - 심볼: `Snap(...)` → `TrySnap(..., out Vector2Int finalPivot)` (교체)
+    - 설명: contact(점유·자석)면 `true` + 직전 pivot. Y 경계만이면 `false` (경계 pivot은 out에 남기되 호출부는 사용하지 않음).
+    - 이유: 구 API는 경계에서도 “성공 pivot”을 돌려 빈 보드에서 반대편 테두리에 붙는 잘못된 규칙을 강제했음.
+  - 심볼: `EvaluateNext` (추가)
+    - 설명: next의 Y 경계 초과 → `Boundary`, 겹침 → `Contact`, 아니면 `None`으로 한 칸 진행.
+    - 이유: 경계와 contact를 같은 “정지”로 취급하지 않기 위해.
+  - 심볼: `stepY == 0` 분기 (수정)
+    - 설명: 자석 행에 이미 있으면 흡착 경로 없음 → `false`.
+    - 이유: 스테이징은 Y≠0에서 시작한다는 전제와 맞춤.
+- 파일: `Scripts/Domain/Placement/BlockPlacementService.cs`
+  - 심볼: `BuildResult` (수정)
+    - 설명: `TrySnap` 실패 시 `PlacementResult.Failed(NoSnapTarget)`. 성공 시에만 절대 칸·`HasCellsOutsideBounds` 계산.
+    - 이유: 경계-only는 부착하지 않음. `HasCellsOutsideBounds`는 **블록/자석에 붙은 뒤** 형태가 삐져나온 경우(SCRUM-22)만.
+- 파일: `Docs/DESIGN.md`
+  - 심볼: §2.1 / §3 표 / §4.3 / §4.6 (수정)
+    - 설명: “블록 또는 경계에 스냅” 삭제. 스냅 대상 = 블록·자석. 경계만 = 배치 불가. 게임오버 조건과 구분.
+    - 이유: 팀 설계 문서가 실제 게임 규칙과 어긋나 있어 동시 갱신.
+
+**검증**
+
+- 빈 보드 + 1×1 `x≠0` 스테이징 → `NoSnapTarget`.
+- 빈 보드 + 1×1 `x=0` → 자석 contact → 최종 `(0, -1)`(아래에서 시작 시) 성공.
+- IDE 린트. Unity 콘솔은 에디터 연결 시.
+
+**메모**
+
+- “배치 불가(그 x)” ≠ “즉시 게임오버”. 3후보×모든 x가 전부 실패일 때 게임오버는 SCRUM-22.
 
 ---

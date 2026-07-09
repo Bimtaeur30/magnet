@@ -17,10 +17,16 @@ namespace JTH.Scripts.Domain.Placement
             return cells;
         }
 
-        public static PlacementFailureReason GetOverlapReason(IReadOnlyList<Vector2Int> cells, BoardGrid grid)
+        /// <summary>
+        /// 자석 칸 또는 이미 점유된 칸과 겹치면 실패 사유를 반환한다.
+        /// MagnetSnapSimulator.CanStep 과 동일한 겹침 규칙을 쓴다.
+        /// </summary>
+        public static PlacementFailureReason GetOverlapReason(IBlockShape shape, Vector2Int pivot, BoardGrid grid)
         {
-            foreach (Vector2Int cell in cells)
+            foreach (Vector2Int offset in shape.CellOffsets)
             {
+                Vector2Int cell = pivot + offset;
+
                 if (BoardCoordinates.IsMagnetCell(cell.x, cell.y))
                 {
                     return PlacementFailureReason.OverlapsMagnet;
@@ -33,6 +39,11 @@ namespace JTH.Scripts.Domain.Placement
             }
 
             return PlacementFailureReason.None;
+        }
+
+        public static bool HasOverlap(IBlockShape shape, Vector2Int pivot, BoardGrid grid)
+        {
+            return GetOverlapReason(shape, pivot, grid) != PlacementFailureReason.None;
         }
 
         public static bool HasAnyCellOutsideBounds(IReadOnlyList<Vector2Int> cells, BoardGrid grid)

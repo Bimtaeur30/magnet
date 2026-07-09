@@ -13,9 +13,9 @@ namespace JTH.Scripts.Events
         public static readonly SquareClearedEvent SquareClearedEvent = new();
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
-        public static readonly SkinUnlockedEvent SkinUnlockedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
+        public static readonly BlockSelectedEvent BlockSelectedEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -111,6 +111,19 @@ namespace JTH.Scripts.Events
         public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
         {
             Candidates = candidates;
+            return this;
+        }
+    }
+
+    public sealed class BlockSelectedEvent : GameEvent
+    {
+        public int SlotIndex { get; private set; }
+        public IBlockShape Shape { get; private set; }
+
+        public BlockSelectedEvent Init(int slotIndex, IBlockShape shape)
+        {
+            SlotIndex = slotIndex;
+            Shape = shape;
             return this;
         }
     }

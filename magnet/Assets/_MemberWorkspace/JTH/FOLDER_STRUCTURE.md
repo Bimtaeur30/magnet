@@ -17,9 +17,11 @@ _MemberWorkspace/[username]/
     [Username].asmdef            # 예: Magnet.JTH
     Bootstrap/
     Events/
-    Data/
+    Data/                        # BoardConfigSO, MagnetInputSO 등
     Domain/
+    Input/                       # Input MonoBehaviour (SO 구독만)
     Presentation/
+  Input/                         # Controls.inputactions (Input System, Unity 코드 생성)
   ScriptableObjects/
   Resources/                     # ReflexSettings (필수)
   Prefabs/
@@ -34,6 +36,7 @@ _MemberWorkspace/[username]/
 | EventChannel_Assembly | `4f4fe35fbc82e694093dc30123d90eb6` |
 | Reflex | `1530a967b84cfb44dbdd5e8a1989764f` |
 | UniTask | `f51ebe6a0ceec4240a699833d6309b23` |
+| Unity Input System | `75469ad4d38634e559750d17036d5f7c` |
 
 ## 공용 런타임 코드
 
@@ -54,3 +57,11 @@ _MemberWorkspace/[username]/
 
 - 에셋: `ScriptableObjects/MainEventChannel.asset`
 - 필드명: `[SerializeField] EventChannelSO magnetGameChannel` (각 소비 컴포넌트)
+
+## 입력 (InputSO)
+
+- **모든 게임플레이 입력**은 `InputSO`(`ScriptableObject`) 한 곳에서 Input System 콜백을 받고 **C# event**로 노출한다.
+- MonoBehaviour(`Scripts/Input/`)는 `Update`·`Input.GetKeyDown` **금지** — `[SerializeField] MagnetInputSO` 구독만.
+- 패턴: `Controls.inputactions` → Unity 생성 `Controls.cs` → `MagnetInputSO : Controls.IPlayerActions` → 소비자 구독.
+- 에셋: `ScriptableObjects/DefaultMagnetInput.asset` · 액션 맵: `Scripts/Input/Controls.inputactions`
+- SO는 `[SerializeField]` 연결 (`[Inject]` 금지, 다른 SO와 동일).

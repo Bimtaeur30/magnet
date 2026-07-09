@@ -7,6 +7,7 @@ namespace JTH.Scripts.Domain.Placement
     {
         public bool Success { get; }
         public PlacementFailureReason FailureReason { get; }
+        public int BlockId { get; }
         public Vector2Int FinalPivot { get; }
         public IReadOnlyList<Vector2Int> CellPositions { get; }
         public bool HasCellsOutsideBounds { get; }
@@ -14,12 +15,14 @@ namespace JTH.Scripts.Domain.Placement
         private PlacementResult(
             bool success,
             PlacementFailureReason failureReason,
+            int blockId,
             Vector2Int finalPivot,
             IReadOnlyList<Vector2Int> cellPositions,
             bool hasCellsOutsideBounds)
         {
             Success = success;
             FailureReason = failureReason;
+            BlockId = blockId;
             FinalPivot = finalPivot;
             CellPositions = cellPositions;
             HasCellsOutsideBounds = hasCellsOutsideBounds;
@@ -28,14 +31,32 @@ namespace JTH.Scripts.Domain.Placement
         public static PlacementResult Succeeded(
             Vector2Int finalPivot,
             IReadOnlyList<Vector2Int> cellPositions,
-            bool hasCellsOutsideBounds)
+            bool hasCellsOutsideBounds,
+            int blockId = 0)
         {
-            return new PlacementResult(true, PlacementFailureReason.None, finalPivot, cellPositions, hasCellsOutsideBounds);
+            return new PlacementResult(
+                true,
+                PlacementFailureReason.None,
+                blockId,
+                finalPivot,
+                cellPositions,
+                hasCellsOutsideBounds);
         }
 
         public static PlacementResult Failed(PlacementFailureReason reason)
         {
-            return new PlacementResult(false, reason, default, System.Array.Empty<Vector2Int>(), false);
+            return new PlacementResult(false, reason, 0, default, System.Array.Empty<Vector2Int>(), false);
+        }
+
+        public PlacementResult WithBlockId(int blockId)
+        {
+            return new PlacementResult(
+                Success,
+                FailureReason,
+                blockId,
+                FinalPivot,
+                CellPositions,
+                HasCellsOutsideBounds);
         }
     }
 }

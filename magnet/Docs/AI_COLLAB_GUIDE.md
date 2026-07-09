@@ -38,6 +38,7 @@
 | Phase 계획 (뭘 어떻게) | `.../Implementations/[slug]/phaseN.md` |
 | Sequence 변경 기록 (Phase와 1:1) | `.../Implementations/[slug]/sequenceN.md` |
 | 공용 설계 | `Docs/DESIGN.md` |
+| Inspector Tooltip 목록 | `Docs/INSPECTOR_TOOLTIPS.md` — `[SerializeField]` 규칙·멤버별 필드 표 |
 | 공용 TODO | `Docs/TODO.md` — 각자 `## [이름]` 섹션만 수정 |
 | AI 규칙 | `CLAUDE.md` (프로젝트 루트) |
 
@@ -48,6 +49,7 @@
 ### 공용 문서 수정
 
 - `Docs/DESIGN.md` — 팀 합의 후 수정 (게임 규칙·**마일스톤** 표)
+- `Docs/INSPECTOR_TOOLTIPS.md` — `[SerializeField]` Tooltip 추가·수정 시 본인 섹션 표 갱신
 - `Docs/TODO.md` — 아직 안 정한 것. 본인 `## [이름]` 섹션만 편집
 
 ---
@@ -57,6 +59,7 @@
 | 문서 | 내용 |
 |------|------|
 | `DESIGN.md` | 팀 규칙·게임 설계·**마일스톤(M0~M10)** |
+| `INSPECTOR_TOOLTIPS.md` | `[SerializeField]` Tooltip 규칙·멤버별 필드 목록 |
 | `TODO.md` | 미정 항목·개인 할 일 (Jira 이슈 등) |
 | `IMPLEMENTATIONS.md` | 내 **구현** 인덱스 |
 | `phases.md` | 한 구현의 **Phase** 인덱스 |
@@ -96,9 +99,10 @@
 
 ### 디버깅 (토큰 절약)
 
-- **`read_console`** 로 컴파일 에러·경고·로그만 확인
-- AI **플레이 모드 진입 금지** (사용자가 명시할 때만 예외)
-- 런타임 확인: **사용자 플레이** → 콘솔 로그만 읽기
+- **플레이 자체는 금지가 아님.** 문서만 보고 “무조건 Play 안 함”으로 오해하지 않는다.
+- 평소: **`read_console`** 로 컴파일 에러·경고 확인.
+- **런타임 확인이 필요하다고 판단되면** Play해도 됨 — 단, **`read_console`로 로그만** (화면·씬 시각 확인 X).
+- 사용자 Play 후 남은 콘솔만 읽어도 OK.
 
 ---
 
@@ -114,7 +118,7 @@
 나는 [이름]. 내 코드는 Assets/_MemberWorkspace/[이름]/,
 기록은 Docs/IMPLEMENTATIONS.md + Implementations/[slug]/phases.md·phaseN.md·sequenceN.md.
 공용 설계는 @Docs/DESIGN.md 참고.
-Unity MCP 사용, 디버깅은 read_console(콘솔 로그)만.
+Unity MCP 사용. 디버깅은 read_console 중심. Play는 필요할 때 해도 되나 로그만 — 화면 시각 확인 X.
 한 번에 한 Phase만. 남의 폴더 건드리지 마.
 ```
 
@@ -165,7 +169,7 @@ OK 한 뒤 구현하고, 끝나면 sequence[번호].md·phase[번호].md → pha
 - **한 번에 한 Phase만** — 다음은 본인이 시킬 때
 - **내 폴더만** 수정 (`Assets/_MemberWorkspace/[이름]/`)
 - 구현 전: **계획 → 승인 → 구현**
-- Unity MCP: **플레이 금지**, 디버깅은 **콘솔만**(`read_console`)
+- Unity MCP: **`read_console` 중심**. Play는 **필요할 때** OK — **로그만**, 화면 시각 디버깅 X
 - AI 코드는 **본인이 이해한 뒤에만** 커밋
 - 새 대화는 문서 몽땅 붙이지 말고 **필요한 부분만** `@파일`로 참조
 

@@ -4,7 +4,6 @@ using JTH.Scripts.Events;
 using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace JTH.Scripts.Bootstrap
 {
@@ -13,8 +12,6 @@ namespace JTH.Scripts.Bootstrap
     /// </summary>
     public sealed class BlockSpawnBootstrap : MonoBehaviour
     {
-        [FormerlySerializedAs("mainEventChannelSO")]
-        [FormerlySerializedAs("_eventChannel")]
         [SerializeField] private EventChannelSO magnetGameChannel;
 
         [Inject] private readonly IBlockShapeSource _blockShapeSource;
@@ -27,7 +24,7 @@ namespace JTH.Scripts.Bootstrap
         {
             Debug.Assert(magnetGameChannel != null, "[BlockSpawnBootstrap] magnetGameChannel is not assigned.", this);
 
-            var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom());
+            var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom(1));
             _supply = new BlockSupply(drawer);
             _supply.Fill();
             RaiseCandidatesUpdated();
@@ -43,7 +40,6 @@ namespace JTH.Scripts.Bootstrap
         {
             var snapshot = _supply.CreateSnapshot();
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(snapshot));
-            Debug.Log($"[BlockSpawn] BlockCandidatesUpdatedEvent raised ({BlockSupply.SlotCount} slots)");
         }
     }
 }

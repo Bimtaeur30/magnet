@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdccdfc06aaba2f43a7b430acdbe8f7e, type: 3}
-  m_Name: 1x2-Shape
+  m_Name: 4x1-Shape
   m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Data.BlockShapeSO
-  shapeId: 1x2-Shape
+  shapeId: 4*1
   cellOffsets:
   - {x: 0, y: 0}
   - {x: 1, y: 0}
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}

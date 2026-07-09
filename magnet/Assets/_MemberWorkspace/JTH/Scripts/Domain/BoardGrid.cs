@@ -9,7 +9,7 @@ namespace JTH.Scripts.Domain
     public sealed class BoardGrid
     {
         private readonly int _boardSize;
-        private readonly Dictionary<Vector2Int, bool> _occupied = new();
+        private readonly HashSet<Vector2Int> _occupied = new();
 
         public BoardGrid(int boardSize)
         {
@@ -18,16 +18,18 @@ namespace JTH.Scripts.Domain
 
         public int BoardSize => _boardSize;
 
+        public IReadOnlyCollection<Vector2Int> OccupiedCells => _occupied;
+
         public bool IsOccupied(Vector2Int grid)
         {
-            return _occupied.TryGetValue(grid, out bool occupied) && occupied;
+            return _occupied.Contains(grid);
         }
 
         public void SetOccupied(Vector2Int grid, bool occupied)
         {
             if (occupied)
             {
-                _occupied[grid] = true;
+                _occupied.Add(grid);
             }
             else
             {
@@ -42,7 +44,7 @@ namespace JTH.Scripts.Domain
 
         public bool HasOccupiedCellOutsideBounds()
         {
-            foreach (Vector2Int grid in _occupied.Keys)
+            foreach (Vector2Int grid in _occupied)
             {
                 if (!IsInBounds(grid.x, grid.y))
                 {
@@ -52,7 +54,5 @@ namespace JTH.Scripts.Domain
 
             return false;
         }
-
-        public IReadOnlyDictionary<Vector2Int, bool> OccupiedCells => _occupied;
     }
 }

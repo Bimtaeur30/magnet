@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JTH.Scripts.Domain.Placement;
+using UnityEngine;
 
 namespace JTH.Scripts.Domain
 {
@@ -17,14 +18,20 @@ namespace JTH.Scripts.Domain
         public BoardGrid Grid => _grid;
         public IReadOnlyList<PlacedBlock> PlacedBlocks => _placedBlocks;
 
-        public int AllocateBlockId()
+        /// <summary>
+        /// 블록 ID 발급 + 목록 등록 + 격자 점유를 한 번에 처리한다.
+        /// </summary>
+        public int AddPlacedBlock(string shapeId, Vector2Int pivot, IReadOnlyList<Vector2Int> cellOffsets)
         {
-            return _nextBlockId++;
-        }
+            int blockId = _nextBlockId++;
+            _placedBlocks.Add(new PlacedBlock(blockId, shapeId, pivot, new List<Vector2Int>(cellOffsets)));
 
-        public void RegisterPlacedBlock(PlacedBlock placedBlock)
-        {
-            _placedBlocks.Add(placedBlock);
+            foreach (Vector2Int offset in cellOffsets)
+            {
+                _grid.SetOccupied(pivot + offset, true);
+            }
+
+            return blockId;
         }
     }
 }
