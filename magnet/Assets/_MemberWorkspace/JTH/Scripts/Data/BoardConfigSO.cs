@@ -5,6 +5,7 @@ namespace JTH.Scripts.Data
     [CreateAssetMenu(fileName = "BoardConfig", menuName = "Magnet/Board Config")]
     public sealed class BoardConfigSO : ScriptableObject
     {
+        [Tooltip("자석 중심(0,0)에서 한쪽 끝까지의 칸 수. 전체 한 변 = CellsPerSide × 2 + 1")]
         [SerializeField] private int cellsPerSide = 4;
         [SerializeField] private float cellSize = 1f;
         [SerializeField] private Color cellColor = new(0.2f, 0.22f, 0.28f, 1f);

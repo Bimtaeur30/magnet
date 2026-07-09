@@ -10,9 +10,11 @@ namespace JTH.Scripts.Presentation
     public sealed class BoardView : MonoBehaviour
     {
         [FormerlySerializedAs("_config")]
+        [Tooltip("격자 크기·색상 등 보드 시각화 설정")]
         [SerializeField] private BoardConfigSO config;
         [FormerlySerializedAs("_cellsRoot")]
         [FormerlySerializedAs("_linesRoot")]
+        [Tooltip("격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성")]
         [SerializeField] private Transform linesRoot;
         [FormerlySerializedAs("_lineWidth")]
         [SerializeField] private float lineWidth = 0.04f;
