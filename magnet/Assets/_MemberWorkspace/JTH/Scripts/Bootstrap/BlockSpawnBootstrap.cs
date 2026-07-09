@@ -52,18 +52,18 @@ namespace JTH.Scripts.Bootstrap
         {
             magnetGameChannel?.RemoveListener<BlockSelectedEvent>(OnBlockSelected);
         }
+        
+        public void Consume()
+        {
+            _supply.Consume(_selectedSlotIndex);
+            RaiseCandidatesUpdated();
+        }
 
         private void OnBlockSelected(BlockSelectedEvent evt)
         {
             _selectedSlotIndex = evt.SlotIndex;
             _selectedShape = evt.Shape;
             _stagingBlockView.Show(_selectedShape, _stagingPivot);
-        }
-        
-        public void Consume()
-        {
-            _supply.Consume(_selectedSlotIndex);
-            RaiseCandidatesUpdated();
         }
 
         private void RaiseCandidatesUpdated()
