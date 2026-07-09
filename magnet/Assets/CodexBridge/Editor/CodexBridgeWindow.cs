@@ -67,6 +67,33 @@ namespace CodexBridge
             Debug.Log($"Codex working scene created: {scenePath}");
         }
 
+        [MenuItem("Tools/Codex/Reload External Scene Changes")]
+        public static void ReloadExternalSceneChanges()
+        {
+            EnsureBridgeFolders();
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+
+            var scene = SceneManager.GetActiveScene();
+            if (string.IsNullOrEmpty(scene.path))
+            {
+                Debug.LogWarning("Codex reload skipped: active scene has no saved path.");
+                return;
+            }
+
+            if (scene.isDirty && !EditorUtility.DisplayDialog(
+                    "Reload External Scene Changes",
+                    "The active scene has unsaved Unity-side changes. Reloading will discard those unsaved changes and load the scene file from disk.",
+                    "Reload From Disk",
+                    "Cancel"))
+            {
+                Debug.Log("Codex reload canceled.");
+                return;
+            }
+
+            EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+            Debug.Log($"Codex reloaded scene from disk: {scene.path}");
+        }
+
         private void OnGUI()
         {
             EditorGUILayout.LabelField("Codex Bridge", EditorStyles.boldLabel);
@@ -92,12 +119,18 @@ namespace CodexBridge
                 _lastMessage = "Working scene created.";
             }
 
+            if (GUILayout.Button("Reload External Scene Changes"))
+            {
+                ReloadExternalSceneChanges();
+                _lastMessage = "External scene changes reloaded.";
+            }
+
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Status", _lastMessage);
             EditorGUILayout.Space();
 
             _scroll = EditorGUILayout.BeginScrollView(_scroll);
-            EditorGUILayout.HelpBox("This bridge gives Codex a stable Unity-side utility surface. Codex can edit project files directly, then Unity imports them. Use the snapshot command when Codex needs a readable view of the open scene.", MessageType.Info);
+            EditorGUILayout.HelpBox("This bridge gives Codex a stable Unity-side utility surface. Codex can edit project files directly, then Unity imports them. Use the snapshot command when Codex needs a readable view of the open scene. Use reload after Codex edits a scene file while Unity is already open.", MessageType.Info);
             EditorGUILayout.EndScrollView();
         }
 

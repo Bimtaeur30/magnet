@@ -1672,6 +1672,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087048961763648970, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087048961763648970, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7053308689109923861, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1762,6 +1770,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3348116775724835221, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7404995075337973555}
+    - targetCorrespondingSourceObject: {fileID: 3348116775724835221, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7404995075337973557}
     - targetCorrespondingSourceObject: {fileID: 3798814786899664179, guid: a9887eed7007ea241a16d7154f49dabf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1606612041}
@@ -1800,6 +1811,18 @@ MonoBehaviour:
   multiableCount: 0
   pausesGame: 0
   closeTriggers: []
+--- !u!225 &7404995075337973557
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7404995075337973554}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
