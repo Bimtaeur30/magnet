@@ -173,3 +173,18 @@
 - `Controls.cs`는 **수동 편집 금지** — `.inputactions` 수정 후 Unity가 재생성.
 
 ---
+
+## 4 — 2026-07-09 · BlockCell 프리팹 기반 셀 표시로 전환
+
+**바뀐 것**
+
+- 생성: `Prefabs/BlockCell.prefab`
+- 수정: `Scripts/Presentation/BlockPieceView.cs` — 셀 GO 런타임 생성 → `cellPrefab` 인스턴스 풀링으로 전환
+- 수정: `Scenes/Phase0_Bootstrap.unity` — `StagingBlock.BlockPieceView.cellPrefab` 배선
+- 수정: `Docs/INSPECTOR_TOOLTIPS.md` — `BlockPieceView.cellPrefab` Tooltip 등록
+
+**메모**
+
+- 셀 개수 상한이 불명확하므로, 블록 프리팹(고정 셀 N개) 대신 **Cell 1개 프리팹을 필요 개수만큼 생성·재사용**하는 방식으로 통일.
+
+---

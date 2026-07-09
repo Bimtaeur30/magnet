@@ -63,17 +63,11 @@ namespace JTH.Scripts.Bootstrap
             }
         }
 
-        private void Start()
-        {
-            Debug.Log($"[BoardPlacement] Session ready (boardSize={boardConfig.BoardSize}, stagingY={_stagingPivot.y})");
-        }
-
         private void OnBlockSelected(BlockSelectedEvent evt)
         {
             _selectedSlotIndex = evt.SlotIndex;
             _selectedShape = evt.Shape;
             _stagingBlockView.Show(_selectedShape, _stagingPivot);
-            Debug.Log($"[BoardPlacement] Staging slot {_selectedSlotIndex} at {_stagingPivot} ({_selectedShape.ShapeId})");
         }
     }
 }

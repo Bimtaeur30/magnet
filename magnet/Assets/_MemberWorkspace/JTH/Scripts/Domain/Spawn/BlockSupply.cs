@@ -20,8 +20,6 @@ namespace JTH.Scripts.Domain.Spawn
 
         public IReadOnlyList<IBlockShape> Candidates => _slots;
 
-        public IBlockShape GetCandidate(int slotIndex) => _slots[slotIndex];
-
         public void Fill()
         {
             for (var i = 0; i < SlotCount; i++)
@@ -32,7 +30,7 @@ namespace JTH.Scripts.Domain.Spawn
 
         public void Consume(int slotIndex)
         {
-            _slots[slotIndex] = _drawer.Draw();
+            _slots[slotIndex] = null;
         }
 
         public IBlockShape[] CreateSnapshot()

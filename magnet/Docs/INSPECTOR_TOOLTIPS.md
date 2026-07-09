@@ -45,6 +45,7 @@
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/BlockPieceView.cs` | `cellsRoot` | 블록 피스 칸 SpriteRenderer의 부모 Transform. 비우면 자동 생성 |
+| `Scripts/Presentation/BlockPieceView.cs` | `cellPrefab` | 블록 칸 1개 프리팹(SpriteRenderer 포함). 필요 개수만큼 인스턴스 생성 후 재사용 |
 | `Scripts/Bootstrap/MagnetSceneInstaller.cs` | `stagingBlockView` | 슬롯 선택 시 스테이징 영역에 미리보기로 표시할 BlockPieceView |
 
 ### KTJ — `Assets/_MemberWorkspace/KTJ/`

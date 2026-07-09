@@ -13,7 +13,6 @@ namespace JTH.Scripts.Events
         public static readonly SquareClearedEvent SquareClearedEvent = new();
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
-        public static readonly SkinUnlockedEvent SkinUnlockedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();

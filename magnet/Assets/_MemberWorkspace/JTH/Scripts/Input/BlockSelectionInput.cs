@@ -68,7 +68,6 @@ namespace JTH.Scripts.Input
             }
 
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockSelectedEvent.Init(slotIndex, shape));
-            Debug.Log($"[BlockSelection] Slot {slotIndex} selected ({shape.ShapeId})");
         }
     }
 }

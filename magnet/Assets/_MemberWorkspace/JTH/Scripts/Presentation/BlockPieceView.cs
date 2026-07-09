@@ -15,6 +15,8 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private PlacementConfigSO placementConfig;
         [Tooltip("블록 피스 칸 SpriteRenderer의 부모 Transform. 비우면 자동 생성")]
         [SerializeField] private Transform cellsRoot;
+        [Tooltip("블록 칸 1개 프리팹(SpriteRenderer 포함). 필요 개수만큼 인스턴스 생성 후 재사용")]
+        [SerializeField] private GameObject cellPrefab;
 
         private static Sprite _whiteSprite;
         private readonly List<SpriteRenderer> _cellRenderers = new();
@@ -24,6 +26,7 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(boardConfig != null, "[BlockPieceView] BoardConfigSO is not assigned.", this);
             Debug.Assert(placementConfig != null, "[BlockPieceView] PlacementConfigSO is not assigned.", this);
             Debug.Assert(shape != null, "[BlockPieceView] shape is null.", this);
+            Debug.Assert(cellPrefab != null, "[BlockPieceView] cellPrefab is not assigned.", this);
 
             EnsureCellsRoot();
             EnsureCellCount(shape.CellOffsets.Count);
@@ -31,7 +34,6 @@ namespace JTH.Scripts.Presentation
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.CellFill;
             Color color = placementConfig.PieceColor;
-            Sprite sprite = GetWhiteSprite();
 
             for (int i = 0; i < shape.CellOffsets.Count; i++)
             {
@@ -41,7 +43,6 @@ namespace JTH.Scripts.Presentation
                 cellRenderer.gameObject.SetActive(true);
                 cellRenderer.transform.localPosition = new Vector3(world.x, world.y, 0f);
                 cellRenderer.transform.localScale = new Vector3(cellSize * fill, cellSize * fill, 1f);
-                cellRenderer.sprite = sprite;
                 cellRenderer.color = color;
                 cellRenderer.sortingOrder = 2;
             }
@@ -76,27 +77,13 @@ namespace JTH.Scripts.Presentation
         {
             while (_cellRenderers.Count < count)
             {
-                var cellGo = new GameObject($"Cell_{_cellRenderers.Count}");
-                cellGo.transform.SetParent(cellsRoot, false);
-                _cellRenderers.Add(cellGo.AddComponent<SpriteRenderer>());
-            }
-        }
+                GameObject instance = Instantiate(cellPrefab, cellsRoot);
+                instance.name = $"Cell_{_cellRenderers.Count}";
 
-        private static Sprite GetWhiteSprite()
-        {
-            if (_whiteSprite != null)
-            {
-                return _whiteSprite;
+                SpriteRenderer cellRenderer = instance.GetComponent<SpriteRenderer>();
+                Debug.Assert(cellRenderer != null, "[BlockPieceView] cellPrefab must have SpriteRenderer.", instance);
+                _cellRenderers.Add(cellRenderer);
             }
-
-            Texture2D texture = Texture2D.whiteTexture;
-            // whiteTexture(4×4) + ppu=1 이면 월드 4×4 유닛 → 격자(1 유닛)보다 커짐. ppu=width 로 1×1 기준 스프라이트.
-            _whiteSprite = Sprite.Create(
-                texture,
-                new Rect(0f, 0f, texture.width, texture.height),
-                new Vector2(0.5f, 0.5f),
-                pixelsPerUnit: texture.width);
-            return _whiteSprite;
         }
     }
 }
