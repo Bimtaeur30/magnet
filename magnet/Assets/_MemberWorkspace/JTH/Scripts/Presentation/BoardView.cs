@@ -64,14 +64,12 @@ namespace JTH.Scripts.Presentation
 
         private void EnsureLinesRoot()
         {
-            if (linesRoot != null)
+            if (linesRoot == null)
             {
-                return;
+                var root = new GameObject("Lines");
+                root.transform.SetParent(transform, false);
+                linesRoot = root.transform;
             }
-
-            var root = new GameObject("Lines");
-            root.transform.SetParent(transform, false);
-            linesRoot = root.transform;
         }
 
         private Transform CreateChild(string childName)

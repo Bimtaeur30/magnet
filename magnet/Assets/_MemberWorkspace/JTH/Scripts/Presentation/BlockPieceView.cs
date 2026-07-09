@@ -63,14 +63,12 @@ namespace JTH.Scripts.Presentation
 
         private void EnsureCellsRoot()
         {
-            if (cellsRoot != null)
+            if (cellsRoot == null)
             {
-                return;
+                var root = new GameObject("Cells");
+                root.transform.SetParent(transform, false);
+                cellsRoot = root.transform;
             }
-
-            var root = new GameObject("Cells");
-            root.transform.SetParent(transform, false);
-            cellsRoot = root.transform;
         }
 
         private void EnsureCellCount(int count)
