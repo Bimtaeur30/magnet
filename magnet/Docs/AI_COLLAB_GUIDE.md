@@ -38,6 +38,7 @@
 | Phase 계획 (뭘 어떻게) | `.../Implementations/[slug]/phaseN.md` |
 | Sequence 변경 기록 (Phase와 1:1) | `.../Implementations/[slug]/sequenceN.md` |
 | 공용 설계 | `Docs/DESIGN.md` |
+| Inspector Tooltip 목록 | `Docs/INSPECTOR_TOOLTIPS.md` — `[SerializeField]` 규칙·멤버별 필드 표 |
 | 공용 TODO | `Docs/TODO.md` — 각자 `## [이름]` 섹션만 수정 |
 | AI 규칙 | `CLAUDE.md` (프로젝트 루트) |
 
@@ -48,6 +49,7 @@
 ### 공용 문서 수정
 
 - `Docs/DESIGN.md` — 팀 합의 후 수정 (게임 규칙·**마일스톤** 표)
+- `Docs/INSPECTOR_TOOLTIPS.md` — `[SerializeField]` Tooltip 추가·수정 시 본인 섹션 표 갱신
 - `Docs/TODO.md` — 아직 안 정한 것. 본인 `## [이름]` 섹션만 편집
 
 ---
@@ -57,6 +59,7 @@
 | 문서 | 내용 |
 |------|------|
 | `DESIGN.md` | 팀 규칙·게임 설계·**마일스톤(M0~M10)** |
+| `INSPECTOR_TOOLTIPS.md` | `[SerializeField]` Tooltip 규칙·멤버별 필드 목록 |
 | `TODO.md` | 미정 항목·개인 할 일 (Jira 이슈 등) |
 | `IMPLEMENTATIONS.md` | 내 **구현** 인덱스 |
 | `phases.md` | 한 구현의 **Phase** 인덱스 |

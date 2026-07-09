@@ -224,6 +224,8 @@
 | ScriptableObject·에셋 참조 | Inspector `[SerializeField]` — **Reflex 사용 안 함** (프리팹 분리 시에도 유지) |
 | 씬 내 다른 오브젝트·런타임 서비스 | Reflex `[Inject]` |
 
+이름만으로 역할이 불명확한 `[SerializeField]`에는 `[Tooltip]`(한국어)을 붙이고, 문구는 [`INSPECTOR_TOOLTIPS.md`](./INSPECTOR_TOOLTIPS.md)에 기록한다.
+
 ### 6.2.2 보드 좌표 (확정)
 
 - **격자 좌표:** 자석 = **(0, 0)**. N=9 유효 보드 = `gx, gy ∈ [-4 .. 4]`. 자석 옆 = `(1, 0)`.
@@ -239,7 +241,7 @@
   - 구현 인덱스: `IMPLEMENTATIONS.md`
   - 구현별 Phase 인덱스: `Implementations/[slug]/phases.md`
   - Phase 계획: `Implementations/[slug]/phaseN.md` · Sequence 변경 기록: `sequenceN.md` (Phase와 1:1)
-- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`, `Docs/AI_COLLAB_GUIDE.md`
+- 공용 문서: `Docs/DESIGN.md`, `Docs/README.md`, `Docs/TODO.md`, `Docs/AI_COLLAB_GUIDE.md`, `Docs/INSPECTOR_TOOLTIPS.md`
 - AI 규칙: `CLAUDE.md` (루트), Cursor `.cursor/rules/main.mdc`
 - 공용 런타임 코드 위치(예: `Assets/Shared/`)는 팀 합의 후 M0에서 확정. 미정 시 각자 Workspace에 구현 후 통합.
 

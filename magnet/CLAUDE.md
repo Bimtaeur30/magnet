@@ -181,6 +181,10 @@ If the structure is unclear, do not guess. Ask the user in Korean before impleme
 
 **예:** `BoardView` → `[SerializeField] BoardConfigSO boardConfig` · `Phase0Bootstrap` → `[SerializeField] EventChannelSO magnetGameChannel` · `BlockSpawnBootstrap` → `[Inject] IBlockShapeSource` (인터페이스, 직렬화 불가)
 
+### Inspector Tooltip
+
+이름만으로 역할이 불명확한 `[SerializeField]`에는 `[Tooltip("…")]`(한국어)을 붙인다. 추가·수정 시 `Docs/INSPECTOR_TOOLTIPS.md` 표를 갱신한다.
+
 ## Async / Await (UniTask)
 
 Use UniTask for all async work. Do not write new coroutines.
@@ -266,22 +270,19 @@ On a new session: read `IMPLEMENTATIONS.md` + **current** `phases.md` + **curren
 
 ## Debugging (Token Saving)
 
-Unity MCP로 디버깅할 때 **콘솔 로그만** 사용한다. 플레이 모드는 토큰을 많이 소모한다.
+Unity MCP 디버깅은 **콘솔 로그 중심**으로 한다. **플레이 자체가 금지는 아니다.**
 
-### 금지
+- 평소에는 `read_console`로 **컴파일 에러·경고**만 봐도 충분하다.
+- **런타임 확인이 필요하다고 판단되면** Play 진입해도 된다. 이때 **`read_console`로 로그만** 확인하고, Game/Scene 뷰·스크린샷·하ierarchy 대량 조회 같은 **시각적 디버깅은 하지 않는다** (토큰 절약).
+- 사용자가 이미 Play한 뒤 남은 콘솔만 읽어도 된다.
 
-- `manage_editor`의 **play / pause / stop**으로 에이전트가 직접 플레이 모드에 진입하는 것.
-- 런타임 검증을 핑계로 에이전트가 임의로 플레이 테스트를 실행하는 것.
+### 금지 (토큰 많이 소모)
 
-### 허용·권장
-
-- `read_console`로 **컴파일 에러·경고**를 확인한다 (에디터가 스크립트를 리컴파일한 뒤의 콘솔).
-- 이미 사용자가 플레이한 뒤 남은 `Debug.Log` 출력이 있으면 그것만 읽는다.
-- 런타임 동작 확인이 필요하면 **사용자에게 플레이를 요청**하고, 사용자가 플레이한 뒤 콘솔 결과를 읽는다.
+- Game 뷰·Scene 뷰·스크린샷·하ierarchy/컴포넌트 MCP 등 **화면을 보고** 런타임을 확인하는 것.
 
 ### 예외
 
-- 사용자가 명시적으로 「플레이해서 확인해」, 「Play 모드로 테스트해」라고 요청한 경우에만 에이전트가 플레이 모드에 진입할 수 있다.
+- 사용자가 명시적으로 「화면 봐서 확인해」, 「Game 뷰로 봐줘」처럼 **시각 확인**을 요청한 경우.
 
 ## How to work in this repo
 

@@ -12,6 +12,7 @@
 |------|------|
 | [AI_COLLAB_GUIDE.md](./AI_COLLAB_GUIDE.md) | **팀원용** — Cursor·Claude·Codex 공통 프롬프트, MCP, 구현·Phase·Sequence |
 | [DESIGN.md](./DESIGN.md) | 게임 규칙, 시스템, 기술 아키텍처, **마일스톤(M0~M10)**, Jira 매핑 |
+| [INSPECTOR_TOOLTIPS.md](./INSPECTOR_TOOLTIPS.md) | `[SerializeField]` Tooltip 규칙·멤버별 필드 목록 |
 | [TODO.md](./TODO.md) | 팀원별 할 일 (자기 섹션만 수정) |
 | [CLAUDE.md](../CLAUDE.md) | AI 코딩 규칙 (Cursor가 `.cursor/rules/main.mdc`로 자동 로드) |
 
