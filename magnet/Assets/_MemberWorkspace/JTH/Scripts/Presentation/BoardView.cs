@@ -64,14 +64,12 @@ namespace JTH.Scripts.Presentation
 
         private void EnsureLinesRoot()
         {
-            if (linesRoot != null)
+            if (linesRoot == null)
             {
-                return;
+                var root = new GameObject("Lines");
+                root.transform.SetParent(transform, false);
+                linesRoot = root.transform;
             }
-
-            var root = new GameObject("Lines");
-            root.transform.SetParent(transform, false);
-            linesRoot = root.transform;
         }
 
         private Transform CreateChild(string childName)
@@ -130,18 +128,9 @@ namespace JTH.Scripts.Presentation
 
         private static Material GetLineMaterial()
         {
-            if (_sharedLineMaterial != null)
-            {
-                return _sharedLineMaterial;
-            }
-
-            Shader shader = Shader.Find("Sprites/Default");
-            if (shader == null)
-            {
-                shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default");
-            }
-
-            _sharedLineMaterial = new Material(shader);
+            _sharedLineMaterial ??= new Material(
+                Shader.Find("Sprites/Default")
+                ?? Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default"));
             return _sharedLineMaterial;
         }
     }

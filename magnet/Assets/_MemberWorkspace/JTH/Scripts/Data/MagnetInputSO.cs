@@ -23,11 +23,7 @@ namespace JTH.Scripts.Data
         {
             get
             {
-                if (_mainCam == null)
-                {
-                    _mainCam = Camera.main;
-                }
-
+                _mainCam ??= Camera.main;
                 return _mainCam;
             }
         }
