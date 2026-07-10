@@ -15,6 +15,8 @@ namespace JTH.Scripts.Data
         [field: SerializeField] public float DragSensitivityMaxMultiplier { get; private set; } = 3f;
         [Tooltip("손 놓은 뒤 Y축 자석 스냅 LitMotion 시간(초)")]
         [field: SerializeField] public float SnapDuration { get; private set; } = 0.12f;
+        [Tooltip("폭발 처리 후 보드·블록 90° 회전 LitMotion 시간(초)")]
+        [field: SerializeField] public float RotationDuration { get; private set; } = 0.2f;
         
         /// <summary>보드 half 아래로 더 내릴 칸 수. stagingY = -(CellsPerSide + this).</summary>
         public int StagingYExtraBelow => stagingYExtraBelow;
@@ -28,6 +30,7 @@ namespace JTH.Scripts.Data
             DragSensitivityRampPerUnit = Mathf.Max(0f, DragSensitivityRampPerUnit);
             DragSensitivityMaxMultiplier = Mathf.Max(1f, DragSensitivityMaxMultiplier);
             SnapDuration = Mathf.Max(0.01f, SnapDuration);
+            RotationDuration = Mathf.Max(0.01f, RotationDuration);
         }
     }
 }

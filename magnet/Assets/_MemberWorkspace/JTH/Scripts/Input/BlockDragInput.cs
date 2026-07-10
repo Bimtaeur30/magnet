@@ -2,6 +2,7 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
+using JTH.Scripts.Domain.Turn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
@@ -144,38 +145,45 @@ namespace JTH.Scripts.Input
             _sensitivityRamp.Reset();
 
             Vector2Int pivot = GetCurrentPivot();
-            PlacementResult result = _placementBootstrap.TryConfirmPlacement(_selectedShape, pivot, _selectedSlotIndex);
-            if (!result.Success)
+            TurnResolutionResult turn = _placementBootstrap.TryConfirmPlacement(_selectedShape, pivot, _selectedSlotIndex);
+            if (!turn.Placement.Success)
             {
-                Debug.Log($"[BlockDrag] TryPlace failed: {result.FailureReason} startPivot={pivot}");
+                Debug.Log($"[BlockDrag] TryPlace failed: {turn.Placement.FailureReason} startPivot={pivot}");
                 DisconnectSelection();
                 return;
             }
 
             Debug.Log(
-                $"[BlockDrag] TryPlace OK blockId={result.BlockId} pivot={result.FinalPivot} outside={result.HasCellsOutsideBounds}");
+                $"[BlockDrag] TryPlace OK blockId={turn.Placement.BlockId} pivot={turn.Placement.FinalPivot} outside={turn.Placement.HasCellsOutsideBounds} clears={turn.ClearResult.ClearedSquares.Count}");
 
             _drawer.ClearPreview();
             ShapeBlock staging = _drawer.TakeStagingForPlacement();
-            IBlockShape placedShape = _selectedShape;
-            int blockId = result.BlockId;
-            Vector2Int finalPivot = result.FinalPivot;
+            int blockId = turn.Placement.BlockId;
 
             DisconnectSelection();
             _isPlacing = true;
 
-            BlockSnapMotion.Play(
-                staging,
-                placedShape,
-                finalPivot,
-                _stagingGridY,
-                boardConfig,
-                placementConfig,
-                () =>
-                {
-                    _placedBlocksView.Adopt(staging, $"Placed_{blockId}");
-                    _isPlacing = false;
-                });
+            if (_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
+            {
+                BlockSnapMotion.PlayFromPlaced(
+                    staging,
+                    placedBlock,
+                    _stagingGridY,
+                    boardConfig,
+                    placementConfig,
+                    () =>
+                    {
+                        _placedBlocksView.Register(blockId, staging);
+                        _placedBlocksView.Adopt(staging, $"Placed_{blockId}");
+                        _isPlacing = false;
+                    });
+            }
+            else
+            {
+                staging.Clear();
+                Destroy(staging.gameObject);
+                _isPlacing = false;
+            }
         }
 
         private void DisconnectSelection()

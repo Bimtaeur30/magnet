@@ -48,11 +48,13 @@ namespace JTH.Scripts.Events
     {
         public int SquareSize { get; private set; }
         public int ScoreAwarded { get; private set; }
+        public IReadOnlyList<Vector2Int> ClearedCells { get; private set; }
 
-        public SquareClearedEvent Init(int squareSize, int scoreAwarded)
+        public SquareClearedEvent Init(int squareSize, int scoreAwarded, IReadOnlyList<Vector2Int> clearedCells)
         {
             SquareSize = squareSize;
             ScoreAwarded = scoreAwarded;
+            ClearedCells = clearedCells;
             return this;
         }
     }

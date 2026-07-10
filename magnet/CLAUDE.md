@@ -24,7 +24,7 @@
 1. 한국어 계획 → 사용자 승인(`진행해`/`OK` 등) → **Phase 하나**만 구현
 2. 기록: `sequenceN.md` 항목 추가 → `phases.md` → `IMPLEMENTATIONS.md`
 3. 새 세션: `IMPLEMENTATIONS.md` + 현재 `phases.md` + `phaseN.md` + `sequenceN.md` **만** 읽기 (전체 히스토리 X)
-4. `DESIGN.md`/`TODO.md` ✅는 사용자 확인 후
+4. 규칙·마일스톤 변경 시 `DESIGN.md` / `TODO.md` 동기화
 
 ## DI (Reflex)
 
