@@ -31,8 +31,11 @@ private static Material _sharedLineMaterial;
 
 ## Reflex `[Inject]` 필드
 
-DI 주입 필드는 직렬화 대상이 아니므로 `_` 접두사를 쓴다. **모든 SO는 `[Inject]` 금지** — `jth-event-channel.mdc` · `CLAUDE.md` DI.
+DI 주입 필드는 직렬화 대상이 아니므로 `_` 접두사를 쓴다. **모든 SO는 `[Inject]` 금지** — `jth-event-channel.mdc` · `jth-reflex-di.mdc`.
+
+**씬 MonoBehaviour / 다른 GO 컴포넌트는 `[Inject]` 필수 — `[SerializeField]`로 씬 참조 배선 금지** (프리팹 분리 시 끊김).
 
 ```csharp
+[Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
 [Inject] private readonly IBlockShapeSource _blockShapeSource;
 ```

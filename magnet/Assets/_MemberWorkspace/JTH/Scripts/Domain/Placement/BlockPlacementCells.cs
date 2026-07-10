@@ -58,5 +58,66 @@ namespace JTH.Scripts.Domain.Placement
 
             return false;
         }
+
+        public static Vector2 GetShapeCenterOffset(IReadOnlyList<Vector2Int> offsets)
+        {
+            long sumX = 0;
+            long sumY = 0;
+            for (int i = 0; i < offsets.Count; i++)
+            {
+                sumX += offsets[i].x;
+                sumY += offsets[i].y;
+            }
+
+            float count = offsets.Count;
+            return new Vector2(sumX / count, sumY / count);
+        }
+
+        public static void GetPivotXRange(IBlockShape shape, int boardSize, out int minPivotX, out int maxPivotX)
+        {
+            int half = BoardCoordinates.HalfExtent(boardSize);
+            int minOffsetX = int.MaxValue;
+            int maxOffsetX = int.MinValue;
+
+            foreach (Vector2Int offset in shape.CellOffsets)
+            {
+                if (offset.x < minOffsetX)
+                {
+                    minOffsetX = offset.x;
+                }
+
+                if (offset.x > maxOffsetX)
+                {
+                    maxOffsetX = offset.x;
+                }
+            }
+
+            minPivotX = -half - minOffsetX;
+            maxPivotX = half - maxOffsetX;
+        }
+
+        public static int WorldCenterXToPivotX(float worldCenterX, float cellSize, float shapeCenterOffsetX, int minPivotX, int maxPivotX)
+        {
+            float centerGridX = worldCenterX / cellSize;
+            int pivotX = Mathf.RoundToInt(centerGridX - shapeCenterOffsetX);
+            return Mathf.Clamp(pivotX, minPivotX, maxPivotX);
+        }
+
+        public static float PivotXToWorldCenterX(int pivotX, float cellSize, float shapeCenterOffsetX)
+        {
+            return (pivotX + shapeCenterOffsetX) * cellSize;
+        }
+
+        public static void GetWorldCenterXRange(
+            int minPivotX,
+            int maxPivotX,
+            float cellSize,
+            float shapeCenterOffsetX,
+            out float minWorldCenterX,
+            out float maxWorldCenterX)
+        {
+            minWorldCenterX = PivotXToWorldCenterX(minPivotX, cellSize, shapeCenterOffsetX);
+            maxWorldCenterX = PivotXToWorldCenterX(maxPivotX, cellSize, shapeCenterOffsetX);
+        }
     }
 }

@@ -5,7 +5,7 @@
 | 대상 | 문서 | 역할 |
 |------|------|------|
 | **사람** | **이 문서** (`Docs/AI_COLLAB_GUIDE.md`) | 프롬프트, MCP 연결, 구현·Phase·Sequence 워크플로 |
-| **AI** | `CLAUDE.md` (프로젝트 루트) | 코딩 규칙·아키텍처·절차 (자동 로드) |
+| **AI** | `CLAUDE.md` (compact, 자동 로드) · 상세 `Docs/AI_RULES_REFERENCE.md` | 코딩 규칙·아키텍처·절차 |
 
 **AI 규칙 자동 로드**
 
@@ -65,7 +65,8 @@
 | `phases.md` | 한 구현의 **Phase** 인덱스 |
 | `phaseN.md` | Phase 계획 — **뭘 어떻게 구현하는지** 상세 |
 | `sequenceN.md` | Phase와 **1:1** — **뭐가 바뀌었는지** `## N — 날짜 · 제목` 으로 순서대로 |
-| `CLAUDE.md` | AI 행동 규칙 (사람이 매번 읽을 필요 없음) |
+| `CLAUDE.md` | AI 핵심 규칙 (compact, 자동 로드) |
+| `AI_RULES_REFERENCE.md` | AI 규칙 상세 (필요 시 @) |
 
 ---
 

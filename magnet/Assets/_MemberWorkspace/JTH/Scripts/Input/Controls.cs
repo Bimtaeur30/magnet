@@ -93,27 +93,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""id"": ""93ff5569-cdfc-47df-80a7-ce93c531874a"",
             ""actions"": [
                 {
-                    ""name"": ""SelectSlot1"",
+                    ""name"": ""SelectSlot"",
                     ""type"": ""Button"",
                     ""id"": ""11111111-1111-1111-1111-111111111101"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SelectSlot2"",
-                    ""type"": ""Button"",
-                    ""id"": ""11111111-1111-1111-1111-111111111102"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SelectSlot3"",
-                    ""type"": ""Button"",
-                    ""id"": ""11111111-1111-1111-1111-111111111103"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -127,6 +109,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PointerPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""11111111-1111-1111-1111-111111111105"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -137,7 +128,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot1"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -148,7 +139,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot1"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -159,7 +150,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot2"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -170,7 +161,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot2"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -181,7 +172,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot3"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -192,7 +183,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SelectSlot3"",
+                    ""action"": ""SelectSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -215,6 +206,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Touch"",
                     ""action"": ""Pointer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22222222-2222-2222-2222-222222222209"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PointerPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22222222-2222-2222-2222-22222222220a"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""PointerPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -253,10 +266,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_SelectSlot1 = m_Player.FindAction("SelectSlot1", throwIfNotFound: true);
-        m_Player_SelectSlot2 = m_Player.FindAction("SelectSlot2", throwIfNotFound: true);
-        m_Player_SelectSlot3 = m_Player.FindAction("SelectSlot3", throwIfNotFound: true);
+        m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
         m_Player_Pointer = m_Player.FindAction("Pointer", throwIfNotFound: true);
+        m_Player_PointerPress = m_Player.FindAction("PointerPress", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -337,10 +349,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_SelectSlot1;
-    private readonly InputAction m_Player_SelectSlot2;
-    private readonly InputAction m_Player_SelectSlot3;
+    private readonly InputAction m_Player_SelectSlot;
     private readonly InputAction m_Player_Pointer;
+    private readonly InputAction m_Player_PointerPress;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -353,21 +364,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectSlot1".
+        /// Provides access to the underlying input action "Player/SelectSlot".
         /// </summary>
-        public InputAction @SelectSlot1 => m_Wrapper.m_Player_SelectSlot1;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/SelectSlot2".
-        /// </summary>
-        public InputAction @SelectSlot2 => m_Wrapper.m_Player_SelectSlot2;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/SelectSlot3".
-        /// </summary>
-        public InputAction @SelectSlot3 => m_Wrapper.m_Player_SelectSlot3;
+        public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
         /// <summary>
         /// Provides access to the underlying input action "Player/Pointer".
         /// </summary>
         public InputAction @Pointer => m_Wrapper.m_Player_Pointer;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/PointerPress".
+        /// </summary>
+        public InputAction @PointerPress => m_Wrapper.m_Player_PointerPress;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -394,18 +401,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @SelectSlot1.started += instance.OnSelectSlot1;
-            @SelectSlot1.performed += instance.OnSelectSlot1;
-            @SelectSlot1.canceled += instance.OnSelectSlot1;
-            @SelectSlot2.started += instance.OnSelectSlot2;
-            @SelectSlot2.performed += instance.OnSelectSlot2;
-            @SelectSlot2.canceled += instance.OnSelectSlot2;
-            @SelectSlot3.started += instance.OnSelectSlot3;
-            @SelectSlot3.performed += instance.OnSelectSlot3;
-            @SelectSlot3.canceled += instance.OnSelectSlot3;
+            @SelectSlot.started += instance.OnSelectSlot;
+            @SelectSlot.performed += instance.OnSelectSlot;
+            @SelectSlot.canceled += instance.OnSelectSlot;
             @Pointer.started += instance.OnPointer;
             @Pointer.performed += instance.OnPointer;
             @Pointer.canceled += instance.OnPointer;
+            @PointerPress.started += instance.OnPointerPress;
+            @PointerPress.performed += instance.OnPointerPress;
+            @PointerPress.canceled += instance.OnPointerPress;
         }
 
         /// <summary>
@@ -417,18 +421,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @SelectSlot1.started -= instance.OnSelectSlot1;
-            @SelectSlot1.performed -= instance.OnSelectSlot1;
-            @SelectSlot1.canceled -= instance.OnSelectSlot1;
-            @SelectSlot2.started -= instance.OnSelectSlot2;
-            @SelectSlot2.performed -= instance.OnSelectSlot2;
-            @SelectSlot2.canceled -= instance.OnSelectSlot2;
-            @SelectSlot3.started -= instance.OnSelectSlot3;
-            @SelectSlot3.performed -= instance.OnSelectSlot3;
-            @SelectSlot3.canceled -= instance.OnSelectSlot3;
+            @SelectSlot.started -= instance.OnSelectSlot;
+            @SelectSlot.performed -= instance.OnSelectSlot;
+            @SelectSlot.canceled -= instance.OnSelectSlot;
             @Pointer.started -= instance.OnPointer;
             @Pointer.performed -= instance.OnPointer;
             @Pointer.canceled -= instance.OnPointer;
+            @PointerPress.started -= instance.OnPointerPress;
+            @PointerPress.performed -= instance.OnPointerPress;
+            @PointerPress.canceled -= instance.OnPointerPress;
         }
 
         /// <summary>
@@ -496,26 +497,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         /// <summary>
-        /// Method invoked when associated input action "SelectSlot1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "SelectSlot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelectSlot1(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SelectSlot2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelectSlot2(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SelectSlot3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelectSlot3(InputAction.CallbackContext context);
+        void OnSelectSlot(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Pointer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -523,5 +510,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPointer(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PointerPress" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPointerPress(InputAction.CallbackContext context);
     }
 }

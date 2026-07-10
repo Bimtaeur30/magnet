@@ -27,7 +27,9 @@ containerBuilder.RegisterValue(mainEventChannel);
 
 ## Reflex `[Inject]` 허용 (SO 아님)
 
-**직렬화 불가**한 **인터페이스 계약**만 — 예: `[Inject] IBlockShapeSource` (크로스-asmdef). `CLAUDE.md` DI 예외.
+**직렬화 불가**한 **인터페이스 계약** — 예: `[Inject] IBlockShapeSource` (크로스-asmdef).
+
+**씬 MonoBehaviour / 다른 GO** — `[Inject]` 필수. SerializeField로 씬 오브젝트 드래그 **금지**. 상세: `jth-reflex-di.mdc`.
 
 ## 메인 게임 이벤트 채널 필드명
 

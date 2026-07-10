@@ -2,7 +2,6 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Events;
-using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -15,61 +14,51 @@ namespace JTH.Scripts.Bootstrap
     public sealed class BlockSpawnBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO magnetGameChannel;
-        [SerializeField] private BoardConfigSO boardConfig;
-        [SerializeField] private PlacementConfigSO placementConfig;
+        [SerializeField] private MagnetInputSO inputSO;
 
         [Inject] private readonly IBlockShapeSource _blockShapeSource;
-        [Inject] private readonly BlockPieceView _stagingBlockView;
 
         private BlockSupply _supply;
         private int _selectedSlotIndex = -1;
         private IBlockShape _selectedShape;
-        private Vector2Int _stagingPivot;
-        
-        public BlockSupply Supply => _supply;
 
         private void Start()
         {
             Debug.Assert(magnetGameChannel != null, "[BlockSpawnBootstrap] magnetGameChannel is not assigned.", this);
-            Debug.Assert(_stagingBlockView != null, "[BoardPlacementBootstrap] BlockPieceView was not injected.", this);
-            Debug.Assert(boardConfig != null, "[BoardPlacementBootstrap] BoardConfigSO is not assigned.", this);
-            Debug.Assert(placementConfig != null, "[BoardPlacementBootstrap] PlacementConfigSO is not assigned.", this);
-
-            _stagingPivot = new Vector2Int(0, placementConfig.GetStagingY(boardConfig.CellsPerSide));
+            Debug.Assert(inputSO != null, "[BlockSpawnBootstrap] inputSO is not assigned.", this);
+            
             var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom(1));
             _supply = new BlockSupply(drawer);
             _supply.Fill();
-            RaiseCandidatesUpdated();
         }
 
         private void OnEnable()
         {
-            Debug.Assert(magnetGameChannel != null, "[BoardPlacementBootstrap] magnetGameChannel is not assigned.", this);
-            magnetGameChannel.AddListener<BlockSelectedEvent>(OnBlockSelected);
+            inputSO.OnSlotSelected += OnBlockSelected;
         }
 
         private void OnDisable()
         {
-            magnetGameChannel?.RemoveListener<BlockSelectedEvent>(OnBlockSelected);
+            inputSO.OnSlotSelected -= OnBlockSelected;
         }
         
-        public void Consume()
-        {
-            _supply.Consume(_selectedSlotIndex);
-            RaiseCandidatesUpdated();
-        }
+        public void Consume() => _supply.Consume(_selectedSlotIndex);
 
-        private void OnBlockSelected(BlockSelectedEvent evt)
+        private void OnBlockSelected(int index)
         {
-            _selectedSlotIndex = evt.SlotIndex;
-            _selectedShape = evt.Shape;
-            _stagingBlockView.Show(_selectedShape, _stagingPivot);
-        }
+            if (index < 0 || index >= BlockSupply.SlotCount)
+                return;
+            if (_supply.Candidates == null || index >= _supply.Candidates.Count)
+                return;
+            
+            _selectedSlotIndex = index;
+            _selectedShape = _supply.Candidates[index];
+            
+            if (_selectedShape == null)
+                return;
 
-        private void RaiseCandidatesUpdated()
-        {
-            var snapshot = _supply.CreateSnapshot();
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(snapshot));
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockSelectedEvent
+                .Init(_selectedSlotIndex, _selectedShape));
         }
     }
 }
