@@ -1,0 +1,49 @@
+---
+description: JTH Reflex DI — SerializeField vs [Inject] 경계 (프리팹·씬 분리)
+globs: Assets/_MemberWorkspace/JTH/**/*.cs
+alwaysApply: false
+---
+
+# JTH Reflex DI — SerializeField vs [Inject]
+
+`Docs/DESIGN.md` §6.2.1 확정. **AI가 임의로 씬 MonoBehaviour를 SerializeField로 바꾸지 않는다.**
+
+## `[SerializeField]` 만 (프리팹·에셋 분리해도 참조 유지)
+
+| 대상 | 예 |
+|------|-----|
+| **모든 ScriptableObject** | `BoardConfigSO`, `EventChannelSO`, `MagnetInputSO` |
+| **프로젝트 에셋 참조** (프리팹·Material·Sprite 등) | `ShapeBlock` 프리팹, `Block` 프리팹 |
+
+→ SO·에셋은 **Installer `RegisterValue` 금지**, 소비자 **`[Inject]` 금지** (`jth-event-channel.mdc`).
+
+## `[Inject]` 필수 (씬·런타임 객체 — SerializeField 금지)
+
+| 대상 | 예 |
+|------|-----|
+| **다른 씬 GameObject / MonoBehaviour** | `BoardPlacementBootstrap`, `BlockSpawnBootstrap` |
+| **직렬화 불가 인터페이스** (크로스-asmdef) | `IBlockShapeSource` |
+
+**이유:** GO를 프리팹으로 쪼개거나 씬마다 배치가 바뀌면 **씬 오브젝트 SerializeField 참조가 끊긴다.** Installer에서 `RegisterValue` 한 번, 소비자는 `[Inject]`만.
+
+```csharp
+// BAD — 씬 MonoBehaviour를 Inspector 드래그
+[SerializeField] private BoardPlacementBootstrap boardPlacementBootstrap;
+
+// GOOD — MagnetSceneInstaller.RegisterValue + 소비자 Inject
+[Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
+```
+
+## Installer (`MagnetSceneInstaller` 등)
+
+- 씬에서 **한 번만** SerializeField로 잡고 `containerBuilder.RegisterValue(...)` 등록.
+- 소비자 MonoBehaviour는 Inspector에 **씬 오브젝트 참조 배선하지 않음**.
+
+## 같은 GameObject 컴포넌트
+
+- `BlockDragInput` + `BlockDragDrawer` 같이 붙는 경우: `GetComponent` / `[RequireComponent]` (별도 GO 아님).
+
+## Assert
+
+- `[SerializeField]` SO: `Awake`에서 Assert (`jth-csharp.mdc`).
+- `[Inject]` 씬/bootstrap: `Awake`에서 null Assert (주입 실패 조기 발견).

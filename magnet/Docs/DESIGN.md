@@ -221,8 +221,8 @@
 
 | 대상 | 연결 |
 |------|------|
-| ScriptableObject·에셋 참조 | Inspector `[SerializeField]` — **Reflex 사용 안 함** (프리팹 분리 시에도 유지) |
-| 씬 내 다른 오브젝트·런타임 서비스 | Reflex `[Inject]` |
+| ScriptableObject·**프로젝트 에셋**(프리팹 등) | Inspector `[SerializeField]` — **Reflex 사용 안 함** (프리팹·씬 분리해도 유지) |
+| **씬의 다른 GameObject·MonoBehaviour**·런타임 서비스 | Reflex `[Inject]` — **SerializeField 금지** (프리팹화 시 참조 끊김) |
 
 이름만으로 역할이 불명확한 `[SerializeField]`에는 `[Tooltip]`(한국어)을 붙이고, 문구는 [`INSPECTOR_TOOLTIPS.md`](./INSPECTOR_TOOLTIPS.md)에 기록한다.
 

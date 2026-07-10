@@ -46,7 +46,13 @@ JTH 워크스페이스에서 `if (x != null)` 패턴을 점검하고, 가능한 
 
 - `MagnetInputSO.OnDisable`: `_controls?.Disable()`
 - `MagnetInputSO` 이벤트 발행: `OnSlotSelected?.Invoke(…)` · `OnPointerChange?.Invoke(…)`
+- `BlockSpawnBootstrap.OnDisable`: `magnetGameChannel?.RemoveListener<BlockSelectedEvent>(…)`
 - `BasePresenter` (HwanLib): `View?.RootCanvas`
+
+### 감사 마무리 (2026-07-09)
+
+- JTH `Scripts/**/*.cs` 기준 **`if (x != null)` 패턴 0건** ( `Debug.Assert(x != null)` 제외 )
+- 남은 null 분기는 `== null` early return·lazy 생성·런타임 검증·Assert뿐이며, 위 표 「변환하지 않음」 사유에 해당
 
 ## 변환 예시
 

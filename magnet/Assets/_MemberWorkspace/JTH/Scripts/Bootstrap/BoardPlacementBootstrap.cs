@@ -2,9 +2,6 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Events;
-using JTH.Scripts.Presentation;
-using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
 using UnityEngine;
 
