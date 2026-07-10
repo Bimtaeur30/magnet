@@ -8,6 +8,7 @@ namespace Game.UI
 public sealed partial class TItleUIView
 {
     [SerializeField] private CanvasGroup tItleUIAlpha;
+    [SerializeField] private RectTransform tItleUICanvasSafeAreaBottomElementButtonLocalScale;
 
     protected override void OnBind()
     {
@@ -44,6 +45,11 @@ public sealed partial class TItleUIView
             if ((propertyName == null || propertyName == nameof(ViewModel.TItleUIAlpha)) && tItleUIAlpha != null)
             {
                 tItleUIAlpha.alpha = ViewModel.TItleUIAlpha;
+            }
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.ButtonScale)) && tItleUICanvasSafeAreaBottomElementButtonLocalScale != null)
+            {
+                tItleUICanvasSafeAreaBottomElementButtonLocalScale.localScale = ViewModel.ButtonScale;
             }
     }
 }

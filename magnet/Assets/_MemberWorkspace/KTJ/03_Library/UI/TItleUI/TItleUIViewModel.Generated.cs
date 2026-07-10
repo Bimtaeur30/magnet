@@ -13,5 +13,13 @@ public sealed partial class TItleUIViewModel : ObservableObject
         get => tItleUIAlpha;
         set => SetProperty(ref tItleUIAlpha, value);
     }
+
+    private UnityEngine.Vector3 buttonScale;
+
+    public UnityEngine.Vector3 ButtonScale
+    {
+        get => buttonScale;
+        set => SetProperty(ref buttonScale, value);
+    }
 }
 }

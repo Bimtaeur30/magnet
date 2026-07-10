@@ -15,6 +15,7 @@ namespace Mvvm.Editor
         private Vector2 scroll;
         private string profileFolder;
         private string generatedRootFolder;
+        private string bindingSearch = string.Empty;
         private readonly Dictionary<string, bool> foldouts = new Dictionary<string, bool>();
 
         [MenuItem("Tools/MVVM/Binding Tool")]
@@ -128,12 +129,37 @@ namespace Mvvm.Editor
         private void DrawBindings()
         {
             EditorGUILayout.LabelField("Bindings", EditorStyles.boldLabel);
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                bindingSearch = EditorGUILayout.TextField("Search", bindingSearch);
+
+                if (GUILayout.Button("Clear", GUILayout.Width(56)))
+                {
+                    bindingSearch = string.Empty;
+                    GUI.FocusControl(null);
+                }
+
+                if (GUILayout.Button("Unselect All", GUILayout.Width(96)))
+                {
+                    UnselectAllBindings();
+                }
+            }
+
             scroll = EditorGUILayout.BeginScrollView(scroll);
 
             var groups = profile.bindings
                 .Select((binding, index) => new BindingRow(binding, index))
+                .Where(row => MatchesSearch(row.Binding, bindingSearch))
                 .GroupBy(x => GetFoldoutKey(x.Binding))
                 .ToList();
+
+            if (groups.Count == 0)
+            {
+                EditorGUILayout.HelpBox("No bindings match the current search.", MessageType.Info);
+                EditorGUILayout.EndScrollView();
+                return;
+            }
 
             foreach (var group in groups)
             {
@@ -204,6 +230,41 @@ namespace Mvvm.Editor
             }
 
             EditorGUILayout.EndScrollView();
+        }
+
+        private void UnselectAllBindings()
+        {
+            Undo.RecordObject(profile, "Unselect MVVM Bindings");
+
+            foreach (var binding in profile.bindings)
+            {
+                binding.enabled = false;
+            }
+
+            EditorUtility.SetDirty(profile);
+        }
+
+        private static bool MatchesSearch(MvvmBindingEntry binding, string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return true;
+            }
+
+            search = search.Trim();
+            return ContainsIgnoreCase(binding.objectPath, search)
+                || ContainsIgnoreCase(ShortComponentName(binding.componentType), search)
+                || ContainsIgnoreCase(binding.componentType, search)
+                || ContainsIgnoreCase(binding.targetProperty, search)
+                || ContainsIgnoreCase(binding.viewModelMember, search)
+                || ContainsIgnoreCase(binding.valueType, search)
+                || ContainsIgnoreCase(binding.fieldName, search);
+        }
+
+        private static bool ContainsIgnoreCase(string value, string search)
+        {
+            return !string.IsNullOrEmpty(value)
+                && value.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private static string GetFoldoutKey(MvvmBindingEntry binding)
