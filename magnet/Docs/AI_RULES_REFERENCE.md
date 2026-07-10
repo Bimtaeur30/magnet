@@ -67,23 +67,27 @@
 
 ## DI (Reflex) 상세
 
+**판별 순서 (타입만 보고 결정 — Inspector 편의 금지):** SO → 프로젝트 에셋 → 같은 GO `GetComponent` → 씬 MonoBehaviour는 **`[Inject]`** · Installer `RegisterValue`만 SerializeField.
+
 **`[SerializeField]` (프리팹·에셋 분리해도 유지)**
 
 - 모든 ScriptableObject (`BoardConfigSO`, `EventChannelSO`, …)
-- 프로젝트 에셋 참조 (프리팹·Material 등) — 예: `ShapeBlock` 프리팹 필드
+- 프로젝트 에셋 참조 (프리팹·Material 등) — 예: `BlockDragDrawer.shapeBlockPrefab` (프리팹 **에셋**)
 
-**`[Inject]` 필수 (SerializeField 금지)**
+**`[Inject]` 필수 (소비자 SerializeField 금지)**
 
-- **씬의 다른 GameObject / MonoBehaviour** — `BoardPlacementBootstrap`, `BlockSpawnBootstrap` …
+- **씬의 다른 GameObject / MonoBehaviour** — `BoardPlacementBootstrap`, `BlockSpawnBootstrap`, `PlacedBlocksView` …
 - 직렬화 불가 **인터페이스** (크로스-asmdef) — `IBlockShapeSource`
 
 **이유:** GO를 프리팹으로 나누면 씬 오브젝트 SerializeField가 끊긴다. Installer `RegisterValue` + 소비자 `[Inject]`만.
 
-**Installer:** `MagnetSceneInstaller` 등에서 씬 서비스를 SerializeField로 **한 번** 잡고 `RegisterValue`. 소비자 Inspector에 씬 GO 드래그 **금지**.
+**Installer:** `MagnetSceneInstaller`에서 씬 서비스를 SerializeField로 **한 번** 잡고 `RegisterValue`. 소비자 Inspector에 씬 GO 드래그 **금지**.
 
-**예:** `BoardView` → `[SerializeField] BoardConfigSO` · `BlockDragInput` → `[Inject] BoardPlacementBootstrap` · `BlockSpawnBootstrap` → `[Inject] IBlockShapeSource`
+**구현 전 grep:** `[SerializeField].*Bootstrap`, `[SerializeField].*View` — 씬 타입이 소비자에 있으면 Inject 오류 의심.
 
-규칙 파일: `.cursor/rules/jth-reflex-di.mdc`
+**예:** `BoardView` → `[SerializeField] BoardConfigSO` · `BlockDragInput` → `[Inject] BoardPlacementBootstrap`, `[Inject] PlacedBlocksView` · `BlockSpawnBootstrap` → `[Inject] IBlockShapeSource` · `MagnetSceneInstaller` → SerializeField로 Bootstrap/View 등록만
+
+규칙 파일: `.cursor/rules/jth-reflex-di.mdc` · 실수 기록: `Assets/_MemberWorkspace/JTH/Docs/DI_FIELD_AUDIT.md`
 
 ---
 

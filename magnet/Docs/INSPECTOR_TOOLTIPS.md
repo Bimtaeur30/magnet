@@ -44,6 +44,7 @@
 | `Scripts/Data/PlacementConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/PlacementConfigSO.cs` | `dragSensitivityRampPerUnit` | Press 시작 포인터 X와의 거리(월드 유닛) 1당 블록 이동 배율 증가량. Block Blast식 감도 램프 |
 | `Scripts/Data/PlacementConfigSO.cs` | `dragSensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
+| `Scripts/Data/PlacementConfigSO.cs` | `snapDuration` | 손 놓은 뒤 Y축 자석 스냅 LitMotion 시간(초) |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/ShapeBlock.cs` | `blockPrefab` | 블록 칸 1개 프리팹(Block 컴포넌트 + SpriteRenderer). 필요 개수만큼 인스턴스 생성 후 재사용 |
