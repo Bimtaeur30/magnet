@@ -3,6 +3,7 @@ using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Events;
+using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine;
 namespace JTH.Scripts.Input
 {
     /// <summary>
-    /// 키보드로 선택한 블록을 포인터 드래그로 x축 이동. 감도 램프·Simulate 호출.
+    /// 키보드로 선택한 블록을 포인터 드래그로 x축 이동. 감도 램프·Simulate 프리뷰·부착 확정.
     /// 표시는 <see cref="BlockDragDrawer"/>에 위임한다.
     /// </summary>
     [RequireComponent(typeof(BlockDragDrawer))]
@@ -22,11 +23,13 @@ namespace JTH.Scripts.Input
         [SerializeField] private EventChannelSO magnetGameChannel;
 
         [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
+        [Inject] private readonly PlacedBlocksView _placedBlocksView;
 
         private BlockDragDrawer _drawer;
         private DragSensitivityRamp _sensitivityRamp;
 
         private IBlockShape _selectedShape;
+        private int _selectedSlotIndex = -1;
         private int _stagingGridY;
         private float _shapeCenterOffsetX;
         private int _minPivotX;
@@ -35,12 +38,14 @@ namespace JTH.Scripts.Input
         private float _maxWorldCenterX;
 
         private float _blockWorldCenterX;
+        private bool _isPlacing;
 
         private void Awake()
         {
             Debug.Assert(placementConfig != null, "[BlockDragInput] placementConfig is not assigned.", this);
             Debug.Assert(boardConfig != null, "[BlockDragInput] boardConfig is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[BlockDragInput] BoardPlacementBootstrap was not injected.", this);
+            Debug.Assert(_placedBlocksView != null, "[BlockDragInput] PlacedBlocksView was not injected.", this);
 
             _drawer = GetComponent<BlockDragDrawer>();
             _sensitivityRamp = new DragSensitivityRamp(
@@ -71,7 +76,13 @@ namespace JTH.Scripts.Input
 
         private void OnBlockSelected(BlockSelectedEvent evt)
         {
+            if (_isPlacing)
+            {
+                return;
+            }
+
             _selectedShape = evt.Shape;
+            _selectedSlotIndex = evt.SlotIndex;
             _sensitivityRamp.Reset();
             _drawer.ClearPreview();
 
@@ -92,14 +103,14 @@ namespace JTH.Scripts.Input
 
         private void OnPointerPressed()
         {
-            if (_selectedShape == null)
+            if (_selectedShape == null || _isPlacing)
             {
                 return;
             }
 
             BeginDrag();
         }
-        
+
         private void BeginDrag()
         {
             float pointerWorldX = magnetInput.GetWorldPointerPosition().x;
@@ -111,7 +122,7 @@ namespace JTH.Scripts.Input
 
         private void OnPointerMoved(Vector2 _)
         {
-            if (_selectedShape == null || !magnetInput.IsPointerPressed)
+            if (_selectedShape == null || !magnetInput.IsPointerPressed || _isPlacing)
             {
                 return;
             }
@@ -125,25 +136,53 @@ namespace JTH.Scripts.Input
 
         private void OnPointerReleased()
         {
-            if (_selectedShape == null)
+            if (_selectedShape == null || _isPlacing)
             {
                 return;
             }
 
             _sensitivityRamp.Reset();
-            _drawer.ClearAll();
 
             Vector2Int pivot = GetCurrentPivot();
-            PlacementResult result = _placementBootstrap.PlacementService.Simulate(_selectedShape, pivot);
-            if (result.Success)
+            PlacementResult result = _placementBootstrap.TryConfirmPlacement(_selectedShape, pivot, _selectedSlotIndex);
+            if (!result.Success)
             {
-                Debug.Log(
-                    $"[BlockDrag] Simulate OK pivot={result.FinalPivot} outside={result.HasCellsOutsideBounds} cells={result.CellPositions.Count}");
+                Debug.Log($"[BlockDrag] TryPlace failed: {result.FailureReason} startPivot={pivot}");
+                DisconnectSelection();
+                return;
             }
-            else
-            {
-                Debug.Log($"[BlockDrag] Simulate failed: {result.FailureReason} startPivot={pivot}");
-            }
+
+            Debug.Log(
+                $"[BlockDrag] TryPlace OK blockId={result.BlockId} pivot={result.FinalPivot} outside={result.HasCellsOutsideBounds}");
+
+            _drawer.ClearPreview();
+            ShapeBlock staging = _drawer.TakeStagingForPlacement();
+            IBlockShape placedShape = _selectedShape;
+            int blockId = result.BlockId;
+            Vector2Int finalPivot = result.FinalPivot;
+
+            DisconnectSelection();
+            _isPlacing = true;
+
+            BlockSnapMotion.Play(
+                staging,
+                placedShape,
+                finalPivot,
+                _stagingGridY,
+                boardConfig,
+                placementConfig,
+                () =>
+                {
+                    _placedBlocksView.Adopt(staging, $"Placed_{blockId}");
+                    _isPlacing = false;
+                });
+        }
+
+        private void DisconnectSelection()
+        {
+            _selectedShape = null;
+            _selectedSlotIndex = -1;
+            _drawer.ClearAll();
         }
 
         private void UpdateViews()

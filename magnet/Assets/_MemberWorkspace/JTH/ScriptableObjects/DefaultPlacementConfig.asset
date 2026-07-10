@@ -18,3 +18,4 @@ MonoBehaviour:
   cellFill: 0.9
   dragSensitivityRampPerUnit: 0.35
   dragSensitivityMaxMultiplier: 3
+  snapDuration: 0.12

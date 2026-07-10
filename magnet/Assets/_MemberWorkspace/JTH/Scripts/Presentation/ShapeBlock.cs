@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
+using LitMotion;
 using Magnet.Contracts.BlockShapes;
 using Magnet.Contracts.BlockSkins;
 using UnityEngine;
@@ -25,6 +27,7 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private Sprite[] skinSprites;
 
         private readonly List<Block> _blocks = new();
+        private readonly List<MotionHandle> _activeMotions = new();
         private bool _skinResolved;
         private Color _resolvedColor;
         private Sprite _resolvedSprite;
@@ -35,6 +38,11 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(placementConfig != null, "[ShapeBlock] placementConfig is not assigned.", this);
             Debug.Assert(blockPrefab != null, "[ShapeBlock] blockPrefab is not assigned.", this);
             Debug.Assert(systemChannel != null, "[ShapeBlock] systemChannel is not assigned.", this);
+        }
+
+        private void OnDestroy()
+        {
+            CancelMotions();
         }
 
         public void Show(IBlockShape shape, Vector2Int pivot, int sortingOrder)
@@ -76,8 +84,90 @@ namespace JTH.Scripts.Presentation
             ApplyResolvedSkin();
         }
 
+        /// <summary>프리뷰 X(최종 pivot 열)로 순간이동, Y는 스테이징 높이 유지.</summary>
+        public void ShowAtSnapStart(IBlockShape shape, Vector2Int finalPivot, int stagingGridY, int sortingOrder = 2)
+        {
+            EnsureBlockCount(shape.CellOffsets.Count);
+
+            float cellSize = boardConfig.CellSize;
+            float fill = placementConfig.CellFill;
+
+            for (int i = 0; i < shape.CellOffsets.Count; i++)
+            {
+                Vector2Int offset = shape.CellOffsets[i];
+                float worldX = BoardCoordinates.GridToWorld(finalPivot.x + offset.x, 0, cellSize).x;
+                float worldY = BoardCoordinates.GridToWorld(0, stagingGridY + offset.y, cellSize).y;
+                ApplyBlockVisual(i, new Vector2(worldX, worldY), cellSize, fill, sortingOrder);
+            }
+
+            HideExtraBlocks(shape.CellOffsets.Count);
+            ApplyResolvedSkin();
+        }
+
+        public void AnimateSnapY(
+            IBlockShape shape,
+            Vector2Int finalPivot,
+            BoardConfigSO configSO,
+            float duration,
+            Action onComplete)
+        {
+            CancelMotions();
+
+            float cellSize = configSO.CellSize;
+            int remaining = shape.CellOffsets.Count;
+
+            if (remaining == 0)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            void OnCellComplete()
+            {
+                remaining--;
+                if (remaining <= 0)
+                {
+                    onComplete?.Invoke();
+                }
+            }
+
+            for (int i = 0; i < shape.CellOffsets.Count; i++)
+            {
+                Vector2Int cell = finalPivot + shape.CellOffsets[i];
+                float targetY = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize).y;
+                Block block = _blocks[i];
+                float startY = block.transform.localPosition.y;
+
+                MotionHandle handle = LMotion.Create(startY, targetY, duration)
+                    .WithEase(Ease.OutQuad)
+                    .WithOnComplete(OnCellComplete)
+                    .Bind(y =>
+                    {
+                        Vector3 position = block.transform.localPosition;
+                        position.y = y;
+                        block.SetLocalPosition(position);
+                    });
+                _activeMotions.Add(handle);
+            }
+        }
+
+        public void CancelMotions()
+        {
+            for (int i = 0; i < _activeMotions.Count; i++)
+            {
+                if (_activeMotions[i].IsActive())
+                {
+                    _activeMotions[i].Cancel();
+                }
+            }
+
+            _activeMotions.Clear();
+        }
+
         public void Clear()
         {
+            CancelMotions();
+
             for (int i = 0; i < _blocks.Count; i++)
             {
                 _blocks[i].SetActive(false);
@@ -88,13 +178,13 @@ namespace JTH.Scripts.Presentation
 
         public void ApplySkin(IBlockSkin skin)
         {
-            if (skin == null || skin.Colors.Count == 0 || skin.Sprites.Count == 0)
+            if (skin == null || skin.Sprites.Count == 0)
             {
                 return;
             }
 
-            _resolvedColor = skin.Colors[Random.Range(0, skin.Colors.Count)];
-            _resolvedSprite = skin.Sprites[Random.Range(0, skin.Sprites.Count)];
+            _resolvedColor = skin.Colors.Count > 0 ? skin.Colors[UnityEngine.Random.Range(0, skin.Colors.Count)] : Color.white;
+            _resolvedSprite = skin.Sprites[UnityEngine.Random.Range(0, skin.Sprites.Count)];
             _skinResolved = true;
             ApplyVisualToActiveBlocks(_resolvedColor, _resolvedSprite);
         }
@@ -122,8 +212,8 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            _resolvedColor = skinColors[Random.Range(0, skinColors.Length)];
-            _resolvedSprite = skinSprites[Random.Range(0, skinSprites.Length)];
+            _resolvedColor = skinColors.Length > 0 ? skinColors[UnityEngine.Random.Range(0, skinColors.Length)] : Color.white;
+            _resolvedSprite = skinSprites[UnityEngine.Random.Range(0, skinSprites.Length)];
             _skinResolved = true;
         }
 
