@@ -30,7 +30,25 @@ namespace JTH.Scripts.Domain.Spawn
 
         public void Consume(int slotIndex)
         {
+            if (slotIndex < 0 || slotIndex >= SlotCount)
+            {
+                return;
+            }
+
             _slots[slotIndex] = null;
+        }
+
+        public bool AreAllSlotsEmpty()
+        {
+            for (var i = 0; i < SlotCount; i++)
+            {
+                if (_slots[i] != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public IBlockShape[] CreateSnapshot()

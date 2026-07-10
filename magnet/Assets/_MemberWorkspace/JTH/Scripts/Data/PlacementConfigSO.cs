@@ -13,6 +13,8 @@ namespace JTH.Scripts.Data
         [field: SerializeField] public float DragSensitivityRampPerUnit { get; private set; } = 0.35f;
         [Tooltip("드래그 감도 배율 상한. 1이면 램프 없음")]
         [field: SerializeField] public float DragSensitivityMaxMultiplier { get; private set; } = 3f;
+        [Tooltip("손 놓은 뒤 Y축 자석 스냅 LitMotion 시간(초)")]
+        [field: SerializeField] public float SnapDuration { get; private set; } = 0.12f;
         
         /// <summary>보드 half 아래로 더 내릴 칸 수. stagingY = -(CellsPerSide + this).</summary>
         public int StagingYExtraBelow => stagingYExtraBelow;
@@ -25,6 +27,7 @@ namespace JTH.Scripts.Data
             CellFill = Mathf.Clamp(CellFill, 0.1f, 1f);
             DragSensitivityRampPerUnit = Mathf.Max(0f, DragSensitivityRampPerUnit);
             DragSensitivityMaxMultiplier = Mathf.Max(1f, DragSensitivityMaxMultiplier);
+            SnapDuration = Mathf.Max(0.01f, SnapDuration);
         }
     }
 }

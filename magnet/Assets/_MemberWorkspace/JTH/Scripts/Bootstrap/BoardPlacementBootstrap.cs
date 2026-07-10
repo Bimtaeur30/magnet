@@ -2,6 +2,8 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
+using JTH.Scripts.Events;
+using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -25,6 +27,30 @@ namespace JTH.Scripts.Bootstrap
 
         /// <summary>Phase 4에서 Consume 호출용. Phase 2에서는 참조만 보유.</summary>
         public BlockSpawnBootstrap BlockSpawn => _blockSpawnBootstrap;
+
+        public PlacementResult TryConfirmPlacement(IBlockShape shape, Vector2Int startPivot, int slotIndex)
+        {
+            PlacementResult result = _placementService.TryPlace(shape, startPivot);
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
+                result.BlockId,
+                slotIndex,
+                shape.ShapeId,
+                result.FinalPivot,
+                result.CellPositions));
+
+            if (result.HasCellsOutsideBounds)
+            {
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.BoundaryViolationEvent);
+            }
+
+            _blockSpawnBootstrap.Consume(slotIndex);
+            return result;
+        }
 
         private void Awake()
         {
