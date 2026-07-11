@@ -6,5 +6,28 @@ namespace Game.UI
 {
 public sealed partial class BlockSlotsUIViewModel : ObservableObject
 {
+    private UnityEngine.Sprite blockImage1;
+
+    public UnityEngine.Sprite BlockImage1
+    {
+        get => blockImage1;
+        set => SetProperty(ref blockImage1, value);
+    }
+
+    private UnityEngine.Sprite blockImage2;
+
+    public UnityEngine.Sprite BlockImage2
+    {
+        get => blockImage2;
+        set => SetProperty(ref blockImage2, value);
+    }
+
+    private UnityEngine.Sprite blockImage3;
+
+    public UnityEngine.Sprite BlockImage3
+    {
+        get => blockImage3;
+        set => SetProperty(ref blockImage3, value);
+    }
 }
 }

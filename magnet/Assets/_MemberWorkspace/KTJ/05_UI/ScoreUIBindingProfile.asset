@@ -98,211 +98,115 @@ MonoBehaviour:
     viewModelMember: ScoreUIScaleY
     valueType: float
     fieldName: scoreUILocalScaleY
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: anchoredPosition
-    mode: 0
-    viewModelMember: TextTMPPosition
-    valueType: UnityEngine.Vector2
-    fieldName: scoreUITextTMPAnchoredPosition
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: anchoredPosition.x
-    mode: 0
-    viewModelMember: TextTMPX
-    valueType: float
-    fieldName: scoreUITextTMPAnchoredPositionX
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: anchoredPosition.y
-    mode: 0
-    viewModelMember: TextTMPY
-    valueType: float
-    fieldName: scoreUITextTMPAnchoredPositionY
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: sizeDelta
-    mode: 0
-    viewModelMember: TextTMPSize
-    valueType: UnityEngine.Vector2
-    fieldName: scoreUITextTMPSizeDelta
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: sizeDelta.x
-    mode: 0
-    viewModelMember: TextTMPWidth
-    valueType: float
-    fieldName: scoreUITextTMPSizeDeltaX
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: sizeDelta.y
-    mode: 0
-    viewModelMember: TextTMPHeight
-    valueType: float
-    fieldName: scoreUITextTMPSizeDeltaY
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: localEulerAngles.z
-    mode: 0
-    viewModelMember: TextTMPRotationZ
-    valueType: float
-    fieldName: scoreUITextTMPLocalEulerAnglesZ
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: localScale
-    mode: 0
-    viewModelMember: TextTMPScale
-    valueType: UnityEngine.Vector3
-    fieldName: scoreUITextTMPLocalScale
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: localScale.x
-    mode: 0
-    viewModelMember: TextTMPScaleX
-    valueType: float
-    fieldName: scoreUITextTMPLocalScaleX
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: UnityEngine.RectTransform
-    targetProperty: localScale.y
-    mode: 0
-    viewModelMember: TextTMPScaleY
-    valueType: float
-    fieldName: scoreUITextTMPLocalScaleY
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
+  - enabled: 1
+    objectPath: ScoreUI/CurrentScoreTxt
     componentType: TMPro.TextMeshProUGUI
     targetProperty: text
     mode: 0
-    viewModelMember: TextTMP
+    viewModelMember: CurrentScoreTxt
     valueType: string
-    fieldName: scoreUITextTMPText
+    fieldName: scoreUICurrentScoreTxtText
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: TMPro.TextMeshProUGUI
-    targetProperty: color
-    mode: 0
-    viewModelMember: TextTMPColor
-    valueType: UnityEngine.Color
-    fieldName: scoreUITextTMPColor
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP)
-    componentType: TMPro.TextMeshProUGUI
-    targetProperty: color.a
-    mode: 0
-    viewModelMember: TextTMPAlpha
-    valueType: float
-    fieldName: scoreUITextTMPColorA
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition
     mode: 0
-    viewModelMember: TextTMP1Position
+    viewModelMember: BestScoreTxtPosition
     valueType: UnityEngine.Vector2
-    fieldName: scoreUITextTMP1AnchoredPosition
+    fieldName: scoreUIBestScoreTxtAnchoredPosition
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.x
     mode: 0
-    viewModelMember: TextTMP1X
+    viewModelMember: BestScoreTxtX
     valueType: float
-    fieldName: scoreUITextTMP1AnchoredPositionX
+    fieldName: scoreUIBestScoreTxtAnchoredPositionX
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.y
     mode: 0
-    viewModelMember: TextTMP1Y
+    viewModelMember: BestScoreTxtY
     valueType: float
-    fieldName: scoreUITextTMP1AnchoredPositionY
+    fieldName: scoreUIBestScoreTxtAnchoredPositionY
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta
     mode: 0
-    viewModelMember: TextTMP1Size
+    viewModelMember: BestScoreTxtSize
     valueType: UnityEngine.Vector2
-    fieldName: scoreUITextTMP1SizeDelta
+    fieldName: scoreUIBestScoreTxtSizeDelta
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.x
     mode: 0
-    viewModelMember: TextTMP1Width
+    viewModelMember: BestScoreTxtWidth
     valueType: float
-    fieldName: scoreUITextTMP1SizeDeltaX
+    fieldName: scoreUIBestScoreTxtSizeDeltaX
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.y
     mode: 0
-    viewModelMember: TextTMP1Height
+    viewModelMember: BestScoreTxtHeight
     valueType: float
-    fieldName: scoreUITextTMP1SizeDeltaY
+    fieldName: scoreUIBestScoreTxtSizeDeltaY
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z
     mode: 0
-    viewModelMember: TextTMP1RotationZ
+    viewModelMember: BestScoreTxtRotationZ
     valueType: float
-    fieldName: scoreUITextTMP1LocalEulerAnglesZ
+    fieldName: scoreUIBestScoreTxtLocalEulerAnglesZ
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: localScale
     mode: 0
-    viewModelMember: TextTMP1Scale
+    viewModelMember: BestScoreTxtScale
     valueType: UnityEngine.Vector3
-    fieldName: scoreUITextTMP1LocalScale
+    fieldName: scoreUIBestScoreTxtLocalScale
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.x
     mode: 0
-    viewModelMember: TextTMP1ScaleX
+    viewModelMember: BestScoreTxtScaleX
     valueType: float
-    fieldName: scoreUITextTMP1LocalScaleX
+    fieldName: scoreUIBestScoreTxtLocalScaleX
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.y
     mode: 0
-    viewModelMember: TextTMP1ScaleY
+    viewModelMember: BestScoreTxtScaleY
     valueType: float
-    fieldName: scoreUITextTMP1LocalScaleY
-  - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    fieldName: scoreUIBestScoreTxtLocalScaleY
+  - enabled: 1
+    objectPath: ScoreUI/BestScoreTxt
     componentType: TMPro.TextMeshProUGUI
     targetProperty: text
     mode: 0
-    viewModelMember: TextTMP1
+    viewModelMember: BestScoreTxt
     valueType: string
-    fieldName: scoreUITextTMP1Text
+    fieldName: scoreUIBestScoreTxtText
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: TMPro.TextMeshProUGUI
     targetProperty: color
     mode: 0
-    viewModelMember: TextTMP1Color
+    viewModelMember: BestScoreTxtColor
     valueType: UnityEngine.Color
-    fieldName: scoreUITextTMP1Color
+    fieldName: scoreUIBestScoreTxtColor
   - enabled: 0
-    objectPath: ScoreUI/Text (TMP) (1)
+    objectPath: ScoreUI/BestScoreTxt
     componentType: TMPro.TextMeshProUGUI
     targetProperty: color.a
     mode: 0
-    viewModelMember: TextTMP1Alpha
+    viewModelMember: BestScoreTxtAlpha
     valueType: float
-    fieldName: scoreUITextTMP1ColorA
+    fieldName: scoreUIBestScoreTxtColorA
