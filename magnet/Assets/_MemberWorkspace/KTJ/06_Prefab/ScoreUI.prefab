@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2668357708456574626}
   - component: {fileID: 8308716068179898240}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: BestScoreTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 2634908539778724718}
   - component: {fileID: 6967579772672651296}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CurrentScoreTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -354,3 +354,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fd40d626e213c4aa74d04ceeb32f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.ScoreUIView
+  scoreUICurrentScoreTxtText: {fileID: 2634908539778724718}
+  scoreUIBestScoreTxtText: {fileID: 2668357708456574626}

@@ -199,6 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc70fb86b1d88147bb5f7391b613952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.BlockSlotsUIView
+  blockSlotsUIBlockSlotsSlot1BlockImage1Sprite: {fileID: 2233490643559558469}
+  blockSlotsUIBlockSlotsSlot2BlockImage2Sprite: {fileID: 4401056245714134085}
+  blockSlotsUIBlockSlotsSlot3BlockImage3Sprite: {fileID: 1518509032358091497}
 --- !u!1 &2006081532922824808
 GameObject:
   m_ObjectHideFlags: 0
