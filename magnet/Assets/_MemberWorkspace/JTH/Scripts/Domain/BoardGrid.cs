@@ -54,5 +54,10 @@ namespace JTH.Scripts.Domain
 
             return false;
         }
+
+        public void ClearOccupancy()
+        {
+            _occupied.Clear();
+        }
     }
 }

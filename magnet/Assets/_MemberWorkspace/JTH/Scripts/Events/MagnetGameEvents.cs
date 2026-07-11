@@ -14,8 +14,8 @@ namespace JTH.Scripts.Events
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
-        public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
+        public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -48,11 +48,13 @@ namespace JTH.Scripts.Events
     {
         public int SquareSize { get; private set; }
         public int ScoreAwarded { get; private set; }
+        public IReadOnlyList<Vector2Int> ClearedCells { get; private set; }
 
-        public SquareClearedEvent Init(int squareSize, int scoreAwarded)
+        public SquareClearedEvent Init(int squareSize, int scoreAwarded, IReadOnlyList<Vector2Int> clearedCells)
         {
             SquareSize = squareSize;
             ScoreAwarded = scoreAwarded;
+            ClearedCells = clearedCells;
             return this;
         }
     }
@@ -103,18 +105,7 @@ namespace JTH.Scripts.Events
 
     /// <summary>Phase 0 검증용. 이후 Phase에서 제거 가능.</summary>
     public sealed class Phase0ReadyEvent : GameEvent { }
-
-    public sealed class BlockCandidatesUpdatedEvent : GameEvent
-    {
-        public IReadOnlyList<IBlockShape> Candidates { get; private set; }
-
-        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
-        {
-            Candidates = candidates;
-            return this;
-        }
-    }
-
+    
     public sealed class BlockSelectedEvent : GameEvent
     {
         public int SlotIndex { get; private set; }
@@ -124,6 +115,17 @@ namespace JTH.Scripts.Events
         {
             SlotIndex = slotIndex;
             Shape = shape;
+            return this;
+        }
+    }
+
+    public sealed class BlockCandidatesUpdatedEvent : GameEvent
+    {
+        public IReadOnlyList<IBlockShape> Candidates { get; private set; }
+
+        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
+        {
+            Candidates = candidates;
             return this;
         }
     }

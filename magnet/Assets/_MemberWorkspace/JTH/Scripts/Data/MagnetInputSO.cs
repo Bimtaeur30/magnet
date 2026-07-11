@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace JTH.Scripts.Data
 {
@@ -13,20 +14,15 @@ namespace JTH.Scripts.Data
     {
         public event Action<int> OnSlotSelected;
         public event Action<Vector2> OnPointerChange;
+        public event Action OnPointerPressed;
+        public event Action OnPointerReleased;
 
         private Controls _controls;
         private Vector2 _screenPointerPosition;
         private Vector3 _worldPointerPosition;
-        private Camera _mainCam;
+        private bool _isPointerPressed;
 
-        public Camera MainCam
-        {
-            get
-            {
-                _mainCam ??= Camera.main;
-                return _mainCam;
-            }
-        }
+        public bool IsPointerPressed => _isPointerPressed;
 
         private void OnEnable()
         {
@@ -44,27 +40,29 @@ namespace JTH.Scripts.Data
             _controls?.Disable();
         }
 
-        public void OnSelectSlot1(InputAction.CallbackContext context)
+        public void OnSelectSlot(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (!context.performed)
             {
-                OnSlotSelected?.Invoke(0);
+                return;
             }
-        }
 
-        public void OnSelectSlot2(InputAction.CallbackContext context)
-        {
-            if (context.performed)
+            if (context.control is not KeyControl keyControl)
             {
-                OnSlotSelected?.Invoke(1);
+                return;
             }
-        }
 
-        public void OnSelectSlot3(InputAction.CallbackContext context)
-        {
-            if (context.performed)
+            int? slotIndex = keyControl.keyCode switch
             {
-                OnSlotSelected?.Invoke(2);
+                Key.Digit1 or Key.Numpad1 => 0,
+                Key.Digit2 or Key.Numpad2 => 1,
+                Key.Digit3 or Key.Numpad3 => 2,
+                _ => null
+            };
+
+            if (slotIndex.HasValue)
+            {
+                OnSlotSelected?.Invoke(slotIndex.Value);
             }
         }
 
@@ -74,15 +72,44 @@ namespace JTH.Scripts.Data
             OnPointerChange?.Invoke(_screenPointerPosition);
         }
 
+        public void OnPointerPress(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+            {
+                _screenPointerPosition = _controls.Player.Pointer.ReadValue<Vector2>();
+
+                if (!_isPointerPressed)
+                {
+                    _isPointerPressed = true;
+                    OnPointerPressed?.Invoke();
+                }
+
+                return;
+            }
+
+            if (context.canceled && _isPointerPressed)
+            {
+                _isPointerPressed = false;
+                OnPointerReleased?.Invoke();
+            }
+        }
+
         public Vector3 GetWorldPointerPosition()
         {
-            if (MainCam == null)
+            Camera camera = Camera.main;
+            if (camera == null)
             {
+                camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
+            }
+
+            if (camera == null)
+            {
+                Debug.LogWarning("[MagnetInputSO] Main Camera not found. Tag scene camera as MainCamera.", this);
                 return _worldPointerPosition;
             }
 
-            float depth = Mathf.Abs(MainCam.transform.position.z);
-            _worldPointerPosition = MainCam.ScreenToWorldPoint(
+            float depth = Mathf.Abs(camera.transform.position.z);
+            _worldPointerPosition = camera.ScreenToWorldPoint(
                 new Vector3(_screenPointerPosition.x, _screenPointerPosition.y, depth));
             return _worldPointerPosition;
         }

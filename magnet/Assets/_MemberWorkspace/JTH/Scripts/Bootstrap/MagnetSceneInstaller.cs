@@ -11,16 +11,18 @@ namespace JTH.Scripts.Bootstrap
     public sealed class MagnetSceneInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] private BlockSpawnBootstrap blockSpawnBootstrap;
-        [Tooltip("슬롯 선택 시 스테이징 영역에 미리보기로 표시할 BlockPieceView")]
-        [SerializeField] private BlockPieceView stagingBlockView;
+        [SerializeField] private BoardPlacementBootstrap boardPlacementBootstrap;
+        [SerializeField] private PlacedBlocksView placedBlocksView;
 
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             Debug.Assert(blockSpawnBootstrap != null, "[MagnetSceneInstaller] BlockSpawnBootstrap is not assigned.", this);
-            Debug.Assert(stagingBlockView != null, "[MagnetSceneInstaller] BlockPieceView is not assigned.", this);
+            Debug.Assert(boardPlacementBootstrap != null, "[MagnetSceneInstaller] BoardPlacementBootstrap is not assigned.", this);
+            Debug.Assert(placedBlocksView != null, "[MagnetSceneInstaller] PlacedBlocksView is not assigned.", this);
 
             containerBuilder.RegisterValue(blockSpawnBootstrap);
-            containerBuilder.RegisterValue(stagingBlockView);
+            containerBuilder.RegisterValue(boardPlacementBootstrap);
+            containerBuilder.RegisterValue(placedBlocksView);
         }
     }
 }

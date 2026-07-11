@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DefaultBoardConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BoardConfigSO
   cellsPerSide: 4
-  cellSize: 1
+  cellSize: 0.5
   cellColor: {r: 0.2, g: 0.22, b: 0.28, a: 1}
   magnetAxisColor: {r: 0.95, g: 0.75, b: 0.2, a: 1}

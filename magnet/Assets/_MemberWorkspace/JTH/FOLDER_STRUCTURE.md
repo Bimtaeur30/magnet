@@ -51,7 +51,7 @@ _MemberWorkspace/[username]/
 2. `Prefabs/RootScope.prefab` — `ContainerScope` + `MagnetProjectInstaller`
 3. 씬에 `SceneScope` (`ContainerScope`) + 게임 오브젝트
 
-**SO ↔ Reflex:** **모든 SO**는 소비 `MonoBehaviour`에 `[SerializeField]` — **`[Inject]`·Installer `RegisterValue` 금지** (`CLAUDE.md`, `jth-event-channel.mdc`). 크로스-asmdef **인터페이스**만 Installer + `[Inject]`.
+**SO ↔ Reflex:** **모든 SO·프로젝트 에셋**(프리팹 등)은 소비 `MonoBehaviour`에 `[SerializeField]` — **`[Inject]`·Installer `RegisterValue` 금지**. **씬 MonoBehaviour / 다른 GO**는 Installer `RegisterValue` + 소비자 **`[Inject]`** (`jth-reflex-di.mdc`). 크로스-asmdef **인터페이스**도 `[Inject]`.
 
 ## 이벤트 채널
 
