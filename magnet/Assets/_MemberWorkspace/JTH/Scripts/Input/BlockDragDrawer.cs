@@ -46,5 +46,13 @@ namespace JTH.Scripts.Input
             _stagingBlock.Clear();
             _previewBlock.Clear();
         }
+
+        public ShapeBlock TakeStagingForPlacement()
+        {
+            ShapeBlock taken = _stagingBlock;
+            _stagingBlock = Instantiate(shapeBlockPrefab, transform);
+            _stagingBlock.name = "StagingBlock";
+            return taken;
+        }
     }
 }

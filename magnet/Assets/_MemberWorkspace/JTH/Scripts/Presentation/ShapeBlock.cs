@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
+using LitMotion;
 using Magnet.Contracts.BlockShapes;
 using Magnet.Contracts.BlockSkins;
 using UnityEngine;
@@ -25,6 +27,8 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private Sprite[] skinSprites;
 
         private readonly List<Block> _blocks = new();
+        private readonly List<Vector2Int> _cellGridPositions = new();
+        private readonly List<MotionHandle> _activeMotions = new();
         private bool _skinResolved;
         private Color _resolvedColor;
         private Sprite _resolvedSprite;
@@ -37,21 +41,38 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(systemChannel != null, "[ShapeBlock] systemChannel is not assigned.", this);
         }
 
+        private void OnDestroy()
+        {
+            CancelMotions();
+        }
+
+        public void ShowPlaced(PlacedBlock placedBlock, int sortingOrder)
+        {
+            ShowCells(placedBlock.Pivot, placedBlock.CellOffsets, sortingOrder);
+        }
+
         public void Show(IBlockShape shape, Vector2Int pivot, int sortingOrder)
         {
-            EnsureBlockCount(shape.CellOffsets.Count);
+            ShowCells(pivot, shape.CellOffsets, sortingOrder);
+        }
+
+        public void ShowCells(Vector2Int pivot, IReadOnlyList<Vector2Int> cellOffsets, int sortingOrder)
+        {
+            EnsureBlockCount(cellOffsets.Count);
 
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.CellFill;
+            _cellGridPositions.Clear();
 
-            for (int i = 0; i < shape.CellOffsets.Count; i++)
+            for (int i = 0; i < cellOffsets.Count; i++)
             {
-                Vector2Int cell = pivot + shape.CellOffsets[i];
+                Vector2Int cell = pivot + cellOffsets[i];
+                _cellGridPositions.Add(cell);
                 Vector2 world = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
                 ApplyBlockVisual(i, world, cellSize, fill, sortingOrder);
             }
 
-            HideExtraBlocks(shape.CellOffsets.Count);
+            HideExtraBlocks(cellOffsets.Count);
             ApplyResolvedSkin();
         }
 
@@ -76,25 +97,215 @@ namespace JTH.Scripts.Presentation
             ApplyResolvedSkin();
         }
 
+        /// <summary>프리뷰 X(최종 pivot 열)로 순간이동, Y는 스테이징 높이 유지.</summary>
+        public void ShowAtSnapStart(IBlockShape shape, Vector2Int finalPivot, int stagingGridY, int sortingOrder = 2)
+        {
+            ShowAtSnapStartFromOffsets(shape.CellOffsets, finalPivot, stagingGridY, sortingOrder);
+        }
+
+        public void ShowAtSnapStartFromPlaced(PlacedBlock placedBlock, int stagingGridY, int sortingOrder = 2)
+        {
+            ShowAtSnapStartFromOffsets(placedBlock.CellOffsets, placedBlock.Pivot, stagingGridY, sortingOrder);
+        }
+
+        private void ShowAtSnapStartFromOffsets(
+            IReadOnlyList<Vector2Int> cellOffsets,
+            Vector2Int finalPivot,
+            int stagingGridY,
+            int sortingOrder)
+        {
+            EnsureBlockCount(cellOffsets.Count);
+
+            float cellSize = boardConfig.CellSize;
+            float fill = placementConfig.CellFill;
+            _cellGridPositions.Clear();
+
+            for (int i = 0; i < cellOffsets.Count; i++)
+            {
+                Vector2Int offset = cellOffsets[i];
+                Vector2Int cell = finalPivot + offset;
+                _cellGridPositions.Add(cell);
+                float worldX = BoardCoordinates.GridToWorld(cell.x, 0, cellSize).x;
+                float worldY = BoardCoordinates.GridToWorld(0, stagingGridY + offset.y, cellSize).y;
+                ApplyBlockVisual(i, new Vector2(worldX, worldY), cellSize, fill, sortingOrder);
+            }
+
+            HideExtraBlocks(cellOffsets.Count);
+            ApplyResolvedSkin();
+        }
+
+        public void AnimateSnapY(
+            IBlockShape shape,
+            Vector2Int finalPivot,
+            BoardConfigSO configSO,
+            float duration,
+            Action onComplete)
+        {
+            AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, duration, onComplete);
+        }
+
+        public void AnimateSnapYFromPlaced(
+            PlacedBlock placedBlock,
+            int stagingGridY,
+            BoardConfigSO configSO,
+            float duration,
+            Action onComplete)
+        {
+            AnimateSnapYFromOffsets(placedBlock.CellOffsets, placedBlock.Pivot, configSO, duration, onComplete);
+        }
+
+        private void AnimateSnapYFromOffsets(
+            IReadOnlyList<Vector2Int> cellOffsets,
+            Vector2Int finalPivot,
+            BoardConfigSO configSO,
+            float duration,
+            Action onComplete)
+        {
+            CancelMotions();
+
+            float cellSize = configSO.CellSize;
+            int remaining = cellOffsets.Count;
+
+            if (remaining == 0)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            _cellGridPositions.Clear();
+
+            void OnCellComplete()
+            {
+                remaining--;
+                if (remaining <= 0)
+                {
+                    onComplete?.Invoke();
+                }
+            }
+
+            for (int i = 0; i < cellOffsets.Count; i++)
+            {
+                Vector2Int cell = finalPivot + cellOffsets[i];
+                _cellGridPositions.Add(cell);
+                float targetY = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize).y;
+                Block block = _blocks[i];
+                float startY = block.transform.localPosition.y;
+
+                MotionHandle handle = LMotion.Create(startY, targetY, duration)
+                    .WithEase(Ease.OutQuad)
+                    .WithOnComplete(OnCellComplete)
+                    .Bind(y =>
+                    {
+                        Vector3 position = block.transform.localPosition;
+                        position.y = y;
+                        block.SetLocalPosition(position);
+                    });
+                _activeMotions.Add(handle);
+            }
+        }
+
+        public void RemoveCellsAtGrid(IReadOnlyCollection<Vector2Int> cellsToRemove)
+        {
+            if (cellsToRemove == null || cellsToRemove.Count == 0)
+            {
+                return;
+            }
+
+            var removeSet = cellsToRemove as HashSet<Vector2Int> ?? new HashSet<Vector2Int>(cellsToRemove);
+
+            for (int i = 0; i < _cellGridPositions.Count; i++)
+            {
+                if (removeSet.Contains(_cellGridPositions[i]))
+                {
+                    _blocks[i].SetActive(false);
+                }
+            }
+        }
+
+        public void AnimateRotateClockwise90(
+            PlacedBlock placedBlock,
+            BoardConfigSO configSO,
+            float duration,
+            Action onComplete)
+        {
+            CancelMotions();
+
+            float cellSize = configSO.CellSize;
+            int remaining = placedBlock.CellOffsets.Count;
+
+            if (remaining == 0)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            void OnCellComplete()
+            {
+                remaining--;
+                if (remaining <= 0)
+                {
+                    ShowPlaced(placedBlock, sortingOrder: 0);
+                    onComplete?.Invoke();
+                }
+            }
+
+            _cellGridPositions.Clear();
+
+            for (int i = 0; i < placedBlock.CellOffsets.Count; i++)
+            {
+                Vector2Int cell = placedBlock.Pivot + placedBlock.CellOffsets[i];
+                _cellGridPositions.Add(cell);
+                Vector2 targetWorld = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
+                Block block = _blocks[i];
+                Vector3 start = block.transform.localPosition;
+                Vector3 target = new Vector3(targetWorld.x, targetWorld.y, start.z);
+
+                MotionHandle handle = LMotion.Create(0f, 1f, duration)
+                    .WithEase(Ease.OutQuad)
+                    .WithOnComplete(OnCellComplete)
+                    .Bind(t =>
+                    {
+                        block.SetLocalPosition(Vector3.Lerp(start, target, t));
+                    });
+                _activeMotions.Add(handle);
+            }
+        }
+
+        public void CancelMotions()
+        {
+            for (int i = 0; i < _activeMotions.Count; i++)
+            {
+                if (_activeMotions[i].IsActive())
+                {
+                    _activeMotions[i].Cancel();
+                }
+            }
+
+            _activeMotions.Clear();
+        }
+
         public void Clear()
         {
+            CancelMotions();
+
             for (int i = 0; i < _blocks.Count; i++)
             {
                 _blocks[i].SetActive(false);
             }
 
+            _cellGridPositions.Clear();
             _skinResolved = false;
         }
 
         public void ApplySkin(IBlockSkin skin)
         {
-            if (skin == null || skin.Colors.Count == 0 || skin.Sprites.Count == 0)
+            if (skin == null || skin.Sprites.Count == 0)
             {
                 return;
             }
 
-            _resolvedColor = skin.Colors[Random.Range(0, skin.Colors.Count)];
-            _resolvedSprite = skin.Sprites[Random.Range(0, skin.Sprites.Count)];
+            _resolvedColor = skin.Colors.Count > 0 ? skin.Colors[UnityEngine.Random.Range(0, skin.Colors.Count)] : Color.white;
+            _resolvedSprite = skin.Sprites[UnityEngine.Random.Range(0, skin.Sprites.Count)];
             _skinResolved = true;
             ApplyVisualToActiveBlocks(_resolvedColor, _resolvedSprite);
         }
@@ -122,8 +333,8 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            _resolvedColor = skinColors[Random.Range(0, skinColors.Length)];
-            _resolvedSprite = skinSprites[Random.Range(0, skinSprites.Length)];
+            _resolvedColor = skinColors.Length > 0 ? skinColors[UnityEngine.Random.Range(0, skinColors.Length)] : Color.white;
+            _resolvedSprite = skinSprites[UnityEngine.Random.Range(0, skinSprites.Length)];
             _skinResolved = true;
         }
 

@@ -24,7 +24,7 @@
 1. 한국어 계획 → 사용자 승인(`진행해`/`OK` 등) → **Phase 하나**만 구현
 2. 기록: `sequenceN.md` 항목 추가 → `phases.md` → `IMPLEMENTATIONS.md`
 3. 새 세션: `IMPLEMENTATIONS.md` + 현재 `phases.md` + `phaseN.md` + `sequenceN.md` **만** 읽기 (전체 히스토리 X)
-4. `DESIGN.md`/`TODO.md` ✅는 사용자 확인 후
+4. 규칙·마일스톤 변경 시 `DESIGN.md` / `TODO.md` 동기화
 
 ## DI (Reflex)
 
@@ -34,7 +34,7 @@
 - Installer에서 씬 서비스 `RegisterValue` → 소비자 `[Inject]`
 - 금지: singleton/static service, 컨테이너 밖 `Resolve`, Domain 순수 클래스 외 `new` 서비스
 - 메인 채널 필드명: `magnetGameChannel`
-- 상세: `jth-reflex-di.mdc`
+- 상세: `jth-reflex-di.mdc` · 감사 기록: `Assets/_MemberWorkspace/JTH/Docs/DI_FIELD_AUDIT.md`
 
 ## Events (EventChannelSO)
 

@@ -19,17 +19,18 @@ namespace JTH.Scripts.Bootstrap
         [Inject] private readonly IBlockShapeSource _blockShapeSource;
 
         private BlockSupply _supply;
-        private int _selectedSlotIndex = -1;
-        private IBlockShape _selectedShape;
+
+        public BlockSupply Supply => _supply;
 
         private void Start()
         {
             Debug.Assert(magnetGameChannel != null, "[BlockSpawnBootstrap] magnetGameChannel is not assigned.", this);
             Debug.Assert(inputSO != null, "[BlockSpawnBootstrap] inputSO is not assigned.", this);
-            
+
             var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom(1));
             _supply = new BlockSupply(drawer);
             _supply.Fill();
+            RaiseCandidatesUpdated();
         }
 
         private void OnEnable()
@@ -41,24 +42,44 @@ namespace JTH.Scripts.Bootstrap
         {
             inputSO.OnSlotSelected -= OnBlockSelected;
         }
-        
-        public void Consume() => _supply.Consume(_selectedSlotIndex);
+
+        public void Consume(int slotIndex)
+        {
+            _supply.Consume(slotIndex);
+
+            if (_supply.AreAllSlotsEmpty())
+            {
+                _supply.Fill();
+            }
+
+            RaiseCandidatesUpdated();
+        }
 
         private void OnBlockSelected(int index)
         {
             if (index < 0 || index >= BlockSupply.SlotCount)
+            {
                 return;
-            if (_supply.Candidates == null || index >= _supply.Candidates.Count)
-                return;
-            
-            _selectedSlotIndex = index;
-            _selectedShape = _supply.Candidates[index];
-            
-            if (_selectedShape == null)
-                return;
+            }
 
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockSelectedEvent
-                .Init(_selectedSlotIndex, _selectedShape));
+            if (_supply.Candidates == null || index >= _supply.Candidates.Count)
+            {
+                return;
+            }
+
+            IBlockShape shape = _supply.Candidates[index];
+            if (shape == null)
+            {
+                return;
+            }
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockSelectedEvent.Init(index, shape));
+        }
+
+        private void RaiseCandidatesUpdated()
+        {
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.CreateSnapshot()));
         }
     }
 }
