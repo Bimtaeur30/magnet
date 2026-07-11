@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Magnet.PTY",
-        "GUID:eb415e56e20154449aab8a7efaff0147"
+        "GUID:eb415e56e20154449aab8a7efaff0147",
+        "GUID:7ac6dcf843dc78a4c8115a2d913071cc"
     ],
     "includePlatforms": [
         "Editor"

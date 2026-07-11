@@ -18,3 +18,4 @@ MonoBehaviour:
   - {x: 1, y: 0}
   - {x: 2, y: 0}
   - {x: 3, y: 0}
+  icon: {fileID: 2800000, guid: be23d38ded393c5429e46b7844fe52fb, type: 3}
