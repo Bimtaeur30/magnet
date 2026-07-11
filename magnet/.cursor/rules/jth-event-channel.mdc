@@ -1,0 +1,46 @@
+---
+description: JTH ScriptableObject — 모든 SO Inject 금지, magnetGameChannel 필드명
+globs: Assets/_MemberWorkspace/JTH/**/*.cs
+alwaysApply: false
+---
+
+# JTH ScriptableObject (SO) 규칙
+
+## 모든 SO — `[Inject]` 금지
+
+**모든 `ScriptableObject`** (`EventChannelSO`, `BoardConfigSO`, …)는 Reflex `[Inject]`·Installer `RegisterValue`로 소비자에 넘기지 않는다.  
+→ `CLAUDE.md` § Dependency Injection 「Reflex 사용 안 함 — Inspector SerializeField」.
+
+SO는 구체 타입이라 **항상 `[SerializeField]`** 로 Inspector에 연결한다. (인터페이스가 아니므로 직렬화 가능.)
+
+```csharp
+// BAD — 어떤 SO든 Inject
+[Inject] private readonly EventChannelSO _eventChannel;
+
+// BAD — Installer RegisterValue → 소비자 Inject (SO 일괄 주입)
+containerBuilder.RegisterValue(mainEventChannel);
+
+// GOOD
+[SerializeField] private EventChannelSO magnetGameChannel;
+[SerializeField] private BoardConfigSO boardConfig;
+```
+
+## Reflex `[Inject]` 허용 (SO 아님)
+
+**직렬화 불가**한 **인터페이스 계약** — 예: `[Inject] IBlockShapeSource` (크로스-asmdef).
+
+**씬 MonoBehaviour / 다른 GO** — `[Inject]` 필수. SerializeField로 씬 오브젝트 드래그 **금지**. 상세: `jth-reflex-di.mdc`.
+
+## 메인 게임 이벤트 채널 필드명
+
+팀 공용 `MainEventChannel.asset` (`EventChannelSO`)을 참조하는 필드:
+
+- **필드명:** `magnetGameChannel` (고정)
+- `eventChannel`, `mainEventChannel`, `mainEventChannelSO`, `_eventChannel` **금지**
+
+```csharp
+[SerializeField] private EventChannelSO magnetGameChannel;
+```
+
+`[SerializeField]`이므로 `_` 접두사 없음 (`jth-csharp.mdc`).  
+이름 변경 시 `[FormerlySerializedAs]`로 씬·프리팹 참조 유지.

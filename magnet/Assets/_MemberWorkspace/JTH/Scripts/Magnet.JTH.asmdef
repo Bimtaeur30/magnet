@@ -1,0 +1,22 @@
+{
+    "name": "Magnet.JTH",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4f4fe35fbc82e694093dc30123d90eb6",
+        "GUID:1530a967b84cfb44dbdd5e8a1989764f",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:eb415e56e20154449aab8a7efaff0147",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:e4237378988e8ea418b0aab1ac1d96da",
+        "GUID:3b570a5146f9d4f0fa107ed4559471a3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
