@@ -4,7 +4,7 @@
 
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
-| [block-shape-editor](./Implementations/block-shape-editor/phases.md) | 블록 형태 생성 에디터 | [SCRUM-25](https://bimtaeur30.atlassian.net/browse/SCRUM-25) | phase3 완료 | 구현됨 · 확인 대기 |
+| [block-shape-editor](./Implementations/block-shape-editor/phases.md) | 블록 형태 생성 에디터 | [SCRUM-25](https://bimtaeur30.atlassian.net/browse/SCRUM-25) | phase4 완료 | 구현됨 · 확인 대기 |
 
 ## 계층 (용어)
 
