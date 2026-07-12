@@ -1,6 +1,5 @@
 using System;
-using System.Threading.Tasks;
-using Gamelib.ObjectPool.Runtime;
+using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -19,7 +18,7 @@ namespace Gamelib.SoundSystem
         private bool _completionInvoked;
         private float _baseVolume;
         public GameObject GameObject => this == null ? null : gameObject;
-        [field:SerializeField] public PoolItemSo PoolItem { get; set; }
+        [field:SerializeField] public PoolItemSO Item { get; set; }
         
         public event Action<SoundPlayer> OnSoundFinished;
 

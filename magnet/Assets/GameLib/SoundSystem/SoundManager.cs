@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Gamelib.EventSystem;
-using Gamelib.ObjectPool.Runtime;
+using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -11,8 +11,8 @@ namespace Gamelib.SoundSystem
         [SerializeField] private SoundListSo sfxSoundList;
         [SerializeField] private SoundListSo bgmSoundList;
 
-        [SerializeField] private PoolManagerSo poolManager;
-        [SerializeField] private PoolItemSo soundItem;
+        [SerializeField] private PoolManagerSO poolManager;
+        [SerializeField] private PoolItemSO soundItem;
 
         [field: SerializeField] public EventChannelSO SoundChannel { get; private set; }
 

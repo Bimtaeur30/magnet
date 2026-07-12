@@ -1,4 +1,4 @@
-using Gamelib.EventSystem;
+using GameLib.EventChannelSystem;
 using UnityEngine;
 
 namespace Gamelib.SoundSystem
