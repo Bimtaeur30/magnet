@@ -148,13 +148,9 @@ namespace JTH.Scripts.Input
             TurnResolutionResult turn = _placementBootstrap.TryConfirmPlacement(_selectedShape, pivot, _selectedSlotIndex);
             if (!turn.Placement.Success)
             {
-                Debug.Log($"[BlockDrag] TryPlace failed: {turn.Placement.FailureReason} startPivot={pivot}");
                 DisconnectSelection();
                 return;
             }
-
-            Debug.Log(
-                $"[BlockDrag] TryPlace OK blockId={turn.Placement.BlockId} pivot={turn.Placement.FinalPivot} outside={turn.Placement.HasCellsOutsideBounds} clears={turn.ClearResult.ClearedSquares.Count}");
 
             _drawer.ClearPreview();
             ShapeBlock staging = _drawer.TakeStagingForPlacement();
