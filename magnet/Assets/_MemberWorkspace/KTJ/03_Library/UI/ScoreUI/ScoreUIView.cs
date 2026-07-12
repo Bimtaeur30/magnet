@@ -1,3 +1,4 @@
+using GameLib.EventChannelSystem;
 using Mvvm;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace Game.UI
 {
     public sealed partial class ScoreUIView : MvvmView<ScoreUIViewModel>
     {
+        //[SerializeField] private EventChannelSO 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
