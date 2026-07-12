@@ -1,9 +1,11 @@
+using Magnet.Contracts.BlockSkins;
 using UnityEngine;
 
 public class SkinBox_UI : MonoBehaviour
 {
-    public void Init(SkinDataSO)
+    private IBlockSkin _blockSkin;
+    public void Init(IBlockSkin blockSkin)
     {
-        
+        _blockSkin = blockSkin;
     }
 }

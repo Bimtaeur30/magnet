@@ -1,6 +1,5 @@
-﻿using Mvvm;
+using Mvvm;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Game.UI
 {
@@ -8,7 +7,7 @@ namespace Game.UI
     {
         private void Update()
         {
-            if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 Test();
             }
