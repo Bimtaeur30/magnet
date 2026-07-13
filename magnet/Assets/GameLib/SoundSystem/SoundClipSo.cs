@@ -1,36 +1,29 @@
-using Unity.Collections;
 using UnityEngine;
 
-namespace Gamelib.SoundSystem
+namespace GameLib.SoundSystem
 {
-    public enum AudioTypes
-    { SFX, MUSIC }
-
-    [CreateAssetMenu(fileName = "Sound clip data", menuName = "Sound/ClipData", order = 10)]
-    public class SoundClipSo : ScriptableObject
+    [CreateAssetMenu(fileName = "new Sound Clip", menuName = "GGMLib/Sound Clip", order = 0)]
+    public class SoundClipSO : ScriptableObject
     {
-        public int soundIndex;
-        public string soundName;
-
-        [Multiline(2)]
-        public string note;
-
         public AudioTypes audioType;
-        public AudioClip clip;
-        public bool loop;
-        public bool randomizePitch;
+        public AudioClip audioClip;
+        public bool isLoop = false;
+        public bool randomizePitch = false;
 
-        [Range(0, 1f)]
-        public float randomPitchModifier = 0.1f;
-        [Range(0.1f, 2f)]
-        public float volume = 1f;
-        [Range(0.1f, 3f)]
-        public float pitch = 1f;
+        public bool isSpatialBlend = false;
+        public float minDistance = 1f;
+        public float maxDistance = 500f;
 
-        private void OnValidate()
-        {
-            soundName = name;
-        }
+        [Range(0.1f, 1f)] public float randomPitchModifier = 0.1f;
+        [Range(0.1f, 2f)] public float volume = 1f;
+        [Range(0.1f, 3f)] public float pitch = 1f;
+
+        // BGM(배경음)의 정의 = Music 타입. SoundManager는 BGM을 전용 슬롯에서 한 번에 하나만 재생한다.
+        public bool IsBgm => audioType == AudioTypes.Music;
     }
 
+    public enum AudioTypes
+    {
+        Sfx, Music
+    }
 }

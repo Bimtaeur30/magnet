@@ -34,6 +34,8 @@ namespace PMS.Scripts.Manager
             ChangeSkin(evt.SkinData);
         }
 
+        #region 처음 세팅
+
         private void Start()
         {
             UnlockDefaultSkins();
@@ -62,20 +64,38 @@ namespace PMS.Scripts.Manager
             ChangeSkin(skinList[0]);
         }
 
+        #endregion
+
+        #region UI에서 사용할 헬퍼 함수
         public bool IsUnlocked(SkinDataSO skinData)
         {
             if (skinData == null) return false;
 
-            return unlockedSkinIds.Contains(skinData.skinId);
+            return unlockedSkinIds.Contains(skinData.SkinId);
+        }
+        public IReadOnlyList<SkinDataSO> GetSkinList()
+        {
+            return skinList;
         }
 
+        public bool IsCurrentSkin(SkinDataSO skinData)
+        {
+            if (skinData == null) return false;
+            if (CurrentSkin == null) return false;
+
+            return CurrentSkin.SkinId == skinData.SkinId;
+        }
+
+        #endregion
+
+        #region 스킨 해금 함수
         private void UnlockSkin(SkinDataSO skinData)
         {
             if (skinData == null || IsUnlocked(skinData)) return;
 
-            unlockedSkinIds.Add(skinData.skinId);
+            unlockedSkinIds.Add(skinData.SkinId);
 
-            eventChannel.RaiseEvent(SkinEvents.SkinUnlockedEvent.Init(skinData.skinId));
+            eventChannel.RaiseEvent(SkinEvents.SkinUnlockedEvent.Init(skinData.SkinId));
 
             Debug.Log($"{skinData.skinName}스킨 해금됨");
         }
@@ -107,5 +127,7 @@ namespace PMS.Scripts.Manager
 
             Debug.Log($"{CurrentSkin.skinName}스킨으로 변경됨");
         }
+
+        #endregion
     }
 }

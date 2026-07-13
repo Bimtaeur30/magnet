@@ -81,17 +81,6 @@ namespace JTH.Scripts.Events
         }
     }
 
-    public sealed class SkinUnlockedEvent : GameEvent
-    {
-        public string SkinId { get; private set; }
-
-        public SkinUnlockedEvent Init(string skinId)
-        {
-            SkinId = skinId;
-            return this;
-        }
-    }
-
     public sealed class GameOverEvent : GameEvent
     {
         public int FinalScore { get; private set; }
