@@ -1,23 +1,19 @@
 using System;
 using System.Collections.Generic;
-using GameLib.EventChannelSystem;
+using Cysharp.Threading.Tasks;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Events;
-using LitMotion;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
 {
     /// <summary>
-    /// 부착 완료된 ShapeBlock을 blockId로 추적하고, 클리어·회전 이벤트에 맞춰 갱신한다.
+    /// 부착 완료된 ShapeBlock을 blockId로 추적하고, Bootstrap이 요청하는 Place·Clear·Rotate 연출을 재생한다.
     /// </summary>
     public sealed class PlacedBlocksView : MonoBehaviour
     {
-        [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
 
@@ -27,22 +23,9 @@ namespace JTH.Scripts.Presentation
 
         private void Awake()
         {
-            Debug.Assert(magnetGameChannel != null, "[PlacedBlocksView] magnetGameChannel is not assigned.", this);
             Debug.Assert(boardConfig != null, "[PlacedBlocksView] boardConfig is not assigned.", this);
             Debug.Assert(placementConfig != null, "[PlacedBlocksView] placementConfig is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[PlacedBlocksView] BoardPlacementBootstrap was not injected.", this);
-        }
-
-        private void OnEnable()
-        {
-            magnetGameChannel.AddListener<SquareClearedEvent>(OnSquareCleared);
-            magnetGameChannel.AddListener<BoardRotatedEvent>(OnBoardRotated);
-        }
-
-        private void OnDisable()
-        {
-            magnetGameChannel?.RemoveListener<SquareClearedEvent>(OnSquareCleared);
-            magnetGameChannel?.RemoveListener<BoardRotatedEvent>(OnBoardRotated);
         }
 
         public void Register(int blockId, ShapeBlock block)
@@ -92,6 +75,59 @@ namespace JTH.Scripts.Presentation
             }
         }
 
+        /// <summary>
+        /// 회전 전 부착 좌표로 Y 스냅 후 Register/Adopt. LitMotion 자리는 <see cref="BlockSnapMotion"/>에 있다.
+        /// </summary>
+        public UniTask PlayPlaceAsync(ShapeBlock staging, int blockId)
+        {
+            if (staging == null)
+            {
+                return UniTask.CompletedTask;
+            }
+
+            if (!_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
+            {
+                staging.Clear();
+                Destroy(staging.gameObject);
+                return UniTask.CompletedTask;
+            }
+
+            int stagingGridY = placementConfig.GetStagingY(boardConfig.CellsPerSide);
+            var completion = new UniTaskCompletionSource();
+            BlockSnapMotion.PlayFromPlaced(
+                staging,
+                placedBlock,
+                stagingGridY,
+                boardConfig,
+                placementConfig,
+                () =>
+                {
+                    Register(blockId, staging);
+                    Adopt(staging, $"Placed_{blockId}");
+                    completion.TrySetResult();
+                });
+            return completion.Task;
+        }
+
+        /// <summary>
+        /// Domain 클리어 반영 후 뷰 동기화. 사라짐 LitMotion이 생기면 이 메서드에서 await하면 된다.
+        /// </summary>
+        public UniTask PlayClearAsync()
+        {
+            SyncWithSession();
+            return UniTask.CompletedTask;
+        }
+
+        /// <summary>
+        /// 보드 90° 회전 연출. Domain 회전 이후 Session 좌표 기준으로 재생한다.
+        /// </summary>
+        public UniTask PlayRotateAsync()
+        {
+            var completion = new UniTaskCompletionSource();
+            AnimateBoardRotation(() => completion.TrySetResult());
+            return completion.Task;
+        }
+
         public void AnimateBoardRotation(Action onComplete)
         {
             if (_blocksById.Count == 0)
@@ -125,16 +161,6 @@ namespace JTH.Scripts.Presentation
 
                 view.AnimateRotateClockwise90(placedBlock, boardConfig, placementConfig.RotationDuration, OnBlockComplete);
             }
-        }
-
-        private void OnSquareCleared(SquareClearedEvent _)
-        {
-            SyncWithSession();
-        }
-
-        private void OnBoardRotated(BoardRotatedEvent _)
-        {
-            AnimateBoardRotation(onComplete: null);
         }
     }
 }

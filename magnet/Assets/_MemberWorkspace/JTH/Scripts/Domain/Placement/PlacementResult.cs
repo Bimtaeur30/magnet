@@ -10,28 +10,24 @@ namespace JTH.Scripts.Domain.Placement
         public int BlockId { get; }
         public Vector2Int FinalPivot { get; }
         public IReadOnlyList<Vector2Int> CellPositions { get; }
-        public bool HasCellsOutsideBounds { get; }
 
         private PlacementResult(
             bool success,
             PlacementFailureReason failureReason,
             int blockId,
             Vector2Int finalPivot,
-            IReadOnlyList<Vector2Int> cellPositions,
-            bool hasCellsOutsideBounds)
+            IReadOnlyList<Vector2Int> cellPositions)
         {
             Success = success;
             FailureReason = failureReason;
             BlockId = blockId;
             FinalPivot = finalPivot;
             CellPositions = cellPositions;
-            HasCellsOutsideBounds = hasCellsOutsideBounds;
         }
 
         public static PlacementResult Succeeded(
             Vector2Int finalPivot,
             IReadOnlyList<Vector2Int> cellPositions,
-            bool hasCellsOutsideBounds,
             int blockId = 0)
         {
             return new PlacementResult(
@@ -39,13 +35,12 @@ namespace JTH.Scripts.Domain.Placement
                 PlacementFailureReason.None,
                 blockId,
                 finalPivot,
-                cellPositions,
-                hasCellsOutsideBounds);
+                cellPositions);
         }
 
         public static PlacementResult Failed(PlacementFailureReason reason)
         {
-            return new PlacementResult(false, reason, 0, default, System.Array.Empty<Vector2Int>(), false);
+            return new PlacementResult(false, reason, 0, default, System.Array.Empty<Vector2Int>());
         }
 
         public PlacementResult WithBlockId(int blockId)
@@ -55,8 +50,7 @@ namespace JTH.Scripts.Domain.Placement
                 FailureReason,
                 blockId,
                 FinalPivot,
-                CellPositions,
-                HasCellsOutsideBounds);
+                CellPositions);
         }
     }
 }

@@ -2,276 +2,141 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using UnityEngine;
-using UnityEngine.Audio;
 
-namespace Gamelib.SoundSystem
+namespace GameLib.SoundSystem
 {
     public class SoundManager : MonoBehaviour
     {
-        [SerializeField] private SoundListSo sfxSoundList;
-        [SerializeField] private SoundListSo bgmSoundList;
+        [SerializeField] private PoolManagerSO poolManagerSO;
+        [SerializeField] private PoolItemSO soundItemSO;
 
-        [SerializeField] private PoolManagerSO poolManager;
-        [SerializeField] private PoolItemSO soundItem;
+        [field: SerializeField] public EventChannelSO SoundEventChannel { get; private set; }
 
-        [field: SerializeField] public EventChannelSO SoundChannel { get; private set; }
+        // BGM이 아닌 루프 사운드(SFX 루프)만 LoopKey로 추적한다. BGM은 dict에 넣지 않는다.
+        private readonly Dictionary<SoundClipSO, SoundPlayer> _soundPlayerDict = new();
 
-        [Header("Volume Init")]
-        [SerializeField] private AudioMixer _audioMixer;
-
-        private readonly Dictionary<SoundChannelId, SoundPlayer> _channelPlayers = new();
-        private readonly Dictionary<SoundChannelId, HashSet<SoundPlayer>> _groupPlayers = new();
+        // BGM은 한 번에 하나 — 전용 슬롯. _currentBgmClip은 StopSoundEvent가 BGM을 가리켰는지 식별용.
+        private SoundPlayer _currentBgm;
+        private SoundClipSO _currentBgmClip;
 
         private void Awake()
         {
-            var existing = FindObjectsByType<SoundManager>(FindObjectsSortMode.None);
-            if (existing.Length > 1)
-            {
+            SoundEventChannel.AddListener<PlaySoundEvent>(HandlePlaySoundEvent);
+            SoundEventChannel.AddListener<StopSoundEvent>(HandleStopSoundEvent);
+            
+            SoundManager[] managers = FindObjectsByType<SoundManager>(FindObjectsSortMode.None);
+
+            if (managers.Length > 1)
                 Destroy(gameObject);
-                return;
-            }
-            DontDestroyOnLoad(gameObject);
-
-            SoundChannel.AddListener<PlaySoundEvent>(HandlePlaySoundEvent);
-            SoundChannel.AddListener<StopSoundEvent>(HandleStopSoundEvent);
-            SoundChannel.AddListener<PlayManagedSoundEvent>(HandlePlayManagedSoundEvent);
-            SoundChannel.AddListener<StopManagedSoundEvent>(HandleStopManagedSoundEvent);
-            SoundChannel.AddListener<PauseSoundEvent>(HandlePauseSoundEvent);
-            SoundChannel.AddListener<ResumeSoundEvent>(HandleResumeSoundEvent);
-        }
-
-        private void Start()
-        {
-            ApplyVolumeFromPrefs();
+            else
+                DontDestroyOnLoad(gameObject);
         }
 
         private void OnDestroy()
         {
-            SoundChannel.RemoveListener<PlaySoundEvent>(HandlePlaySoundEvent);
-            SoundChannel.RemoveListener<StopSoundEvent>(HandleStopSoundEvent);
-            SoundChannel.RemoveListener<PlayManagedSoundEvent>(HandlePlayManagedSoundEvent);
-            SoundChannel.RemoveListener<StopManagedSoundEvent>(HandleStopManagedSoundEvent);
-            SoundChannel.RemoveListener<PauseSoundEvent>(HandlePauseSoundEvent);
-            SoundChannel.RemoveListener<ResumeSoundEvent>(HandleResumeSoundEvent);
-        }
-
-        private void ApplyVolumeFromPrefs()
-        {
-            if (_audioMixer == null) return;
-            SetMixerVolume("MasterVolume", PlayerPrefs.GetFloat("Setting_MasterVolume", 1f));
-            SetMixerVolume("BGMVolume",    PlayerPrefs.GetFloat("Setting_BgmVolume",    1f));
-            SetMixerVolume("SFXVolume",    PlayerPrefs.GetFloat("Setting_SfxVolume",    1f));
-        }
-
-        private void SetMixerVolume(string parameter, float linear)
-        {
-            float db = linear > 0.0001f ? Mathf.Log10(linear) * 20f : -80f;
-            _audioMixer.SetFloat(parameter, db);
+            SoundEventChannel.RemoveListener<PlaySoundEvent>(HandlePlaySoundEvent);
+            SoundEventChannel.RemoveListener<StopSoundEvent>(HandleStopSoundEvent);
         }
 
         private void HandlePlaySoundEvent(PlaySoundEvent evt)
         {
-            SoundClipSo clipData = ResolveClip(evt.Sound);
-            if (clipData == null)
-            {
-                Debug.LogWarning($"사운드를 찾을 수 없습니다. Type={evt.Sound.AudioType}, Index={evt.Sound.Index}");
-                return;
-            }
-            if (clipData.loop && evt.ChannelId != SoundChannelId.None)
-            {
-                StopChannel(evt.ChannelId);
-            }
-            else if (clipData.loop && evt.ChannelId == SoundChannelId.None)
-            {
-                Debug.LogWarning($"루프 사운드는 채널 지정이 필요합니다. : {clipData.name}");
-            }
+            SoundClipSO clip = evt.ClipData;
+            Debug.Log(clip.IsBgm);
+            // SO 자체가 없으면 아무것도 하지 않는다(보통 호출부에서 이미 걸러짐).
+            if (clip == null) return;
 
-            SoundPlayer player = CreatePlayer(evt.Position);
-            player.PlaySound(clipData);
+            // BGM은 한 번에 하나 — 전용 슬롯에서 교체 관리(여기서 BGM 분기 끝).
+            if (clip.IsBgm) { PlayBgm(clip); return; }
 
-            if (clipData.loop && evt.ChannelId != SoundChannelId.None)
+            // 여기는 BGM이 아닌 경우만 도달. 오디오 클립 없는 SFX는 재생만 건너뛴다(BGM 등 다른 소리는 그대로).
+            if (clip.audioClip == null) return;
+
+            PlayLoopOrOneShot(evt);
+        }
+
+        // BGM 재생: 기존 BGM을 끄고(항상 하나) 새 BGM으로 교체. 클립이 없으면 무음(정지만).
+        private void PlayBgm(SoundClipSO clip)
+        {
+            StopBgm();
+            if (clip.audioClip == null) return;
+
+            _currentBgm = poolManagerSO.Pop<SoundPlayer>(soundItemSO);
+            _currentBgm.transform.position = Vector3.zero; // BGM은 2D — 위치 무관.
+            _currentBgm.PlaySound(clip);
+            _currentBgm.OnSoundFinished += HandleBgmFinished; // 비루프 BGM(스팅어) 종료 대비.
+            _currentBgmClip = clip;
+        }
+
+        // BGM이 아닌 사운드(SFX 일회성/루프) 재생. 루프는 LoopKey로 dict에 추적.
+        private void PlayLoopOrOneShot(PlaySoundEvent evt)
+        {
+            SoundClipSO clip = evt.ClipData;
+
+            SoundPlayer soundPlayer = poolManagerSO.Pop<SoundPlayer>(soundItemSO);
+            soundPlayer.transform.position = evt.Position;
+            soundPlayer.PlaySound(clip);
+            soundPlayer.OnSoundFinished += HandleSoundFinish;
+
+            if (evt.LoopKey != null && clip.isLoop)
             {
-                _channelPlayers[evt.ChannelId] = player;
+                StopLoop(evt.LoopKey); // 같은 키가 돌고 있으면 끊고 교체.
+                _soundPlayerDict.Add(evt.LoopKey, soundPlayer);
+            }
+            else if (evt.LoopKey == null && clip.isLoop)
+            {
+                Debug.LogWarning($"[SoundManager] Loop 클립에는 LoopKey가 필요합니다. ({clip.name})");
             }
         }
 
-        private void HandlePlayManagedSoundEvent(PlayManagedSoundEvent evt)
+        private void HandleSoundFinish(SoundPlayer soundPlayer)
         {
-            SoundClipSo clipData = ResolveClip(evt.Sound);
-            if (clipData == null)
-            {
-                Debug.LogWarning($"사운드를 찾을 수 없습니다. Type={evt.Sound.AudioType}, Index={evt.Sound.Index}");
-                return;
-            }
-
-            if (evt.ChannelId == SoundChannelId.StorySfx)
-            {
-                PlayGroupedManagedSound(evt, clipData);
-                return;
-            }
-
-            PlaySingleManagedSound(evt, clipData);
+            soundPlayer.OnSoundFinished -= HandleSoundFinish;
+            poolManagerSO.Push(soundPlayer);
         }
 
-        private void PlayGroupedManagedSound(PlayManagedSoundEvent evt, SoundClipSo clipData)
+        // 비루프 BGM이 자연 종료되면 슬롯을 비운다.
+        private void HandleBgmFinished(SoundPlayer soundPlayer)
         {
-            SoundPlayer player = CreatePlayer(evt.Position);
-            player.PlaySoundWithEnvelope(clipData, evt.FadeInDuration, evt.FadeOutDuration);
-            GetOrCreateGroup(evt.ChannelId).Add(player);
-        }
-
-        private void PlaySingleManagedSound(PlayManagedSoundEvent evt, SoundClipSo clipData)
-        {
-            if (_channelPlayers.TryGetValue(evt.ChannelId, out SoundPlayer existingPlayer))
+            soundPlayer.OnSoundFinished -= HandleBgmFinished;
+            if (_currentBgm == soundPlayer)
             {
-                _channelPlayers.Remove(evt.ChannelId);
-
-                if (existingPlayer != null)
-                {
-                    if (evt.CrossfadeExisting)
-                    {
-                        existingPlayer.FadeOutAndStop(evt.FadeOutDuration);
-                    }
-                    else
-                    {
-                        existingPlayer.OnSoundFinished -= HandleSoundFinish;
-                        existingPlayer.ForceStopSound();
-                        poolManager.Push(existingPlayer);
-                    }
-                }
+                _currentBgm = null;
+                _currentBgmClip = null;
             }
-
-            SoundPlayer player = CreatePlayer(evt.Position);
-            player.PlaySoundWithEnvelope(clipData, evt.FadeInDuration, clipData.loop ? 0f : evt.FadeOutDuration);
-            _channelPlayers[evt.ChannelId] = player;
-        }
-
-        private SoundClipSo ResolveClip(SoundRef soundRef)
-        {
-            SoundListSo targetList = soundRef.AudioType switch
-            {
-                AudioTypes.SFX => sfxSoundList,
-                AudioTypes.MUSIC => bgmSoundList,
-                _ => null
-            };
-
-            if (targetList == null || targetList.sounds == null)
-                return null;
-
-            if (soundRef.Index < 0 || soundRef.Index >= targetList.sounds.Length)
-                return null;
-
-            return targetList.sounds[soundRef.Index];
+            poolManagerSO.Push(soundPlayer);
         }
 
         private void HandleStopSoundEvent(StopSoundEvent evt)
         {
-            StopChannel(evt.ChannelId);
+            // BGM을 가리킨 정지 요청이면 BGM 슬롯을, 아니면 루프 dict를 정리.
+            if (evt.LoopKey != null && evt.LoopKey == _currentBgmClip)
+                StopBgm();
+            else
+                StopLoop(evt.LoopKey);
         }
 
-        private void HandleStopManagedSoundEvent(StopManagedSoundEvent evt)
+        // 현재 BGM을 끄고 슬롯을 비운다(없으면 no-op).
+        private void StopBgm()
         {
-            if (_channelPlayers.Remove(evt.ChannelId, out SoundPlayer singlePlayer))
+            if (_currentBgm == null) return;
+            _currentBgm.ForceStopSound();
+            _currentBgm.OnSoundFinished -= HandleBgmFinished;
+            poolManagerSO.Push(_currentBgm);
+            _currentBgm = null;
+            _currentBgmClip = null;
+        }
+
+        // 해당 루프 키로 돌고 있는 사운드를 끊고 풀에 반납한다(없으면 no-op).
+        private void StopLoop(SoundClipSO loopKey)
+        {
+            if (loopKey == null) return;
+            if (_soundPlayerDict.TryGetValue(loopKey, out SoundPlayer soundPlayer))
             {
-                if (evt.FadeOutDuration > 0f)
-                    singlePlayer.FadeOutAndStop(evt.FadeOutDuration);
-                else
-                {
-                    singlePlayer.OnSoundFinished -= HandleSoundFinish;
-                    singlePlayer.ForceStopSound();
-                    poolManager.Push(singlePlayer);
-                }
+                soundPlayer.ForceStopSound();
+                soundPlayer.OnSoundFinished -= HandleSoundFinish;
+                poolManagerSO.Push(soundPlayer);
+                _soundPlayerDict.Remove(loopKey);
             }
-
-            if (_groupPlayers.TryGetValue(evt.ChannelId, out HashSet<SoundPlayer> groupPlayers))
-            {
-                foreach (SoundPlayer player in new List<SoundPlayer>(groupPlayers))
-                {
-                    if (player == null)
-                        continue;
-
-                    if (evt.FadeOutDuration > 0f)
-                        player.FadeOutAndStop(evt.FadeOutDuration);
-                    else
-                    {
-                        player.OnSoundFinished -= HandleSoundFinish;
-                        player.ForceStopSound();
-                        poolManager.Push(player);
-                    }
-                }
-
-                groupPlayers.Clear();
-            }
-        }
-
-        private void HandlePauseSoundEvent(PauseSoundEvent evt)
-        {
-            if (_channelPlayers.TryGetValue(evt.ChannelId, out SoundPlayer player))
-                player.Pause();
-        }
-
-        private void HandleResumeSoundEvent(ResumeSoundEvent evt)
-        {
-            if (_channelPlayers.TryGetValue(evt.ChannelId, out SoundPlayer player))
-                player.Resume();
-        }
-
-        private void StopChannel(SoundChannelId channelId)
-        {
-            if (_channelPlayers.Remove(channelId, out SoundPlayer player)) 
-            {
-                player.OnSoundFinished -= HandleSoundFinish;
-                player.ForceStopSound();
-                poolManager.Push(player);
-            }
-        }
-
-        private void HandleSoundFinish(SoundPlayer player)
-        {
-            player.OnSoundFinished -= HandleSoundFinish;
-            RemovePlayerFromTracking(player);
-            poolManager.Push(player);
-        }
-
-        private SoundPlayer CreatePlayer(Vector3 position)
-        {
-            SoundPlayer player = poolManager.Pop<SoundPlayer>(soundItem);
-            player.transform.SetParent(transform);
-            player.transform.position = position;
-            player.OnSoundFinished -= HandleSoundFinish;
-            player.OnSoundFinished += HandleSoundFinish;
-            return player;
-        }
-
-        private HashSet<SoundPlayer> GetOrCreateGroup(SoundChannelId channelId)
-        {
-            if (_groupPlayers.TryGetValue(channelId, out HashSet<SoundPlayer> players))
-                return players;
-
-            players = new HashSet<SoundPlayer>();
-            _groupPlayers[channelId] = players;
-            return players;
-        }
-
-        private void RemovePlayerFromTracking(SoundPlayer player)
-        {
-            SoundChannelId foundChannel = SoundChannelId.None;
-            bool singleFound = false;
-            foreach (var pair in _channelPlayers)
-            {
-                if (pair.Value == player)
-                {
-                    foundChannel = pair.Key;
-                    singleFound = true;
-                    break;
-                }
-            }
-
-            if (singleFound)
-                _channelPlayers.Remove(foundChannel);
-
-            foreach (var group in _groupPlayers.Values)
-                group.Remove(player);
         }
     }
 }

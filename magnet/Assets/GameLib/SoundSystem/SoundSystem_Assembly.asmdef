@@ -1,12 +1,11 @@
 {
-    "name": "SoundSystem.Editor",
+    "name": "SoundSystem_Assembly",
     "rootNamespace": "",
     "references": [
-        "GUID:f8563110fcb49be4eac2d408b27c2523"
+        "ObjectPool",
+        "EventChannel_Assembly"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
