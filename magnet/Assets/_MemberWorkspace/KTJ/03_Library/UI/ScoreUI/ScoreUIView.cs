@@ -6,7 +6,7 @@ namespace Game.UI
 {
     public sealed partial class ScoreUIView : MvvmView<ScoreUIViewModel>
     {
-        //[SerializeField] private EventChannelSO 
+        [SerializeField] private EventChannelSO InGameChannel;
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
