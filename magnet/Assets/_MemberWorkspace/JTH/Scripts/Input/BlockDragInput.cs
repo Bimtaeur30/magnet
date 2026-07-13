@@ -1,8 +1,8 @@
+using Cysharp.Threading.Tasks;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Domain.Turn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
@@ -24,7 +24,6 @@ namespace JTH.Scripts.Input
         [SerializeField] private EventChannelSO magnetGameChannel;
 
         [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
-        [Inject] private readonly PlacedBlocksView _placedBlocksView;
 
         private BlockDragDrawer _drawer;
         private DragSensitivityRamp _sensitivityRamp;
@@ -46,7 +45,6 @@ namespace JTH.Scripts.Input
             Debug.Assert(placementConfig != null, "[BlockDragInput] placementConfig is not assigned.", this);
             Debug.Assert(boardConfig != null, "[BlockDragInput] boardConfig is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[BlockDragInput] BoardPlacementBootstrap was not injected.", this);
-            Debug.Assert(_placedBlocksView != null, "[BlockDragInput] PlacedBlocksView was not injected.", this);
 
             _drawer = GetComponent<BlockDragDrawer>();
             _sensitivityRamp = new DragSensitivityRamp(
@@ -137,6 +135,11 @@ namespace JTH.Scripts.Input
 
         private void OnPointerReleased()
         {
+            ConfirmPlacementAsync().Forget();
+        }
+
+        private async UniTaskVoid ConfirmPlacementAsync()
+        {
             if (_selectedShape == null || _isPlacing)
             {
                 return;
@@ -145,39 +148,27 @@ namespace JTH.Scripts.Input
             _sensitivityRamp.Reset();
 
             Vector2Int pivot = GetCurrentPivot();
-            TurnResolutionResult turn = _placementBootstrap.TryConfirmPlacement(_selectedShape, pivot, _selectedSlotIndex);
-            if (!turn.Placement.Success)
+            PlacementResult simulated = _placementBootstrap.PlacementService.Simulate(_selectedShape, pivot);
+            if (!simulated.Success)
             {
                 DisconnectSelection();
                 return;
             }
 
+            IBlockShape shape = _selectedShape;
+            int slotIndex = _selectedSlotIndex;
+
             _drawer.ClearPreview();
             ShapeBlock staging = _drawer.TakeStagingForPlacement();
-            int blockId = turn.Placement.BlockId;
-
             DisconnectSelection();
             _isPlacing = true;
 
-            if (_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
+            try
             {
-                BlockSnapMotion.PlayFromPlaced(
-                    staging,
-                    placedBlock,
-                    _stagingGridY,
-                    boardConfig,
-                    placementConfig,
-                    () =>
-                    {
-                        _placedBlocksView.Register(blockId, staging);
-                        _placedBlocksView.Adopt(staging, $"Placed_{blockId}");
-                        _isPlacing = false;
-                    });
+                await _placementBootstrap.TryConfirmPlacement(shape, pivot, slotIndex, staging);
             }
-            else
+            finally
             {
-                staging.Clear();
-                Destroy(staging.gameObject);
                 _isPlacing = false;
             }
         }

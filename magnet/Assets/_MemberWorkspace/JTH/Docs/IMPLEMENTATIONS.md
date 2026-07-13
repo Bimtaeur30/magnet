@@ -12,7 +12,7 @@
 | [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase3 완료 | 균등 추첨·3후보 공급 (가중치 없음) |
 | [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase4 완료 | 부착·Y Lit 스냅·3슬롯 소진 후 Fill |
 | [block-destruction](./Implementations/block-destruction/phases.md) | 블록 파괴 판정 | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase4 완료 | A안: 판정·제거·이벤트·Presentation |
-| [board-rotation](./Implementations/board-rotation/phases.md) | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | phase2 완료 | 90° Domain + LitMotion, Consume 순서 |
+| [board-rotation](./Implementations/board-rotation/phases.md) | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | phase3 완료 | Place→Clear→Rotate Bootstrap 순차 UniTask |
 | game-over | 게임 오버 판정 | [SCRUM-22](https://bimtaeur30.atlassian.net/browse/SCRUM-22) | — | 미착수 |
 | score-logic | 점수 관리 (로직) | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | — | 미착수 |
 
