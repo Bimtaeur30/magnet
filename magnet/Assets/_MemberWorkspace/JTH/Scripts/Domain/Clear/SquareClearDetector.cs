@@ -15,9 +15,9 @@ namespace JTH.Scripts.Domain.Clear
             var cellsToRemove = new HashSet<Vector2Int>();
             int half = BoardCoordinates.HalfExtent(grid.BoardSize);
 
-            for (int size = 3; size <= grid.BoardSize; size += 2)
+            for (int size = 2; size <= grid.BoardSize; size++)
             {
-                int squareHalf = (size - 1) / 2;
+                int squareHalf = size / 2;
                 if (squareHalf > half)
                 {
                     break;
@@ -28,11 +28,22 @@ namespace JTH.Scripts.Domain.Clear
                     continue;
                 }
 
-                clearedSquares.Add(squareInfo);
+                // 이미 더 작은 사각형이 가져간 칸은 이후 ClearedCells에 넣지 않는다.
+                var uniqueCells = new List<Vector2Int>();
                 foreach (Vector2Int cell in squareInfo.ClearedCells)
                 {
-                    cellsToRemove.Add(cell);
+                    if (cellsToRemove.Add(cell))
+                    {
+                        uniqueCells.Add(cell);
+                    }
                 }
+
+                if (uniqueCells.Count == 0)
+                {
+                    continue;
+                }
+
+                clearedSquares.Add(new ClearedSquareInfo(squareInfo.SquareSize, uniqueCells));
             }
 
             if (clearedSquares.Count == 0)
@@ -47,7 +58,6 @@ namespace JTH.Scripts.Domain.Clear
         {
             squareInfo = null;
             var borderCells = new List<Vector2Int>();
-            var interiorCells = new List<Vector2Int>();
 
             for (int x = -squareHalf; x <= squareHalf; x++)
             {
@@ -62,13 +72,7 @@ namespace JTH.Scripts.Domain.Clear
                     Vector2Int cell = new(x, y);
 
                     if (chebyshev == squareHalf)
-                    {
                         borderCells.Add(cell);
-                    }
-                    else
-                    {
-                        interiorCells.Add(cell);
-                    }
                 }
             }
 
@@ -78,10 +82,9 @@ namespace JTH.Scripts.Domain.Clear
             }
 
             int squareSize = squareHalf * 2 + 1;
-            bool isFullClear = AreAllOccupied(grid, interiorCells);
             IReadOnlyList<Vector2Int> clearedCells = BuildClearedCells(grid, squareHalf, borderCells);
 
-            squareInfo = new ClearedSquareInfo(squareSize, isFullClear, clearedCells);
+            squareInfo = new ClearedSquareInfo(squareSize, clearedCells);
             return true;
         }
 

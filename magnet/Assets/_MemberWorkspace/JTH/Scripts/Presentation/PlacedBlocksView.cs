@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Events;
-using LitMotion;
 using Reflex.Attributes;
 using UnityEngine;
 
