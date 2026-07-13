@@ -46,8 +46,10 @@ namespace JTH.Scripts.Domain.Placement
             return GetOverlapReason(shape, pivot, grid) != PlacementFailureReason.None;
         }
 
-        public static bool HasAnyCellOutsideBounds(IReadOnlyList<Vector2Int> cells, BoardGrid grid)
+        public static bool HasAnyCellOutsideBounds(BoardGrid grid)
         {
+            IReadOnlyCollection<Vector2Int> cells = grid.OccupiedCells;
+            
             foreach (Vector2Int cell in cells)
             {
                 if (!grid.IsInBounds(cell.x, cell.y))

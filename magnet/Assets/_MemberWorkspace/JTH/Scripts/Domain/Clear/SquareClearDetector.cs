@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JTH.Scripts.Domain.Placement;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Clear
@@ -50,7 +51,7 @@ namespace JTH.Scripts.Domain.Clear
             {
                 return ClearDetectionResult.None;
             }
-
+            
             return new ClearDetectionResult(clearedSquares, cellsToRemove);
         }
 
