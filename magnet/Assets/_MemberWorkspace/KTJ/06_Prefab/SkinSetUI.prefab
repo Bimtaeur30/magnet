@@ -721,6 +721,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2600896771071485790}
+  - component: {fileID: 2651827158409042051}
   m_Layer: 5
   m_Name: SkinSetUI
   m_TagString: Untagged
@@ -750,6 +751,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2651827158409042051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2396958065580382105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8df9158458fc5a49b496725cdd46da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SkinBoxContainer
+  SkinBoxPrefab: {fileID: 5118647027423338411, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
+  SkinBoxParent: {fileID: 4178192311866291767}
 --- !u!1 &2673606932967371138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,6 +1314,10 @@ PrefabInstance:
     - target: {fileID: 4704385875323098714, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807722686660337871, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
+      propertyPath: m_Name
+      value: SkinNameTxt
       objectReference: {fileID: 0}
     - target: {fileID: 7092989154642275556, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.y
