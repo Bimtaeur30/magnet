@@ -14,5 +14,7 @@ namespace Magnet.Contracts.BlockShapes
 
         /// <summary>배치 피벗 (0,0) 기준 상대 격자 좌표. 자석 축 좌표계와 동일.</summary>
         IReadOnlyList<Vector2Int> CellOffsets { get; }
+
+        Texture2D Icon { get; }
     }
 }

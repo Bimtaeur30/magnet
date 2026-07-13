@@ -50,8 +50,7 @@ namespace JTH.Scripts.Domain.Placement
             }
 
             List<Vector2Int> finalCells = BlockPlacementCells.ToAbsolute(shape, finalPivot);
-            bool hasCellsOutsideBounds = BlockPlacementCells.HasAnyCellOutsideBounds(finalCells, grid);
-            return PlacementResult.Succeeded(finalPivot, finalCells, hasCellsOutsideBounds);
+            return PlacementResult.Succeeded(finalPivot, finalCells);
         }
     }
 }
