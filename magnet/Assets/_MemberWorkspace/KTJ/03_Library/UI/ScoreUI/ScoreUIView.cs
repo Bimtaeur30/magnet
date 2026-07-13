@@ -1,4 +1,5 @@
 using GameLib.EventChannelSystem;
+using JTH.Scripts.Events;
 using Mvvm;
 using UnityEngine;
 
@@ -6,18 +7,17 @@ namespace Game.UI
 {
     public sealed partial class ScoreUIView : MvvmView<ScoreUIViewModel>
     {
-        [SerializeField] private EventChannelSO InGameChannel;
-        private void Update()
+        [SerializeField] private EventChannelSO MagnetGameChannel;
+
+        protected override void Awake()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Test();
-            }
+            base.Awake();
+            MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
         }
 
-        public void Test()
+        private void HandleScoreChangedEvent(ScoreChangedEvent @event)
         {
-            ViewModel.SetCurrentScore(Random.Range(0, 100));
+            ViewModel.SetCurrentScore(@event.TotalScore);
         }
     }
 }

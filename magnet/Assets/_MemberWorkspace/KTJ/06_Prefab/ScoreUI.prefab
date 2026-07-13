@@ -354,5 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fd40d626e213c4aa74d04ceeb32f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.ScoreUIView
+  MagnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   scoreUICurrentScoreTxtText: {fileID: 2634908539778724718}
   scoreUIBestScoreTxtText: {fileID: 2668357708456574626}
