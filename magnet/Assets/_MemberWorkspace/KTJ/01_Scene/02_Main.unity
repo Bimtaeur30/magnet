@@ -3572,6 +3572,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1590177540}
     m_Modifications:
+    - target: {fileID: 1836741838812614679, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836741838812614679, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836741838812614679, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836741838812614679, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1924593293933429940, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
       propertyPath: m_Name
       value: BlockSlotsUI
@@ -3654,6 +3670,70 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2235956838682096143, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474013061627071030, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474013061627071030, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474013061627071030, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474013061627071030, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241579349266011300, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241579349266011300, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241579349266011300, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241579349266011300, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428699876103483532, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428699876103483532, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428699876103483532, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428699876103483532, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767064920044350614, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767064920044350614, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767064920044350614, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767064920044350614, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3922,6 +4002,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1590177540}
     m_Modifications:
+    - target: {fileID: 102248948368113432, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 102248948368113432, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227094221164335401, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227094221164335401, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835568995286231623, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+      propertyPath: MagnetGameChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
     - target: {fileID: 5054214051616426412, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
       propertyPath: m_Name
       value: ScoreUI
@@ -4498,6 +4598,14 @@ PrefabInstance:
     - target: {fileID: 7947554293545587849, guid: ed46513a919559e43afdecc684c01294, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -48.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976172859828416200, guid: ed46513a919559e43afdecc684c01294, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976172859828416200, guid: ed46513a919559e43afdecc684c01294, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00024414062
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
