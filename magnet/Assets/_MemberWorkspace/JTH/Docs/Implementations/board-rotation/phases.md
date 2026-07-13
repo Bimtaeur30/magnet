@@ -7,3 +7,4 @@
 |-------|------|------|-----------|------|
 | 1 | 90° 회전 Domain | [phase1.md](phase1.md) | [sequence1.md](sequence1.md) | 구현됨 · 확인 대기 |
 | 2 | 회전 LitMotion + Consume 순서 | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) | 구현됨 · 확인 대기 |
+| 3 | 턴 연출 Bootstrap 순차 UniTask | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) | 구현됨 · 확인 대기 |
