@@ -1,20 +1,32 @@
-using System;
+using System.IO;
+using UnityEngine;
 
 namespace PTY.Scripts.Save.Local
 {
     /// <summary>
-    /// TODO(SCRUM-28 기능 구현): Application.persistentDataPath에 JSON 파일로 GameSaveData를 읽고 쓴다.
+    /// Application.persistentDataPath에 GameSaveData를 JSON 파일로 읽고 쓴다.
     /// </summary>
     public class JsonFileSaveRepository : ILocalSaveRepository
     {
+        private const string FileName = "save.json";
+
+        private static string FilePath => Path.Combine(Application.persistentDataPath, FileName);
+
         public GameSaveData Load()
         {
-            throw new NotImplementedException();
+            if (!File.Exists(FilePath))
+            {
+                return null;
+            }
+
+            string json = File.ReadAllText(FilePath);
+            return JsonUtility.FromJson<GameSaveData>(json);
         }
 
         public void Save(GameSaveData data)
         {
-            throw new NotImplementedException();
+            string json = JsonUtility.ToJson(data);
+            File.WriteAllText(FilePath, json);
         }
     }
 }

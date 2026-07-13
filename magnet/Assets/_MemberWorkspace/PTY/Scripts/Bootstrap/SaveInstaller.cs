@@ -1,6 +1,5 @@
 using GameLib.EventChannelSystem;
 using PTY.Scripts.Save;
-using PTY.Scripts.Save.Cloud;
 using PTY.Scripts.Save.Local;
 using Reflex.Core;
 using UnityEngine;
@@ -8,8 +7,8 @@ using UnityEngine;
 namespace PTY.Scripts.Bootstrap
 {
     /// <summary>
-    /// SCRUM-28 저장 구조 뼈대. 플랫폼별 ICloudSaveProvider를 골라 SaveService를 ISaveService로 등록한다.
-    /// 실제 저장 로직은 JsonFileSaveRepository / GooglePlayGamesSaveProvider / AppleGameKitSaveProvider에서 채운다.
+    /// SCRUM-28 저장 구조. 클라우드 로그인 미구현 상태라 로컬 저장만 SaveService에 배선한다.
+    /// (로그인 구현 시 ICloudSaveProvider 플랫폼 분기를 다시 추가하고 SaveService에 주입할 자리)
     /// </summary>
     public sealed class SaveInstaller : MonoBehaviour, IInstaller
     {
@@ -20,21 +19,9 @@ namespace PTY.Scripts.Bootstrap
             Debug.Assert(magnetGameChannel != null, "[SaveInstaller] EventChannelSO is not assigned.", this);
 
             ILocalSaveRepository localRepository = new JsonFileSaveRepository();
-            ICloudSaveProvider cloudProvider = CreateCloudProvider();
-            ISaveService saveService = new SaveService(localRepository, cloudProvider, magnetGameChannel);
+            ISaveService saveService = new SaveService(localRepository, magnetGameChannel);
 
             containerBuilder.RegisterValue(saveService, new[] { typeof(ISaveService) });
-        }
-
-        private static ICloudSaveProvider CreateCloudProvider()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            return new GooglePlayGamesSaveProvider();
-#elif UNITY_IOS && !UNITY_EDITOR
-            return new AppleGameKitSaveProvider();
-#else
-            return new NullCloudSaveProvider();
-#endif
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 
 namespace PTY.Scripts.Events
@@ -10,6 +11,7 @@ namespace PTY.Scripts.Events
     {
         public static readonly BestScoreUpdatedEvent BestScoreUpdatedEvent = new();
         public static readonly SaveSyncCompletedEvent SaveSyncCompletedEvent = new();
+        public static readonly SaveDataLoadedEvent SaveDataLoadedEvent = new();
     }
 
     public sealed class BestScoreUpdatedEvent : GameEvent
@@ -27,11 +29,35 @@ namespace PTY.Scripts.Events
 
     public sealed class SaveSyncCompletedEvent : GameEvent
     {
-        public bool CloudSyncSucceeded { get; private set; }
+    }
 
-        public SaveSyncCompletedEvent Init(bool cloudSyncSucceeded)
+    /// <summary>
+    /// 저장 데이터 로드 완료 시점의 스냅샷. 스킨/점수 등 다른 워크스페이스 소비자가
+    /// 각자 필요할 때 이 이벤트를 구독해 자기 상태를 복원하는 용도.
+    /// </summary>
+    public sealed class SaveDataLoadedEvent : GameEvent
+    {
+        public int BestScore { get; private set; }
+        public IReadOnlyList<string> UnlockedSkinIds { get; private set; }
+        public string EquippedSkinId { get; private set; }
+        public float TotalPlayTime { get; private set; }
+        public int MaxExplosionCombo { get; private set; }
+        public int GameOverCount { get; private set; }
+
+        public SaveDataLoadedEvent Init(
+            int bestScore,
+            IReadOnlyList<string> unlockedSkinIds,
+            string equippedSkinId,
+            float totalPlayTime,
+            int maxExplosionCombo,
+            int gameOverCount)
         {
-            CloudSyncSucceeded = cloudSyncSucceeded;
+            BestScore = bestScore;
+            UnlockedSkinIds = unlockedSkinIds;
+            EquippedSkinId = equippedSkinId;
+            TotalPlayTime = totalPlayTime;
+            MaxExplosionCombo = maxExplosionCombo;
+            GameOverCount = gameOverCount;
             return this;
         }
     }

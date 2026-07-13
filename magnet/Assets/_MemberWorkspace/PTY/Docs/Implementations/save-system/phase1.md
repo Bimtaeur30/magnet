@@ -38,7 +38,7 @@
 ### 합의된 설계 결정 (구현 시 반영해야 할 정책)
 
 - iOS 연동: Apple 공식 GameKit Unity 플러그인 (Unity 내장 `SocialPlatforms` 아님)
-- 저장 범위: 베스트 스코어 + 언락 스킨 (스테이지 개념 없음. 이후 다른 저장 항목은 `GameSaveData`에 필드 추가로 확장)
+- 저장 범위: 베스트 스코어 + 언락 스킨 (스테이지 개념 없음. 이후 다른 저장 항목은 `GameSaveData`에 필드 추가로 확장 — [Phase 2](phase2.md)에서 플레이 통계·장착 스킨 추가됨)
 - 로컬 포맷: JSON 파일 (`persistentDataPath`)
 - 충돌 해결: 로컬/클라우드 값이 다르면 필드별로 더 높은 값 우선, 병합 후 양쪽에 재저장
 

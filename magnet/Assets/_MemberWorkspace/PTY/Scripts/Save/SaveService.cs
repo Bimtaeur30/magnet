@@ -1,52 +1,113 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using GameLib.EventChannelSystem;
-using PTY.Scripts.Save.Local;
+using PTY.Scripts.Events;
 
 namespace PTY.Scripts.Save
 {
     /// <summary>
-    /// 로컬/클라우드 저장 오케스트레이션 뼈대. 실제 로직(초기 동기화, 필드별 최고값 우선 병합,
-    /// 로컬 즉시저장 + 클라우드 비동기 push, SaveEvents 발행)은 SCRUM-28 기능 구현 담당자가 채운다.
+    /// 로컬 저장 오케스트레이션. 클라우드 로그인 미구현 상태라 로컬 저장소만 사용한다.
+    /// (클라우드 로그인 구현 시 ICloudSaveProvider를 다시 주입해 초기 병합/비동기 push를 추가할 자리)
     /// </summary>
     public sealed class SaveService : ISaveService
     {
         private readonly ILocalSaveRepository _localRepository;
-        private readonly ICloudSaveProvider _cloudProvider;
         private readonly EventChannelSO _magnetGameChannel;
+        private GameSaveData _data;
 
-        public SaveService(
-            ILocalSaveRepository localRepository,
-            ICloudSaveProvider cloudProvider,
-            EventChannelSO magnetGameChannel)
+        public SaveService(ILocalSaveRepository localRepository, EventChannelSO magnetGameChannel)
         {
             _localRepository = localRepository;
-            _cloudProvider = cloudProvider;
             _magnetGameChannel = magnetGameChannel;
+            _data = _localRepository.Load() ?? new GameSaveData();
         }
 
-        public int BestScore => throw new NotImplementedException();
-        public IReadOnlyList<string> UnlockedSkinIds => throw new NotImplementedException();
+        public int BestScore => _data.BestScore;
+        public IReadOnlyList<string> UnlockedSkinIds => _data.UnlockedSkinIds;
+        public string EquippedSkinId => _data.EquippedSkinId;
+        public float TotalPlayTime => _data.TotalPlayTime;
+        public int MaxExplosionCombo => _data.MaxExplosionCombo;
+        public int GameOverCount => _data.GameOverCount;
 
         public UniTask InitializeAsync()
         {
-            throw new NotImplementedException();
+            return UniTask.CompletedTask;
         }
 
         public void SubmitScore(int score)
         {
-            throw new NotImplementedException();
+            if (score <= _data.BestScore)
+            {
+                return;
+            }
+
+            int previousBestScore = _data.BestScore;
+            _data.BestScore = score;
+            Save();
+            _magnetGameChannel.RaiseEvent(SaveEvents.BestScoreUpdatedEvent.Init(score, previousBestScore));
         }
 
         public void UnlockSkin(string skinId)
         {
-            throw new NotImplementedException();
+            if (_data.UnlockedSkinIds.Contains(skinId))
+            {
+                return;
+            }
+
+            _data.UnlockedSkinIds.Add(skinId);
+            Save();
         }
 
-        public UniTask<bool> ForceSyncAsync()
+        public void EquipSkin(string skinId)
         {
-            throw new NotImplementedException();
+            _data.EquippedSkinId = skinId;
+            Save();
+        }
+
+        public void AddPlayTime(float seconds)
+        {
+            _data.TotalPlayTime += seconds;
+            Save();
+        }
+
+        public void SubmitExplosionCombo(int comboCount)
+        {
+            if (comboCount <= _data.MaxExplosionCombo)
+            {
+                return;
+            }
+
+            _data.MaxExplosionCombo = comboCount;
+            Save();
+        }
+
+        public void RecordGameOver()
+        {
+            _data.GameOverCount++;
+            Save();
+        }
+
+        public void ValidateUnlockedSkins(IReadOnlyCollection<string> validSkinIds)
+        {
+            int removedCount = _data.UnlockedSkinIds.RemoveAll(skinId => !validSkinIds.Contains(skinId));
+
+            bool equippedSkinInvalid = !string.IsNullOrEmpty(_data.EquippedSkinId) && !validSkinIds.Contains(_data.EquippedSkinId);
+            if (equippedSkinInvalid)
+            {
+                _data.EquippedSkinId = null;
+            }
+
+            if (removedCount > 0 || equippedSkinInvalid)
+            {
+                Save();
+            }
+        }
+
+        private void Save()
+        {
+            _localRepository.Save(_data);
+            _magnetGameChannel.RaiseEvent(SaveEvents.SaveSyncCompletedEvent);
         }
     }
 }

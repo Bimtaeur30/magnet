@@ -9,5 +9,9 @@ namespace PTY.Scripts.Save
         public int SchemaVersion = 1;
         public int BestScore;
         public List<string> UnlockedSkinIds = new();
+        public string EquippedSkinId;
+        public float TotalPlayTime;
+        public int MaxExplosionCombo;
+        public int GameOverCount;
     }
 }
