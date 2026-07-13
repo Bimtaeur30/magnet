@@ -14,7 +14,7 @@
 - [ ] SCRUM-18 — 인게임-랜덤 블록 생성 (`BlockShapeSO`, 3후보 추첨 로직)
 - [ ] SCRUM-19 — 인게임-블록 배치 (x축 입력·자석 흡착·부착)
 - [ ] SCRUM-22 — 인게임-게임 오버 판정
-- [ ] SCRUM-20 — 인게임-블록 파괴 판정 & 파괴
+- [ ] SCRUM-20 — 인게임-블록 파괴·재조립 (`clear-reassembly`: OccupiedCell·달팽이 재배치)
 - [ ] SCRUM-21 — 인게임-전체 블록 회전 & 턴 흐름
 - [ ] SCRUM-23 — 인게임-점수 관리 (로직만, HUD UI X)
 ## KTJ

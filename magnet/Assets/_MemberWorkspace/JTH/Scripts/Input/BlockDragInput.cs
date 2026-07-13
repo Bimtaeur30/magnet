@@ -75,7 +75,7 @@ namespace JTH.Scripts.Input
 
         private void OnBlockSelected(BlockSelectedEvent evt)
         {
-            if (_isPlacing)
+            if (_isPlacing || _placementBootstrap.IsTurnResolving)
             {
                 return;
             }
@@ -102,7 +102,7 @@ namespace JTH.Scripts.Input
 
         private void OnPointerPressed()
         {
-            if (_selectedShape == null || _isPlacing)
+            if (_selectedShape == null || _isPlacing || _placementBootstrap.IsTurnResolving)
             {
                 return;
             }
@@ -121,7 +121,7 @@ namespace JTH.Scripts.Input
 
         private void OnPointerMoved(Vector2 _)
         {
-            if (_selectedShape == null || !magnetInput.IsPointerPressed || _isPlacing)
+            if (_selectedShape == null || !magnetInput.IsPointerPressed || _isPlacing || _placementBootstrap.IsTurnResolving)
             {
                 return;
             }
@@ -140,7 +140,7 @@ namespace JTH.Scripts.Input
 
         private async UniTaskVoid ConfirmPlacementAsync()
         {
-            if (_selectedShape == null || _isPlacing)
+            if (_selectedShape == null || _isPlacing || _placementBootstrap.IsTurnResolving)
             {
                 return;
             }

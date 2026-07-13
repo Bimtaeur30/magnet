@@ -8,8 +8,9 @@ namespace JTH.Scripts.Domain
     public sealed class BoardSession
     {
         private readonly BoardGrid _grid;
-        private readonly List<PlacedBlock> _placedBlocks = new();
-        private int _nextBlockId = 1;
+        private readonly List<OccupiedCell> _cells = new();
+        private readonly Dictionary<int, OccupiedCell> _cellsById = new();
+        private int _nextCellId = 1;
 
         public BoardSession(int boardSize)
         {
@@ -17,116 +18,124 @@ namespace JTH.Scripts.Domain
         }
 
         public BoardGrid Grid => _grid;
-        public IReadOnlyList<PlacedBlock> PlacedBlocks => _placedBlocks;
+        public IReadOnlyList<OccupiedCell> Cells => _cells;
 
         /// <summary>
-        /// 블록 ID 발급 + 목록 등록 + 격자 점유를 한 번에 처리한다.
+        /// 절대 좌표 칸들을 등록하고 cellId 목록을 반환한다.
         /// </summary>
-        public int AddPlacedBlock(string shapeId, Vector2Int pivot, IReadOnlyList<Vector2Int> cellOffsets)
+        public IReadOnlyList<int> AddCells(IReadOnlyList<Vector2Int> absoluteCells)
         {
-            int blockId = _nextBlockId++;
-            var placedBlock = new PlacedBlock(blockId, shapeId, pivot, cellOffsets);
-            _placedBlocks.Add(placedBlock);
-            OccupyBlockCells(placedBlock);
-            return blockId;
+            var ids = new List<int>(absoluteCells.Count);
+            for (int i = 0; i < absoluteCells.Count; i++)
+            {
+                int cellId = _nextCellId++;
+                var cell = new OccupiedCell(cellId, absoluteCells[i]);
+                _cells.Add(cell);
+                _cellsById[cellId] = cell;
+                _grid.SetOccupied(absoluteCells[i], true);
+                ids.Add(cellId);
+            }
+
+            return ids;
         }
 
-        public bool TryGetPlacedBlock(int blockId, out PlacedBlock placedBlock)
+        public bool TryGetCell(int cellId, out OccupiedCell cell)
         {
-            for (int i = 0; i < _placedBlocks.Count; i++)
+            return _cellsById.TryGetValue(cellId, out cell);
+        }
+
+        public bool TryGetCellAt(Vector2Int position, out OccupiedCell cell)
+        {
+            for (int i = 0; i < _cells.Count; i++)
             {
-                if (_placedBlocks[i].BlockId == blockId)
+                if (_cells[i].Position == position)
                 {
-                    placedBlock = _placedBlocks[i];
+                    cell = _cells[i];
                     return true;
                 }
             }
 
-            placedBlock = null;
+            cell = null;
             return false;
         }
 
         /// <summary>
-        /// 제거 대상 칸을 격자·PlacedBlock에서 해제한다. 내부에 남는 칸이 있으면 offsets만 갱신한다.
+        /// 좌표 집합에 해당하는 칸을 제거하고, 삭제된 cellId 목록을 반환한다.
         /// </summary>
-        public void RemoveCells(IReadOnlyCollection<Vector2Int> cellsToRemove)
+        public IReadOnlyList<int> RemoveCellsAt(IReadOnlyCollection<Vector2Int> cellsToRemove)
         {
             if (cellsToRemove == null || cellsToRemove.Count == 0)
+            {
+                return System.Array.Empty<int>();
+            }
+
+            var removeSet = cellsToRemove as HashSet<Vector2Int> ?? new HashSet<Vector2Int>(cellsToRemove);
+            var removedIds = new List<int>();
+
+            for (int i = _cells.Count - 1; i >= 0; i--)
+            {
+                OccupiedCell cell = _cells[i];
+                if (!removeSet.Contains(cell.Position))
+                {
+                    continue;
+                }
+
+                _grid.SetOccupied(cell.Position, false);
+                _cellsById.Remove(cell.CellId);
+                removedIds.Add(cell.CellId);
+                _cells.RemoveAt(i);
+            }
+
+            return removedIds;
+        }
+
+        /// <summary>
+        /// 격자 점유만 해제한다. 셀 엔티티·좌표는 유지 (재배치 배정 전 이륙용).
+        /// </summary>
+        public void ReleaseOccupancy(int cellId)
+        {
+            if (!_cellsById.TryGetValue(cellId, out OccupiedCell cell))
             {
                 return;
             }
 
-            var removeSet = cellsToRemove as HashSet<Vector2Int> ?? new HashSet<Vector2Int>(cellsToRemove);
+            _grid.SetOccupied(cell.Position, false);
+        }
 
-            foreach (Vector2Int cell in removeSet)
+        public void MoveCell(int cellId, Vector2Int to)
+        {
+            if (!_cellsById.TryGetValue(cellId, out OccupiedCell cell))
             {
-                _grid.SetOccupied(cell, false);
+                return;
             }
 
-            for (int i = _placedBlocks.Count - 1; i >= 0; i--)
+            Vector2Int from = cell.Position;
+            if (from != to)
             {
-                PlacedBlock block = _placedBlocks[i];
-                var remainingAbsolute = new List<Vector2Int>();
-
-                foreach (Vector2Int absoluteCell in block.AbsoluteCells())
-                {
-                    if (!removeSet.Contains(absoluteCell))
-                    {
-                        remainingAbsolute.Add(absoluteCell);
-                    }
-                }
-
-                if (remainingAbsolute.Count == 0)
-                {
-                    _placedBlocks.RemoveAt(i);
-                    continue;
-                }
-
-                Vector2Int newPivot = remainingAbsolute[0];
-                var newOffsets = new List<Vector2Int>(remainingAbsolute.Count);
-                for (int j = 0; j < remainingAbsolute.Count; j++)
-                {
-                    newOffsets.Add(remainingAbsolute[j] - newPivot);
-                }
-
-                block.SetPlacement(newPivot, newOffsets);
+                _grid.SetOccupied(from, false);
             }
+
+            cell.SetPosition(to);
+            _grid.SetOccupied(to, true);
         }
 
         public void RotateAllClockwise90()
         {
-            for (int i = 0; i < _placedBlocks.Count; i++)
+            for (int i = 0; i < _cells.Count; i++)
             {
-                PlacedBlock block = _placedBlocks[i];
-                Vector2Int rotatedPivot = GridRotation.RotateClockwise90(block.Pivot);
-                var rotatedOffsets = new List<Vector2Int>(block.CellOffsets.Count);
-
-                for (int j = 0; j < block.CellOffsets.Count; j++)
-                {
-                    rotatedOffsets.Add(GridRotation.RotateClockwise90(block.CellOffsets[j]));
-                }
-
-                block.SetPlacement(rotatedPivot, rotatedOffsets);
+                OccupiedCell cell = _cells[i];
+                cell.SetPosition(GridRotation.RotateClockwise90(cell.Position));
             }
 
-            RebuildOccupancyFromPlacedBlocks();
+            RebuildOccupancyFromCells();
         }
 
-        private void RebuildOccupancyFromPlacedBlocks()
+        private void RebuildOccupancyFromCells()
         {
             _grid.ClearOccupancy();
-
-            for (int i = 0; i < _placedBlocks.Count; i++)
+            for (int i = 0; i < _cells.Count; i++)
             {
-                OccupyBlockCells(_placedBlocks[i]);
-            }
-        }
-
-        private void OccupyBlockCells(PlacedBlock block)
-        {
-            foreach (Vector2Int absoluteCell in block.AbsoluteCells())
-            {
-                _grid.SetOccupied(absoluteCell, true);
+                _grid.SetOccupied(_cells[i].Position, true);
             }
         }
     }
