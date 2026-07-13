@@ -9,6 +9,8 @@ namespace Magnet.Contracts.BlockSkins
     public interface IBlockSkin
     {
         /// <summary>에디터·인벤토리에서 구분용 ID.</summary>
+        /// 
+        string SkinName { get; }
         string SkinId { get; }
 
         /// <summary>블록 피스에 적용 가능한 색상 풀.</summary>
