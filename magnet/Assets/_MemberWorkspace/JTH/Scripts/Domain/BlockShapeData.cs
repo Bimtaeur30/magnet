@@ -20,5 +20,7 @@ namespace JTH.Scripts.Domain
         public string ShapeId { get; }
 
         public IReadOnlyList<Vector2Int> CellOffsets => _cellOffsets;
+
+        public Texture2D Icon { get; }
     }
 }
