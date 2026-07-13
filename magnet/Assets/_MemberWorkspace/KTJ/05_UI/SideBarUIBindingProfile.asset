@@ -1,0 +1,436 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8981b4ecea39b648827ae4e8c917316, type: 3}
+  m_Name: SideBarUIBindingProfile
+  m_EditorClassIdentifier: Mvvm.Editor::Mvvm.Editor.MvvmBindingProfile
+  targetPrefab: {fileID: 0}
+  namespaceName: Game.UI
+  viewClassName: SideBarUIView
+  viewModelClassName: SideBarUIViewModel
+  outputFolder: Assets/_MemberWorkspace/KTJ/03_Library/UI/SideBarUI
+  bindings:
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ButtonPosition
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButtonAnchoredPosition
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ButtonX
+    valueType: float
+    fieldName: sideBarUIButtonAnchoredPositionX
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ButtonY
+    valueType: float
+    fieldName: sideBarUIButtonAnchoredPositionY
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ButtonSize
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButtonSizeDelta
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ButtonWidth
+    valueType: float
+    fieldName: sideBarUIButtonSizeDeltaX
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ButtonHeight
+    valueType: float
+    fieldName: sideBarUIButtonSizeDeltaY
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ButtonRotationZ
+    valueType: float
+    fieldName: sideBarUIButtonLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ButtonScale
+    valueType: UnityEngine.Vector3
+    fieldName: sideBarUIButtonLocalScale
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ButtonScaleX
+    valueType: float
+    fieldName: sideBarUIButtonLocalScaleX
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ButtonScaleY
+    valueType: float
+    fieldName: sideBarUIButtonLocalScaleY
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Button
+    valueType: UnityEngine.Sprite
+    fieldName: sideBarUIButtonSprite
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: ButtonColor
+    valueType: UnityEngine.Color
+    fieldName: sideBarUIButtonColor
+  - enabled: 0
+    objectPath: SideBarUI/Button
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: ButtonAlpha
+    valueType: float
+    fieldName: sideBarUIButtonColorA
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: IconPosition
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButtonIconAnchoredPosition
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: IconX
+    valueType: float
+    fieldName: sideBarUIButtonIconAnchoredPositionX
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: IconY
+    valueType: float
+    fieldName: sideBarUIButtonIconAnchoredPositionY
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: IconSize
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButtonIconSizeDelta
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: IconWidth
+    valueType: float
+    fieldName: sideBarUIButtonIconSizeDeltaX
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: IconHeight
+    valueType: float
+    fieldName: sideBarUIButtonIconSizeDeltaY
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: IconRotationZ
+    valueType: float
+    fieldName: sideBarUIButtonIconLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: IconScale
+    valueType: UnityEngine.Vector3
+    fieldName: sideBarUIButtonIconLocalScale
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: IconScaleX
+    valueType: float
+    fieldName: sideBarUIButtonIconLocalScaleX
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: IconScaleY
+    valueType: float
+    fieldName: sideBarUIButtonIconLocalScaleY
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Icon
+    valueType: UnityEngine.Sprite
+    fieldName: sideBarUIButtonIconSprite
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: IconColor
+    valueType: UnityEngine.Color
+    fieldName: sideBarUIButtonIconColor
+  - enabled: 0
+    objectPath: SideBarUI/Button/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: IconAlpha
+    valueType: float
+    fieldName: sideBarUIButtonIconColorA
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: Button1Position
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButton1AnchoredPosition
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: Button1X
+    valueType: float
+    fieldName: sideBarUIButton1AnchoredPositionX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: Button1Y
+    valueType: float
+    fieldName: sideBarUIButton1AnchoredPositionY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: Button1Size
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButton1SizeDelta
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: Button1Width
+    valueType: float
+    fieldName: sideBarUIButton1SizeDeltaX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: Button1Height
+    valueType: float
+    fieldName: sideBarUIButton1SizeDeltaY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: Button1RotationZ
+    valueType: float
+    fieldName: sideBarUIButton1LocalEulerAnglesZ
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: Button1Scale
+    valueType: UnityEngine.Vector3
+    fieldName: sideBarUIButton1LocalScale
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: Button1ScaleX
+    valueType: float
+    fieldName: sideBarUIButton1LocalScaleX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: Button1ScaleY
+    valueType: float
+    fieldName: sideBarUIButton1LocalScaleY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Button1
+    valueType: UnityEngine.Sprite
+    fieldName: sideBarUIButton1Sprite
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: Button1Color
+    valueType: UnityEngine.Color
+    fieldName: sideBarUIButton1Color
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: Button1Alpha
+    valueType: float
+    fieldName: sideBarUIButton1ColorA
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: IconPosition
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButton1IconAnchoredPosition
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: IconX
+    valueType: float
+    fieldName: sideBarUIButton1IconAnchoredPositionX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: IconY
+    valueType: float
+    fieldName: sideBarUIButton1IconAnchoredPositionY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: IconSize
+    valueType: UnityEngine.Vector2
+    fieldName: sideBarUIButton1IconSizeDelta
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: IconWidth
+    valueType: float
+    fieldName: sideBarUIButton1IconSizeDeltaX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: IconHeight
+    valueType: float
+    fieldName: sideBarUIButton1IconSizeDeltaY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: IconRotationZ
+    valueType: float
+    fieldName: sideBarUIButton1IconLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: IconScale
+    valueType: UnityEngine.Vector3
+    fieldName: sideBarUIButton1IconLocalScale
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: IconScaleX
+    valueType: float
+    fieldName: sideBarUIButton1IconLocalScaleX
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: IconScaleY
+    valueType: float
+    fieldName: sideBarUIButton1IconLocalScaleY
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Icon
+    valueType: UnityEngine.Sprite
+    fieldName: sideBarUIButton1IconSprite
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: IconColor
+    valueType: UnityEngine.Color
+    fieldName: sideBarUIButton1IconColor
+  - enabled: 0
+    objectPath: SideBarUI/Button (1)/Icon
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: IconAlpha
+    valueType: float
+    fieldName: sideBarUIButton1IconColorA

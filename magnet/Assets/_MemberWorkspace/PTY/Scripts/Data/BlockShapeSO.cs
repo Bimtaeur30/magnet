@@ -9,9 +9,12 @@ namespace PTY.Scripts.Data
     {
         [SerializeField] private string shapeId;
         [SerializeField] private List<Vector2Int> cellOffsets = new();
+        [SerializeField] private Texture2D icon;
 
         public string ShapeId => shapeId;
 
         public IReadOnlyList<Vector2Int> CellOffsets => cellOffsets;
+
+        public Texture2D Icon => icon;
     }
 }

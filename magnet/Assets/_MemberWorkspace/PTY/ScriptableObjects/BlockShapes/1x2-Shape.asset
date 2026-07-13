@@ -16,3 +16,4 @@ MonoBehaviour:
   cellOffsets:
   - {x: 0, y: 0}
   - {x: 1, y: 0}
+  icon: {fileID: 2800000, guid: f7401b30ca143b240922acfe549d67bc, type: 3}

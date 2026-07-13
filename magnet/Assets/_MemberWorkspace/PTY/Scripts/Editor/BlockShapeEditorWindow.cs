@@ -42,6 +42,9 @@ namespace PTY.Scripts.Editor
 
             EditorGUILayout.Space();
             DrawSaveControls();
+
+            EditorGUILayout.Space();
+            DrawIconGenerationControls();
         }
 
         private void DrawLoadControls()
@@ -182,6 +185,14 @@ namespace PTY.Scripts.Editor
 
             Selection.activeObject = shape;
             EditorGUIUtility.PingObject(shape);
+        }
+
+        private void DrawIconGenerationControls()
+        {
+            if (GUILayout.Button("아이콘 일괄 생성"))
+            {
+                BlockShapeIconGenerator.GenerateAllIcons();
+            }
         }
 
         private List<Vector2Int> GetNormalizedOffsets()
