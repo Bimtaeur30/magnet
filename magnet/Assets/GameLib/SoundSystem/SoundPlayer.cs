@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -25,6 +25,7 @@ namespace Gamelib.SoundSystem
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+            _audioSource.spatialBlend = 0f;
         }
 
         public void PlaySound(SoundClipSo clipData)
