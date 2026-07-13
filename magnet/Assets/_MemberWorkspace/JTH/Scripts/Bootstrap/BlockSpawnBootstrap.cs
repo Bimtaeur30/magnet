@@ -36,11 +36,13 @@ namespace JTH.Scripts.Bootstrap
         private void OnEnable()
         {
             inputSO.OnSlotSelected += OnBlockSelected;
+            magnetGameChannel.AddListener<BlockSelectedOnUIEvent>(OnBlockSelected);
         }
 
         private void OnDisable()
         {
             inputSO.OnSlotSelected -= OnBlockSelected;
+            magnetGameChannel.RemoveListener<BlockSelectedOnUIEvent>(OnBlockSelected);
         }
 
         public void Consume(int slotIndex)
@@ -54,6 +56,9 @@ namespace JTH.Scripts.Bootstrap
 
             RaiseCandidatesUpdated();
         }
+
+        private void OnBlockSelected(BlockSelectedOnUIEvent data)
+            => OnBlockSelected(data.Index);
 
         private void OnBlockSelected(int index)
         {

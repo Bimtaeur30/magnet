@@ -16,6 +16,7 @@ namespace JTH.Scripts.Events
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
+        public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -115,6 +116,17 @@ namespace JTH.Scripts.Events
         public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
         {
             Candidates = candidates;
+            return this;
+        }
+    }
+    
+    public sealed class BlockSelectedOnUIEvent : GameEvent
+    {
+        public int Index { get; private set; }
+
+        public BlockSelectedOnUIEvent Init(int index)
+        {
+            Index = index;
             return this;
         }
     }
