@@ -28,7 +28,7 @@ namespace PTY.Scripts.Save
 
             IReadOnlyCollection<string> validSkinIds = skinDefinitions
                 .Where(skin => skin != null)
-                .Select(skin => skin.skinId)
+                .Select(skin => skin.SkinId)
                 .ToList();
             _saveService.ValidateUnlockedSkins(validSkinIds);
 
@@ -49,7 +49,7 @@ namespace PTY.Scripts.Save
 
         private void OnSkinChanged(SkinChangedEvent evt)
         {
-            _saveService.EquipSkin(evt.CurrentSkin.skinId);
+            _saveService.EquipSkin(evt.CurrentSkin.SkinId);
         }
 
         private void OnGameOver(JTH.Scripts.Events.GameOverEvent evt)
