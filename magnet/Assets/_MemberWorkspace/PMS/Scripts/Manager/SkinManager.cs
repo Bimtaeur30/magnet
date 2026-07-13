@@ -123,7 +123,7 @@ namespace PMS.Scripts.Manager
 
             CurrentSkin = skinData;
 
-            eventChannel.RaiseEvent(SkinEvents.SkinChangedEvent.Init(CurrentSkin));
+            //eventChannel.RaiseEvent(SkinEvents.SkinChangedEvent.Init(CurrentSkin));
 
             Debug.Log($"{CurrentSkin.skinName}스킨으로 변경됨");
         }
