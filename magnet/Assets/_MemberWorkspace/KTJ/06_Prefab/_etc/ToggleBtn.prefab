@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4738341, g: 0.6095882, b: 0.8301887, a: 1}
+  m_Color: {r: 0.4061943, g: 0.7924528, b: 0.41079262, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.87
+  m_PixelsPerUnitMultiplier: 0.83
 --- !u!114 &7093012293144392658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::Toggle_UI
   backgroundImage: {fileID: 1784525767080021453}
   handleImage: {fileID: 806888545741775553}
-  onBackgroundColor: {r: 0.4745098, g: 0.60784316, b: 0.83137256, a: 1}
-  offBackgroundColor: {r: 0.105882354, g: 0.13725491, b: 0.1882353, a: 1}
+  onBackgroundColor: {r: 0.40784314, g: 0.79607844, b: 0.4117647, a: 1}
+  offBackgroundColor: {r: 0.21568628, g: 0.21568628, b: 0.21568628, a: 1}
   isOn: 0
   onToggleChanged:
     m_PersistentCalls:
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6564169, g: 0.7813124, b: 0.9339623, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7877358, g: 0.8726415, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
