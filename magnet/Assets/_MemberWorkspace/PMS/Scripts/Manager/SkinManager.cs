@@ -97,7 +97,7 @@ namespace PMS.Scripts.Manager
 
             eventChannel.RaiseEvent(SkinEvents.SkinUnlockedEvent.Init(skinData.SkinId));
 
-            Debug.Log($"{skinData.skinName}스킨 해금됨");
+            Debug.Log($"{skinData.SkinName}스킨 해금됨");
         }
 
         private void OnSkinUnlockCheck(SkinUnlockCheckEvent evt)
@@ -125,7 +125,7 @@ namespace PMS.Scripts.Manager
 
             //eventChannel.RaiseEvent(SkinEvents.SkinChangedEvent.Init(CurrentSkin));
 
-            Debug.Log($"{CurrentSkin.skinName}스킨으로 변경됨");
+            Debug.Log($"{CurrentSkin.SkinName}스킨으로 변경됨");
         }
 
         #endregion

@@ -2460,13 +2460,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2396958065580382105, guid: 5f256aa839b70aa48838fedb0188e8fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8326571344685573856}
   m_SourcePrefab: {fileID: 100100000, guid: 5f256aa839b70aa48838fedb0188e8fd, type: 3}
 --- !u!224 &8326571344685573855 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2600896771071485790, guid: 5f256aa839b70aa48838fedb0188e8fd, type: 3}
   m_PrefabInstance: {fileID: 8326571344685573854}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8326571344685573856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340516059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8df9158458fc5a49b496725cdd46da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SkinBoxContainer
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
