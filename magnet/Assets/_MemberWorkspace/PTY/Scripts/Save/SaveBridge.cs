@@ -69,6 +69,10 @@ namespace PTY.Scripts.Save
                 _saveService.TotalPlayTime,
                 _saveService.MaxExplosionCombo,
                 _saveService.GameOverCount));
+
+            magnetGameChannel.RaiseEvent(SkinEvents.SkinLoadedEvent.Init(
+                _saveService.UnlockedSkinIds,
+                _saveService.EquippedSkinId));
         }
     }
 }

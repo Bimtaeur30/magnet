@@ -13,6 +13,8 @@ namespace PMS.Scripts.Events
 
         public static readonly SkinInventoryRequestEvent SkinInventoryRequestEvent = new();
         public static readonly SkinInventoryResponseEvent SkinInventoryResponseEvent = new();
+
+        public static readonly SkinLoadedEvent SkinLoadedEvent = new();
     }
 
     public class SkinInventoryRequestEvent : GameEvent
@@ -76,6 +78,22 @@ namespace PMS.Scripts.Events
         public SkinUnlockedEvent Init(string skinId)
         {
             SkinId = skinId;
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// 저장 데이터로부터 스킨 보유/장착 정보 로드가 완료됐을 때 발행.
+    /// </summary>
+    public class SkinLoadedEvent : GameEvent
+    {
+        public IReadOnlyList<string> UnlockedSkinIds { get; private set; }
+        public string EquippedSkinId { get; private set; }
+
+        public SkinLoadedEvent Init(IReadOnlyList<string> unlockedSkinIds, string equippedSkinId)
+        {
+            UnlockedSkinIds = unlockedSkinIds;
+            EquippedSkinId = equippedSkinId;
             return this;
         }
     }
