@@ -6,12 +6,12 @@ namespace Game.UI
 {
 public sealed partial class BlockSlotViewModel : ObservableObject
 {
-    private UnityEngine.Sprite blockImage1;
+    private UnityEngine.Texture blockImage1Texture;
 
-    public UnityEngine.Sprite BlockImage1
+    public UnityEngine.Texture BlockImage1Texture
     {
-        get => blockImage1;
-        set => SetProperty(ref blockImage1, value);
+        get => blockImage1Texture;
+        set => SetProperty(ref blockImage1Texture, value);
     }
 
     private UnityEngine.Color blockImage1Color;
@@ -20,6 +20,14 @@ public sealed partial class BlockSlotViewModel : ObservableObject
     {
         get => blockImage1Color;
         set => SetProperty(ref blockImage1Color, value);
+    }
+
+    private float blockImage1Alpha;
+
+    public float BlockImage1Alpha
+    {
+        get => blockImage1Alpha;
+        set => SetProperty(ref blockImage1Alpha, value);
     }
 }
 }

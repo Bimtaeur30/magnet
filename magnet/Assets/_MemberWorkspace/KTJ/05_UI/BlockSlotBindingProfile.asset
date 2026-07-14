@@ -19,210 +19,210 @@ MonoBehaviour:
   outputFolder: Assets/_MemberWorkspace/KTJ/03_Library/UI/BlockSlot
   bindings:
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition
     mode: 0
-    viewModelMember: BlockSlotPosition
+    viewModelMember: BlockSlot1Position
     valueType: UnityEngine.Vector2
-    fieldName: blockSlotAnchoredPosition
+    fieldName: blockSlot1AnchoredPosition
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.x
     mode: 0
-    viewModelMember: BlockSlotX
+    viewModelMember: BlockSlot1X
     valueType: float
-    fieldName: blockSlotAnchoredPositionX
+    fieldName: blockSlot1AnchoredPositionX
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.y
     mode: 0
-    viewModelMember: BlockSlotY
+    viewModelMember: BlockSlot1Y
     valueType: float
-    fieldName: blockSlotAnchoredPositionY
+    fieldName: blockSlot1AnchoredPositionY
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta
     mode: 0
-    viewModelMember: BlockSlotSize
+    viewModelMember: BlockSlot1Size
     valueType: UnityEngine.Vector2
-    fieldName: blockSlotSizeDelta
+    fieldName: blockSlot1SizeDelta
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.x
     mode: 0
-    viewModelMember: BlockSlotWidth
+    viewModelMember: BlockSlot1Width
     valueType: float
-    fieldName: blockSlotSizeDeltaX
+    fieldName: blockSlot1SizeDeltaX
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.y
     mode: 0
-    viewModelMember: BlockSlotHeight
+    viewModelMember: BlockSlot1Height
     valueType: float
-    fieldName: blockSlotSizeDeltaY
+    fieldName: blockSlot1SizeDeltaY
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z
     mode: 0
-    viewModelMember: BlockSlotRotationZ
+    viewModelMember: BlockSlot1RotationZ
     valueType: float
-    fieldName: blockSlotLocalEulerAnglesZ
+    fieldName: blockSlot1LocalEulerAnglesZ
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: localScale
     mode: 0
-    viewModelMember: BlockSlotScale
+    viewModelMember: BlockSlot1Scale
     valueType: UnityEngine.Vector3
-    fieldName: blockSlotLocalScale
+    fieldName: blockSlot1LocalScale
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.x
     mode: 0
-    viewModelMember: BlockSlotScaleX
+    viewModelMember: BlockSlot1ScaleX
     valueType: float
-    fieldName: blockSlotLocalScaleX
+    fieldName: blockSlot1LocalScaleX
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.y
     mode: 0
-    viewModelMember: BlockSlotScaleY
+    viewModelMember: BlockSlot1ScaleY
     valueType: float
-    fieldName: blockSlotLocalScaleY
+    fieldName: blockSlot1LocalScaleY
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.UI.Image
     targetProperty: sprite
     mode: 0
-    viewModelMember: BlockSlot
+    viewModelMember: BlockSlot1
     valueType: UnityEngine.Sprite
-    fieldName: blockSlotSprite
+    fieldName: blockSlot1Sprite
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.UI.Image
     targetProperty: color
     mode: 0
-    viewModelMember: BlockSlotColor
+    viewModelMember: BlockSlot1Color
     valueType: UnityEngine.Color
-    fieldName: blockSlotColor
+    fieldName: blockSlot1Color
   - enabled: 0
-    objectPath: BlockSlot
+    objectPath: BlockSlot (1)
     componentType: UnityEngine.UI.Image
     targetProperty: color.a
     mode: 0
-    viewModelMember: BlockSlotAlpha
+    viewModelMember: BlockSlot1Alpha
     valueType: float
-    fieldName: blockSlotColorA
+    fieldName: blockSlot1ColorA
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition
     mode: 0
     viewModelMember: BlockImage1Position
     valueType: UnityEngine.Vector2
-    fieldName: blockSlotBlockImage1AnchoredPosition
+    fieldName: blockSlot1BlockImage1AnchoredPosition
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.x
     mode: 0
     viewModelMember: BlockImage1X
     valueType: float
-    fieldName: blockSlotBlockImage1AnchoredPositionX
+    fieldName: blockSlot1BlockImage1AnchoredPositionX
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.y
     mode: 0
     viewModelMember: BlockImage1Y
     valueType: float
-    fieldName: blockSlotBlockImage1AnchoredPositionY
+    fieldName: blockSlot1BlockImage1AnchoredPositionY
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta
     mode: 0
     viewModelMember: BlockImage1Size
     valueType: UnityEngine.Vector2
-    fieldName: blockSlotBlockImage1SizeDelta
+    fieldName: blockSlot1BlockImage1SizeDelta
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.x
     mode: 0
     viewModelMember: BlockImage1Width
     valueType: float
-    fieldName: blockSlotBlockImage1SizeDeltaX
+    fieldName: blockSlot1BlockImage1SizeDeltaX
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.y
     mode: 0
     viewModelMember: BlockImage1Height
     valueType: float
-    fieldName: blockSlotBlockImage1SizeDeltaY
+    fieldName: blockSlot1BlockImage1SizeDeltaY
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z
     mode: 0
     viewModelMember: BlockImage1RotationZ
     valueType: float
-    fieldName: blockSlotBlockImage1LocalEulerAnglesZ
+    fieldName: blockSlot1BlockImage1LocalEulerAnglesZ
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: localScale
     mode: 0
     viewModelMember: BlockImage1Scale
     valueType: UnityEngine.Vector3
-    fieldName: blockSlotBlockImage1LocalScale
+    fieldName: blockSlot1BlockImage1LocalScale
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.x
     mode: 0
     viewModelMember: BlockImage1ScaleX
     valueType: float
-    fieldName: blockSlotBlockImage1LocalScaleX
+    fieldName: blockSlot1BlockImage1LocalScaleX
   - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
+    objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.y
     mode: 0
     viewModelMember: BlockImage1ScaleY
     valueType: float
-    fieldName: blockSlotBlockImage1LocalScaleY
+    fieldName: blockSlot1BlockImage1LocalScaleY
   - enabled: 1
-    objectPath: BlockSlot/BlockImage_1
-    componentType: UnityEngine.UI.Image
-    targetProperty: sprite
+    objectPath: BlockSlot (1)/BlockImage_1
+    componentType: UnityEngine.UI.RawImage
+    targetProperty: texture
     mode: 0
-    viewModelMember: BlockImage1
-    valueType: UnityEngine.Sprite
-    fieldName: blockSlotBlockImage1Sprite
+    viewModelMember: BlockImage1Texture
+    valueType: UnityEngine.Texture
+    fieldName: blockSlot1BlockImage1Texture
   - enabled: 1
-    objectPath: BlockSlot/BlockImage_1
-    componentType: UnityEngine.UI.Image
+    objectPath: BlockSlot (1)/BlockImage_1
+    componentType: UnityEngine.UI.RawImage
     targetProperty: color
     mode: 0
     viewModelMember: BlockImage1Color
     valueType: UnityEngine.Color
-    fieldName: blockSlotBlockImage1Color
-  - enabled: 0
-    objectPath: BlockSlot/BlockImage_1
-    componentType: UnityEngine.UI.Image
+    fieldName: blockSlot1BlockImage1Color
+  - enabled: 1
+    objectPath: BlockSlot (1)/BlockImage_1
+    componentType: UnityEngine.UI.RawImage
     targetProperty: color.a
     mode: 0
     viewModelMember: BlockImage1Alpha
     valueType: float
-    fieldName: blockSlotBlockImage1ColorA
+    fieldName: blockSlot1BlockImage1ColorA

@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8a17415aaa47747897484ae0d00611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::BlockSlotContainer
-  UIChannel: {fileID: 11400000, guid: eb9e393f8071dbe4ab122aed60096f51, type: 2}
+  MagnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   Slots:
   - {fileID: 8712803070018963998}
   - {fileID: 4365023566007534614}
