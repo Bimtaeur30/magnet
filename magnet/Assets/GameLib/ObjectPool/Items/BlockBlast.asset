@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9c5f6566816455f9f3300c866543d54, type: 3}
-  m_Name: 7c46729e-8f4f-4d5f-9d4b-bf365cf2e899
+  m_Name: BlockBlast
   m_EditorClassIdentifier: ObjectPool::GameLib.ObjectPool.Runtime.PoolItemSO
   itemName: BlockBlast
   prefab: {fileID: 7251937715632195943, guid: 2897194e98c767e43bfe3ab89cfd1628, type: 3}
