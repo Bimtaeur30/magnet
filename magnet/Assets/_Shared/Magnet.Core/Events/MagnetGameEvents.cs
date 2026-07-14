@@ -9,7 +9,6 @@ namespace JTH.Scripts.Events
     {
         public static readonly Phase0ReadyEvent Phase0ReadyEvent = new();
         public static readonly BlockPlacedEvent BlockPlacedEvent = new();
-        public static readonly BoundaryViolationEvent BoundaryViolationEvent = new();
         public static readonly SquareClearedEvent SquareClearedEvent = new();
         public static readonly CellsRelocatedEvent CellsRelocatedEvent = new();
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
@@ -45,9 +44,7 @@ namespace JTH.Scripts.Events
             return this;
         }
     }
-
-    public sealed class BoundaryViolationEvent : GameEvent { }
-
+    
     public sealed class SquareClearedEvent : GameEvent
     {
         public int SquareSize { get; private set; }
