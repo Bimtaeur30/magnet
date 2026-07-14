@@ -57,6 +57,7 @@ namespace JTH.Scripts.Data
                 Key.Digit1 or Key.Numpad1 => 0,
                 Key.Digit2 or Key.Numpad2 => 1,
                 Key.Digit3 or Key.Numpad3 => 2,
+                Key.Digit4 or Key.Numpad4 => 3,
                 _ => null
             };
 

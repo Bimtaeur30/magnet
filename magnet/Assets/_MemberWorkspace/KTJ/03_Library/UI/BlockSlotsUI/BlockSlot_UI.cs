@@ -2,7 +2,6 @@ using Game.UI;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Events;
 using Magnet.Contracts.BlockShapes;
-using Magnet.Contracts.BlockSkins;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

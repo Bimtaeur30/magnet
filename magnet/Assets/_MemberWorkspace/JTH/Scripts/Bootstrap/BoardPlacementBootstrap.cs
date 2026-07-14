@@ -10,6 +10,8 @@ using JTH.Scripts.Domain.Turn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
+using PMS.Scripts.Events;
+using PMS.Scripts.Skin;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -21,6 +23,7 @@ namespace JTH.Scripts.Bootstrap
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
 
@@ -87,7 +90,8 @@ namespace JTH.Scripts.Bootstrap
 
                 if (reassembly.HasCellsOutsideBounds)
                 {
-                    magnetGameChannel.RaiseEvent(MagnetGameEvents.BoundaryViolationEvent);
+                    magnetGameChannel.RaiseEvent(SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, 0));
+                    magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(0));
                     return new TurnResolutionResult(result, reassembly, boardRotated: false);
                 }
 

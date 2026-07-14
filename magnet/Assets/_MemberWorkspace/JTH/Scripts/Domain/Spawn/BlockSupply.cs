@@ -4,11 +4,11 @@ using Magnet.Contracts.BlockShapes;
 namespace JTH.Scripts.Domain.Spawn
 {
     /// <summary>
-    /// 하단 3슬롯 블록 후보 상태. 추첨·이벤트는 담당하지 않는다.
+    /// 하단 4슬롯 블록 후보 상태. 추첨·이벤트는 담당하지 않는다.
     /// </summary>
     public sealed class BlockSupply
     {
-        public const int SlotCount = 3;
+        public const int SlotCount = 4;
 
         private readonly BlockDrawer _drawer;
         private readonly IBlockShape[] _slots = new IBlockShape[SlotCount];
