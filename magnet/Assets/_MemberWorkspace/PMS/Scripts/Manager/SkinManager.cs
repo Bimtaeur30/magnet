@@ -1,14 +1,10 @@
 ﻿using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
 using PMS.Scripts.Events;
 using PMS.Scripts.Skin;
-//using PTY.Scripts.Save;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-interface ISaveService
-{
-
-}
 
 namespace PMS.Scripts.Manager
 {
