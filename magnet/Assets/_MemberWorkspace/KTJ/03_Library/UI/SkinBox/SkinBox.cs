@@ -8,14 +8,16 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject Check;
     [SerializeField] private SkinBoxView View;
-    public Action<IBlockSkin> EquipSkinBoxEvent;
-    IBlockSkin _skin;
+    public Action<int> EquipSkinBoxEvent;
+    int _myIdx;
 
-    public void Init(IBlockSkin skin)
+    public void Init(IBlockSkin skin, int idx)
     {
-        _skin = skin;
+        _myIdx = idx;
+        View.ViewModel.SkinNameTxt = skin.SkinName;
         View.ViewModel.Pattern = skin.Sprites[0];
     }
+
     public void SetSkinBoxEquip(bool value)
     {
         Check.SetActive(value);
@@ -23,6 +25,6 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        EquipSkinBoxEvent?.Invoke(_skin);
+        EquipSkinBoxEvent?.Invoke(_myIdx);
     }
 }
