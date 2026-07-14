@@ -6,13 +6,16 @@ namespace JTH.Scripts.Domain.Turn
     public sealed class TurnResolutionResult
     {
         public PlacementResult Placement { get; }
-        public ClearDetectionResult ClearResult { get; }
+        public ClearReassemblyResult Reassembly { get; }
         public bool BoardRotated { get; }
 
-        public TurnResolutionResult(PlacementResult placement, ClearDetectionResult clearResult, bool boardRotated)
+        public TurnResolutionResult(
+            PlacementResult placement,
+            ClearReassemblyResult reassembly,
+            bool boardRotated)
         {
             Placement = placement;
-            ClearResult = clearResult;
+            Reassembly = reassembly;
             BoardRotated = boardRotated;
         }
     }

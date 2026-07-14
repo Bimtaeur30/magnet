@@ -30,8 +30,8 @@ namespace JTH.Scripts.Domain.Placement
                 return result;
             }
 
-            int blockId = _session.AddPlacedBlock(shape.ShapeId, result.FinalPivot, shape.CellOffsets);
-            return result.WithBlockId(blockId);
+            IReadOnlyList<int> cellIds = _session.AddCells(result.CellPositions);
+            return result.WithCellIds(cellIds);
         }
 
         private PlacementResult BuildResult(IBlockShape shape, Vector2Int startPivot)

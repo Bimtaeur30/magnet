@@ -1,24 +1,27 @@
 using GameLib.EventChannelSystem;
 using UnityEngine;
 using System;
+using JTH.Scripts.Events;
 
 public class BlockSlotContainer : MonoBehaviour
 {
-    [SerializeField] private EventChannelSO UIChannel;
+    [SerializeField] private EventChannelSO MagnetGameChannel;
     [SerializeField] private BlockSlot_UI[] Slots;
 
     private void Awake()
     {
-        UIChannel.AddListener<BlockSlotSetEvent>(HandleBlockSlotSetEvent);
+        MagnetGameChannel.AddListener<BlockCandidatesUpdatedEvent>(HandleBlockCandidatesUpdatedEvent);
     }
 
-    private void HandleBlockSlotSetEvent(BlockSlotSetEvent @event)
+    private void OnDisable()
     {
-        if (@event.Index >= Slots.Length || @event.Index < 0)
+        MagnetGameChannel.RemoveListener<BlockCandidatesUpdatedEvent>(HandleBlockCandidatesUpdatedEvent);
+    }
+    private void HandleBlockCandidatesUpdatedEvent(BlockCandidatesUpdatedEvent @event)
+    {
+        for (int i = 0; i < @event.Candidates.Count; i++)
         {
-            Debug.LogAssertion("BlockSlotSetEventÀÇ ÀÎµ¦½º°¡ ½ÇÁ¦ ½½·Ô Å©±â¸¦ ¹þ¾î³µ½À´Ï´Ù.");
-        }
-
-        Slots[@event.Index].SetSlot(@event.Shape, @event.Skin);
+            Slots[i].SetSlot(@event.Candidates[i], i);
+        };
     }
 }

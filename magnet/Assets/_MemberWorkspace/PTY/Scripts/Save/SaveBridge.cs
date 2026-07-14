@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
+using JTH.Scripts.Events;
 using PMS.Scripts.Events;
 using PMS.Scripts.Skin;
 using PTY.Scripts.Events;
@@ -24,7 +26,7 @@ namespace PTY.Scripts.Save
         {
             magnetGameChannel.AddListener<SkinUnlockedEvent>(OnSkinUnlocked);
             magnetGameChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
-            magnetGameChannel.AddListener<JTH.Scripts.Events.GameOverEvent>(OnGameOver);
+            magnetGameChannel.AddListener<GameOverEvent>(OnGameOver);
 
             IReadOnlyCollection<string> validSkinIds = skinDefinitions
                 .Where(skin => skin != null)
@@ -39,7 +41,7 @@ namespace PTY.Scripts.Save
         {
             magnetGameChannel.RemoveListener<SkinUnlockedEvent>(OnSkinUnlocked);
             magnetGameChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
-            magnetGameChannel.RemoveListener<JTH.Scripts.Events.GameOverEvent>(OnGameOver);
+            magnetGameChannel.RemoveListener<GameOverEvent>(OnGameOver);
         }
 
         private void OnSkinUnlocked(SkinUnlockedEvent evt)
@@ -52,7 +54,7 @@ namespace PTY.Scripts.Save
             _saveService.EquipSkin(evt.CurrentSkin.SkinId);
         }
 
-        private void OnGameOver(JTH.Scripts.Events.GameOverEvent evt)
+        private void OnGameOver(GameOverEvent evt)
         {
             _saveService.SubmitScore(evt.FinalScore);
             _saveService.RecordGameOver();

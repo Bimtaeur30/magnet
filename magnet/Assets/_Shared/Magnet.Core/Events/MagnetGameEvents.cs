@@ -11,11 +11,13 @@ namespace JTH.Scripts.Events
         public static readonly BlockPlacedEvent BlockPlacedEvent = new();
         public static readonly BoundaryViolationEvent BoundaryViolationEvent = new();
         public static readonly SquareClearedEvent SquareClearedEvent = new();
+        public static readonly CellsRelocatedEvent CellsRelocatedEvent = new();
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
+        public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -55,6 +57,27 @@ namespace JTH.Scripts.Events
             SquareSize = squareSize;
             ScoreAwarded = scoreAwarded;
             ClearedCells = clearedCells;
+            return this;
+        }
+    }
+
+    public sealed class CellsRelocatedEvent : GameEvent
+    {
+        public int SquareSize { get; private set; }
+        public IReadOnlyList<int> CellIds { get; private set; }
+        public IReadOnlyList<Vector2Int> FromCells { get; private set; }
+        public IReadOnlyList<Vector2Int> ToCells { get; private set; }
+
+        public CellsRelocatedEvent Init(
+            int squareSize,
+            IReadOnlyList<int> cellIds,
+            IReadOnlyList<Vector2Int> fromCells,
+            IReadOnlyList<Vector2Int> toCells)
+        {
+            SquareSize = squareSize;
+            CellIds = cellIds;
+            FromCells = fromCells;
+            ToCells = toCells;
             return this;
         }
     }
@@ -115,6 +138,17 @@ namespace JTH.Scripts.Events
         public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
         {
             Candidates = candidates;
+            return this;
+        }
+    }
+    
+    public sealed class BlockSelectedOnUIEvent : GameEvent
+    {
+        public int Index { get; private set; }
+
+        public BlockSelectedOnUIEvent Init(int index)
+        {
+            Index = index;
             return this;
         }
     }

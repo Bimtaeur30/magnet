@@ -1,4 +1,4 @@
-namespace PTY.Scripts.Save
+namespace Magnet.Contracts.Save
 {
     public interface ILocalSaveRepository
     {

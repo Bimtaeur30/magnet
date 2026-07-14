@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Magnet.Contracts.Save;
 
 namespace PTY.Scripts.Save.Cloud
 {

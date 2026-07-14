@@ -1,4 +1,5 @@
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using TMPro;
@@ -9,9 +10,9 @@ namespace PTY.Scripts.Save
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class BestScoreDisplay : MonoBehaviour
     {
-        [Inject] private ISaveService _saveService;
 
         [SerializeField] private EventChannelSO magnetGameChannel;
+        [Inject] private ISaveService _saveService;
 
         private TextMeshProUGUI _text;
 
