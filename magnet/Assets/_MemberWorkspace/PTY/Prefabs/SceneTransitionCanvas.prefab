@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5819775734930394586}
   - component: {fileID: 8179056531700446589}
   - component: {fileID: 1018578891578817561}
+  - component: {fileID: 4786366306773081494}
+  - component: {fileID: 1830609793355525047}
   m_Layer: 0
   m_Name: SceneTransitionCanvas
   m_TagString: Untagged
@@ -116,7 +118,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SceneTransition.SceneTransitionController
   magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
-  fadeCanvasGroup: {fileID: 2268496995390886301}
+  inputBlockerCanvasGroup: {fileID: 4786366306773081494}
+  transitionPanel: {fileID: 7675817320210544274}
+  defaultPreset: {fileID: 11400000, guid: 68739f9e74393f84fb461d1a4f9859c9, type: 2}
+--- !u!225 &4786366306773081494
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377450040928398481}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1830609793355525047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377450040928398481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07bc86ee1e2ed141af6804fc5af676e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.Core::_Shared.Magnet.Core.SceneTransition.SceneLoadManager
+  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   defaultPreset: {fileID: 11400000, guid: 68739f9e74393f84fb461d1a4f9859c9, type: 2}
 --- !u!1 &1116364933173112690
 GameObject:
@@ -129,7 +158,6 @@ GameObject:
   - component: {fileID: 7675817320210544274}
   - component: {fileID: 4904076836354078698}
   - component: {fileID: 1405935095314420289}
-  - component: {fileID: 2268496995390886301}
   m_Layer: 0
   m_Name: FadeImage
   m_TagString: Untagged
@@ -151,10 +179,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5019990527538769269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -2000}
+  m_SizeDelta: {x: 0, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4904076836354078698
 CanvasRenderer:
@@ -194,15 +222,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!225 &2268496995390886301
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116364933173112690}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0

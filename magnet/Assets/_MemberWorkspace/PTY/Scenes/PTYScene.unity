@@ -607,7 +607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b29f9d89f6befd4a86d7aa72b87df9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTest
-  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  sceneLoadManager: {fileID: 2739135708816597819}
+  targetScene: {fileID: 11400000, guid: a1ebdaddc9d963244b4e395ec45a3543, type: 2}
 --- !u!4 &1865315995
 Transform:
   m_ObjectHideFlags: 0
@@ -887,6 +888,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d34b87b303c28b44af8242257828042, type: 3}
+--- !u!114 &2739135708816597819 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1830609793355525047, guid: 4d34b87b303c28b44af8242257828042, type: 3}
+  m_PrefabInstance: {fileID: 2739135708816597818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07bc86ee1e2ed141af6804fc5af676e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.Core::_Shared.Magnet.Core.SceneTransition.SceneLoadManager
 --- !u!1001 &3741607303681458283
 PrefabInstance:
   m_ObjectHideFlags: 0
