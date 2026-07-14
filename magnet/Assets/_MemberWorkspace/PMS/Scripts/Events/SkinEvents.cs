@@ -34,11 +34,11 @@ namespace PMS.Scripts.Events
 
     public class SkinSelectRequestEvent : GameEvent
     {
-        public SkinDataSO SkinData { get; private set; }
+        public int SkinIndex { get; private set; }
 
-        public SkinSelectRequestEvent Init(SkinDataSO skinData)
+        public SkinSelectRequestEvent Init(int skinIndex)
         {
-            SkinData = skinData;
+            SkinIndex = skinIndex;
             return this;
         }
     }
