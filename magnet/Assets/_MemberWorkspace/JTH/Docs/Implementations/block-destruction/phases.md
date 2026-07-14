@@ -1,7 +1,8 @@
 # 블록 파괴 — Phase 인덱스
 
 > **구현:** `block-destruction` · **Jira:** [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) · **마일스톤:** M5  
-> **A안:** Domain(1~2) → 회전 Domain(21-P1) → Bootstrap·Presentation(3~4)
+> **A안:** Domain(1~2) → 회전 Domain(21-P1) → Bootstrap·Presentation(3~4)  
+> **후속:** 바깥 전부 제거 규칙은 [`clear-reassembly`](../clear-reassembly/phases.md)로 대체 (테두리만 파괴 + 칸 재배치).
 
 | Phase | 제목 | 계획 | 변경 기록 | 상태 |
 |-------|------|------|-----------|------|

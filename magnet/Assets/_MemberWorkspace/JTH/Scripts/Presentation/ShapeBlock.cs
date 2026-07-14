@@ -13,6 +13,7 @@ namespace JTH.Scripts.Presentation
 {
     /// <summary>
     /// 형태(IBlockShape) 단위 블록 표시. Block 프리팹을 칸 수만큼 Instantiate·재사용한다.
+    /// 보드 부착 후에는 <see cref="OccupiedCellView"/>로 분해된다.
     /// </summary>
     public sealed class ShapeBlock : MonoBehaviour
     {
@@ -44,11 +45,6 @@ namespace JTH.Scripts.Presentation
         private void OnDestroy()
         {
             CancelMotions();
-        }
-
-        public void ShowPlaced(PlacedBlock placedBlock, int sortingOrder)
-        {
-            ShowCells(placedBlock.Pivot, placedBlock.CellOffsets, sortingOrder);
         }
 
         public void Show(IBlockShape shape, Vector2Int pivot, int sortingOrder)
@@ -97,22 +93,16 @@ namespace JTH.Scripts.Presentation
             ApplyResolvedSkin();
         }
 
-        /// <summary>프리뷰 X(최종 pivot 열)로 순간이동, Y는 스테이징 높이 유지.</summary>
         public void ShowAtSnapStart(IBlockShape shape, Vector2Int finalPivot, int stagingGridY, int sortingOrder = 2)
         {
             ShowAtSnapStartFromOffsets(shape.CellOffsets, finalPivot, stagingGridY, sortingOrder);
         }
 
-        public void ShowAtSnapStartFromPlaced(PlacedBlock placedBlock, int stagingGridY, int sortingOrder = 2)
-        {
-            ShowAtSnapStartFromOffsets(placedBlock.CellOffsets, placedBlock.Pivot, stagingGridY, sortingOrder);
-        }
-
-        private void ShowAtSnapStartFromOffsets(
+        public void ShowAtSnapStartFromOffsets(
             IReadOnlyList<Vector2Int> cellOffsets,
             Vector2Int finalPivot,
             int stagingGridY,
-            int sortingOrder)
+            int sortingOrder = 2)
         {
             EnsureBlockCount(cellOffsets.Count);
 
@@ -144,17 +134,7 @@ namespace JTH.Scripts.Presentation
             AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, duration, onComplete);
         }
 
-        public void AnimateSnapYFromPlaced(
-            PlacedBlock placedBlock,
-            int stagingGridY,
-            BoardConfigSO configSO,
-            float duration,
-            Action onComplete)
-        {
-            AnimateSnapYFromOffsets(placedBlock.CellOffsets, placedBlock.Pivot, configSO, duration, onComplete);
-        }
-
-        private void AnimateSnapYFromOffsets(
+        public void AnimateSnapYFromOffsets(
             IReadOnlyList<Vector2Int> cellOffsets,
             Vector2Int finalPivot,
             BoardConfigSO configSO,
@@ -204,71 +184,29 @@ namespace JTH.Scripts.Presentation
             }
         }
 
-        public void RemoveCellsAtGrid(IReadOnlyCollection<Vector2Int> cellsToRemove)
+        /// <summary>
+        /// 활성 칸 Block을 분리해 반환한다. ShapeBlock은 비운다.
+        /// </summary>
+        public List<(Block block, Vector2Int grid)> DetachActiveBlocks()
         {
-            if (cellsToRemove == null || cellsToRemove.Count == 0)
-            {
-                return;
-            }
-
-            var removeSet = cellsToRemove as HashSet<Vector2Int> ?? new HashSet<Vector2Int>(cellsToRemove);
+            CancelMotions();
+            var detached = new List<(Block block, Vector2Int grid)>(_cellGridPositions.Count);
 
             for (int i = 0; i < _cellGridPositions.Count; i++)
             {
-                if (removeSet.Contains(_cellGridPositions[i]))
-                {
-                    _blocks[i].SetActive(false);
-                }
-            }
-        }
-
-        public void AnimateRotateClockwise90(
-            PlacedBlock placedBlock,
-            BoardConfigSO configSO,
-            float duration,
-            Action onComplete)
-        {
-            CancelMotions();
-
-            float cellSize = configSO.CellSize;
-            int remaining = placedBlock.CellOffsets.Count;
-
-            if (remaining == 0)
-            {
-                onComplete?.Invoke();
-                return;
-            }
-
-            void OnCellComplete()
-            {
-                remaining--;
-                if (remaining <= 0)
-                {
-                    ShowPlaced(placedBlock, sortingOrder: 0);
-                    onComplete?.Invoke();
-                }
-            }
-
-            _cellGridPositions.Clear();
-
-            for (int i = 0; i < placedBlock.CellOffsets.Count; i++)
-            {
-                Vector2Int cell = placedBlock.Pivot + placedBlock.CellOffsets[i];
-                _cellGridPositions.Add(cell);
-                Vector2 targetWorld = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
                 Block block = _blocks[i];
-                Vector3 start = block.transform.localPosition;
-                Vector3 target = new Vector3(targetWorld.x, targetWorld.y, start.z);
+                if (block == null || !block.gameObject.activeSelf)
+                {
+                    continue;
+                }
 
-                MotionHandle handle = LMotion.Create(0f, 1f, duration)
-                    .WithEase(Ease.OutQuad)
-                    .WithOnComplete(OnCellComplete)
-                    .Bind(t =>
-                    {
-                        block.SetLocalPosition(Vector3.Lerp(start, target, t));
-                    });
-                _activeMotions.Add(handle);
+                block.transform.SetParent(null, worldPositionStays: true);
+                detached.Add((block, _cellGridPositions[i]));
             }
+
+            _blocks.Clear();
+            _cellGridPositions.Clear();
+            return detached;
         }
 
         public void CancelMotions()

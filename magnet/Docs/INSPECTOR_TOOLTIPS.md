@@ -46,6 +46,13 @@
 | `Scripts/Data/PlacementConfigSO.cs` | `dragSensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
 | `Scripts/Data/PlacementConfigSO.cs` | `snapDuration` | 손 놓은 뒤 Y축 자석 스냅 LitMotion 시간(초) |
 | `Scripts/Data/PlacementConfigSO.cs` | `rotationDuration` | 폭발 처리 후 보드·블록 90° 회전 LitMotion 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `PreRotationDelay` | 재조립 연출이 끝난 뒤 회전 시작 전 대기(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `BounceCells` | 폭발 후 바깥으로 튕기는 거리(칸) |
+| `Scripts/Data/PlacementConfigSO.cs` | `BounceDuration` | 튕김 LitMotion 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `LandDuration` | 착지(목표 칸 이동) 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `SpinDegreesPerSecond` | 비행 중 자전 각속도(도/초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerCell` | 같은 링 칸 사이 스태거(초). 시계방향 촤라락 부착 간격 |
+| `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerRing` | 다음 링 시작 지연(초). 이전 링 완료를 기다리지 않음 |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/ShapeBlock.cs` | `blockPrefab` | 블록 칸 1개 프리팹(Block 컴포넌트 + SpriteRenderer). 필요 개수만큼 인스턴스 생성 후 재사용 |
