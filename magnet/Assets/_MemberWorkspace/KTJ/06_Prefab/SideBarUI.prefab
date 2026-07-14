@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8444cd32d8195a644baf3431dca99442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.SideBarUIView
+  settingToggle: {fileID: 3765311477660952730}
+  skinToggle: {fileID: 3396542229739261462}
 --- !u!1 &361869468668242069
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +291,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::ToggleActiveBtn_UI
   ToggleActiveObj: {fileID: 0}
   active: 0
+  onToggleChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7638165261804538751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +448,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::ToggleActiveBtn_UI
   ToggleActiveObj: {fileID: 0}
   active: 0
+  onToggleChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4383273155244087623
 MonoBehaviour:
   m_ObjectHideFlags: 0
