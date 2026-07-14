@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using GameLib.EventChannelSystem;
+﻿using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
 using PMS.Scripts.Skin;
+using System.Collections.Generic;
 
 namespace PMS.Scripts.Events
 {
@@ -13,6 +14,8 @@ namespace PMS.Scripts.Events
 
         public static readonly SkinInventoryRequestEvent SkinInventoryRequestEvent = new();
         public static readonly SkinInventoryResponseEvent SkinInventoryResponseEvent = new();
+
+        public static readonly SaveServiceReadyEvent SaveServiceReadyEvent = new();
     }
 
     public class SkinInventoryRequestEvent : GameEvent
@@ -71,11 +74,22 @@ namespace PMS.Scripts.Events
 
     public class SkinUnlockedEvent : GameEvent
     {
-        public string SkinId { get; private set; }
+        public SkinDataSO SkinData { get; private set; }
 
-        public SkinUnlockedEvent Init(string skinId)
+        public SkinUnlockedEvent Init(SkinDataSO skinData)
         {
-            SkinId = skinId;
+            SkinData = skinData;
+            return this;
+        }
+    }
+
+    public class SaveServiceReadyEvent : GameEvent
+    {
+        public ISaveService SaveService { get; private set; }
+
+        public SaveServiceReadyEvent Init(ISaveService saveService)
+        {
+            SaveService = saveService;
             return this;
         }
     }

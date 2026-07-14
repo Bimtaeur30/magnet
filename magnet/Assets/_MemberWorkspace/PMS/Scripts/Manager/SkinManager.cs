@@ -206,7 +206,7 @@ namespace PMS.Scripts.Manager
             saveService?.UnlockSkin(skinData.SkinId);
 
             eventChannel.RaiseEvent(
-                SkinEvents.SkinUnlockedEvent.Init(skinData.SkinId)
+                SkinEvents.SkinUnlockedEvent.Init(skinData)
             );
 
             Debug.Log($"{skinData.SkinName} 스킨 해금됨");
