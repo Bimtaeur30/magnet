@@ -18,6 +18,8 @@ namespace JTH.Scripts.Events
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
+        public static readonly TurnStartedEvent TurnStartedEvent = new();
+        public static readonly TurnEndedEvent TurnEndedEvent = new();
     }
 
     public sealed class BlockPlacedEvent : GameEvent
@@ -149,6 +151,30 @@ namespace JTH.Scripts.Events
         public BlockSelectedOnUIEvent Init(int index)
         {
             Index = index;
+            return this;
+        }
+    }
+
+    /// <summary>핸드(4슬롯) 리필로 새 턴이 시작될 때. 현재는 구독자 없음.</summary>
+    public sealed class TurnStartedEvent : GameEvent
+    {
+        public int TurnIndex { get; private set; }
+
+        public TurnStartedEvent Init(int turnIndex)
+        {
+            TurnIndex = turnIndex;
+            return this;
+        }
+    }
+
+    /// <summary>핸드(4슬롯) 전부 소진으로 턴이 끝날 때. Fill 직전. 현재는 구독자 없음.</summary>
+    public sealed class TurnEndedEvent : GameEvent
+    {
+        public int TurnIndex { get; private set; }
+
+        public TurnEndedEvent Init(int turnIndex)
+        {
+            TurnIndex = turnIndex;
             return this;
         }
     }
