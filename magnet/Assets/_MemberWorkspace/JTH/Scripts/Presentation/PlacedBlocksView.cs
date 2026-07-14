@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
+using JTH.Scripts.Domain;
+using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using Reflex.Attributes;
 using UnityEngine;
@@ -10,7 +12,7 @@ using UnityEngine;
 namespace JTH.Scripts.Presentation
 {
     /// <summary>
-    /// 부착 완료된 ShapeBlock을 blockId로 추적하고, Bootstrap이 요청하는 Place·Clear·Rotate 연출을 재생한다.
+    /// 부착 완료된 칸 View를 cellId로 추적하고, Place·Clear재조립·Rotate 연출을 재생한다.
     /// </summary>
     public sealed class PlacedBlocksView : MonoBehaviour
     {
@@ -19,7 +21,7 @@ namespace JTH.Scripts.Presentation
 
         [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
 
-        private readonly Dictionary<int, ShapeBlock> _blocksById = new();
+        private readonly Dictionary<int, OccupiedCellView> _cellsById = new();
 
         private void Awake()
         {
@@ -28,99 +30,64 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(_placementBootstrap != null, "[PlacedBlocksView] BoardPlacementBootstrap was not injected.", this);
         }
 
-        public void Register(int blockId, ShapeBlock block)
-        {
-            if (block == null)
-            {
-                return;
-            }
-
-            _blocksById[blockId] = block;
-        }
-
-        public void Adopt(ShapeBlock block, string displayName)
-        {
-            if (block == null)
-            {
-                return;
-            }
-
-            block.transform.SetParent(transform, worldPositionStays: true);
-            block.name = displayName;
-        }
-
-        public void SyncWithSession()
-        {
-            var fullyRemovedIds = new List<int>();
-
-            foreach (KeyValuePair<int, ShapeBlock> entry in _blocksById)
-            {
-                int blockId = entry.Key;
-                ShapeBlock view = entry.Value;
-
-                if (!_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
-                {
-                    view.Clear();
-                    Destroy(view.gameObject);
-                    fullyRemovedIds.Add(blockId);
-                    continue;
-                }
-
-                view.ShowPlaced(placedBlock, sortingOrder: 0);
-            }
-
-            for (int i = 0; i < fullyRemovedIds.Count; i++)
-            {
-                _blocksById.Remove(fullyRemovedIds[i]);
-            }
-        }
-
         /// <summary>
-        /// 회전 전 부착 좌표로 Y 스냅 후 Register/Adopt. LitMotion 자리는 <see cref="BlockSnapMotion"/>에 있다.
+        /// 스테이징 ShapeBlock을 Y 스냅한 뒤 칸 View로 분해·등록한다.
         /// </summary>
-        public UniTask PlayPlaceAsync(ShapeBlock staging, int blockId)
+        public UniTask PlayPlaceAsync(ShapeBlock staging, PlacementResult placement)
         {
-            if (staging == null)
+            if (staging == null || placement == null || !placement.Success)
             {
                 return UniTask.CompletedTask;
             }
 
-            if (!_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
+            IReadOnlyList<int> cellIds = placement.CellIds;
+            IReadOnlyList<Vector2Int> positions = placement.CellPositions;
+            if (cellIds.Count == 0)
             {
                 staging.Clear();
                 Destroy(staging.gameObject);
                 return UniTask.CompletedTask;
             }
 
+            var offsets = new List<Vector2Int>(positions.Count);
+            for (int i = 0; i < positions.Count; i++)
+            {
+                offsets.Add(positions[i] - placement.FinalPivot);
+            }
+
             int stagingGridY = placementConfig.GetStagingY(boardConfig.CellsPerSide);
             var completion = new UniTaskCompletionSource();
-            BlockSnapMotion.PlayFromPlaced(
+            BlockSnapMotion.PlayFromOffsets(
                 staging,
-                placedBlock,
+                offsets,
+                placement.FinalPivot,
                 stagingGridY,
                 boardConfig,
                 placementConfig,
                 () =>
                 {
-                    Register(blockId, staging);
-                    Adopt(staging, $"Placed_{blockId}");
+                    SplitStagingIntoCells(staging, cellIds);
                     completion.TrySetResult();
                 });
             return completion.Task;
         }
 
-        /// <summary>
-        /// Domain 클리어 반영 후 뷰 동기화. 사라짐 LitMotion이 생기면 이 메서드에서 await하면 된다.
-        /// </summary>
-        public UniTask PlayClearAsync()
+        public async UniTask PlayReassemblyAsync(ClearReassemblyResult reassembly)
         {
-            SyncWithSession();
-            return UniTask.CompletedTask;
+            if (reassembly == null || !reassembly.HasAnyWave)
+            {
+                return;
+            }
+
+            for (int w = 0; w < reassembly.Waves.Count; w++)
+            {
+                ClearWave wave = reassembly.Waves[w];
+                DestroyCellViews(wave.DestroyedCellIds);
+
+                await PlayWaveRelocationsAsync(wave);
+            }
         }
 
-        /// <summary>
-        /// 보드 90° 회전 연출. Domain 회전 이후 Session 좌표 기준으로 재생한다.
-        /// </summary>
         public UniTask PlayRotateAsync()
         {
             var completion = new UniTaskCompletionSource();
@@ -128,16 +95,146 @@ namespace JTH.Scripts.Presentation
             return completion.Task;
         }
 
-        public void AnimateBoardRotation(Action onComplete)
+        public void SyncWithSession()
         {
-            if (_blocksById.Count == 0)
+            BoardSession session = _placementBootstrap.Session;
+            var staleIds = new List<int>();
+
+            foreach (KeyValuePair<int, OccupiedCellView> entry in _cellsById)
+            {
+                if (!session.TryGetCell(entry.Key, out OccupiedCell cell))
+                {
+                    Destroy(entry.Value.gameObject);
+                    staleIds.Add(entry.Key);
+                    continue;
+                }
+
+                entry.Value.SnapToGrid(cell.Position, boardConfig.CellSize, placementConfig.CellFill);
+            }
+
+            for (int i = 0; i < staleIds.Count; i++)
+            {
+                _cellsById.Remove(staleIds[i]);
+            }
+
+            IReadOnlyList<OccupiedCell> cells = session.Cells;
+            for (int i = 0; i < cells.Count; i++)
+            {
+                OccupiedCell cell = cells[i];
+                if (_cellsById.ContainsKey(cell.CellId))
+                {
+                    continue;
+                }
+
+                // Domain에만 있는 칸은 시각 복구하지 않음(연출 경로에서 등록).
+            }
+        }
+
+        private void SplitStagingIntoCells(ShapeBlock staging, IReadOnlyList<int> cellIds)
+        {
+            List<(Block block, Vector2Int grid)> detached = staging.DetachActiveBlocks();
+            float cellSize = boardConfig.CellSize;
+            float fill = placementConfig.CellFill;
+
+            int count = Mathf.Min(detached.Count, cellIds.Count);
+            for (int i = 0; i < count; i++)
+            {
+                int cellId = cellIds[i];
+                (Block block, Vector2Int grid) = detached[i];
+
+                var go = new GameObject($"Cell_{cellId}");
+                go.transform.SetParent(transform, worldPositionStays: false);
+                OccupiedCellView view = go.AddComponent<OccupiedCellView>();
+                view.Bind(block, grid, cellSize, fill);
+                _cellsById[cellId] = view;
+            }
+
+            for (int i = count; i < detached.Count; i++)
+            {
+                Destroy(detached[i].block.gameObject);
+            }
+
+            Destroy(staging.gameObject);
+        }
+
+        private void DestroyCellViews(IReadOnlyList<int> cellIds)
+        {
+            for (int i = 0; i < cellIds.Count; i++)
+            {
+                int cellId = cellIds[i];
+                if (!_cellsById.TryGetValue(cellId, out OccupiedCellView view))
+                {
+                    continue;
+                }
+
+                _cellsById.Remove(cellId);
+                if (view != null)
+                {
+                    Destroy(view.gameObject);
+                }
+            }
+        }
+
+        private async UniTask PlayWaveRelocationsAsync(ClearWave wave)
+        {
+            if (wave.Relocations.Count == 0)
+            {
+                return;
+            }
+
+            // Domain 배정 순서 = 링 안쪽→바깥, 링 안 12시→시계방향. 그대로 스태거.
+            int currentRing = -1;
+            float ringStartDelay = 0f;
+            int indexInRing = 0;
+            var tasks = new List<UniTask>(wave.Relocations.Count);
+
+            for (int i = 0; i < wave.Relocations.Count; i++)
+            {
+                CellRelocation relocation = wave.Relocations[i];
+                int ring = CellRelocationOrder.Chebyshev(relocation.From);
+                if (ring != currentRing)
+                {
+                    if (currentRing >= 0)
+                    {
+                        ringStartDelay += placementConfig.StaggerPerRing;
+                    }
+
+                    currentRing = ring;
+                    indexInRing = 0;
+                }
+
+                float delay = ringStartDelay + indexInRing * placementConfig.StaggerPerCell;
+                indexInRing++;
+
+                if (!_cellsById.TryGetValue(relocation.CellId, out OccupiedCellView view) || view == null)
+                {
+                    continue;
+                }
+
+                tasks.Add(view.PlayRelocationAsync(
+                    relocation,
+                    boardConfig,
+                    placementConfig,
+                    delay));
+            }
+
+            if (tasks.Count > 0)
+            {
+                await UniTask.WhenAll(tasks);
+            }
+        }
+
+        private void AnimateBoardRotation(Action onComplete)
+        {
+            BoardSession session = _placementBootstrap.Session;
+            if (_cellsById.Count == 0)
             {
                 onComplete?.Invoke();
                 return;
             }
 
-            int remaining = _blocksById.Count;
-            void OnBlockComplete()
+            int remaining = _cellsById.Count;
+            void OnCellComplete()
             {
                 remaining--;
                 if (remaining <= 0)
@@ -146,20 +243,20 @@ namespace JTH.Scripts.Presentation
                 }
             }
 
-            foreach (KeyValuePair<int, ShapeBlock> entry in _blocksById)
-            {
-                int blockId = entry.Key;
-                ShapeBlock view = entry.Value;
+            float cellSize = boardConfig.CellSize;
+            float fill = placementConfig.CellFill;
+            float duration = placementConfig.RotationDuration;
 
-                if (!_placementBootstrap.Session.TryGetPlacedBlock(blockId, out PlacedBlock placedBlock))
+            foreach (KeyValuePair<int, OccupiedCellView> entry in _cellsById)
+            {
+                if (!session.TryGetCell(entry.Key, out OccupiedCell cell))
                 {
-                    view.Clear();
-                    Destroy(view.gameObject);
-                    OnBlockComplete();
+                    Destroy(entry.Value.gameObject);
+                    OnCellComplete();
                     continue;
                 }
 
-                view.AnimateRotateClockwise90(placedBlock, boardConfig, placementConfig.RotationDuration, OnBlockComplete);
+                entry.Value.AnimateMoveTo(cell.Position, cellSize, fill, duration, OnCellComplete);
             }
         }
     }

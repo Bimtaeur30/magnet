@@ -1,7 +1,5 @@
 using System;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain;
-using JTH.Scripts.Domain.Placement;
 using Magnet.Contracts.BlockShapes;
 using UnityEngine;
 
@@ -25,16 +23,22 @@ namespace JTH.Scripts.Presentation
             shapeBlock.AnimateSnapY(shape, finalPivot, boardConfig, placementConfig.SnapDuration, onComplete);
         }
 
-        public static void PlayFromPlaced(
+        public static void PlayFromOffsets(
             ShapeBlock shapeBlock,
-            PlacedBlock placedBlock,
+            System.Collections.Generic.IReadOnlyList<Vector2Int> cellOffsets,
+            Vector2Int finalPivot,
             int stagingGridY,
             BoardConfigSO boardConfig,
             PlacementConfigSO placementConfig,
             Action onComplete)
         {
-            shapeBlock.ShowAtSnapStartFromPlaced(placedBlock, stagingGridY);
-            shapeBlock.AnimateSnapYFromPlaced(placedBlock, stagingGridY, boardConfig, placementConfig.SnapDuration, onComplete);
+            shapeBlock.ShowAtSnapStartFromOffsets(cellOffsets, finalPivot, stagingGridY);
+            shapeBlock.AnimateSnapYFromOffsets(
+                cellOffsets,
+                finalPivot,
+                boardConfig,
+                placementConfig.SnapDuration,
+                onComplete);
         }
     }
 }
