@@ -6,6 +6,7 @@ namespace JTH.Scripts.Domain.Clear
 {
     /// <summary>
     /// 최내곽 테두리 파괴 → 바깥 칸 재배치를 Domain에서 연쇄 끝까지 선확정한다.
+    /// N 내부(chebyshev &lt; half) 칸은 이젝터·목표 모두에서 제외한다.
     /// </summary>
     public sealed class ClearReassemblyService
     {
@@ -44,7 +45,20 @@ namespace JTH.Scripts.Domain.Clear
                     }
 
                     Vector2Int from = live.Position;
-                    CellRelocationTargetFinder.TryFind(session.Grid, from, out Vector2Int to);
+
+                    // 안전장치: 보존 구역 칸은 절대 재배치하지 않음
+                    if (CellRelocationOrder.Chebyshev(from) < half)
+                    {
+                        session.MoveCell(live.CellId, from);
+                        continue;
+                    }
+
+                    CellRelocationTargetFinder.TryFind(session.Grid, from, half, out Vector2Int to);
+
+                    if (CellRelocationOrder.Chebyshev(to) < half)
+                    {
+                        to = CellRelocationTargetFinder.AllocateOutsidePark(session.Grid, from, parkIndex: 0);
+                    }
 
                     if (from == to)
                     {
@@ -69,6 +83,7 @@ namespace JTH.Scripts.Domain.Clear
                 : new ClearReassemblyResult(waves, outside);
         }
 
+        /// <summary>폭발 N의 바깥(chebyshev &gt; half)만 이젝터. 테두리·내부는 제외.</summary>
         private static List<OccupiedCell> CollectEjectors(BoardSession session, int half)
         {
             var ejectors = new List<OccupiedCell>();
@@ -76,7 +91,8 @@ namespace JTH.Scripts.Domain.Clear
             for (int i = 0; i < cells.Count; i++)
             {
                 OccupiedCell cell = cells[i];
-                if (CellRelocationOrder.Chebyshev(cell.Position) > half)
+                int ring = CellRelocationOrder.Chebyshev(cell.Position);
+                if (ring > half)
                 {
                     ejectors.Add(cell);
                 }
