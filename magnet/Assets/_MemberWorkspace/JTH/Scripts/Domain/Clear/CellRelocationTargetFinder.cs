@@ -4,7 +4,7 @@ namespace JTH.Scripts.Domain.Clear
 {
     /// <summary>
     /// 자석 방향 부채꼴 안 빈칸 중 자석에 가장 가까운 칸을 고른다.
-    /// 보드 안·밖 모두 후보. 안쪽(자석에 가까운 링)을 우선한다.
+    /// 보존 구역(chebyshev &lt; preserveBelowChebyshev)은 후보에서 제외한다.
     /// </summary>
     public static class CellRelocationTargetFinder
     {
@@ -12,11 +12,19 @@ namespace JTH.Scripts.Domain.Clear
         private const float FallbackHalfSectorDegrees = 90f;
         private const int OutsideSearchPadding = 8;
 
-        public static bool TryFind(BoardGrid grid, Vector2Int ejector, out Vector2Int target)
+        /// <param name="preserveBelowChebyshev">
+        /// 이 값보다 작은 Chebyshev 칸은 폭발 N 내부 보존 구역. 목표 후보에서 제외.
+        /// </param>
+        public static bool TryFind(
+            BoardGrid grid,
+            Vector2Int ejector,
+            int preserveBelowChebyshev,
+            out Vector2Int target)
         {
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     PrimaryHalfSectorDegrees,
                     requireCircle: true,
                     requireInward: true,
@@ -28,6 +36,7 @@ namespace JTH.Scripts.Domain.Clear
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     PrimaryHalfSectorDegrees,
                     requireCircle: false,
                     requireInward: true,
@@ -39,6 +48,7 @@ namespace JTH.Scripts.Domain.Clear
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     FallbackHalfSectorDegrees,
                     requireCircle: false,
                     requireInward: true,
@@ -50,6 +60,7 @@ namespace JTH.Scripts.Domain.Clear
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     halfSectorDegrees: 180f,
                     requireCircle: false,
                     requireInward: true,
@@ -58,10 +69,10 @@ namespace JTH.Scripts.Domain.Clear
                 return true;
             }
 
-            // 안쪽 후보가 없으면 보드 밖(또는 같은 방향 빈칸)도 허용
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     PrimaryHalfSectorDegrees,
                     requireCircle: false,
                     requireInward: false,
@@ -73,6 +84,7 @@ namespace JTH.Scripts.Domain.Clear
             if (TryFindInternal(
                     grid,
                     ejector,
+                    preserveBelowChebyshev,
                     halfSectorDegrees: 180f,
                     requireCircle: false,
                     requireInward: false,
@@ -88,6 +100,7 @@ namespace JTH.Scripts.Domain.Clear
         private static bool TryFindInternal(
             BoardGrid grid,
             Vector2Int ejector,
+            int preserveBelowChebyshev,
             float halfSectorDegrees,
             bool requireCircle,
             bool requireInward,
@@ -137,6 +150,13 @@ namespace JTH.Scripts.Domain.Clear
                     }
 
                     int chebyshev = CellRelocationOrder.Chebyshev(candidate);
+
+                    // 터진 N의 순수 내부는 보존 — 바깥 칸이 여기로 파고들지 않음
+                    if (chebyshev < preserveBelowChebyshev)
+                    {
+                        continue;
+                    }
+
                     if (requireInward && chebyshev >= ejectorRing)
                     {
                         continue;
@@ -162,7 +182,6 @@ namespace JTH.Scripts.Domain.Clear
                     float clock = CellRelocationOrder.ClockAngle01(candidate);
                     bool inBounds = grid.IsInBounds(candidate.x, candidate.y);
 
-                    // 보드 안을 밖보다 우선, 그다음 자석에 가까운 링
                     bool better = !found
                         || (inBounds && !bestInBounds)
                         || (inBounds == bestInBounds && chebyshev < bestChebyshev)
@@ -203,9 +222,6 @@ namespace JTH.Scripts.Domain.Clear
             return true;
         }
 
-        /// <summary>
-        /// 보드 밖 빈 칸. 자석→from 방사 방향, 겹치면 더 바깥으로 민다.
-        /// </summary>
         public static Vector2Int AllocateOutsidePark(BoardGrid grid, Vector2Int from, int parkIndex)
         {
             int half = BoardCoordinates.HalfExtent(grid.BoardSize);
