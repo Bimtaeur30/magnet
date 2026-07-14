@@ -1,9 +1,14 @@
 ﻿using GameLib.EventChannelSystem;
 using PMS.Scripts.Events;
 using PMS.Scripts.Skin;
+//using PTY.Scripts.Save;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+interface ISaveService
+{
+
+}
 
 namespace PMS.Scripts.Manager
 {
@@ -15,9 +20,10 @@ namespace PMS.Scripts.Manager
         [SerializeField] private List<SkinDataSO> skinList;
 
         private readonly List<SkinDataSO> unlockedSkins = new();
+
+        private ISaveService saveService;
         private int currentSkinIndex;
 
-        
         public SkinDataSO CurrentSkin
         {
             get
@@ -38,6 +44,14 @@ namespace PMS.Scripts.Manager
             eventChannel.AddListener<SkinInventoryRequestEvent>(OnSkinInventoryRequest);
         }
 
+        private void Start()
+        {
+            if (saveService == null)
+            {
+                InitializeWithoutSave();
+            }
+        }
+
         private void OnDestroy()
         {
             eventChannel.RemoveListener<SkinSelectRequestEvent>(OnSkinSelectRequest);
@@ -45,11 +59,90 @@ namespace PMS.Scripts.Manager
             eventChannel.RemoveListener<SkinInventoryRequestEvent>(OnSkinInventoryRequest);
         }
 
-        private void Start()
+        public void Initialize(ISaveService saveService)
+        {
+            this.saveService = saveService;
+
+            ValidateSaveData();
+            LoadUnlockedSkinsFromSave();
+            LoadEquippedSkinFromSave();
+
+            RaiseInventoryResponse();
+        }
+
+        private void InitializeWithoutSave()
         {
             UnlockDefaultSkins();
-            SetDefaultSkin();
+
+            if (unlockedSkins.Count > 0)
+            {
+                currentSkinIndex = 0;
+
+                eventChannel.RaiseEvent(
+                    SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
+                );
+            }
+
             RaiseInventoryResponse();
+        }
+
+        private void ValidateSaveData()
+        {
+            if (saveService == null) return;
+            if (skinList == null) return;
+
+            List<string> validSkinIds = skinList
+                .Where(skin => skin != null)
+                .Select(skin => skin.SkinId)
+                .ToList();
+
+            saveService.ValidateUnlockedSkins(validSkinIds);
+        }
+
+        private void LoadUnlockedSkinsFromSave()
+        {
+            unlockedSkins.Clear();
+
+            if (saveService == null) return;
+
+            foreach (string skinId in saveService.UnlockedSkinIds)
+            {
+                SkinDataSO skinData = FindSkinDataById(skinId);
+
+                if (skinData != null)
+                {
+                    unlockedSkins.Add(skinData);
+                }
+            }
+
+            UnlockDefaultSkins();
+        }
+
+        private void LoadEquippedSkinFromSave()
+        {
+            currentSkinIndex = 0;
+
+            if (unlockedSkins.Count == 0) return;
+
+            string equippedSkinId = saveService.EquippedSkinId;
+
+            int index = unlockedSkins.FindIndex(skin =>
+                skin != null &&
+                skin.SkinId == equippedSkinId
+            );
+
+            if (index >= 0)
+            {
+                currentSkinIndex = index;
+            }
+            else
+            {
+                saveService.EquipSkin(unlockedSkins[0].SkinId);
+            }
+
+            eventChannel.RaiseEvent(
+                SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
+            );
         }
 
         private void UnlockDefaultSkins()
@@ -59,23 +152,10 @@ namespace PMS.Scripts.Manager
             foreach (SkinDataSO skinData in skinList)
             {
                 if (skinData == null) continue;
+                if (skinData.unlockType != SkinUnlockTypeEnum.Default) continue;
 
-                if (skinData.unlockType == SkinUnlockTypeEnum.Default)
-                {
-                    UnlockSkin(skinData);
-                }
+                UnlockSkin(skinData);
             }
-        }
-
-        private void SetDefaultSkin()
-        {
-            if (unlockedSkins.Count == 0) return;
-
-            currentSkinIndex = 0;
-
-            eventChannel.RaiseEvent(
-                SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
-            );
         }
 
         private void OnSkinSelectRequest(SkinSelectRequestEvent evt)
@@ -85,13 +165,14 @@ namespace PMS.Scripts.Manager
 
         private void ChangeSkin(int skinIndex)
         {
-            if (skinIndex < 0 || skinIndex >= unlockedSkins.Count)
-            {
-                Debug.LogWarning($"잘못된 스킨 인덱스입니다: {skinIndex}");
-                return;
-            }
+            if (skinIndex < 0 || skinIndex >= unlockedSkins.Count) return;
 
             currentSkinIndex = skinIndex;
+
+            if (CurrentSkin != null)
+            {
+                saveService?.EquipSkin(CurrentSkin.SkinId);
+            }
 
             eventChannel.RaiseEvent(
                 SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
@@ -126,11 +207,25 @@ namespace PMS.Scripts.Manager
 
             unlockedSkins.Add(skinData);
 
+            saveService?.UnlockSkin(skinData.SkinId);
+
             eventChannel.RaiseEvent(
                 SkinEvents.SkinUnlockedEvent.Init(skinData.SkinId)
             );
 
             Debug.Log($"{skinData.SkinName} 스킨 해금됨");
+        }
+
+        private void OnSkinInventoryRequest(SkinInventoryRequestEvent evt)
+        {
+            RaiseInventoryResponse();
+        }
+
+        private void RaiseInventoryResponse()
+        {
+            eventChannel.RaiseEvent(
+                SkinEvents.SkinInventoryResponseEvent.Init(unlockedSkins, currentSkinIndex)
+            );
         }
 
         private bool IsUnlocked(SkinDataSO skinData)
@@ -143,15 +238,14 @@ namespace PMS.Scripts.Manager
             );
         }
 
-        private void OnSkinInventoryRequest(SkinInventoryRequestEvent evt)
+        private SkinDataSO FindSkinDataById(string skinId)
         {
-            RaiseInventoryResponse();
-        }
+            if (string.IsNullOrEmpty(skinId)) return null;
+            if (skinList == null) return null;
 
-        private void RaiseInventoryResponse()
-        {
-            eventChannel.RaiseEvent(
-                SkinEvents.SkinInventoryResponseEvent.Init(unlockedSkins, currentSkinIndex)
+            return skinList.FirstOrDefault(skin =>
+                skin != null &&
+                skin.SkinId == skinId
             );
         }
     }
