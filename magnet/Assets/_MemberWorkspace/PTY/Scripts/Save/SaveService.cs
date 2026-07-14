@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
 using PTY.Scripts.Events;
 
 namespace PTY.Scripts.Save

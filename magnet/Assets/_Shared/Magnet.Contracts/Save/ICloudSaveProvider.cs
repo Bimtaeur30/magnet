@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace PTY.Scripts.Save
+namespace Magnet.Contracts.Save
 {
     /// <summary>
     /// GPGS(Android) / Game Center(iOS) 클라우드 저장을 추상화한다.

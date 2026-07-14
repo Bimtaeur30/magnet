@@ -1,4 +1,5 @@
 using System.IO;
+using Magnet.Contracts.Save;
 using UnityEngine;
 
 namespace PTY.Scripts.Save.Local
