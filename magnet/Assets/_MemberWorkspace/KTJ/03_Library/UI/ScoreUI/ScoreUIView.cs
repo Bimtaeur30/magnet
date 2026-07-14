@@ -1,8 +1,8 @@
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Events;
+using Magnet.Contracts.Save;
 using Mvvm;
 using PTY.Scripts.Events;
-using PTY.Scripts.Save;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PTY.Scripts.Save
+namespace Magnet.Contracts.Save
 {
     [Serializable]
     public class GameSaveData

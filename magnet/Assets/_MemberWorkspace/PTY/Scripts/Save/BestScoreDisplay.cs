@@ -1,4 +1,5 @@
 using GameLib.EventChannelSystem;
+using Magnet.Contracts.Save;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using TMPro;
