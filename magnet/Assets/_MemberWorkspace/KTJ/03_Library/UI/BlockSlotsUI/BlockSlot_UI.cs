@@ -1,34 +1,39 @@
 using Game.UI;
+using GameLib.EventChannelSystem;
+using JTH.Scripts.Events;
 using Magnet.Contracts.BlockShapes;
 using Magnet.Contracts.BlockSkins;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BlockSlot_UI : MonoBehaviour
+public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private BlockSlotView SlotVIew;
-    private IBlockShape _shape;
-    private IBlockSkin _skin;
+    [SerializeField] private EventChannelSO MagnetChannel;
+    [SerializeField] private BlockSlotView SlotView;
+    private int _index;
 
-    public void SetSlot(IBlockShape shape, IBlockSkin skin)
+    public void SetSlot(IBlockShape shape, int index)
     {
-        _shape = shape;
-        _skin = skin;
-        SlotVIew.ViewModel.BlockImage1 = skin.Sprites[0];
-
+        SlotView.ViewModel.BlockImage1Texture = shape.Icon;
+        _index = index;
         SetBlockImageAlpha(1f);
     }
 
     public void EmptySlot()
     {
         SetBlockImageAlpha(0f);
-        SlotVIew.ViewModel.BlockImage1 = null;
+        SlotView.ViewModel.BlockImage1Texture = null;
     }
 
     private void SetBlockImageAlpha(float alpha)
     {
-        Color c = SlotVIew.ViewModel.BlockImage1Color;
-        c.a = alpha;
-        SlotVIew.ViewModel.BlockImage1Color = c;
+        SlotView.ViewModel.BlockImage1Alpha = alpha;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
+        
     }
 }
