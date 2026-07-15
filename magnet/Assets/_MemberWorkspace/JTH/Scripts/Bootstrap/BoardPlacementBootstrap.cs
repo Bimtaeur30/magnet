@@ -57,6 +57,21 @@ namespace JTH.Scripts.Bootstrap
             _scoreSession = new ScoreSession(scoreConfig);
         }
 
+        private void OnEnable()
+        {
+            magnetGameChannel.AddListener<TurnEndedEvent>(OnTurnEnded);
+        }
+
+        private void OnDisable()
+        {
+            magnetGameChannel.RemoveListener<TurnEndedEvent>(OnTurnEnded);
+        }
+
+        private void OnTurnEnded(TurnEndedEvent _)
+        {
+            _scoreSession?.NotifyTurnEnded();
+        }
+
         /// <summary>
         /// Place → Clear재조립 연쇄 → Rotate 를 Domain → Raise → await FX 순으로 실행한다.
         /// </summary>
@@ -94,12 +109,14 @@ namespace JTH.Scripts.Bootstrap
                 PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
                 RaiseReassemblyEvents(reassembly, scoreResult);
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
+                RaiseScoreSkinUnlockCheck(scoreResult.TotalScore);
                 await _placedBlocksView.PlayReassemblyAsync(reassembly);
 
                 if (reassembly.HasCellsOutsideBounds)
                 {
-                    magnetGameChannel.RaiseEvent(SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, 0));
-                     magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(0));
+                    int finalScore = _scoreSession.TotalScore;
+                    RaiseScoreSkinUnlockCheck(finalScore);
+                    magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(finalScore));
                     return new TurnResolutionResult(result, reassembly, boardRotated: false);
                 }
 
@@ -122,6 +139,12 @@ namespace JTH.Scripts.Bootstrap
             {
                 IsTurnResolving = false;
             }
+        }
+
+        private void RaiseScoreSkinUnlockCheck(int totalScore)
+        {
+            magnetGameChannel.RaiseEvent(
+                SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, totalScore));
         }
 
         private PlacementScoreResult ApplyPlacementScore(PlacementResult placement, ClearReassemblyResult reassembly)

@@ -7,4 +7,4 @@
 |-------|------|------|------|-----------|
 | 1 | Domain 점수 계산 + ScoreConfigSO | 구현됨 · 컴파일 확인 대기 | [phase1.md](phase1.md) | [sequence1.md](sequence1.md) |
 | 2 | 배치 경로 연동 + ScoreChanged | 구현됨 · 컴파일 확인 대기 | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) |
-| 3 | 턴 콤보 리셋 + GameOver·베스트·스킨 체크 | 대기 | — | — |
+| 3 | 턴 콤보 리셋 + GameOver·베스트·스킨 체크 | 구현됨 · 컴파일 확인됨 | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) |
