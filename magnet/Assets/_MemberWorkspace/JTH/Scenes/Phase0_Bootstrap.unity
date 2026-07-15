@@ -327,6 +327,7 @@ MonoBehaviour:
   magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   boardConfig: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
   placementConfig: {fileID: 11400000, guid: dec55d4c748f9ac4b8ede15c29f0ea6f, type: 2}
+  scoreConfig: {fileID: 11400000, guid: a7c4e2f19b3048d6a1e5c8d0f2b6a947, type: 2}
 --- !u!4 &860753736
 Transform:
   m_ObjectHideFlags: 0

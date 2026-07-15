@@ -6,6 +6,7 @@ using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Rotation;
+using JTH.Scripts.Domain.Score;
 using JTH.Scripts.Domain.Turn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
@@ -26,17 +27,20 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
+        [SerializeField] private ScoreConfigSO scoreConfig;
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         [Inject] private readonly PlacedBlocksView _placedBlocksView;
 
         private BoardSession _session;
         private BlockPlacementService _placementService;
+        private ScoreSession _scoreSession;
         private readonly ClearReassemblyService _reassemblyService = new();
         private readonly BoardRotationService _rotationService = new();
 
         public BoardSession Session => _session;
         public BlockPlacementService PlacementService => _placementService;
+        public ScoreSession ScoreSession => _scoreSession;
         public BlockSpawnBootstrap BlockSpawn => _blockSpawnBootstrap;
         public bool IsTurnResolving { get; private set; }
 
@@ -44,11 +48,13 @@ namespace JTH.Scripts.Bootstrap
         {
             Debug.Assert(boardConfig != null, "[BoardPlacementBootstrap] BoardConfigSO is not assigned.", this);
             Debug.Assert(placementConfig != null, "[BoardPlacementBootstrap] PlacementConfigSO is not assigned.", this);
+            Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
             Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
 
             _session = new BoardSession(boardConfig.BoardSize);
             _placementService = new BlockPlacementService(_session);
+            _scoreSession = new ScoreSession(scoreConfig);
         }
 
         /// <summary>
@@ -85,13 +91,15 @@ namespace JTH.Scripts.Bootstrap
                 await _placedBlocksView.PlayPlaceAsync(staging, result);
 
                 ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(_session);
-                RaiseReassemblyEvents(reassembly);
+                PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
+                RaiseReassemblyEvents(reassembly, scoreResult);
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
                 await _placedBlocksView.PlayReassemblyAsync(reassembly);
 
                 if (reassembly.HasCellsOutsideBounds)
                 {
                     magnetGameChannel.RaiseEvent(SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, 0));
-                    magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(0));
+                     magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(0));
                     return new TurnResolutionResult(result, reassembly, boardRotated: false);
                 }
 
@@ -116,19 +124,38 @@ namespace JTH.Scripts.Bootstrap
             }
         }
 
-        private void RaiseReassemblyEvents(ClearReassemblyResult reassembly)
+        private PlacementScoreResult ApplyPlacementScore(PlacementResult placement, ClearReassemblyResult reassembly)
+        {
+            int cellsPlaced = placement.CellPositions != null ? placement.CellPositions.Count : 0;
+            if (reassembly == null || !reassembly.HasAnyWave)
+            {
+                return _scoreSession.ApplyPlacement(cellsPlaced, waveSquareSizes: null);
+            }
+
+            var waveSizes = new int[reassembly.Waves.Count];
+            for (int i = 0; i < reassembly.Waves.Count; i++)
+            {
+                waveSizes[i] = reassembly.Waves[i].SquareSize;
+            }
+
+            return _scoreSession.ApplyPlacement(cellsPlaced, waveSizes);
+        }
+
+        private void RaiseReassemblyEvents(ClearReassemblyResult reassembly, PlacementScoreResult scoreResult)
         {
             if (reassembly == null || !reassembly.HasAnyWave)
             {
                 return;
             }
 
+            IReadOnlyList<int> waveScores = scoreResult.WaveScores;
             for (int w = 0; w < reassembly.Waves.Count; w++)
             {
                 ClearWave wave = reassembly.Waves[w];
+                int scoreAwarded = w < waveScores.Count ? waveScores[w] : 0;
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.SquareClearedEvent.Init(
                     wave.SquareSize,
-                    scoreAwarded: wave.ScoreCells,
+                    scoreAwarded,
                     wave.DestroyedCells));
 
                 if (wave.Relocations.Count == 0)
