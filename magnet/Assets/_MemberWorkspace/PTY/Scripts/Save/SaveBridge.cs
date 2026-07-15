@@ -46,7 +46,7 @@ namespace PTY.Scripts.Save
 
         private void OnSkinUnlocked(SkinUnlockedEvent evt)
         {
-            _saveService.UnlockSkin(evt.SkinId);
+            _saveService.UnlockSkin(evt.SkinData.SkinId);
         }
 
         private void OnSkinChanged(SkinChangedEvent evt)

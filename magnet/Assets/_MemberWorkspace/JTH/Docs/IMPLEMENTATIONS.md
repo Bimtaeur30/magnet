@@ -9,8 +9,8 @@
 |-------------|------|------|--------------|------|
 | [common-bootstrap](./Implementations/common-bootstrap/phases.md) | 공통 기반 (Reflex·이벤트) | — | phase1 완료 | 구현됨 · 확인 대기 |
 | [block-coordinates](./Implementations/block-coordinates/phases.md) | 블록 좌표·보드 격자 | [SCRUM-17](https://bimtaeur30.atlassian.net/browse/SCRUM-17) | phase1 완료 | 구현됨 · 확인 대기 |
-| [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase3 완료 | 균등 추첨·3후보 공급 (가중치 없음) |
-| [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase4 완료 | 부착·Y Lit 스냅·3슬롯 소진 후 Fill |
+| [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase5 완료 | 균등 추첨·4후보·핸드 소진 시 턴·리필 |
+| [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase4 완료 | 부착·Y Lit 스냅·슬롯 소진 후 Fill |
 | [block-destruction](./Implementations/block-destruction/phases.md) | 블록 파괴 판정 (구) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase4 완료 | A안 테두리+바깥 제거 — **clear-reassembly로 대체 중** |
 | [clear-reassembly](./Implementations/clear-reassembly/phases.md) | 클리어 재조립 (칸·달팽이) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase4 완료 | OccupiedCell·최내곽 파괴→부채꼴 재배치→연쇄·달팽이 연출 |
 | [board-rotation](./Implementations/board-rotation/phases.md) | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | phase3 완료 | Place→재조립 연쇄→Rotate (clear-reassembly와 연동) |

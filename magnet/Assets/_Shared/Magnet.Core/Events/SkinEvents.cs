@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GameLib.EventChannelSystem;
+﻿using GameLib.EventChannelSystem;
 using PMS.Scripts.Skin;
+using System.Collections.Generic;
 
 namespace PMS.Scripts.Events
 {
@@ -71,12 +71,13 @@ namespace PMS.Scripts.Events
 
     public class SkinUnlockedEvent : GameEvent
     {
-        public string SkinId { get; private set; }
+        public SkinDataSO SkinData { get; private set; }
 
-        public SkinUnlockedEvent Init(string skinId)
+        public SkinUnlockedEvent Init(SkinDataSO skinData)
         {
-            SkinId = skinId;
+            SkinData = skinData;
             return this;
         }
     }
+
 }

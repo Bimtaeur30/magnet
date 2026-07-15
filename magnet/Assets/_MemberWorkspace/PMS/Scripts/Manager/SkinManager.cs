@@ -2,6 +2,7 @@
 using Magnet.Contracts.Save;
 using PMS.Scripts.Events;
 using PMS.Scripts.Skin;
+using Reflex.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,8 @@ namespace PMS.Scripts.Manager
 
         private readonly List<SkinDataSO> unlockedSkins = new();
 
-        private ISaveService saveService;
+        [Inject] private ISaveService saveService;
+
         private int currentSkinIndex;
 
         public SkinDataSO CurrentSkin
@@ -38,11 +40,12 @@ namespace PMS.Scripts.Manager
             eventChannel.AddListener<SkinSelectRequestEvent>(OnSkinSelectRequest);
             eventChannel.AddListener<SkinUnlockCheckEvent>(OnSkinUnlockCheck);
             eventChannel.AddListener<SkinInventoryRequestEvent>(OnSkinInventoryRequest);
-        }
 
-        private void Start()
-        {
-            if (saveService == null)
+            if (saveService != null)
+            {
+                InitializeFromSave();
+            }
+            else
             {
                 InitializeWithoutSave();
             }
@@ -55,10 +58,8 @@ namespace PMS.Scripts.Manager
             eventChannel.RemoveListener<SkinInventoryRequestEvent>(OnSkinInventoryRequest);
         }
 
-        public void Initialize(ISaveService saveService)
+        private void InitializeFromSave()
         {
-            this.saveService = saveService;
-
             ValidateSaveData();
             LoadUnlockedSkinsFromSave();
             LoadEquippedSkinFromSave();
@@ -84,7 +85,6 @@ namespace PMS.Scripts.Manager
 
         private void ValidateSaveData()
         {
-            if (saveService == null) return;
             if (skinList == null) return;
 
             List<string> validSkinIds = skinList
@@ -98,8 +98,6 @@ namespace PMS.Scripts.Manager
         private void LoadUnlockedSkinsFromSave()
         {
             unlockedSkins.Clear();
-
-            if (saveService == null) return;
 
             foreach (string skinId in saveService.UnlockedSkinIds)
             {
@@ -206,7 +204,7 @@ namespace PMS.Scripts.Manager
             saveService?.UnlockSkin(skinData.SkinId);
 
             eventChannel.RaiseEvent(
-                SkinEvents.SkinUnlockedEvent.Init(skinData.SkinId)
+                SkinEvents.SkinUnlockedEvent.Init(skinData)
             );
 
             Debug.Log($"{skinData.SkinName} 스킨 해금됨");

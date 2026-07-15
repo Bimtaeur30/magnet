@@ -1,6 +1,7 @@
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Spawn;
+using JTH.Scripts.Domain.Turn;
 using JTH.Scripts.Events;
 using Magnet.Contracts.BlockShapes;
 using Reflex.Attributes;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace JTH.Scripts.Bootstrap
 {
     /// <summary>
-    /// BlockSupply 초기화·소모 후 후보 갱신 이벤트를 방송한다.
+    /// BlockSupply 초기화·소모 후 후보 갱신·턴(핸드 소진) 이벤트를 방송한다.
     /// </summary>
     public sealed class BlockSpawnBootstrap : MonoBehaviour
     {
@@ -19,8 +20,10 @@ namespace JTH.Scripts.Bootstrap
         [Inject] private readonly IBlockShapeSource _blockShapeSource;
 
         private BlockSupply _supply;
+        private TurnState _turnState;
 
         public BlockSupply Supply => _supply;
+        public TurnState Turn => _turnState;
 
         private void Start()
         {
@@ -29,7 +32,11 @@ namespace JTH.Scripts.Bootstrap
 
             var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom(1));
             _supply = new BlockSupply(drawer);
+            _turnState = new TurnState();
+
             _supply.Fill();
+            _turnState.BeginFirstTurn();
+            RaiseTurnStarted();
             RaiseCandidatesUpdated();
         }
 
@@ -51,7 +58,10 @@ namespace JTH.Scripts.Bootstrap
 
             if (_supply.AreAllSlotsEmpty())
             {
+                RaiseTurnEnded();
                 _supply.Fill();
+                _turnState.AdvanceAfterHandExhausted();
+                RaiseTurnStarted();
             }
 
             RaiseCandidatesUpdated();
@@ -85,6 +95,18 @@ namespace JTH.Scripts.Bootstrap
         {
             magnetGameChannel.RaiseEvent(
                 MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.CreateSnapshot()));
+        }
+
+        private void RaiseTurnStarted()
+        {
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.TurnStartedEvent.Init(_turnState.TurnIndex));
+        }
+
+        private void RaiseTurnEnded()
+        {
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.TurnEndedEvent.Init(_turnState.TurnIndex));
         }
     }
 }
