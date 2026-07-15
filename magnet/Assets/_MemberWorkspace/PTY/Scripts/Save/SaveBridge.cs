@@ -46,7 +46,7 @@ namespace PTY.Scripts.Save
 
         private void OnSkinUnlocked(SkinUnlockedEvent evt)
         {
-            _saveService.UnlockSkin(evt.SkinId);
+            _saveService.UnlockSkin(evt.SkinData.SkinId);
         }
 
         private void OnSkinChanged(SkinChangedEvent evt)
@@ -69,10 +69,6 @@ namespace PTY.Scripts.Save
                 _saveService.TotalPlayTime,
                 _saveService.MaxExplosionCombo,
                 _saveService.GameOverCount));
-
-            magnetGameChannel.RaiseEvent(SkinEvents.SkinLoadedEvent.Init(
-                _saveService.UnlockedSkinIds,
-                _saveService.EquippedSkinId));
         }
     }
 }
