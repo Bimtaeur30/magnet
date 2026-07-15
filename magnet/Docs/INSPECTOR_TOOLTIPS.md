@@ -53,6 +53,10 @@
 | `Scripts/Data/PlacementConfigSO.cs` | `SpinDegreesPerSecond` | 비행 중 자전 각속도(도/초) |
 | `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerCell` | 같은 링 칸 사이 스태거(초). 시계방향 촤라락 부착 간격 |
 | `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerRing` | 다음 링 시작 지연(초). 이전 링 완료를 기다리지 않음 |
+| `Scripts/Data/ScoreConfigSO.cs` | `kTiers` | 콤보 구간별 k. maxComboInclusive 오름차순. 마지막 구간이 60+ 등으로 나머지 처리 |
+| `Scripts/Data/ScoreConfigSO.cs` | `KTier.maxComboInclusive` | 이 구간에 포함되는 최대 콤보(이상이면 다음 구간). 오름차순이어야 함 |
+| `Scripts/Data/ScoreConfigSO.cs` | `KTier.k` | 해당 콤보 구간의 배율 k |
+| `Scripts/Data/ScoreConfigSO.cs` | `streakMultipliers` | 같은 배치 안 웨이브 순번(1-based)별 연쇄 배율. 길이 부족 시 마지막 값 사용 |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/ShapeBlock.cs` | `blockPrefab` | 블록 칸 1개 프리팹(Block 컴포넌트 + SpriteRenderer). 필요 개수만큼 인스턴스 생성 후 재사용 |
