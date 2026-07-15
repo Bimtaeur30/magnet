@@ -24,6 +24,7 @@ namespace Game.UI
         }
         protected override void OnDisable()
         {
+            MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.RemoveListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
         }
 

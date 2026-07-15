@@ -1,0 +1,1220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8981b4ecea39b648827ae4e8c917316, type: 3}
+  m_Name: NewSkinUIBindingProfile
+  m_EditorClassIdentifier: Mvvm.Editor::Mvvm.Editor.MvvmBindingProfile
+  targetPrefab: {fileID: 0}
+  namespaceName: Game.UI
+  viewClassName: NewSkinUIView
+  viewModelClassName: NewSkinUIViewModel
+  outputFolder: Assets/_MemberWorkspace/KTJ/03_Library/UI/NewSkinUI
+  bindings:
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: NewSkinUIPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: NewSkinUIX
+    valueType: float
+    fieldName: newSkinUIAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: NewSkinUIY
+    valueType: float
+    fieldName: newSkinUIAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: NewSkinUISize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUISizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: NewSkinUIWidth
+    valueType: float
+    fieldName: newSkinUISizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: NewSkinUIHeight
+    valueType: float
+    fieldName: newSkinUISizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: NewSkinUIRotationZ
+    valueType: float
+    fieldName: newSkinUILocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: NewSkinUIScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUILocalScale
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: NewSkinUIScaleX
+    valueType: float
+    fieldName: newSkinUILocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: NewSkinUIScaleY
+    valueType: float
+    fieldName: newSkinUILocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ImagePosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIImageAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ImageX
+    valueType: float
+    fieldName: newSkinUIImageAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ImageY
+    valueType: float
+    fieldName: newSkinUIImageAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ImageSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIImageSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ImageWidth
+    valueType: float
+    fieldName: newSkinUIImageSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ImageHeight
+    valueType: float
+    fieldName: newSkinUIImageSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ImageRotationZ
+    valueType: float
+    fieldName: newSkinUIImageLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ImageScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIImageLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ImageScaleX
+    valueType: float
+    fieldName: newSkinUIImageLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ImageScaleY
+    valueType: float
+    fieldName: newSkinUIImageLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Image
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUIImageSprite
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: ImageColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIImageColor
+  - enabled: 0
+    objectPath: NewSkinUI/Image
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: ImageAlpha
+    valueType: float
+    fieldName: newSkinUIImageColorA
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: Image1Position
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIImage1AnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: Image1X
+    valueType: float
+    fieldName: newSkinUIImage1AnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: Image1Y
+    valueType: float
+    fieldName: newSkinUIImage1AnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: Image1Size
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIImage1SizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: Image1Width
+    valueType: float
+    fieldName: newSkinUIImage1SizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: Image1Height
+    valueType: float
+    fieldName: newSkinUIImage1SizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: Image1RotationZ
+    valueType: float
+    fieldName: newSkinUIImage1LocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: Image1Scale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIImage1LocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: Image1ScaleX
+    valueType: float
+    fieldName: newSkinUIImage1LocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: Image1ScaleY
+    valueType: float
+    fieldName: newSkinUIImage1LocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Image1
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUIImage1Sprite
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: Image1Color
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIImage1Color
+  - enabled: 0
+    objectPath: NewSkinUI/Image (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: Image1Alpha
+    valueType: float
+    fieldName: newSkinUIImage1ColorA
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: SkinMaskPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUISkinMaskAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: SkinMaskX
+    valueType: float
+    fieldName: newSkinUISkinMaskAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: SkinMaskY
+    valueType: float
+    fieldName: newSkinUISkinMaskAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: SkinMaskSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUISkinMaskSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: SkinMaskWidth
+    valueType: float
+    fieldName: newSkinUISkinMaskSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: SkinMaskHeight
+    valueType: float
+    fieldName: newSkinUISkinMaskSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: SkinMaskRotationZ
+    valueType: float
+    fieldName: newSkinUISkinMaskLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: SkinMaskScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUISkinMaskLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: SkinMaskScaleX
+    valueType: float
+    fieldName: newSkinUISkinMaskLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: SkinMaskScaleY
+    valueType: float
+    fieldName: newSkinUISkinMaskLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: SkinMask
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUISkinMaskSprite
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: SkinMaskColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUISkinMaskColor
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: SkinMaskAlpha
+    valueType: float
+    fieldName: newSkinUISkinMaskColorA
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: SkimImagePosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUISkinMaskSkimImageAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: SkimImageX
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: SkimImageY
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: SkimImageSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUISkinMaskSkimImageSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: SkimImageWidth
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: SkimImageHeight
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: SkimImageRotationZ
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: SkimImageScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUISkinMaskSkimImageLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: SkimImageScaleX
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: SkimImageScaleY
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Skim
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUISkinMaskSkimImageSprite
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: SkimImageColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUISkinMaskSkimImageColor
+  - enabled: 0
+    objectPath: NewSkinUI/SkinMask/SkimImage
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: SkimImageAlpha
+    valueType: float
+    fieldName: newSkinUISkinMaskSkimImageColorA
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TitlePosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TitleX
+    valueType: float
+    fieldName: newSkinUITitleAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TitleY
+    valueType: float
+    fieldName: newSkinUITitleAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TitleSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TitleWidth
+    valueType: float
+    fieldName: newSkinUITitleSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TitleHeight
+    valueType: float
+    fieldName: newSkinUITitleSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TitleRotationZ
+    valueType: float
+    fieldName: newSkinUITitleLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TitleScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUITitleLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TitleScaleX
+    valueType: float
+    fieldName: newSkinUITitleLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TitleScaleY
+    valueType: float
+    fieldName: newSkinUITitleLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMPPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleTextTMPAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMPX
+    valueType: float
+    fieldName: newSkinUITitleTextTMPAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMPY
+    valueType: float
+    fieldName: newSkinUITitleTextTMPAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMPSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleTextTMPSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMPWidth
+    valueType: float
+    fieldName: newSkinUITitleTextTMPSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMPHeight
+    valueType: float
+    fieldName: newSkinUITitleTextTMPSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMPRotationZ
+    valueType: float
+    fieldName: newSkinUITitleTextTMPLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMPScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUITitleTextTMPLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMPScaleX
+    valueType: float
+    fieldName: newSkinUITitleTextTMPLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMPScaleY
+    valueType: float
+    fieldName: newSkinUITitleTextTMPLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.UI.Text
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP
+    valueType: string
+    fieldName: newSkinUITitleTextTMPText
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.UI.Text
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMPColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUITitleTextTMPColor
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP)
+    componentType: UnityEngine.UI.Text
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMPAlpha
+    valueType: float
+    fieldName: newSkinUITitleTextTMPColorA
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMP1Position
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleTextTMP1AnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMP1X
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1AnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMP1Y
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1AnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMP1Size
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUITitleTextTMP1SizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMP1Width
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1SizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMP1Height
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1SizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMP1RotationZ
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1LocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMP1Scale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUITitleTextTMP1LocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMP1ScaleX
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1LocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMP1ScaleY
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1LocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.UI.Text
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP1
+    valueType: string
+    fieldName: newSkinUITitleTextTMP1Text
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.UI.Text
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMP1Color
+    valueType: UnityEngine.Color
+    fieldName: newSkinUITitleTextTMP1Color
+  - enabled: 0
+    objectPath: NewSkinUI/Title/Text (TMP) (1)
+    componentType: UnityEngine.UI.Text
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMP1Alpha
+    valueType: float
+    fieldName: newSkinUITitleTextTMP1ColorA
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: EquipBtnPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIEquipBtnAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: EquipBtnX
+    valueType: float
+    fieldName: newSkinUIEquipBtnAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: EquipBtnY
+    valueType: float
+    fieldName: newSkinUIEquipBtnAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: EquipBtnSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIEquipBtnSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: EquipBtnWidth
+    valueType: float
+    fieldName: newSkinUIEquipBtnSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: EquipBtnHeight
+    valueType: float
+    fieldName: newSkinUIEquipBtnSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: EquipBtnRotationZ
+    valueType: float
+    fieldName: newSkinUIEquipBtnLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: EquipBtnScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIEquipBtnLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: EquipBtnScaleX
+    valueType: float
+    fieldName: newSkinUIEquipBtnLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: EquipBtnScaleY
+    valueType: float
+    fieldName: newSkinUIEquipBtnLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: EquipBtn
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUIEquipBtnSprite
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: EquipBtnColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIEquipBtnColor
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: EquipBtnAlpha
+    valueType: float
+    fieldName: newSkinUIEquipBtnColorA
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMPPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIEquipBtnTextTMPAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMPX
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMPY
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMPSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIEquipBtnTextTMPSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMPWidth
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMPHeight
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMPRotationZ
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMPScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIEquipBtnTextTMPLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMPScaleX
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMPScaleY
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP
+    valueType: string
+    fieldName: newSkinUIEquipBtnTextTMPText
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMPColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIEquipBtnTextTMPColor
+  - enabled: 0
+    objectPath: NewSkinUI/EquipBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMPAlpha
+    valueType: float
+    fieldName: newSkinUIEquipBtnTextTMPColorA
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ContinueBtnPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIContinueBtnAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ContinueBtnX
+    valueType: float
+    fieldName: newSkinUIContinueBtnAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ContinueBtnY
+    valueType: float
+    fieldName: newSkinUIContinueBtnAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ContinueBtnSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIContinueBtnSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ContinueBtnWidth
+    valueType: float
+    fieldName: newSkinUIContinueBtnSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ContinueBtnHeight
+    valueType: float
+    fieldName: newSkinUIContinueBtnSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ContinueBtnRotationZ
+    valueType: float
+    fieldName: newSkinUIContinueBtnLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ContinueBtnScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIContinueBtnLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ContinueBtnScaleX
+    valueType: float
+    fieldName: newSkinUIContinueBtnLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ContinueBtnScaleY
+    valueType: float
+    fieldName: newSkinUIContinueBtnLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: ContinueBtn
+    valueType: UnityEngine.Sprite
+    fieldName: newSkinUIContinueBtnSprite
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: ContinueBtnColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIContinueBtnColor
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: ContinueBtnAlpha
+    valueType: float
+    fieldName: newSkinUIContinueBtnColorA
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMPPosition
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIContinueBtnTextTMPAnchoredPosition
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMPX
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPAnchoredPositionX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMPY
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPAnchoredPositionY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMPSize
+    valueType: UnityEngine.Vector2
+    fieldName: newSkinUIContinueBtnTextTMPSizeDelta
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMPWidth
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPSizeDeltaX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMPHeight
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPSizeDeltaY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMPRotationZ
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMPScale
+    valueType: UnityEngine.Vector3
+    fieldName: newSkinUIContinueBtnTextTMPLocalScale
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMPScaleX
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPLocalScaleX
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMPScaleY
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPLocalScaleY
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP
+    valueType: string
+    fieldName: newSkinUIContinueBtnTextTMPText
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMPColor
+    valueType: UnityEngine.Color
+    fieldName: newSkinUIContinueBtnTextTMPColor
+  - enabled: 0
+    objectPath: NewSkinUI/ContinueBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMPAlpha
+    valueType: float
+    fieldName: newSkinUIContinueBtnTextTMPColorA

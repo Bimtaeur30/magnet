@@ -23,6 +23,10 @@ public class PopupSequence_UI : MonoBehaviour
     {
         CacheOriginalScales();
     }
+    private void Start() // 테스트
+    {
+        PlayPopupAnimation();
+    }
 
     private void OnEnable()
     {
