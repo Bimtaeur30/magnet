@@ -12,8 +12,7 @@ using UnityEngine;
 namespace JTH.Scripts.Input
 {
     /// <summary>
-    /// 키보드로 선택한 블록을 포인터 드래그로 x축 이동. 감도 램프·Simulate 프리뷰·부착 확정.
-    /// 표시는 <see cref="BlockDragDrawer"/>에 위임한다.
+    /// 책임: 블록이 드래그 되었을 때 이벤트를 받아 실제로 블록의 위치를 
     /// </summary>
     [RequireComponent(typeof(BlockDragDrawer))]
     public sealed class BlockDragInput : MonoBehaviour
@@ -216,7 +215,7 @@ namespace JTH.Scripts.Input
         private float GetPointerBoardLocalX()
         {
             Vector3 world = magnetInput.GetWorldPointerPosition();
-            return _boardView.transform.InverseTransformPoint(world).x;
+            return _boardView.WorldToBoardLocalX(world);
         }
     }
 }

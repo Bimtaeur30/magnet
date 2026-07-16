@@ -17,8 +17,22 @@ namespace JTH.Scripts.Presentation
         private Block _block;
         private Vector2Int _gridPosition;
         private readonly List<MotionHandle> _motions = new();
+        private BoardView _boardView;
 
         public Vector2Int GridPosition => _gridPosition;
+
+        private BoardView BoardView
+        {
+            get
+            {
+                if (_boardView == null)
+                {
+                    _boardView = GetComponentInParent<BoardView>();
+                }
+
+                return _boardView;
+            }
+        }
 
         public void Bind(Block block, Vector2Int gridPosition, float cellSize, float fill)
         {
@@ -36,8 +50,8 @@ namespace JTH.Scripts.Presentation
         public void SnapToGrid(Vector2Int gridPosition, float cellSize, float fill)
         {
             _gridPosition = gridPosition;
-            Vector2 world = BoardCoordinates.GridToWorld(gridPosition.x, gridPosition.y, cellSize);
-            transform.localPosition = new Vector3(world.x, world.y, 0f);
+            Vector2 boardLocal = BoardCoordinates.GridToWorld(gridPosition.x, gridPosition.y, cellSize);
+            SetBoardLocalPosition(boardLocal);
             if (_block != null)
             {
                 _block.SetLocalPosition(Vector3.zero);
@@ -56,9 +70,8 @@ namespace JTH.Scripts.Presentation
             Action onComplete)
         {
             CancelMotions();
-            Vector2 target = BoardCoordinates.GridToWorld(gridPosition.x, gridPosition.y, cellSize);
-            Vector3 start = transform.localPosition;
-            Vector3 end = new Vector3(target.x, target.y, start.z);
+            Vector2 targetBoardLocal = BoardCoordinates.GridToWorld(gridPosition.x, gridPosition.y, cellSize);
+            Vector2 startBoardLocal = GetBoardLocalPosition();
             _gridPosition = gridPosition;
 
             MotionHandle handle = LMotion.Create(0f, 1f, duration)
@@ -68,7 +81,7 @@ namespace JTH.Scripts.Presentation
                     SnapToGrid(gridPosition, cellSize, fill);
                     onComplete?.Invoke();
                 })
-                .Bind(t => transform.localPosition = Vector3.Lerp(start, end, t));
+                .Bind(t => SetBoardLocalPosition(Vector2.Lerp(startBoardLocal, targetBoardLocal, t)));
             _motions.Add(handle);
         }
 
@@ -90,21 +103,21 @@ namespace JTH.Scripts.Presentation
 
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.CellFill;
-            Vector2 fromWorld = BoardCoordinates.GridToWorld(relocation.From.x, relocation.From.y, cellSize);
-            Vector2 toWorld = BoardCoordinates.GridToWorld(relocation.To.x, relocation.To.y, cellSize);
+            Vector2 fromBoardLocal = BoardCoordinates.GridToWorld(relocation.From.x, relocation.From.y, cellSize);
+            Vector2 toBoardLocal = BoardCoordinates.GridToWorld(relocation.To.x, relocation.To.y, cellSize);
 
-            Vector2 radial = fromWorld.sqrMagnitude > 0.0001f ? fromWorld.normalized : Vector2.up;
-            Vector2 bounceEnd = fromWorld + radial * (placementConfig.BounceCells * cellSize);
+            Vector2 radial = fromBoardLocal.sqrMagnitude > 0.0001f ? fromBoardLocal.normalized : Vector2.up;
+            Vector2 bounceEnd = fromBoardLocal + radial * (placementConfig.BounceCells * cellSize);
 
             await TweenPositionWithSpin(
-                transform.localPosition,
-                new Vector3(bounceEnd.x, bounceEnd.y, 0f),
+                GetBoardLocalPosition(),
+                bounceEnd,
                 placementConfig.BounceDuration,
                 placementConfig.BounceEase,
                 placementConfig.SpinDegreesPerSecond);
 
-            Vector3 landStart = transform.localPosition;
-            Vector3 landEnd = new Vector3(toWorld.x, toWorld.y, 0f);
+            Vector2 landStart = GetBoardLocalPosition();
+            Vector2 landEnd = toBoardLocal;
             float landDuration = placementConfig.LandDuration;
             float spinSpeed = placementConfig.SpinDegreesPerSecond;
 
@@ -115,7 +128,7 @@ namespace JTH.Scripts.Presentation
                 .WithOnComplete(() => landCompletion.TrySetResult())
                 .Bind(t =>
                 {
-                    transform.localPosition = Vector3.Lerp(landStart, landEnd, t);
+                    SetBoardLocalPosition(Vector2.Lerp(landStart, landEnd, t));
                     spinZ += spinSpeed * Time.deltaTime;
                     transform.localEulerAngles = new Vector3(0f, 0f, spinZ);
                 });
@@ -127,8 +140,8 @@ namespace JTH.Scripts.Presentation
         }
 
         private async UniTask TweenPositionWithSpin(
-            Vector3 start,
-            Vector3 end,
+            Vector2 startBoardLocal,
+            Vector2 endBoardLocal,
             float duration,
             Ease ease,
             float spinDegreesPerSecond)
@@ -140,12 +153,36 @@ namespace JTH.Scripts.Presentation
                 .WithOnComplete(() => completion.TrySetResult())
                 .Bind(t =>
                 {
-                    transform.localPosition = Vector3.Lerp(start, end, t);
+                    SetBoardLocalPosition(Vector2.Lerp(startBoardLocal, endBoardLocal, t));
                     spinZ += spinDegreesPerSecond * Time.deltaTime;
                     transform.localEulerAngles = new Vector3(0f, 0f, spinZ);
                 });
             _motions.Add(handle);
             await completion.Task;
+        }
+
+        private Vector2 GetBoardLocalPosition()
+        {
+            BoardView boardView = BoardView;
+            if (boardView == null)
+            {
+                Vector3 local = transform.localPosition;
+                return new Vector2(local.x, local.y);
+            }
+
+            return boardView.WorldToBoardLocal(transform.position);
+        }
+
+        private void SetBoardLocalPosition(Vector2 boardLocal)
+        {
+            BoardView boardView = BoardView;
+            if (boardView == null)
+            {
+                transform.localPosition = new Vector3(boardLocal.x, boardLocal.y, transform.localPosition.z);
+                return;
+            }
+
+            boardView.SetAtBoardLocal(transform, boardLocal);
         }
 
         public void CancelMotions()

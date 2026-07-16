@@ -33,6 +33,20 @@ namespace JTH.Scripts.Presentation
         private bool _skinResolved;
         private Color _resolvedColor;
         private Sprite _resolvedSprite;
+        private BoardView _boardView;
+
+        private BoardView BoardView
+        {
+            get
+            {
+                if (_boardView == null)
+                {
+                    _boardView = GetComponentInParent<BoardView>();
+                }
+
+                return _boardView;
+            }
+        }
 
         private void Awake()
         {
@@ -64,8 +78,8 @@ namespace JTH.Scripts.Presentation
             {
                 Vector2Int cell = pivot + cellOffsets[i];
                 _cellGridPositions.Add(cell);
-                Vector2 world = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
-                ApplyBlockVisual(i, world, cellSize, fill, sortingOrder);
+                Vector2 boardLocal = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
+                ApplyBlockVisual(i, boardLocal, cellSize, fill, sortingOrder);
             }
 
             HideExtraBlocks(cellOffsets.Count);
@@ -118,9 +132,8 @@ namespace JTH.Scripts.Presentation
                 Vector2Int offset = cellOffsets[i];
                 Vector2Int cell = finalPivot + offset;
                 _cellGridPositions.Add(cell);
-                float worldX = BoardCoordinates.GridToWorld(cell.x, 0, cellSize).x;
-                float worldY = BoardCoordinates.GridToWorld(0, stagingPivotY + offset.y, cellSize).y;
-                ApplyBlockVisual(i, new Vector2(worldX, worldY), cellSize, fill, sortingOrder);
+                Vector2 boardLocal = BoardCoordinates.GridToWorld(cell.x, stagingPivotY + offset.y, cellSize);
+                ApplyBlockVisual(i, boardLocal, cellSize, fill, sortingOrder);
             }
 
             HideExtraBlocks(cellOffsets.Count);
@@ -166,26 +179,38 @@ namespace JTH.Scripts.Presentation
                 }
             }
 
+            BoardView boardView = BoardView;
+            if (boardView == null)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
             for (int i = 0; i < cellOffsets.Count; i++)
             {
                 Vector2Int cell = finalPivot + cellOffsets[i];
                 _cellGridPositions.Add(cell);
-                float targetY = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize).y;
+                Vector2 targetBoardLocal = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize);
                 Block block = _blocks[i];
-                float startY = block.transform.localPosition.y;
+                Vector2 startBoardLocal = boardView.WorldToBoardLocal(block.transform.position);
+                float startY = startBoardLocal.y;
+                float targetY = targetBoardLocal.y;
+                float boardLocalX = startBoardLocal.x;
+
+                if (Mathf.Approximately(startY, targetY))
+                {
+                    boardView.SetAtBoardLocal(block.transform, targetBoardLocal);
+                    OnCellComplete();
+                    continue;
+                }
+
                 float cells = Mathf.Abs(targetY - startY) / Mathf.Max(cellSize, 0.0001f);
-                // 고정 시간이면 첫 Place(이동 거리 큼)만 체감 속도가 폭주함 → 칸 수에 비례
                 float duration = Mathf.Max(0.01f, durationPerCell * Mathf.Max(cells, 1f));
 
                 MotionHandle handle = LMotion.Create(startY, targetY, duration)
                     .WithEase(placementConfig.SnapEase)
                     .WithOnComplete(OnCellComplete)
-                    .Bind(y =>
-                    {
-                        Vector3 position = block.transform.localPosition;
-                        position.y = y;
-                        block.SetLocalPosition(position);
-                    });
+                    .Bind(y => boardView.SetAtBoardLocal(block.transform, new Vector2(boardLocalX, y)));
                 _activeMotions.Add(handle);
             }
         }
@@ -316,11 +341,21 @@ namespace JTH.Scripts.Presentation
             }
         }
 
-        private void ApplyBlockVisual(int index, Vector2 world, float cellSize, float fill, int sortingOrder)
+        private void ApplyBlockVisual(int index, Vector2 boardLocal, float cellSize, float fill, int sortingOrder)
         {
             Block block = _blocks[index];
             block.SetActive(true);
-            block.SetLocalPosition(new Vector3(world.x, world.y, 0f));
+
+            BoardView boardView = BoardView;
+            if (boardView != null)
+            {
+                boardView.SetAtBoardLocal(block.transform, boardLocal);
+            }
+            else
+            {
+                block.SetLocalPosition(new Vector3(boardLocal.x, boardLocal.y, 0f));
+            }
+
             block.SetLocalScale(new Vector3(cellSize * fill, cellSize * fill, 1f));
             block.SetSortingOrder(sortingOrder);
         }
