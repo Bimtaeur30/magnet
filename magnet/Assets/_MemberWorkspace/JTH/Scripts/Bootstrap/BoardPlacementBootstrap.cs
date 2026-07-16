@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GameLib.EventChannelSystem;
@@ -105,7 +106,9 @@ namespace JTH.Scripts.Bootstrap
 
                 await _placedBlocksView.PlayPlaceAsync(staging, result);
 
-                ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(_session);
+                ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(
+                    _session,
+                    placementConfig.CorridorHalfWidth);
                 PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
                 RaiseReassemblyEvents(reassembly, scoreResult);
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
@@ -122,7 +125,7 @@ namespace JTH.Scripts.Bootstrap
 
                 if (placementConfig.PreRotationDelay > 0f)
                 {
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(placementConfig.PreRotationDelay));
+                    await UniTask.Delay(TimeSpan.FromSeconds(placementConfig.PreRotationDelay));
                 }
 
                 _rotationService.RotateClockwise(_session);

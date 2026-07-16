@@ -24,6 +24,7 @@ namespace JTH.Scripts.Input
         [SerializeField] private EventChannelSO magnetGameChannel;
 
         [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
+        [Inject] private readonly BoardView _boardView;
 
         private BlockDragDrawer _drawer;
         private DragSensitivityRamp _sensitivityRamp;
@@ -45,6 +46,7 @@ namespace JTH.Scripts.Input
             Debug.Assert(placementConfig != null, "[BlockDragInput] placementConfig is not assigned.", this);
             Debug.Assert(boardConfig != null, "[BlockDragInput] boardConfig is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[BlockDragInput] BoardPlacementBootstrap was not injected.", this);
+            Debug.Assert(_boardView != null, "[BlockDragInput] BoardView was not injected.", this);
 
             _drawer = GetComponent<BlockDragDrawer>();
             _sensitivityRamp = new DragSensitivityRamp(
@@ -112,9 +114,9 @@ namespace JTH.Scripts.Input
 
         private void BeginDrag()
         {
-            float pointerWorldX = magnetInput.GetWorldPointerPosition().x;
-            _sensitivityRamp.Begin(pointerWorldX);
-            _blockWorldCenterX = Mathf.Clamp(pointerWorldX, _minWorldCenterX, _maxWorldCenterX);
+            float pointerBoardLocalX = GetPointerBoardLocalX();
+            _sensitivityRamp.Begin(pointerBoardLocalX);
+            _blockWorldCenterX = Mathf.Clamp(pointerBoardLocalX, _minWorldCenterX, _maxWorldCenterX);
 
             UpdateViews();
         }
@@ -126,8 +128,8 @@ namespace JTH.Scripts.Input
                 return;
             }
 
-            float pointerWorldX = magnetInput.GetWorldPointerPosition().x;
-            float blockDeltaX = _sensitivityRamp.UpdateDelta(pointerWorldX);
+            float pointerBoardLocalX = GetPointerBoardLocalX();
+            float blockDeltaX = _sensitivityRamp.UpdateDelta(pointerBoardLocalX);
             _blockWorldCenterX = Mathf.Clamp(_blockWorldCenterX + blockDeltaX, _minWorldCenterX, _maxWorldCenterX);
 
             UpdateViews();
@@ -204,7 +206,17 @@ namespace JTH.Scripts.Input
                 _shapeCenterOffsetX,
                 _minPivotX,
                 _maxPivotX);
-            return new Vector2Int(pivotX, _stagingGridY);
+            int pivotY = BlockPlacementCells.GetStagingPivotY(_stagingGridY, _selectedShape.CellOffsets);
+            return new Vector2Int(pivotX, pivotY);
+        }
+
+        /// <summary>
+        /// 스크린 포인터 월드 위치를 Board Transform 기준 로컬 X로 변환한다.
+        /// </summary>
+        private float GetPointerBoardLocalX()
+        {
+            Vector3 world = magnetInput.GetWorldPointerPosition();
+            return _boardView.transform.InverseTransformPoint(world).x;
         }
     }
 }

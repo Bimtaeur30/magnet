@@ -8,3 +8,4 @@
 | 2 | 보드 상태 부트스트랩·블록 선택·스테이징 뷰 | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) | 구현됨 · 확인 대기 |
 | 3 | x축 드래그 입력 | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) | 구현됨 · 확인 대기 |
 | 4 | 부착 확정·이벤트·공급 연동 | [phase4.md](phase4.md) | [sequence4.md](sequence4.md) | 구현됨 · 확인 대기 |
+| 5 | 첫 Place Y스냅 수정 + Draw 시 회전 | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) | 구현됨 · 확인 대기 |

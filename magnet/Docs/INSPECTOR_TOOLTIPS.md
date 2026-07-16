@@ -44,15 +44,26 @@
 | `Scripts/Data/PlacementConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/PlacementConfigSO.cs` | `dragSensitivityRampPerUnit` | Press 시작 포인터 X와의 거리(월드 유닛) 1당 블록 이동 배율 증가량. Block Blast식 감도 램프 |
 | `Scripts/Data/PlacementConfigSO.cs` | `dragSensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
-| `Scripts/Data/PlacementConfigSO.cs` | `snapDuration` | 손 놓은 뒤 Y축 자석 스냅 LitMotion 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `snapDuration` | 손 놓은 뒤 Y축 자석 스냅: 칸 1칸 이동에 걸리는 시간(초). 이동 칸 수에 비례 |
+| `Scripts/Data/PlacementConfigSO.cs` | `snapEase` | Place 성공 후 Y 스냅 LitMotion 이징 (Ease enum) |
 | `Scripts/Data/PlacementConfigSO.cs` | `rotationDuration` | 폭발 처리 후 보드·블록 90° 회전 LitMotion 시간(초) |
 | `Scripts/Data/PlacementConfigSO.cs` | `PreRotationDelay` | 재조립 연출이 끝난 뒤 회전 시작 전 대기(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `rotationEase` | 보드 90° 회전 시 칸 View 이동 LitMotion 이징 (Ease enum) |
+| `Scripts/Data/PlacementConfigSO.cs` | `CorridorHalfWidth` | 원점–원래칸 직선 수선 반폭(격자). 복도 안만 후보. 막히면 제자리(보드밖 주차 없음) |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `originalCellColor` | 노랑 와이어 — 원래 칸(originalCell) 위치 |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `seedOccupiedColor` | 주황/살몬 채움 — 시드 점유 칸(seedOccupied) |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `candidateColor` | 민트 초록 와이어 — 복도 안 이동 가능 후보 칸 |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `chosenColor` | 하늘 파랑 채움 — TryFind가 고른 최종 목표 칸(안쪽만) |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `stayColor` | 회색 채움 — 안쪽이 막혀 원래 칸에 제자리 |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `corridorColor` | 흰 선 — 원점~원래칸 수선 복도(CorridorHalfWidth) |
+| `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `axisColor` | 노란 축 선 — 원점(0,0) → 원래 칸 방향 |
 | `Scripts/Data/PlacementConfigSO.cs` | `BounceCells` | 폭발 후 바깥으로 튕기는 거리(칸) |
 | `Scripts/Data/PlacementConfigSO.cs` | `BounceDuration` | 튕김 LitMotion 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `bounceEase` | 튕김(바깥으로 밀려남) LitMotion 이징 (Ease enum) |
 | `Scripts/Data/PlacementConfigSO.cs` | `LandDuration` | 착지(목표 칸 이동) 시간(초) |
+| `Scripts/Data/PlacementConfigSO.cs` | `landEase` | 착지(목표 칸으로 이동) LitMotion 이징 (Ease enum) |
 | `Scripts/Data/PlacementConfigSO.cs` | `SpinDegreesPerSecond` | 비행 중 자전 각속도(도/초) |
-| `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerCell` | 같은 링 칸 사이 스태거(초). 시계방향 촤라락 부착 간격 |
-| `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerRing` | 다음 링 시작 지연(초). 이전 링 완료를 기다리지 않음 |
+| `Scripts/Data/PlacementConfigSO.cs` | `StaggerPerRing` | 다음 링 시작 지연(초). 같은 링은 동시 이동. 이전 링 완료를 기다리지 않음 |
 | `Scripts/Data/ScoreConfigSO.cs` | `kTiers` | 콤보 구간별 k. maxComboInclusive 오름차순. 마지막 구간이 60+ 등으로 나머지 처리 |
 | `Scripts/Data/ScoreConfigSO.cs` | `KTier.maxComboInclusive` | 이 구간에 포함되는 최대 콤보(이상이면 다음 구간). 오름차순이어야 함 |
 | `Scripts/Data/ScoreConfigSO.cs` | `KTier.k` | 해당 콤보 구간의 배율 k |

@@ -8,11 +8,11 @@
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
 | [common-bootstrap](./Implementations/common-bootstrap/phases.md) | 공통 기반 (Reflex·이벤트) | — | phase1 완료 | 구현됨 · 확인 대기 |
-| [block-coordinates](./Implementations/block-coordinates/phases.md) | 블록 좌표·보드 격자 | [SCRUM-17](https://bimtaeur30.atlassian.net/browse/SCRUM-17) | phase1 완료 | 구현됨 · 확인 대기 |
+| [block-coordinates](./Implementations/block-coordinates/phases.md) | 블록 좌표·보드 격자 | [SCRUM-17](https://bimtaeur30.atlassian.net/browse/SCRUM-17) | phase2 완료 | Board Transform = 보드 공간 원점 · 드래그 board-local |
 | [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 랜덤 블록 생성 | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase5 완료 | 균등 추첨·4후보·핸드 소진 시 턴·리필 |
-| [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase4 완료 | 부착·Y Lit 스냅·슬롯 소진 후 Fill |
+| [block-placement](./Implementations/block-placement/phases.md) | 블록 배치·흡착 | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase5 완료 | Y스냅 칸비례 duration·Draw 0/90/180/270 회전 |
 | [block-destruction](./Implementations/block-destruction/phases.md) | 블록 파괴 판정 (구) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase4 완료 | A안 테두리+바깥 제거 — **clear-reassembly로 대체 중** |
-| [clear-reassembly](./Implementations/clear-reassembly/phases.md) | 클리어 재조립 (칸·달팽이) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase4 완료 | OccupiedCell·최내곽 파괴→부채꼴 재배치→연쇄·달팽이 연출 |
+| [clear-reassembly](./Implementations/clear-reassembly/phases.md) | 클리어 재조립 (칸·달팽이) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase8 완료 | 각도 제거·수선 복도 폭(`CorridorHalfWidth`) |
 | [board-rotation](./Implementations/board-rotation/phases.md) | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | phase3 완료 | Place→재조립 연쇄→Rotate (clear-reassembly와 연동) |
 | game-over | 게임 오버 판정 | [SCRUM-22](https://bimtaeur30.atlassian.net/browse/SCRUM-22) | — | 미착수 |
 | [score-logic](./Implementations/score-logic/phases.md) | 점수 관리 (로직) | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase3 완료 | 턴 콤보 리셋·GO FinalScore·SkinUnlockCheck(TotalScore) |

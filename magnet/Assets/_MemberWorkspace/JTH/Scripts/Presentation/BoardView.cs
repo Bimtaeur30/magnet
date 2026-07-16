@@ -4,7 +4,7 @@ using UnityEngine;
 namespace JTH.Scripts.Presentation
 {
     /// <summary>
-    /// 보드 격자·자석 축 시각화. 고정 라인만 그림 — 블록 피스는 별도 뷰(Phase 2+).
+    /// 보드 격자·자석 축 시각화. 이 Transform이 보드 로컬 공간의 월드 원점이다.
     /// </summary>
     public sealed class BoardView : MonoBehaviour
     {

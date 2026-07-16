@@ -79,13 +79,15 @@ namespace JTH.Scripts.Presentation
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.CellFill;
             Vector2 centerOffset = BlockPlacementCells.GetShapeCenterOffset(shape.CellOffsets);
+            int maxOffsetY = BlockPlacementCells.GetMaxOffsetY(shape.CellOffsets);
             float stagingWorldY = stagingGridY * cellSize;
 
             for (int i = 0; i < shape.CellOffsets.Count; i++)
             {
                 Vector2Int offset = shape.CellOffsets[i];
                 float cellWorldX = worldCenterX + (offset.x - centerOffset.x) * cellSize;
-                float cellWorldY = stagingWorldY + (offset.y - centerOffset.y) * cellSize;
+                // X는 기하 중심, Y는 최상단 칸이 staging 행에 오도록
+                float cellWorldY = stagingWorldY + (offset.y - maxOffsetY) * cellSize;
                 ApplyBlockVisual(i, new Vector2(cellWorldX, cellWorldY), cellSize, fill, sortingOrder: 2);
             }
 
@@ -109,6 +111,7 @@ namespace JTH.Scripts.Presentation
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.CellFill;
             _cellGridPositions.Clear();
+            int stagingPivotY = BlockPlacementCells.GetStagingPivotY(stagingGridY, cellOffsets);
 
             for (int i = 0; i < cellOffsets.Count; i++)
             {
@@ -116,7 +119,7 @@ namespace JTH.Scripts.Presentation
                 Vector2Int cell = finalPivot + offset;
                 _cellGridPositions.Add(cell);
                 float worldX = BoardCoordinates.GridToWorld(cell.x, 0, cellSize).x;
-                float worldY = BoardCoordinates.GridToWorld(0, stagingGridY + offset.y, cellSize).y;
+                float worldY = BoardCoordinates.GridToWorld(0, stagingPivotY + offset.y, cellSize).y;
                 ApplyBlockVisual(i, new Vector2(worldX, worldY), cellSize, fill, sortingOrder);
             }
 
@@ -128,17 +131,17 @@ namespace JTH.Scripts.Presentation
             IBlockShape shape,
             Vector2Int finalPivot,
             BoardConfigSO configSO,
-            float duration,
+            float durationPerCell,
             Action onComplete)
         {
-            AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, duration, onComplete);
+            AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, durationPerCell, onComplete);
         }
 
         public void AnimateSnapYFromOffsets(
             IReadOnlyList<Vector2Int> cellOffsets,
             Vector2Int finalPivot,
             BoardConfigSO configSO,
-            float duration,
+            float durationPerCell,
             Action onComplete)
         {
             CancelMotions();
@@ -170,9 +173,12 @@ namespace JTH.Scripts.Presentation
                 float targetY = BoardCoordinates.GridToWorld(cell.x, cell.y, cellSize).y;
                 Block block = _blocks[i];
                 float startY = block.transform.localPosition.y;
+                float cells = Mathf.Abs(targetY - startY) / Mathf.Max(cellSize, 0.0001f);
+                // 고정 시간이면 첫 Place(이동 거리 큼)만 체감 속도가 폭주함 → 칸 수에 비례
+                float duration = Mathf.Max(0.01f, durationPerCell * Mathf.Max(cells, 1f));
 
                 MotionHandle handle = LMotion.Create(startY, targetY, duration)
-                    .WithEase(Ease.OutQuad)
+                    .WithEase(placementConfig.SnapEase)
                     .WithOnComplete(OnCellComplete)
                     .Bind(y =>
                     {

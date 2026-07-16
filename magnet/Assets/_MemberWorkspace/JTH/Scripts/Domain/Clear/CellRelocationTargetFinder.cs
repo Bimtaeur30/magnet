@@ -1,130 +1,117 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Clear
 {
     /// <summary>
-    /// 자석 방향 부채꼴 안 빈칸 중 자석에 가장 가까운 칸을 고른다.
-    /// 보존 구역(chebyshev &lt; preserveBelowChebyshev)은 후보에서 제외한다.
+    /// 원점(자석)→원래 칸 직선 복도(수선 반폭)의 빈칸으로만 이동한다.
+    /// 선택: 수선거리 최소 → 안쪽로 가장 가까운 빈칸(축 투영 최대) → 시계.
+    /// 중간 구멍을 건너뛰지 않는다. 후보 없으면 제자리.
     /// </summary>
     public static class CellRelocationTargetFinder
     {
-        private const float PrimaryHalfSectorDegrees = 45f;
-        private const float FallbackHalfSectorDegrees = 90f;
         private const int OutsideSearchPadding = 8;
+        private const float Epsilon = 0.0001f;
 
-        /// <param name="preserveBelowChebyshev">
-        /// 이 값보다 작은 Chebyshev 칸은 폭발 N 내부 보존 구역. 목표 후보에서 제외.
+        /// <param name="corridorHalfWidth">
+        /// 원점–원래칸 직선에서 수직으로 허용하는 반폭(격자 단위).
         /// </param>
         public static bool TryFind(
             BoardGrid grid,
             Vector2Int ejector,
-            int preserveBelowChebyshev,
-            out Vector2Int target)
-        {
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    PrimaryHalfSectorDegrees,
-                    requireCircle: true,
-                    requireInward: true,
-                    out target))
-            {
-                return true;
-            }
-
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    PrimaryHalfSectorDegrees,
-                    requireCircle: false,
-                    requireInward: true,
-                    out target))
-            {
-                return true;
-            }
-
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    FallbackHalfSectorDegrees,
-                    requireCircle: false,
-                    requireInward: true,
-                    out target))
-            {
-                return true;
-            }
-
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    halfSectorDegrees: 180f,
-                    requireCircle: false,
-                    requireInward: true,
-                    out target))
-            {
-                return true;
-            }
-
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    PrimaryHalfSectorDegrees,
-                    requireCircle: false,
-                    requireInward: false,
-                    out target))
-            {
-                return true;
-            }
-
-            if (TryFindInternal(
-                    grid,
-                    ejector,
-                    preserveBelowChebyshev,
-                    halfSectorDegrees: 180f,
-                    requireCircle: false,
-                    requireInward: false,
-                    out target))
-            {
-                return true;
-            }
-
-            target = AllocateOutsidePark(grid, ejector, parkIndex: 0);
-            return true;
-        }
-
-        private static bool TryFindInternal(
-            BoardGrid grid,
-            Vector2Int ejector,
-            int preserveBelowChebyshev,
-            float halfSectorDegrees,
-            bool requireCircle,
-            bool requireInward,
+            float corridorHalfWidth,
             out Vector2Int target)
         {
             target = default;
-            Vector2 ejectorPos = ejector;
-            Vector2 axis = Vector2.zero - ejectorPos;
-            float axisLen = axis.magnitude;
-            if (axisLen < 0.0001f)
+            float halfWidth = Mathf.Max(0.01f, corridorHalfWidth);
+
+            if (!TryGetAxis(ejector, out Vector2 axisDir, out float maxDist))
             {
                 return false;
             }
 
-            Vector2 axisDir = axis / axisLen;
-            float maxDist = axisLen;
-            int ejectorRing = CellRelocationOrder.Chebyshev(ejector);
+            return TryPickNearestInwardEmpty(
+                grid,
+                ejector,
+                axisDir,
+                maxDist,
+                halfWidth,
+                out target);
+        }
 
+        /// <summary>복도 안 이동 가능 빈칸 전부.</summary>
+        public static void CollectCorridorCandidates(
+            BoardGrid grid,
+            Vector2Int ejector,
+            float corridorHalfWidth,
+            HashSet<Vector2Int> results)
+        {
+            float halfWidth = Mathf.Max(0.01f, corridorHalfWidth);
+            if (!TryGetAxis(ejector, out Vector2 axisDir, out float maxDist))
+            {
+                return;
+            }
+
+            int half = BoardCoordinates.HalfExtent(grid.BoardSize);
+            int search = half + OutsideSearchPadding;
+            for (int x = -search; x <= search; x++)
+            {
+                for (int y = -search; y <= search; y++)
+                {
+                    if (!TryReadEmptySlot(
+                            grid,
+                            ejector,
+                            axisDir,
+                            maxDist,
+                            halfWidth,
+                            x,
+                            y,
+                            out Vector2Int candidate,
+                            out _,
+                            out _,
+                            out _))
+                    {
+                        continue;
+                    }
+
+                    results.Add(candidate);
+                }
+            }
+        }
+
+        public static void CollectSequentialTargets(
+            BoardGrid grid,
+            Vector2Int ejector,
+            float corridorHalfWidth,
+            List<Vector2Int> results,
+            int maxSteps = 64)
+        {
+            for (int step = 0; step < maxSteps; step++)
+            {
+                if (!TryFind(grid, ejector, corridorHalfWidth, out Vector2Int target)
+                    || target == ejector)
+                {
+                    break;
+                }
+
+                results.Add(target);
+                grid.SetOccupied(target, true);
+            }
+        }
+
+        private static bool TryPickNearestInwardEmpty(
+            BoardGrid grid,
+            Vector2Int ejector,
+            Vector2 axisDir,
+            float maxDist,
+            float halfWidth,
+            out Vector2Int target)
+        {
+            target = default;
             bool found = false;
-            int bestChebyshev = int.MaxValue;
-            float bestEuclidean = float.MaxValue;
-            float bestAxisAngle = float.MaxValue;
+            float bestPerp = float.MaxValue;
+            float bestAlong = float.MinValue;
             float bestClock = float.MaxValue;
-            bool bestInBounds = false;
             Vector2Int best = default;
 
             int half = BoardCoordinates.HalfExtent(grid.BoardSize);
@@ -133,69 +120,28 @@ namespace JTH.Scripts.Domain.Clear
             {
                 for (int y = -search; y <= search; y++)
                 {
-                    if (BoardCoordinates.IsMagnetCell(x, y))
+                    if (!TryReadEmptySlot(
+                            grid,
+                            ejector,
+                            axisDir,
+                            maxDist,
+                            halfWidth,
+                            x,
+                            y,
+                            out Vector2Int candidate,
+                            out float perp,
+                            out float along,
+                            out float clock))
                     {
                         continue;
                     }
 
-                    Vector2Int candidate = new(x, y);
-                    if (candidate == ejector)
-                    {
-                        continue;
-                    }
-
-                    if (grid.IsOccupied(candidate))
-                    {
-                        continue;
-                    }
-
-                    int chebyshev = CellRelocationOrder.Chebyshev(candidate);
-
-                    // 터진 N의 순수 내부는 보존 — 바깥 칸이 여기로 파고들지 않음
-                    if (chebyshev < preserveBelowChebyshev)
-                    {
-                        continue;
-                    }
-
-                    if (requireInward && chebyshev >= ejectorRing)
-                    {
-                        continue;
-                    }
-
-                    Vector2 candidatePos = candidate;
-                    Vector2 toCandidate = candidatePos - ejectorPos;
-                    float dist = toCandidate.magnitude;
-                    if (requireCircle && dist > maxDist + 0.0001f)
-                    {
-                        continue;
-                    }
-
-                    float axisAngle = dist < 0.0001f
-                        ? 0f
-                        : Vector2.Angle(axisDir, toCandidate / dist);
-                    if (axisAngle > halfSectorDegrees + 0.0001f)
-                    {
-                        continue;
-                    }
-
-                    float euclidean = candidatePos.magnitude;
-                    float clock = CellRelocationOrder.ClockAngle01(candidate);
-                    bool inBounds = grid.IsInBounds(candidate.x, candidate.y);
-
+                    // 1) 축에 더 가까운 수선 2) 안쪽이지만 가장 가까운 빈칸(투영 최대) 3) 시계
                     bool better = !found
-                        || (inBounds && !bestInBounds)
-                        || (inBounds == bestInBounds && chebyshev < bestChebyshev)
-                        || (inBounds == bestInBounds
-                            && chebyshev == bestChebyshev
-                            && euclidean < bestEuclidean - 0.0001f)
-                        || (inBounds == bestInBounds
-                            && chebyshev == bestChebyshev
-                            && Mathf.Abs(euclidean - bestEuclidean) <= 0.0001f
-                            && axisAngle < bestAxisAngle - 0.0001f)
-                        || (inBounds == bestInBounds
-                            && chebyshev == bestChebyshev
-                            && Mathf.Abs(euclidean - bestEuclidean) <= 0.0001f
-                            && Mathf.Abs(axisAngle - bestAxisAngle) <= 0.0001f
+                        || perp < bestPerp - Epsilon
+                        || (Mathf.Abs(perp - bestPerp) <= Epsilon && along > bestAlong + Epsilon)
+                        || (Mathf.Abs(perp - bestPerp) <= Epsilon
+                            && Mathf.Abs(along - bestAlong) <= Epsilon
                             && clock < bestClock);
 
                     if (!better)
@@ -205,11 +151,9 @@ namespace JTH.Scripts.Domain.Clear
 
                     found = true;
                     best = candidate;
-                    bestChebyshev = chebyshev;
-                    bestEuclidean = euclidean;
-                    bestAxisAngle = axisAngle;
+                    bestPerp = perp;
+                    bestAlong = along;
                     bestClock = clock;
-                    bestInBounds = inBounds;
                 }
             }
 
@@ -222,37 +166,74 @@ namespace JTH.Scripts.Domain.Clear
             return true;
         }
 
-        public static Vector2Int AllocateOutsidePark(BoardGrid grid, Vector2Int from, int parkIndex)
+        private static bool TryGetAxis(Vector2Int ejector, out Vector2 axisDir, out float maxDist)
         {
-            int half = BoardCoordinates.HalfExtent(grid.BoardSize);
-            Vector2 dir = ((Vector2)from).sqrMagnitude > 0.0001f
-                ? ((Vector2)from).normalized
-                : Vector2.up;
-
-            for (int step = 0; step < 32; step++)
+            Vector2 ejectorPos = ejector;
+            maxDist = ejectorPos.magnitude;
+            if (maxDist < Epsilon)
             {
-                float radius = half + 2 + parkIndex + step;
-                Vector2Int candidate = new(
-                    Mathf.RoundToInt(dir.x * radius),
-                    Mathf.RoundToInt(dir.y * radius));
-
-                if (BoardCoordinates.IsMagnetCell(candidate.x, candidate.y))
-                {
-                    continue;
-                }
-
-                if (grid.IsInBounds(candidate.x, candidate.y))
-                {
-                    continue;
-                }
-
-                if (!grid.IsOccupied(candidate))
-                {
-                    return candidate;
-                }
+                axisDir = default;
+                return false;
             }
 
-            return new Vector2Int(parkIndex, half + 2 + parkIndex);
+            axisDir = ejectorPos / maxDist;
+            return true;
+        }
+
+        private static float PerpendicularDistance(Vector2 point, Vector2 unitAxis)
+        {
+            return Mathf.Abs(point.x * unitAxis.y - point.y * unitAxis.x);
+        }
+
+        private static bool TryReadEmptySlot(
+            BoardGrid grid,
+            Vector2Int ejector,
+            Vector2 axisDir,
+            float maxDist,
+            float halfWidth,
+            int x,
+            int y,
+            out Vector2Int candidate,
+            out float perp,
+            out float along,
+            out float clock)
+        {
+            candidate = default;
+            perp = 0f;
+            along = 0f;
+            clock = 0f;
+
+            if (BoardCoordinates.IsMagnetCell(x, y))
+            {
+                return false;
+            }
+
+            candidate = new Vector2Int(x, y);
+            if (candidate == ejector)
+            {
+                return false;
+            }
+
+            if (grid.IsOccupied(candidate))
+            {
+                return false;
+            }
+
+            Vector2 candidatePos = candidate;
+            along = Vector2.Dot(candidatePos, axisDir);
+            if (along < Epsilon || along > maxDist + Epsilon)
+            {
+                return false;
+            }
+
+            perp = PerpendicularDistance(candidatePos, axisDir);
+            if (perp > halfWidth + Epsilon)
+            {
+                return false;
+            }
+
+            clock = CellRelocationOrder.ClockAngle01(candidate);
+            return true;
         }
     }
 }

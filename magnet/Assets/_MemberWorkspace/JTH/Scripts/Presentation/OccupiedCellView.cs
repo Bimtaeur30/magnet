@@ -47,7 +47,13 @@ namespace JTH.Scripts.Presentation
             }
         }
 
-        public void AnimateMoveTo(Vector2Int gridPosition, float cellSize, float fill, float duration, Action onComplete)
+        public void AnimateMoveTo(
+            Vector2Int gridPosition,
+            float cellSize,
+            float fill,
+            float duration,
+            Ease ease,
+            Action onComplete)
         {
             CancelMotions();
             Vector2 target = BoardCoordinates.GridToWorld(gridPosition.x, gridPosition.y, cellSize);
@@ -56,7 +62,7 @@ namespace JTH.Scripts.Presentation
             _gridPosition = gridPosition;
 
             MotionHandle handle = LMotion.Create(0f, 1f, duration)
-                .WithEase(Ease.OutQuad)
+                .WithEase(ease)
                 .WithOnComplete(() =>
                 {
                     SnapToGrid(gridPosition, cellSize, fill);
@@ -67,7 +73,7 @@ namespace JTH.Scripts.Presentation
         }
 
         /// <summary>
-        /// 시계방향 스태거 딜레이 후 튕김 → 목표 칸에 바로 착지. 공전 1바퀴 없음.
+        /// 링 스태거 딜레이 후 튕김 → 목표 칸에 바로 착지. 공전 1바퀴 없음.
         /// </summary>
         public async UniTask PlayRelocationAsync(
             CellRelocation relocation,
@@ -94,6 +100,7 @@ namespace JTH.Scripts.Presentation
                 transform.localPosition,
                 new Vector3(bounceEnd.x, bounceEnd.y, 0f),
                 placementConfig.BounceDuration,
+                placementConfig.BounceEase,
                 placementConfig.SpinDegreesPerSecond);
 
             Vector3 landStart = transform.localPosition;
@@ -104,7 +111,7 @@ namespace JTH.Scripts.Presentation
             var landCompletion = new UniTaskCompletionSource();
             float spinZ = transform.localEulerAngles.z;
             MotionHandle landHandle = LMotion.Create(0f, 1f, landDuration)
-                .WithEase(Ease.OutQuad)
+                .WithEase(placementConfig.LandEase)
                 .WithOnComplete(() => landCompletion.TrySetResult())
                 .Bind(t =>
                 {
@@ -119,12 +126,17 @@ namespace JTH.Scripts.Presentation
             transform.localEulerAngles = Vector3.zero;
         }
 
-        private async UniTask TweenPositionWithSpin(Vector3 start, Vector3 end, float duration, float spinDegreesPerSecond)
+        private async UniTask TweenPositionWithSpin(
+            Vector3 start,
+            Vector3 end,
+            float duration,
+            Ease ease,
+            float spinDegreesPerSecond)
         {
             var completion = new UniTaskCompletionSource();
             float spinZ = transform.localEulerAngles.z;
             MotionHandle handle = LMotion.Create(0f, 1f, duration)
-                .WithEase(Ease.OutQuad)
+                .WithEase(ease)
                 .WithOnComplete(() => completion.TrySetResult())
                 .Bind(t =>
                 {

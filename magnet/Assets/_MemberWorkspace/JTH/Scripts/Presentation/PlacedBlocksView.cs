@@ -182,10 +182,9 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            // Domain 배정 순서 = 링 안쪽→바깥, 링 안 12시→시계방향. 그대로 스태거.
+            // Domain 배정 순서 = 링 안쪽→바깥. 같은 링은 동시, 링 사이만 StaggerPerRing.
             int currentRing = -1;
             float ringStartDelay = 0f;
-            int indexInRing = 0;
             var tasks = new List<UniTask>(wave.Relocations.Count);
 
             for (int i = 0; i < wave.Relocations.Count; i++)
@@ -200,11 +199,7 @@ namespace JTH.Scripts.Presentation
                     }
 
                     currentRing = ring;
-                    indexInRing = 0;
                 }
-
-                float delay = ringStartDelay + indexInRing * placementConfig.StaggerPerCell;
-                indexInRing++;
 
                 if (!_cellsById.TryGetValue(relocation.CellId, out OccupiedCellView view) || view == null)
                 {
@@ -215,7 +210,7 @@ namespace JTH.Scripts.Presentation
                     relocation,
                     boardConfig,
                     placementConfig,
-                    delay));
+                    ringStartDelay));
             }
 
             if (tasks.Count > 0)
@@ -256,7 +251,13 @@ namespace JTH.Scripts.Presentation
                     continue;
                 }
 
-                entry.Value.AnimateMoveTo(cell.Position, cellSize, fill, duration, OnCellComplete);
+                entry.Value.AnimateMoveTo(
+                    cell.Position,
+                    cellSize,
+                    fill,
+                    duration,
+                    placementConfig.RotationEase,
+                    OnCellComplete);
             }
         }
     }

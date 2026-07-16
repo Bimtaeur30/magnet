@@ -75,6 +75,32 @@ namespace JTH.Scripts.Domain.Placement
             return new Vector2(sumX / count, sumY / count);
         }
 
+        /// <summary>형태 칸 중 가장 큰 offset.y. 스테이징 피벗을 최상단 칸에 둘 때 사용.</summary>
+        public static int GetMaxOffsetY(IReadOnlyList<Vector2Int> offsets)
+        {
+            if (offsets == null || offsets.Count == 0)
+            {
+                return 0;
+            }
+
+            int maxY = int.MinValue;
+            for (int i = 0; i < offsets.Count; i++)
+            {
+                if (offsets[i].y > maxY)
+                {
+                    maxY = offsets[i].y;
+                }
+            }
+
+            return maxY;
+        }
+
+        /// <summary>최상단 칸이 stagingGridY에 오도록 Domain pivot Y를 계산한다.</summary>
+        public static int GetStagingPivotY(int stagingGridY, IReadOnlyList<Vector2Int> offsets)
+        {
+            return stagingGridY - GetMaxOffsetY(offsets);
+        }
+
         public static void GetPivotXRange(IBlockShape shape, int boardSize, out int minPivotX, out int maxPivotX)
         {
             int half = BoardCoordinates.HalfExtent(boardSize);
