@@ -2,6 +2,7 @@ using Game.UI;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Events;
 using Magnet.Contracts.BlockShapes;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
     public void SetSlot(IBlockShape shape, int index)
     {
+        if (shape == null)
+            throw new ArgumentNullException(nameof(shape));
+
         SlotView.ViewModel.BlockImage1Texture = shape.Icon;
         _index = index;
         SetBlockImageAlpha(1f);
