@@ -30,7 +30,7 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(magnetGameChannel != null, "[BlockSpawnBootstrap] magnetGameChannel is not assigned.", this);
             Debug.Assert(inputSO != null, "[BlockSpawnBootstrap] inputSO is not assigned.", this);
 
-            var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom(1));
+            var drawer = new BlockDrawer(_blockShapeSource, new SystemRandom());
             _supply = new BlockSupply(drawer);
             _turnState = new TurnState();
 
