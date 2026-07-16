@@ -31,7 +31,6 @@ namespace JTH.Scripts.Presentation
         private readonly List<Vector2Int> _cellGridPositions = new();
         private readonly List<MotionHandle> _activeMotions = new();
         private bool _skinResolved;
-        private Color _resolvedColor;
         private Sprite _resolvedSprite;
         private BoardView _boardView;
 
@@ -268,15 +267,14 @@ namespace JTH.Scripts.Presentation
 
         public void ApplySkin(IBlockSkin skin)
         {
-            if (skin == null || skin.Sprites.Count == 0)
+            if (skin == null)
             {
                 return;
             }
 
-            _resolvedColor = skin.Colors.Count > 0 ? skin.Colors[UnityEngine.Random.Range(0, skin.Colors.Count)] : Color.white;
-            _resolvedSprite = skin.Sprites[UnityEngine.Random.Range(0, skin.Sprites.Count)];
+            _resolvedSprite = skin.Sprite;
             _skinResolved = true;
-            ApplyVisualToActiveBlocks(_resolvedColor, _resolvedSprite);
+            ApplyVisualToActiveBlocks(_resolvedSprite);
         }
 
         private void ApplyResolvedSkin()
@@ -287,7 +285,7 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            ApplyVisualToActiveBlocks(_resolvedColor, _resolvedSprite);
+            ApplyVisualToActiveBlocks(_resolvedSprite);
         }
 
         private void ResolveSkinFromSerializedIfNeeded()
@@ -302,7 +300,6 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            _resolvedColor = skinColors.Length > 0 ? skinColors[UnityEngine.Random.Range(0, skinColors.Length)] : Color.white;
             _resolvedSprite = skinSprites[UnityEngine.Random.Range(0, skinSprites.Length)];
             _skinResolved = true;
         }
@@ -315,18 +312,17 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            target._resolvedColor = _resolvedColor;
             target._resolvedSprite = _resolvedSprite;
             target._skinResolved = true;
         }
 
-        private void ApplyVisualToActiveBlocks(Color color, Sprite sprite)
+        private void ApplyVisualToActiveBlocks(Sprite sprite)
         {
             for (int i = 0; i < _blocks.Count; i++)
             {
                 if (_blocks[i].gameObject.activeSelf)
                 {
-                    _blocks[i].ApplyVisual(color, sprite);
+                    _blocks[i].ApplyVisual(sprite);
                 }
             }
         }

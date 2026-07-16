@@ -1,11 +1,13 @@
 ﻿using GameLib.EventChannelSystem;
 using PMS.Scripts.Skin;
 using System.Collections.Generic;
+using Magnet.Contracts.BlockSkins;
 
 namespace PMS.Scripts.Events
 {
     public static class SkinEvents
     {
+        public static readonly SkinInitializedEvent SkinInitializedEvent = new();
         public static readonly SkinSelectRequestEvent SkinSelectRequestEvent = new();
         public static readonly SkinChangedEvent SkinChangedEvent = new();
         public static readonly SkinUnlockCheckEvent SkinUnlockCheckEvent = new();
@@ -13,6 +15,17 @@ namespace PMS.Scripts.Events
 
         public static readonly SkinInventoryRequestEvent SkinInventoryRequestEvent = new();
         public static readonly SkinInventoryResponseEvent SkinInventoryResponseEvent = new();
+    }
+
+    public class SkinInitializedEvent : GameEvent
+    {
+        public IBlockSkin Skin { get; private set; }
+        
+        public SkinInitializedEvent Init(IBlockSkin skin)
+        {
+            Skin = skin;
+            return this;
+        }
     }
 
     public class SkinInventoryRequestEvent : GameEvent

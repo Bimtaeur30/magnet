@@ -1,4 +1,5 @@
-﻿using GameLib.EventChannelSystem;
+﻿using System;
+using GameLib.EventChannelSystem;
 using Magnet.Contracts.Save;
 using PMS.Scripts.Events;
 using PMS.Scripts.Skin;
@@ -16,22 +17,22 @@ namespace PMS.Scripts.Manager
         [Header("전체 스킨 목록")]
         [SerializeField] private List<SkinDataSO> skinList;
 
-        private readonly List<SkinDataSO> unlockedSkins = new();
+        private readonly List<SkinDataSO> _unlockedSkins = new();
 
-        [Inject] private ISaveService saveService;
+        [Inject] private ISaveService _saveService;
 
-        private int currentSkinIndex;
+        private int _currentSkinIndex;
 
         public SkinDataSO CurrentSkin
         {
             get
             {
-                if (currentSkinIndex < 0 || currentSkinIndex >= unlockedSkins.Count)
+                if (_currentSkinIndex < 0 || _currentSkinIndex >= _unlockedSkins.Count)
                 {
                     return null;
                 }
 
-                return unlockedSkins[currentSkinIndex];
+                return _unlockedSkins[_currentSkinIndex];
             }
         }
 
@@ -41,7 +42,7 @@ namespace PMS.Scripts.Manager
             eventChannel.AddListener<SkinUnlockCheckEvent>(OnSkinUnlockCheck);
             eventChannel.AddListener<SkinInventoryRequestEvent>(OnSkinInventoryRequest);
 
-            if (saveService != null)
+            if (_saveService != null)
             {
                 InitializeFromSave();
             }
@@ -49,6 +50,11 @@ namespace PMS.Scripts.Manager
             {
                 InitializeWithoutSave();
             }
+        }
+
+        private void Start()
+        {
+            eventChannel.RaiseEvent(SkinEvents.SkinInitializedEvent.Init(_unlockedSkins[_currentSkinIndex]));
         }
 
         private void OnDestroy()
@@ -71,12 +77,12 @@ namespace PMS.Scripts.Manager
         {
             UnlockDefaultSkins();
 
-            if (unlockedSkins.Count > 0)
+            if (_unlockedSkins.Count > 0)
             {
-                currentSkinIndex = 0;
+                _currentSkinIndex = 0;
 
                 eventChannel.RaiseEvent(
-                    SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
+                    SkinEvents.SkinChangedEvent.Init(CurrentSkin, _currentSkinIndex)
                 );
             }
 
@@ -92,20 +98,20 @@ namespace PMS.Scripts.Manager
                 .Select(skin => skin.SkinId)
                 .ToList();
 
-            saveService.ValidateUnlockedSkins(validSkinIds);
+            _saveService.ValidateUnlockedSkins(validSkinIds);
         }
 
         private void LoadUnlockedSkinsFromSave()
         {
-            unlockedSkins.Clear();
+            _unlockedSkins.Clear();
 
-            foreach (string skinId in saveService.UnlockedSkinIds)
+            foreach (string skinId in _saveService.UnlockedSkinIds)
             {
                 SkinDataSO skinData = FindSkinDataById(skinId);
 
                 if (skinData != null)
                 {
-                    unlockedSkins.Add(skinData);
+                    _unlockedSkins.Add(skinData);
                 }
             }
 
@@ -114,28 +120,28 @@ namespace PMS.Scripts.Manager
 
         private void LoadEquippedSkinFromSave()
         {
-            currentSkinIndex = 0;
+            _currentSkinIndex = 0;
 
-            if (unlockedSkins.Count == 0) return;
+            if (_unlockedSkins.Count == 0) return;
 
-            string equippedSkinId = saveService.EquippedSkinId;
+            string equippedSkinId = _saveService.EquippedSkinId;
 
-            int index = unlockedSkins.FindIndex(skin =>
+            int index = _unlockedSkins.FindIndex(skin =>
                 skin != null &&
                 skin.SkinId == equippedSkinId
             );
 
             if (index >= 0)
             {
-                currentSkinIndex = index;
+                _currentSkinIndex = index;
             }
             else
             {
-                saveService.EquipSkin(unlockedSkins[0].SkinId);
+                _saveService.EquipSkin(_unlockedSkins[0].SkinId);
             }
 
             eventChannel.RaiseEvent(
-                SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
+                SkinEvents.SkinChangedEvent.Init(CurrentSkin, _currentSkinIndex)
             );
         }
 
@@ -159,17 +165,17 @@ namespace PMS.Scripts.Manager
 
         private void ChangeSkin(int skinIndex)
         {
-            if (skinIndex < 0 || skinIndex >= unlockedSkins.Count) return;
+            if (skinIndex < 0 || skinIndex >= _unlockedSkins.Count) return;
 
-            currentSkinIndex = skinIndex;
+            _currentSkinIndex = skinIndex;
 
             if (CurrentSkin != null)
             {
-                saveService?.EquipSkin(CurrentSkin.SkinId);
+                _saveService?.EquipSkin(CurrentSkin.SkinId);
             }
 
             eventChannel.RaiseEvent(
-                SkinEvents.SkinChangedEvent.Init(CurrentSkin, currentSkinIndex)
+                SkinEvents.SkinChangedEvent.Init(CurrentSkin, _currentSkinIndex)
             );
 
             RaiseInventoryResponse();
@@ -199,9 +205,9 @@ namespace PMS.Scripts.Manager
             if (skinData == null) return;
             if (IsUnlocked(skinData)) return;
 
-            unlockedSkins.Add(skinData);
+            _unlockedSkins.Add(skinData);
 
-            saveService?.UnlockSkin(skinData.SkinId);
+            _saveService?.UnlockSkin(skinData.SkinId);
 
             eventChannel.RaiseEvent(
                 SkinEvents.SkinUnlockedEvent.Init(skinData)
@@ -218,7 +224,7 @@ namespace PMS.Scripts.Manager
         private void RaiseInventoryResponse()
         {
             eventChannel.RaiseEvent(
-                SkinEvents.SkinInventoryResponseEvent.Init(unlockedSkins, currentSkinIndex)
+                SkinEvents.SkinInventoryResponseEvent.Init(_unlockedSkins, _currentSkinIndex)
             );
         }
 
@@ -226,7 +232,7 @@ namespace PMS.Scripts.Manager
         {
             if (skinData == null) return false;
 
-            return unlockedSkins.Any(unlockedSkin =>
+            return _unlockedSkins.Any(unlockedSkin =>
                 unlockedSkin != null &&
                 unlockedSkin.SkinId == skinData.SkinId
             );
