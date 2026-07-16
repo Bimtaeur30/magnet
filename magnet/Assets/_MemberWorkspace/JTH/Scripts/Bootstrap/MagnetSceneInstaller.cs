@@ -13,16 +13,19 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private BlockSpawnBootstrap blockSpawnBootstrap;
         [SerializeField] private BoardPlacementBootstrap boardPlacementBootstrap;
         [SerializeField] private PlacedBlocksView placedBlocksView;
+        [SerializeField] private BoardView boardView;
 
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             Debug.Assert(blockSpawnBootstrap != null, "[MagnetSceneInstaller] BlockSpawnBootstrap is not assigned.", this);
             Debug.Assert(boardPlacementBootstrap != null, "[MagnetSceneInstaller] BoardPlacementBootstrap is not assigned.", this);
             Debug.Assert(placedBlocksView != null, "[MagnetSceneInstaller] PlacedBlocksView is not assigned.", this);
+            Debug.Assert(boardView != null, "[MagnetSceneInstaller] BoardView is not assigned.", this);
 
             containerBuilder.RegisterValue(blockSpawnBootstrap);
             containerBuilder.RegisterValue(boardPlacementBootstrap);
             containerBuilder.RegisterValue(placedBlocksView);
+            containerBuilder.RegisterValue(boardView);
         }
     }
 }

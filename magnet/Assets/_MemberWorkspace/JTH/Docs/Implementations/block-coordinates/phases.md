@@ -5,3 +5,4 @@
 | Phase | 제목 | 계획 (뭘 어떻게) | 변경 기록 (Sequence) | 상태 |
 |-------|------|------------------|----------------------|------|
 | 1 | BoardConfigSO·좌표·격자 렌더 | [phase1.md](phase1.md) | [sequence1.md](sequence1.md) | 구현됨 · 확인 대기 |
+| 2 | Board Transform을 보드 공간 원점으로 | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) | 구현됨 · 확인 대기 |
