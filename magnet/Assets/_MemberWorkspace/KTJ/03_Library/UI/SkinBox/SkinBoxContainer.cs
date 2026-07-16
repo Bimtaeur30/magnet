@@ -82,5 +82,6 @@ public class SkinBoxContainer : MonoBehaviour
 
         _skinBoxes[obj].SetSkinBoxEquip(true);
         skinEventChannel.RaiseEvent(SkinEvents.SkinSelectRequestEvent.Init(obj));
+        skinEventChannel.RaiseEvent(SkinEvents.SkinSelectRequestEvent.Init(obj));
     }
 }

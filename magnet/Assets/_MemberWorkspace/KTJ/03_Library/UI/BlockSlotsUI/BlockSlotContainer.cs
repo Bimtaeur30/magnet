@@ -1,7 +1,8 @@
 using GameLib.EventChannelSystem;
-using UnityEngine;
-using System;
 using JTH.Scripts.Events;
+using PMS.Scripts.Events;
+using System;
+using UnityEngine;
 
 public class BlockSlotContainer : MonoBehaviour
 {
@@ -17,11 +18,11 @@ public class BlockSlotContainer : MonoBehaviour
     {
         MagnetGameChannel.RemoveListener<BlockCandidatesUpdatedEvent>(HandleBlockCandidatesUpdatedEvent);
     }
-    private void HandleBlockCandidatesUpdatedEvent(BlockCandidatesUpdatedEvent @event)
+    private void HandleBlockCandidatesUpdatedEvent(BlockCandidatesUpdatedEvent evt)
     {
-        for (int i = 0; i < @event.Candidates.Count; i++)
+        for (int i = 0; i < evt.Candidates.Count; i++)
         {
-            Slots[i].SetSlot(@event.Candidates[i], i);
+            Slots[i].SetSlot(evt.Candidates[i], i);
         };
     }
 }
