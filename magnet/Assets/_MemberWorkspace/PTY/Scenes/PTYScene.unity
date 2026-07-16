@@ -170,6 +170,55 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5167346773229877969, guid: 087a970c4b6e92c4989604cf96dd37d9, type: 3}
   m_PrefabInstance: {fileID: 2269189901826545815}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1187748172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1187748174}
+  - component: {fileID: 1187748173}
+  m_Layer: 0
+  m_Name: RuntimeBlockIconGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1187748173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187748172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241f61eba7390024e9ba96585a4956c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Presentation.RuntimeBlockIconGenerator
+  skinEventChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
+  shapeBlockPrefab: {fileID: 5012345678901234569, guid: b8c4e1f2938475620a1d3e5f67890123, type: 3}
+  blockShapeSource: {fileID: 11400000, guid: e8f4a2b1c3d54e6f9a0b1c2d3e4f5a6b, type: 2}
+  iconSize: 256
+  framePadding: 1.2
+--- !u!4 &1187748174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187748172}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1277862894
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,3 +1046,4 @@ SceneRoots:
   - {fileID: 2739135708816597818}
   - {fileID: 1865315995}
   - {fileID: 1277862896}
+  - {fileID: 1187748174}

@@ -7,7 +7,8 @@
 | [block-shape-editor](./Implementations/block-shape-editor/phases.md) | 블록 형태 생성 에디터 | [SCRUM-25](https://bimtaeur30.atlassian.net/browse/SCRUM-25) | phase4 완료 | 구현됨 · 확인 대기 |
 | [save-system](./Implementations/save-system/phases.md) | 세이브 시스템 (베스트 스코어/언락 스킨/장착 스킨/플레이 통계, 로컬 저장. GPGS·GameCenter 연동은 로그인 미구현으로 보류) | [SCRUM-28](https://bimtaeur30.atlassian.net/browse/SCRUM-28) | phase3 완료 | 로컬 저장 실제 구현됨 · 클라우드 연동은 로그인 기능 생기면 이어서 |
 | [presentation-events](./Implementations/presentation-events/phases.md) | 연출 이벤트 구조 (파티클 풀 인프라 + 블록 파괴 파티클) | SCRUM-26 | phase2 완료 | 파티클 프리팹·텍스처 스왑까지 구현됨 · 실제 스킨/게임플레이 이벤트 연결은 다음 단계 |
-| [sound-manager](./Implementations/sound-manager/phases.md) | 사운드 매니저 (BGM/SFX 재생 + Master/BGM/SFX AudioMixer 볼륨 조절) | — | phase1 완료 | 재생 인프라(믹서·프리팹·풀 배선) 완료 · 볼륨 조절/페이드는 다음 Phase |
+| [sound-manager](./Implementations/sound-manager/phases.md) | 사운드 매니저 (BGM/SFX 재생 + Master/BGM/SFX AudioMixer 볼륨 조절) | — | phase2 완료 | 재생 인프라 + 볼륨 조절(이벤트 기반) 완료 · BGM 페이드는 다음 Phase |
+| [skin-icon-generation](./Implementations/skin-icon-generation/phases.md) | 스킨 변경 시 블록 아이콘 런타임 재생성 + UI 텍스처 타입 수정 | — | phase1 완료 | Request/Response 리스너 + 텍스처 타입 수정 완료 · Request를 raise하는 UI 호출부는 범위 밖 |
 
 ## 계층 (용어)
 
