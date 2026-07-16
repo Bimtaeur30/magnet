@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Input.BlockDragDrawer
   shapeBlockPrefab: {fileID: 5012345678901234569, guid: b8c4e1f2938475620a1d3e5f67890123, type: 3}
+  skinChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
 --- !u!1 &5695788564129965796
 GameObject:
   m_ObjectHideFlags: 0

@@ -271,7 +271,6 @@ namespace JTH.Scripts.Presentation
             {
                 return;
             }
-
             _resolvedSprite = skin.Sprite;
             _skinResolved = true;
             ApplyVisualToActiveBlocks(_resolvedSprite);

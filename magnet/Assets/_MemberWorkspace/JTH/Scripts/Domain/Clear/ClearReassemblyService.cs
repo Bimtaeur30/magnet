@@ -154,11 +154,13 @@ namespace JTH.Scripts.Domain.Clear
 
             bool outside = BlockPlacementCells.HasAnyCellOutsideBounds(session.Grid);
 
-            return waves.Count == 0
+            // wave가 없어도 경계 밖 칸이 있으면 플래그를 살려야 GameOver 분기가 탄다.
+            if (waves.Count == 0 && !outside)
+            {
+                return ClearReassemblyResult.None;
+            }
 
-                ? ClearReassemblyResult.None
-
-                : new ClearReassemblyResult(waves, outside);
+            return new ClearReassemblyResult(waves, outside);
 
         }
 

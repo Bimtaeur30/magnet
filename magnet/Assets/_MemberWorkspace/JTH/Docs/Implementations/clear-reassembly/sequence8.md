@@ -61,3 +61,18 @@
   - 심볼: 검증 스크립트
     - 설명: min_along이 (0,1)로 점프·nearest_inward가 (0,3) 메움 재현.
     - 이유: 일시 검증. JTH 영구 테스트 없음 정책으로 삭제.
+
+## 4 — 2026-07-16 · wave 0이어도 HasCellsOutsideBounds 유지
+
+**바뀐 것** — 클리어 wave가 없어도 보드 밖 칸이 있으면 `HasCellsOutsideBounds=true`를 반환한다. (이전엔 `None`으로 항상 false)
+
+**변경 상세 (왜/무엇)**
+- 파일: `Scripts/Domain/Clear/ClearReassemblyService.cs`
+  - 심볼: `ResolveAllWaves` — 메서드 (수정)
+    - 설명: `waves.Count == 0`이어도 `outside`이면 `new ClearReassemblyResult(empty, true)`. `None`은 wave 없고 outside도 없을 때만.
+    - 이유: 삐져나온 부착 후 사각형 미성립 시 Bootstrap GameOver 분기(`reassembly.HasCellsOutsideBounds`)가 절대 안 타던 버그.
+    - 영향: `BoardPlacementBootstrap.TryConfirmPlacement` GameOver 분기.
+- 파일: `Tests/ClearReassemblyOutsideBoundsTests.cs` + `Tests/Magnet.JTH.Tests.asmdef` — (추가 후 삭제)
+  - 심볼: `ResolveAllWaves_NoWaves_CellOutside_SetsHasCellsOutsideBounds` — 테스트 (추가 후 삭제)
+    - 설명: boardSize9에 (0,5)만 두고 wave0 + outside true 검증. Passed 후 삭제.
+    - 이유: JTH 영구 테스트 없음 정책.
