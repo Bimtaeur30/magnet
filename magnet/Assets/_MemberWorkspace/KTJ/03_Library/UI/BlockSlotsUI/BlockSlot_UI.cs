@@ -16,7 +16,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     public void SetSlot(IBlockShape shape, int index)
     {
         if (shape == null)
-            throw new ArgumentNullException(nameof(shape));
+            return;
 
         SlotView.ViewModel.BlockImage1Texture = shape.Icon;
         _index = index;

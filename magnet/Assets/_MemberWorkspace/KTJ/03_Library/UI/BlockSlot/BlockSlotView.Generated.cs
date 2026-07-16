@@ -9,7 +9,6 @@ namespace Game.UI
 public sealed partial class BlockSlotView
 {
     [SerializeField] private RawImage blockSlot1BlockImage1Texture;
-    [SerializeField] private RawImage blockSlot1BlockImage1Color;
     [SerializeField] private RawImage blockSlot1BlockImage1ColorA;
 
     protected override void OnBind()
@@ -47,11 +46,6 @@ public sealed partial class BlockSlotView
             if ((propertyName == null || propertyName == nameof(ViewModel.BlockImage1Texture)) && blockSlot1BlockImage1Texture != null)
             {
                 blockSlot1BlockImage1Texture.texture = ViewModel.BlockImage1Texture;
-            }
-
-            if ((propertyName == null || propertyName == nameof(ViewModel.BlockImage1Color)) && blockSlot1BlockImage1Color != null)
-            {
-                blockSlot1BlockImage1Color.color = ViewModel.BlockImage1Color;
             }
 
             if ((propertyName == null || propertyName == nameof(ViewModel.BlockImage1Alpha)) && blockSlot1BlockImage1ColorA != null)

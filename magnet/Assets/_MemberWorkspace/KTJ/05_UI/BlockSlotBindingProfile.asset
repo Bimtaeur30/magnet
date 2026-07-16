@@ -210,7 +210,7 @@ MonoBehaviour:
     viewModelMember: BlockImage1Texture
     valueType: UnityEngine.Texture
     fieldName: blockSlot1BlockImage1Texture
-  - enabled: 1
+  - enabled: 0
     objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.UI.RawImage
     targetProperty: color

@@ -14,14 +14,6 @@ public sealed partial class BlockSlotViewModel : ObservableObject
         set => SetProperty(ref blockImage1Texture, value);
     }
 
-    private UnityEngine.Color blockImage1Color;
-
-    public UnityEngine.Color BlockImage1Color
-    {
-        get => blockImage1Color;
-        set => SetProperty(ref blockImage1Color, value);
-    }
-
     private float blockImage1Alpha;
 
     public float BlockImage1Alpha
