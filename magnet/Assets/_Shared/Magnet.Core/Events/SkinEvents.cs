@@ -15,6 +15,18 @@ namespace PMS.Scripts.Events
 
         public static readonly SkinInventoryRequestEvent SkinInventoryRequestEvent = new();
         public static readonly SkinInventoryResponseEvent SkinInventoryResponseEvent = new();
+        
+        public static readonly SkinChangedRequestEvent SkinChangedRequestEvent = new();
+        public static readonly SkinChangedResponseEvent SkinChangedResponseEvent = new();
+        
+    }
+    
+    public class SkinChangedRequestEvent : GameEvent
+    {
+    }
+    
+    public class SkinChangedResponseEvent : GameEvent
+    {
     }
 
     public class SkinInitializedEvent : GameEvent

@@ -68,4 +68,37 @@
 
 **메모** — X 드래그 중심 정렬은 기존 유지.
 ---
+## 4 — 2026-07-16 · SpriteMask Custom Range 격리
+
+**바뀐 것** — 인접 Block의 SpriteMask가 서로 간섭하지 않도록 칸마다 Custom Range를 부여한다.
+
+**변경 상세 (왜/무엇)**
+- 파일: `Scripts/Presentation/Block.cs`
+  - 심볼: `Block.spriteMask` — 필드 (추가)
+    - 설명: 칸 루트의 SpriteMask 참조를 직렬화로 보관한다.
+    - 이유: Custom Range를 코드에서 맞추려면 마스크 컴포넌트 참조가 필요하다.
+  - 심볼: `Block.nextMaskSlot` / `Block.maskSlot` — 필드 (추가)
+    - 설명: 인스턴스마다 고유 슬롯 번호를 할당한다.
+    - 이유: 같은 sorting layer 안에서도 칸마다 order 대역을 다르게 써야 마스크가 격리된다.
+  - 심볼: `Block.LayerOrderBand` / `Block.MaskOrderStride` — 상수 (추가)
+    - 설명: `order = sortingOrder * 10000 + maskSlot * 3` 로 front/back 여유를 둔다.
+    - 이유: Shape/보드 레이어(0·2 등)는 유지하면서 슬롯 충돌을 피한다.
+  - 심볼: `Block.SetSortingOrder(int)` — 메서드 (수정)
+    - 설명: Renderer order를 슬롯 기반 고유값으로 쓰고, 마스크 Custom Range를 order±1로 맞춘다.
+    - 이유: Custom Range가 꺼져 있으면 Visible Inside Mask 스프라이트가 이웃 마스크에 잘린다.
+    - 영향: `ShapeBlock.ApplyBlockVisual`, `OccupiedCellView.SnapToGrid`.
+  - 심볼: `Block.EnsureMaskSlot` / `Block.ApplyMaskIsolation` — 메서드 (추가)
+    - 설명: 슬롯 할당과 `isCustomRangeActive`·front/back sorting 설정을 담당한다.
+    - 이유: Awake·SetSortingOrder에서 동일 격리 규칙을 재사용한다.
+- 파일: `Prefabs/Block.prefab`
+  - 심볼: `spriteMask` 참조 · `Is Custom Range Active` (수정)
+    - 설명: Block에 마스크 참조를 배선하고 프리팹 기본값도 Custom Range on.
+    - 이유: 인스턴스 생성 직후·코드 적용 전에도 Inspector 기본이 격리 모드여야 한다.
+- 파일: `Docs/INSPECTOR_TOOLTIPS.md`
+  - 심볼: `Block.spriteMask` Tooltip 행 (추가)
+    - 설명: 필드 용도를 팀 문서에 등록한다.
+    - 이유: Tooltip 추가 시 문서 동기화 규칙.
+
+**메모** — 마스크 스프라이트(칸 실루엣)는 그대로 두고, 스킨은 자식 SpriteRenderer에만 적용한다.
+---
 

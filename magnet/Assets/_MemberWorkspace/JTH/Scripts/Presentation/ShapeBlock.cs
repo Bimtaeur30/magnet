@@ -23,10 +23,6 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private Block blockPrefab;
         [SerializeField] private EventChannelSO systemChannel;
 
-        [Header("Temp Skin (inline until system channel events)")]
-        [SerializeField] private Color[] skinColors;
-        [SerializeField] private Sprite[] skinSprites;
-
         private readonly List<Block> _blocks = new();
         private readonly List<Vector2Int> _cellGridPositions = new();
         private readonly List<MotionHandle> _activeMotions = new();
@@ -262,7 +258,6 @@ namespace JTH.Scripts.Presentation
             }
 
             _cellGridPositions.Clear();
-            _skinResolved = false;
         }
 
         public void ApplySkin(IBlockSkin skin)
@@ -271,6 +266,7 @@ namespace JTH.Scripts.Presentation
             {
                 return;
             }
+
             _resolvedSprite = skin.Sprite;
             _skinResolved = true;
             ApplyVisualToActiveBlocks(_resolvedSprite);
@@ -278,7 +274,6 @@ namespace JTH.Scripts.Presentation
 
         private void ApplyResolvedSkin()
         {
-            ResolveSkinFromSerializedIfNeeded();
             if (!_skinResolved)
             {
                 return;
@@ -287,25 +282,8 @@ namespace JTH.Scripts.Presentation
             ApplyVisualToActiveBlocks(_resolvedSprite);
         }
 
-        private void ResolveSkinFromSerializedIfNeeded()
-        {
-            if (_skinResolved)
-            {
-                return;
-            }
-
-            if (skinColors == null || skinColors.Length == 0 || skinSprites == null || skinSprites.Length == 0)
-            {
-                return;
-            }
-
-            _resolvedSprite = skinSprites[UnityEngine.Random.Range(0, skinSprites.Length)];
-            _skinResolved = true;
-        }
-
         internal void ShareSkinWith(ShapeBlock target)
         {
-            ResolveSkinFromSerializedIfNeeded();
             if (!_skinResolved || target == null)
             {
                 return;
