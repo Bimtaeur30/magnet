@@ -464,14 +464,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4458336844387183815}
   - component: {fileID: 6336617521741422809}
-  - component: {fileID: 5729411225544554043}
+  - component: {fileID: 6199891143709726747}
   m_Layer: 5
   m_Name: SettingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4458336844387183815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -484,8 +484,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8976172859828416200}
-  - {fileID: 3951720615522552639}
+  - {fileID: 3735655513177730210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -505,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd8e4813ff0f764aafec97a95471c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.SettingUIView
---- !u!114 &5729411225544554043
+--- !u!114 &6199891143709726747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,15 +513,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2899507595533541728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6acb45277af71346b6318a10fc187d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 99b89e70b92551f419987d50323f4624, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Magent.KTJ::UIBackgroundRequester_UI
-  magnetGameChannel: {fileID: 11400000, guid: eb9e393f8071dbe4ab122aed60096f51, type: 2}
-  requestOnEnable: 1
-  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundAlpha: 0.8
-  fadeDuration: 0.2
-  raycastTarget: 1
+  m_EditorClassIdentifier: Magent.PMS::PMS.Scripts.Manager.SettingsFuncManager
+  SceneTransitionChannel: {fileID: 11400000, guid: d24454ac257e4b34282b5bf56ed334f7, type: 2}
+  MainTItleScene: {fileID: 11400000, guid: 51386f8fc0381184bb5e0430e17e25e8, type: 2}
+  InGameScene: {fileID: 11400000, guid: a1ebdaddc9d963244b4e395ec45a3543, type: 2}
+  audioMixer: {fileID: 0}
+  titleSceneName: TitleScene
 --- !u!1 &2961959720109671714
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,7 +627,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4458336844387183815}
+  m_Father: {fileID: 3735655513177730210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1263,6 +1261,62 @@ MonoBehaviour:
   m_DetailTexSpeed: {x: 0, y: 0}
   m_CustomRoot: {fileID: 0}
   m_Flip: 0
+--- !u!1 &4649630455670994298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3735655513177730210}
+  - component: {fileID: 7344357666529917286}
+  m_Layer: 5
+  m_Name: Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3735655513177730210
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649630455670994298}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8976172859828416200}
+  - {fileID: 3951720615522552639}
+  m_Father: {fileID: 4458336844387183815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7344357666529917286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649630455670994298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6acb45277af71346b6318a10fc187d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::UIBackgroundRequester_UI
+  magnetGameChannel: {fileID: 11400000, guid: eb9e393f8071dbe4ab122aed60096f51, type: 2}
+  requestOnEnable: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  backgroundAlpha: 0.8
+  fadeDuration: 0.2
+  raycastTarget: 1
 --- !u!1 &4661302968602766010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,6 +1330,7 @@ GameObject:
   - component: {fileID: 8998406517623840306}
   - component: {fileID: 4528733882243626445}
   - component: {fileID: 5146050620087452119}
+  - component: {fileID: 3668134516093463279}
   m_Layer: 5
   m_Name: SettingBar_Home
   m_TagString: Untagged
@@ -1519,6 +1574,62 @@ MonoBehaviour:
   m_DetailTexSpeed: {x: 0, y: 0}
   m_CustomRoot: {fileID: 0}
   m_Flip: 0
+--- !u!114 &3668134516093463279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661302968602766010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 8998406517623840306}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6199891143709726747}
+        m_TargetAssemblyTypeName: PMS.Scripts.Manager.SettingsFuncManager, Magent.PMS
+        m_MethodName: GoToTitle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5698468281717441363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1870,7 @@ GameObject:
   - component: {fileID: 889990719287420618}
   - component: {fileID: 8852800777969344982}
   - component: {fileID: 377844878088002225}
+  - component: {fileID: 2423133945620660584}
   m_Layer: 5
   m_Name: SettingBar_Restart
   m_TagString: Untagged
@@ -2003,6 +2115,62 @@ MonoBehaviour:
   m_DetailTexSpeed: {x: 0, y: 0}
   m_CustomRoot: {fileID: 0}
   m_Flip: 0
+--- !u!114 &2423133945620660584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6232663649342326624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 889990719287420618}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6199891143709726747}
+        m_TargetAssemblyTypeName: PMS.Scripts.Manager.SettingsFuncManager, Magent.PMS
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6333592669854966153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2340,7 +2508,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6534830940080947658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2350,7 +2518,7 @@ RectTransform:
   - {fileID: 5031858424368208475}
   - {fileID: 5307980658047929057}
   - {fileID: 4895711023147691737}
-  m_Father: {fileID: 4458336844387183815}
+  m_Father: {fileID: 3735655513177730210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

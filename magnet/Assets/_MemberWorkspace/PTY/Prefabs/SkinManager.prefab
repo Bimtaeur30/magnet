@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a46b90ca9895ea44b99f789a5419f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.PMS::PMS.Scripts.Manager.SkinManager
-  eventChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  eventChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
   skinList:
   - {fileID: 11400000, guid: d5fe95cd7ffa84141901ae483e21ec0e, type: 2}
   - {fileID: 11400000, guid: f961d41920a38f04bb48512c9ed71229, type: 2}
