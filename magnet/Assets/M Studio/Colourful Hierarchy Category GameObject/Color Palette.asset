@@ -15,9 +15,9 @@ MonoBehaviour:
   colorDesigns:
   - keyChar: //
     textColor: {r: 1, g: 1, b: 1, a: 1}
-    backgroundColor: {r: 0, g: 0.10323961, b: 0.10323961, a: 1}
+    backgroundColor: {r: 0.29913756, g: 0.5157405, b: 0.78616345, a: 1}
     textAlignment: 4
-    fontStyle: 3
+    fontStyle: 1
   - keyChar: ///
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0, g: 0.6152477, b: 1, a: 1}

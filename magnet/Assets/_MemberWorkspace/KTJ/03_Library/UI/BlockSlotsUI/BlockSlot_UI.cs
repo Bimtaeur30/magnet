@@ -32,6 +32,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("BlockSlot≈¨∏Øµ , ¿Œµ¶Ω∫: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
         
     }

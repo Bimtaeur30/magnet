@@ -35,6 +35,8 @@ public class SkinBoxContainer : MonoBehaviour
 
     private void HandleSkinInventoryResponseEvent(SkinInventoryResponseEvent evt)
     {
+        Debug.Log("HandleSkinInventoryResponseEvent 받음");
+
         _skinDataList = evt.UnlockedSkins;
         _currentSkinIndex = evt.SelectedIndex;
 
@@ -43,6 +45,8 @@ public class SkinBoxContainer : MonoBehaviour
 
     private void InitSkinBoxs()
     {
+        Debug.Log("스킨박스 초기화 시작");
+
         for (int i = 0; i < _skinDataList.Count; i++)
         {
             SkinBox box = Instantiate(SkinBoxPrefab, SkinBoxParent);
