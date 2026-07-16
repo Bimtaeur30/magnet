@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.0004584483}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &22791737025783228
 CanvasRenderer:
@@ -519,7 +519,7 @@ RectTransform:
   m_Father: {fileID: 3819444281862315860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -722,13 +722,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2600896771071485790}
   - component: {fileID: 2651827158409042051}
+  - component: {fileID: 1068112181574560415}
   m_Layer: 5
   m_Name: SkinSetUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2600896771071485790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -763,8 +764,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8df9158458fc5a49b496725cdd46da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::SkinBoxContainer
+  skinEventChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
   SkinBoxPrefab: {fileID: 5118647027423338411, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
   SkinBoxParent: {fileID: 4178192311866291767}
+--- !u!114 &1068112181574560415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2396958065580382105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6acb45277af71346b6318a10fc187d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::UIBackgroundRequester_UI
+  magnetGameChannel: {fileID: 11400000, guid: eb9e393f8071dbe4ab122aed60096f51, type: 2}
+  requestOnEnable: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  backgroundAlpha: 0.8
+  fadeDuration: 0.2
+  raycastTarget: 1
 --- !u!1 &2673606932967371138
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -211, y: -79}
+  m_AnchoredPosition: {x: -211, y: -122}
   m_SizeDelta: {x: 345.5299, y: 1200}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &2931963137995638625
@@ -974,9 +994,9 @@ RectTransform:
   m_Father: {fileID: 8456227728533761596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10.619995, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4293041756956689123
 CanvasRenderer:
@@ -1227,6 +1247,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkinBox
       objectReference: {fileID: 0}
+    - target: {fileID: 1035690745273869925, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1241,7 +1265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1249,15 +1273,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1289,11 +1313,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 157.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1092037379850162260, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1309,11 +1333,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704385875323098714, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 141.89
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4704385875323098714, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 49.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4807722686660337871, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_Name
@@ -1321,7 +1345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7092989154642275556, guid: 48fb4e2d808a9974c8a21feba0bc44df, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 47.72
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

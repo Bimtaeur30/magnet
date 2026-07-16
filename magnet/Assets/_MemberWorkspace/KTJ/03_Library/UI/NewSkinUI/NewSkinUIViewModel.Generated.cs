@@ -6,5 +6,20 @@ namespace Game.UI
 {
 public sealed partial class NewSkinUIViewModel : ObservableObject
 {
+    private UnityEngine.Sprite skim;
+
+    public UnityEngine.Sprite Skim
+    {
+        get => skim;
+        set => SetProperty(ref skim, value);
+    }
+
+    private string titleTxt;
+
+    public string TitleTxt
+    {
+        get => titleTxt;
+        set => SetProperty(ref titleTxt, value);
+    }
 }
 }

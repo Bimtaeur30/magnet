@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using _Shared.Magnet.Core.SceneTransition;
+using GameLib.EventChannelSystem;
+using JTH.Scripts.Events;
+using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +9,10 @@ namespace PMS.Scripts.Manager
 {
     public class SettingsFuncManager : MonoBehaviour
     {
+        [Header("SceneMove")]
+        [SerializeField] private EventChannelSO SceneTransitionChannel;
+        [SerializeField] private SceneDefSO MainTItleScene;
+        [SerializeField] private SceneDefSO InGameScene;
         [Header("Audio Mixer")]
         [SerializeField] private AudioMixer audioMixer;
 
@@ -56,7 +63,8 @@ namespace PMS.Scripts.Manager
         public void GoToTitle()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(titleSceneName);
+            SceneTransitionChannel.RaiseEvent(SceneTransitionEvents.LoadSceneEvent.Init(MainTItleScene));
+            //SceneManager.LoadScene(titleSceneName);
             //SceneManager.LoadScene(0);
         }
 
@@ -64,7 +72,8 @@ namespace PMS.Scripts.Manager
         public void RestartGame()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneTransitionChannel.RaiseEvent(SceneTransitionEvents.LoadSceneEvent.Init(InGameScene));
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         // 헬퍼 함수

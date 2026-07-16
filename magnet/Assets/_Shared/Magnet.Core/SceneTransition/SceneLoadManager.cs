@@ -1,5 +1,7 @@
 using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
+using System;
+using UnityEditor.Presets;
 using UnityEngine;
 
 namespace _Shared.Magnet.Core.SceneTransition
@@ -10,31 +12,31 @@ namespace _Shared.Magnet.Core.SceneTransition
     /// </summary>
     public class SceneLoadManager : MonoBehaviour
     {
-        [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO SceneTransitionChannel;
         [SerializeField] private TransitionPresetSO defaultPreset;
 
         public SceneDefSO CurrentScene { get; private set; }
 
         private void Awake()
         {
-            Debug.Assert(magnetGameChannel != null, "[SceneLoadManager] EventChannelSO is not assigned.", this);
-            magnetGameChannel.AddListener<SceneLoadCompletedEvent>(HandleSceneLoadCompleted);
+            Debug.Assert(SceneTransitionChannel != null, "[SceneLoadManager] EventChannelSO is not assigned.", this);
+            SceneTransitionChannel.AddListener<SceneLoadCompletedEvent>(HandleSceneLoadCompleted);
         }
 
         private void OnDestroy()
         {
-            magnetGameChannel.RemoveListener<SceneLoadCompletedEvent>(HandleSceneLoadCompleted);
+            SceneTransitionChannel.RemoveListener<SceneLoadCompletedEvent>(HandleSceneLoadCompleted);
         }
 
-        public void LoadScene(SceneDefSO sceneDef, SoundClipSO bgmClip = null, TransitionPresetSO preset = null)
+        private void HandleLoadScene(LoadSceneEvent @event)
         {
-            if (sceneDef == null)
+            if (@event.SceneDef == null)
             {
                 Debug.LogError("[SceneLoadManager] SceneDefSO is null.", this);
                 return;
             }
 
-            magnetGameChannel.RaiseEvent(new LoadSceneEvent().Init(sceneDef, preset != null ? preset : defaultPreset, bgmClip));
+            SceneTransitionChannel.RaiseEvent(new LoadSceneEvent().Init(@event.SceneDef, @event.Preset != null ? @event.Preset : defaultPreset, @event.BgmClip));
         }
 
         private void HandleSceneLoadCompleted(SceneLoadCompletedEvent evt)

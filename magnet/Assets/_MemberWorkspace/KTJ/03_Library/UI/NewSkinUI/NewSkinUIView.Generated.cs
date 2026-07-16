@@ -8,6 +8,8 @@ namespace Game.UI
 {
 public sealed partial class NewSkinUIView
 {
+    [SerializeField] private Image newSkinUIContainerSkinMaskSkimImageSprite;
+    [SerializeField] private Text newSkinUIContainerTitleTitleTxtText;
 
     protected override void OnBind()
     {
@@ -40,6 +42,16 @@ public sealed partial class NewSkinUIView
             return;
         }
 
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.Skim)) && newSkinUIContainerSkinMaskSkimImageSprite != null)
+            {
+                newSkinUIContainerSkinMaskSkimImageSprite.sprite = ViewModel.Skim;
+            }
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.TitleTxt)) && newSkinUIContainerTitleTitleTxtText != null)
+            {
+                newSkinUIContainerTitleTitleTxtText.text = ViewModel.TitleTxt;
+            }
     }
 }
 }
