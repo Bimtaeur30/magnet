@@ -210,7 +210,8 @@ namespace PTY.Scripts.Editor
 
             importer.alphaIsTransparency = true;
             importer.mipmapEnabled = false;
-            importer.textureType = TextureImporterType.Default;
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
             importer.SaveAndReimport();
         }
     }

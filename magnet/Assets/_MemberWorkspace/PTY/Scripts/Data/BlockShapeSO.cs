@@ -16,5 +16,11 @@ namespace PTY.Scripts.Data
         public IReadOnlyList<Vector2Int> CellOffsets => cellOffsets;
 
         public Texture2D Icon => icon;
+
+        // 런타임 스킨 변경 시 아이콘을 즉석 캡처로 갱신할 때만 사용 (RuntimeBlockIconGenerator).
+        public void SetIcon(Texture2D newIcon)
+        {
+            icon = newIcon;
+        }
     }
 }
