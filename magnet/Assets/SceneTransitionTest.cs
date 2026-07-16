@@ -9,9 +9,9 @@ public class SceneTransitionTest : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            sceneLoadManager.LoadScene(targetScene);
-        }
+        //if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        //{
+        //    sceneLoadManager.LoadScene(targetScene);
+        //}
     }
 }
