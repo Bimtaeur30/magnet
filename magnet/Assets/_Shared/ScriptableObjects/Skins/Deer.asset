@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
   <SkinName>k__BackingField: "\uC0AC\uC2B4"
   <SkinId>k__BackingField: Deer
-  sprites:
-  - {fileID: 21300000, guid: 785c8f7aa35e7c4448b004d7b1c53e87, type: 3}
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
+  sprites: {fileID: 21300000, guid: 785c8f7aa35e7c4448b004d7b1c53e87, type: 3}
   icon: {fileID: 21300000, guid: 785c8f7aa35e7c4448b004d7b1c53e87, type: 3}
   unlockType: 0
   unlockValue: 0

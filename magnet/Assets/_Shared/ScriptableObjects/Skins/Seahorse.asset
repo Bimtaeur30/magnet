@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
   <SkinName>k__BackingField: "\uD574\uB9C8"
   <SkinId>k__BackingField: Seahorse
-  sprites:
-  - {fileID: 21300000, guid: 953f5211e762a0c46893507cb93e0bb5, type: 3}
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
+  sprites: {fileID: 21300000, guid: 953f5211e762a0c46893507cb93e0bb5, type: 3}
   icon: {fileID: 21300000, guid: 953f5211e762a0c46893507cb93e0bb5, type: 3}
   unlockType: 0
   unlockValue: 0

@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
   <SkinName>k__BackingField: "\uB300\uB9AC\uC11D"
   <SkinId>k__BackingField: Marble
-  sprites:
-  - {fileID: 21300000, guid: 2c7ff1e53f2f8504db2108a3129353bb, type: 3}
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
+  sprites: {fileID: 21300000, guid: 2c7ff1e53f2f8504db2108a3129353bb, type: 3}
   icon: {fileID: 21300000, guid: 2c7ff1e53f2f8504db2108a3129353bb, type: 3}
   unlockType: 0
   unlockValue: 0
