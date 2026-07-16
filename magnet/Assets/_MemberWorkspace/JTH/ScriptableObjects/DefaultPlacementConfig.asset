@@ -13,9 +13,19 @@ MonoBehaviour:
   m_Name: DefaultPlacementConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.PlacementConfigSO
   stagingYExtraBelow: 1
-  pieceColor: {r: 0.35, g: 0.7, b: 1, a: 0.95}
-  previewColor: {r: 1, g: 1, b: 1, a: 0.35}
-  cellFill: 0.9
-  dragSensitivityRampPerUnit: 0.35
-  dragSensitivityMaxMultiplier: 3
-  snapDuration: 0.12
+  <CellFill>k__BackingField: 0.9
+  <DragSensitivityRampPerUnit>k__BackingField: 0.35
+  <DragSensitivityMaxMultiplier>k__BackingField: 3
+  <SnapDuration>k__BackingField: 0.05
+  <SnapEase>k__BackingField: 19
+  <RotationDuration>k__BackingField: 0.2
+  <PreRotationDelay>k__BackingField: 0.25
+  <RotationEase>k__BackingField: 5
+  <CorridorHalfWidth>k__BackingField: 0.75
+  <BounceCells>k__BackingField: 0.1
+  <BounceDuration>k__BackingField: 0.01
+  <BounceEase>k__BackingField: 5
+  <LandDuration>k__BackingField: 0.1
+  <LandEase>k__BackingField: 19
+  <SpinDegreesPerSecond>k__BackingField: 0
+  <StaggerPerRing>k__BackingField: 0.1

@@ -10,3 +10,7 @@
 | 2 | 부채꼴 목표 배정 + 연쇄 웨이브 Domain | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) | 구현됨 · 확인 대기 |
 | 3 | Bootstrap 턴 루프·입력 잠금·이벤트 | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) | 구현됨 · 확인 대기 |
 | 4 | Presentation 칸 View + 달팽이 LitMotion | [phase4.md](phase4.md) | [sequence4.md](sequence4.md) | 구현됨 · 확인 대기 |
+| 5 | 재배치: 안쪽 진입 + 부채꼴 폴백 축소 | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) | 구현됨 · 확인 대기 |
+| 6 | 재배치 후보 칸 기즈모 | [phase6.md](phase6.md) | [sequence6.md](sequence6.md) | 구현됨 · 확인 대기 |
+| 7 | 재배치: 자석 원점 부채꼴 + 보드밖 주차 | [phase7.md](phase7.md) | [sequence7.md](sequence7.md) | 구현됨 · 확인 대기 |
+| 8 | 재배치: 각도 → 수선 복도 폭 | [phase8.md](phase8.md) | [sequence8.md](sequence8.md) | 구현됨 · 확인 대기 |
