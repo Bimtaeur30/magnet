@@ -97,14 +97,16 @@ namespace JTH.Scripts.Bootstrap
                     return new TurnResolutionResult(result, ClearReassemblyResult.None, boardRotated: false);
                 }
 
+                await _placedBlocksView.PlayPlaceAsync(staging, result);
+
+                _blockSpawnBootstrap.Consume(slotIndex);
+
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
                     result.BlockId,
                     slotIndex,
                     shape.ShapeId,
                     result.FinalPivot,
                     result.CellPositions));
-
-                await _placedBlocksView.PlayPlaceAsync(staging, result);
 
                 ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(
                     _session,
@@ -134,7 +136,6 @@ namespace JTH.Scripts.Bootstrap
 
                 await _placedBlocksView.PlayRotateAsync();
 
-                _blockSpawnBootstrap.Consume(slotIndex);
 
                 return new TurnResolutionResult(result, reassembly, boardRotated: true);
             }

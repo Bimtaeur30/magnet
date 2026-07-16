@@ -1,10 +1,12 @@
 using JTH.Scripts.Data;
+using JTH.Scripts.Domain;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
 {
     /// <summary>
     /// 보드 격자·자석 축 시각화. 이 Transform이 보드 로컬 공간의 월드 원점이다.
+    /// Presentation은 격자 좌표를 <see cref="GridToLocal"/> / <see cref="SetAtBoardLocal"/>로 배치한다.
     /// </summary>
     public sealed class BoardView : MonoBehaviour
     {
@@ -15,6 +17,34 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private float lineWidth = 0.04f;
 
         private static Material _sharedLineMaterial;
+
+        /// <summary>격자 → 보드 로컬 (자석 = 0,0).</summary>
+        public Vector2 GridToLocal(int gridX, int gridY, float cellSize)
+        {
+            return BoardCoordinates.GridToWorld(gridX, gridY, cellSize);
+        }
+
+        /// <summary>월드 위치 → 보드 로컬 XY.</summary>
+        public Vector2 WorldToBoardLocal(Vector3 world)
+        {
+            Vector3 local = transform.InverseTransformPoint(world);
+            return new Vector2(local.x, local.y);
+        }
+
+        public float WorldToBoardLocalX(Vector3 world) => WorldToBoardLocal(world).x;
+
+        /// <summary>보드 로컬 좌표로 <paramref name="target"/>을 배치한다. 중간 부모 오프셋을 보정한다.</summary>
+        public void SetAtBoardLocal(Transform target, Vector2 boardLocal)
+        {
+            Vector3 world = transform.TransformPoint(new Vector3(boardLocal.x, boardLocal.y, 0f));
+            if (target.parent == null)
+            {
+                target.position = world;
+                return;
+            }
+
+            target.localPosition = target.parent.InverseTransformPoint(world);
+        }
 
         private void Start()
         {

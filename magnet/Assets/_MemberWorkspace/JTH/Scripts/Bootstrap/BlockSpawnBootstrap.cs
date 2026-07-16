@@ -93,8 +93,19 @@ namespace JTH.Scripts.Bootstrap
 
         private void RaiseCandidatesUpdated()
         {
+            IBlockShape[] candidates = _supply.CreateSnapshot();
+            int[] candidateDegreesClockwise = new int[candidates.Length];
+            for (int i = 0; i < candidates.Length; i++)
+            {
+                candidateDegreesClockwise[i] = candidates[i] is RotatedBlockShape rotatedShape
+                    ? rotatedShape.DegreesClockwise
+                    : 0;
+            }
+
             magnetGameChannel.RaiseEvent(
-                MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.CreateSnapshot()));
+                MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(
+                    candidates,
+                    candidateDegreesClockwise));
         }
 
         private void RaiseTurnStarted()
