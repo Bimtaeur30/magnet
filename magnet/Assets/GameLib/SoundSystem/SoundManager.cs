@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace GameLib.SoundSystem
 {
@@ -9,8 +10,14 @@ namespace GameLib.SoundSystem
     {
         [SerializeField] private PoolManagerSO poolManagerSO;
         [SerializeField] private PoolItemSO soundItemSO;
+        [SerializeField] private AudioMixer audioMixer;
 
         [field: SerializeField] public EventChannelSO SoundEventChannel { get; private set; }
+
+        // SettingsFuncManager 등 볼륨 조절 UI가 참조하는 노출 파라미터 이름과 반드시 일치해야 한다.
+        private const string MasterVolumeParam = "MasterVolume";
+        private const string BgmVolumeParam = "BGMVolume";
+        private const string SfxVolumeParam = "SFXVolume";
 
         // BGM이 아닌 루프 사운드(SFX 루프)만 LoopKey로 추적한다. BGM은 dict에 넣지 않는다.
         private readonly Dictionary<SoundClipSO, SoundPlayer> _soundPlayerDict = new();
@@ -23,7 +30,8 @@ namespace GameLib.SoundSystem
         {
             SoundEventChannel.AddListener<PlaySoundEvent>(HandlePlaySoundEvent);
             SoundEventChannel.AddListener<StopSoundEvent>(HandleStopSoundEvent);
-            
+            SoundEventChannel.AddListener<SetVolumeEvent>(HandleSetVolumeEvent);
+
             SoundManager[] managers = FindObjectsByType<SoundManager>(FindObjectsSortMode.None);
 
             if (managers.Length > 1)
@@ -36,6 +44,27 @@ namespace GameLib.SoundSystem
         {
             SoundEventChannel.RemoveListener<PlaySoundEvent>(HandlePlaySoundEvent);
             SoundEventChannel.RemoveListener<StopSoundEvent>(HandleStopSoundEvent);
+            SoundEventChannel.RemoveListener<SetVolumeEvent>(HandleSetVolumeEvent);
+        }
+
+        private void HandleSetVolumeEvent(SetVolumeEvent evt)
+        {
+            string param = evt.Bus switch
+            {
+                AudioBus.Master => MasterVolumeParam,
+                AudioBus.Bgm => BgmVolumeParam,
+                AudioBus.Sfx => SfxVolumeParam,
+                _ => MasterVolumeParam
+            };
+
+            audioMixer.SetFloat(param, LinearToDecibel(evt.Volume01));
+        }
+
+        // 0(무음)~1(최대)의 선형 볼륨을 믹서 dB로 변환. Unity 믹서 최소값(-80dB)을 무음 기준으로 사용.
+        private static float LinearToDecibel(float linear01)
+        {
+            linear01 = Mathf.Clamp01(linear01);
+            return linear01 <= 0.0001f ? -80f : Mathf.Log10(linear01) * 20f;
         }
 
         private void HandlePlaySoundEvent(PlaySoundEvent evt)

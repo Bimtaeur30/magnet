@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: ObjectPool::JWLib.ObjectPool.Runtime.PoolManagerSO
   itemList:
   - {fileID: 11400000, guid: 1b5776490b718304e81b069ee5fd4ed5, type: 2}
+  - {fileID: 11400000, guid: 29c4aa9b7e533f340a003eed5ff41115, type: 2}

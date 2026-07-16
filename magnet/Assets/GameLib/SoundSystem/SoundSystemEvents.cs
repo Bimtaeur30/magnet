@@ -7,6 +7,12 @@ namespace GameLib.SoundSystem
     {
         public static readonly PlaySoundEvent PlaySoundEvent = new PlaySoundEvent();
         public static readonly StopSoundEvent StopSoundEvent = new StopSoundEvent();
+        public static readonly SetVolumeEvent SetVolumeEvent = new SetVolumeEvent();
+    }
+
+    public enum AudioBus
+    {
+        Master, Bgm, Sfx
     }
 
     public class PlaySoundEvent : GameEvent
@@ -39,6 +45,19 @@ namespace GameLib.SoundSystem
         public StopSoundEvent Init(SoundClipSO loopKey)
         {
             LoopKey = loopKey;
+            return this;
+        }
+    }
+
+    public class SetVolumeEvent : GameEvent
+    {
+        public AudioBus Bus;
+        public float Volume01;
+
+        public SetVolumeEvent Init(AudioBus bus, float volume01)
+        {
+            Bus = bus;
+            Volume01 = volume01;
             return this;
         }
     }
