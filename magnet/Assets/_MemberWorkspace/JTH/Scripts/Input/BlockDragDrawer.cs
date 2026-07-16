@@ -1,4 +1,3 @@
-using System;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
@@ -18,7 +17,7 @@ namespace JTH.Scripts.Input
         [SerializeField] private EventChannelSO skinChannel;
 
         private IBlockSkin _currentSkin;
-        
+
         private ShapeBlock _stagingBlock;
         private ShapeBlock _previewBlock;
 
@@ -31,22 +30,47 @@ namespace JTH.Scripts.Input
             _stagingBlock.name = "StagingBlock";
             _previewBlock = Instantiate(shapeBlockPrefab, transform);
             _previewBlock.name = "PreviewBlock";
-            
+
             skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
+            skinChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
         }
 
         private void OnDestroy()
         {
             skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
+            skinChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
         }
 
         private void OnSkinInitialized(SkinInitializedEvent evt)
         {
-            _currentSkin = evt.Skin;
+            SetCurrentSkin(evt.Skin);
+        }
+
+        private void OnSkinChanged(SkinChangedEvent evt)
+        {
+            SetCurrentSkin(evt.CurrentSkin);
+        }
+
+        private void SetCurrentSkin(IBlockSkin skin)
+        {
+            _currentSkin = skin;
+            ApplyCurrentSkinTo(_stagingBlock);
+            ApplyCurrentSkinTo(_previewBlock);
+        }
+
+        private void ApplyCurrentSkinTo(ShapeBlock block)
+        {
+            if (_currentSkin == null || block == null)
+            {
+                return;
+            }
+
+            block.ApplySkin(_currentSkin);
         }
 
         public void ShowStaging(IBlockShape shape, float worldCenterX, int stagingGridY)
         {
+            ApplyCurrentSkinTo(_stagingBlock);
             _stagingBlock.ShowAtWorldCenter(shape, worldCenterX, stagingGridY);
         }
 
@@ -72,7 +96,7 @@ namespace JTH.Scripts.Input
             ShapeBlock taken = _stagingBlock;
             _stagingBlock = Instantiate(shapeBlockPrefab, transform);
             _stagingBlock.name = "StagingBlock";
-            _stagingBlock.ApplySkin(_currentSkin);
+            ApplyCurrentSkinTo(_stagingBlock);
             return taken;
         }
     }

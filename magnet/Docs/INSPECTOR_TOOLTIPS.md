@@ -71,6 +71,7 @@
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/ShapeBlock.cs` | `blockPrefab` | 블록 칸 1개 프리팹(Block 컴포넌트 + SpriteRenderer). 필요 개수만큼 인스턴스 생성 후 재사용 |
+| `Scripts/Presentation/Block.cs` | `spriteMask` | 칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리 |
 | `Scripts/Input/BlockDragDrawer.cs` | `shapeBlockPrefab` | 스테이징·프리뷰 표시용 ShapeBlock 프리팹. Awake에서 2개 Instantiate |
 
 ### KTJ — `Assets/_MemberWorkspace/KTJ/`
@@ -93,3 +94,4 @@ _(아직 등록된 Tooltip 없음)_
 |------|------|
 | 2026-07-09 | JTH 7개 필드 Tooltip 추가 및 팀 문서 최초 작성 |
 | 2026-07-09 | JTH Phase 3 — 감도 램프·프리뷰 뷰 Tooltip 3개 추가 |
+| 2026-07-16 | JTH Block.spriteMask Tooltip 추가 (SpriteMask Custom Range 격리) |
