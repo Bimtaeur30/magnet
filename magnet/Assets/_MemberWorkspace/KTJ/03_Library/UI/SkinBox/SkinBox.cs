@@ -13,9 +13,20 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 
     public void Init(IBlockSkin skin, int idx)
     {
+        if (skin == null)
+            throw new ArgumentNullException(nameof(skin));
+
+        if (View == null)
+            throw new InvalidOperationException("SkinBoxView is not assigned.");
+
+        if (View.ViewModel == null)
+            View.SetViewModel(new SkinBoxViewModel());
+
         _myIdx = idx;
         View.ViewModel.SkinNameTxt = skin.SkinName;
-        View.ViewModel.Pattern = skin.Sprites[0];
+        View.ViewModel.Pattern = skin.Sprites != null && skin.Sprites.Count > 0
+            ? skin.Sprites[0]
+            : null;
     }
 
     public void SetSkinBoxEquip(bool value)
