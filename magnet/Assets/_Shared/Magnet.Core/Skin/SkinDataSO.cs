@@ -9,18 +9,13 @@ namespace PMS.Scripts.Skin
     {
         [field:SerializeField] public string SkinName {  get; private set; }
         [field:SerializeField] public string SkinId {  get; private set; }
-        [SerializeField] private List<Sprite> sprites = new();
-        [SerializeField] private List<Color> colors = new() { Color.white };
+        [SerializeField] private Sprite sprites;
 
-        IReadOnlyList<Sprite> IBlockSkin.Sprites => sprites;
-        IReadOnlyList<Color> IBlockSkin.Colors => colors;
+        Sprite IBlockSkin.Sprite => sprites;
 
         public Sprite icon;
         public SkinUnlockTypeEnum unlockType;
         public int unlockValue;
         public string unlockDescription;
-
-
-
     }
 }

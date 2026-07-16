@@ -1839,81 +1839,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1955796870
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1955796874}
-  - component: {fileID: 1955796873}
-  - component: {fileID: 1955796872}
-  - component: {fileID: 1955796871}
-  m_Layer: 0
-  m_Name: SceneScope
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1955796871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955796870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92edc53063a8e6f4fa3d3d106351435a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Bootstrap.SaveInstaller
-  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
---- !u!114 &1955796872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955796870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e7d6c5b4a39281706f5e4d3c2b1a09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.MagnetSceneInstaller
-  blockSpawnBootstrap: {fileID: 879441431}
-  boardPlacementBootstrap: {fileID: 104198142}
-  placedBlocksView: {fileID: 1127953152}
-  boardView: {fileID: 21024062}
---- !u!114 &1955796873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955796870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5312032623c34414a54ea00e35a7eb8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Reflex::Reflex.Core.ContainerScope
---- !u!4 &1955796874
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955796870}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1973095917
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +2456,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
+--- !u!1001 &5853029489635318912
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: boardView
+      value: 
+      objectReference: {fileID: 21024062}
+    - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: placedBlocksView
+      value: 
+      objectReference: {fileID: 1127953152}
+    - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: blockSpawnBootstrap
+      value: 
+      objectReference: {fileID: 879441431}
+    - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: boardPlacementBootstrap
+      value: 
+      objectReference: {fileID: 104198142}
+    - target: {fileID: 3068424400685088181, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_Name
+      value: SceneScope
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916372998802372457, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
 --- !u!1001 &6811974458102712532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3273,7 +3271,7 @@ SceneRoots:
   - {fileID: 1909880976}
   - {fileID: 4706993919354330600}
   - {fileID: 657026731}
-  - {fileID: 1955796874}
+  - {fileID: 5853029489635318912}
   - {fileID: 2075425245}
   - {fileID: 3372746625780628174}
   - {fileID: 6811974458102712532}

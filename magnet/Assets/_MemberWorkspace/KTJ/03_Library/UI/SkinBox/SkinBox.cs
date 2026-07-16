@@ -24,9 +24,7 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 
         _myIdx = idx;
         View.ViewModel.SkinNameTxt = skin.SkinName;
-        View.ViewModel.Pattern = skin.Sprites != null && skin.Sprites.Count > 0
-            ? skin.Sprites[0]
-            : null;
+        View.ViewModel.Pattern = skin.Sprite;
     }
 
     public void SetSkinBoxEquip(bool value)

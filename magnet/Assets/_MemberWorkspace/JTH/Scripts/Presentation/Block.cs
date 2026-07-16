@@ -14,9 +14,8 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(spriteRenderer != null, "[Block] spriteRenderer is not assigned.", this);
         }
 
-        public void ApplyVisual(Color color, Sprite sprite)
+        public void ApplyVisual(Sprite sprite)
         {
-            spriteRenderer.color = color;
             if (sprite != null)
             {
                 spriteRenderer.sprite = sprite;

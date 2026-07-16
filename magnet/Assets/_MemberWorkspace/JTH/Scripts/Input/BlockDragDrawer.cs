@@ -1,5 +1,9 @@
+using System;
+using GameLib.EventChannelSystem;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts.BlockShapes;
+using Magnet.Contracts.BlockSkins;
+using PMS.Scripts.Events;
 using UnityEngine;
 
 namespace JTH.Scripts.Input
@@ -11,19 +15,33 @@ namespace JTH.Scripts.Input
     {
         [Tooltip("스테이징·프리뷰 표시용 ShapeBlock 프리팹. Awake에서 2개 Instantiate")]
         [SerializeField] private ShapeBlock shapeBlockPrefab;
+        [SerializeField] private EventChannelSO skinChannel;
 
+        private IBlockSkin _currentSkin;
+        
         private ShapeBlock _stagingBlock;
         private ShapeBlock _previewBlock;
 
         private void Awake()
         {
             Debug.Assert(shapeBlockPrefab != null, "[BlockDragDrawer] shapeBlockPrefab is not assigned.", this);
+            Debug.Assert(skinChannel != null, "[BlockDragDrawer] skinChannel is not assigned.", this);
 
             _stagingBlock = Instantiate(shapeBlockPrefab, transform);
             _stagingBlock.name = "StagingBlock";
             _previewBlock = Instantiate(shapeBlockPrefab, transform);
             _previewBlock.name = "PreviewBlock";
+            
+            skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
         }
+
+        private void OnDestroy()
+        {
+            skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
+        }
+
+        private void OnSkinInitialized(SkinInitializedEvent evt)
+            => _currentSkin = evt.Skin;
 
         public void ShowStaging(IBlockShape shape, float worldCenterX, int stagingGridY)
         {
@@ -52,6 +70,7 @@ namespace JTH.Scripts.Input
             ShapeBlock taken = _stagingBlock;
             _stagingBlock = Instantiate(shapeBlockPrefab, transform);
             _stagingBlock.name = "StagingBlock";
+            _stagingBlock.ApplySkin(_currentSkin);
             return taken;
         }
     }
