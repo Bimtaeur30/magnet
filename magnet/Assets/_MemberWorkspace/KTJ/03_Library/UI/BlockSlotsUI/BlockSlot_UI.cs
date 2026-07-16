@@ -26,7 +26,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
     private void OnDestroy()
     {
-        SkinEventChannel.AddListener<SkinChangedResponseEvent>(HandleSkinChangedResponseEvent);
+        SkinEventChannel.RemoveListener<SkinChangedResponseEvent>(HandleSkinChangedResponseEvent);
     }
 
     public void SetSlot(IBlockShape shape, int index)
@@ -55,7 +55,6 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     {
         Debug.Log("BlockSlot≈¨∏Øµ , ¿Œµ¶Ω∫: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
-        SkinEventChannel.RaiseEvent(SkinEvents.SkinChangedRequestEvent);
         SetBlockImageAlpha(0.2f);
     }
     private void HandleSkinChangedResponseEvent(SkinChangedResponseEvent @event)
