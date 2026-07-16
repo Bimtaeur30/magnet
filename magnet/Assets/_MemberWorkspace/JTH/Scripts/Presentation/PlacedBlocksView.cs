@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
+using Magnet.Contracts.BlockSkins;
+using PMS.Scripts.Events;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -16,6 +19,7 @@ namespace JTH.Scripts.Presentation
     /// </summary>
     public sealed class PlacedBlocksView : MonoBehaviour
     {
+        [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
 
@@ -26,8 +30,50 @@ namespace JTH.Scripts.Presentation
         private void Awake()
         {
             Debug.Assert(boardConfig != null, "[PlacedBlocksView] boardConfig is not assigned.", this);
+            Debug.Assert(skinChannel != null, "[PlacedBlocksView] skinChannel is not assigned.", this);
             Debug.Assert(placementConfig != null, "[PlacedBlocksView] placementConfig is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[PlacedBlocksView] BoardPlacementBootstrap was not injected.", this);
+
+            skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
+            skinChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
+        }
+
+        private void OnDestroy()
+        {
+            if (skinChannel == null)
+            {
+                return;
+            }
+
+            skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
+            skinChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
+        }
+
+        private void OnSkinInitialized(SkinInitializedEvent evt)
+        {
+            ApplySkinToAll(evt.Skin);
+        }
+
+        private void OnSkinChanged(SkinChangedEvent evt)
+        {
+            ApplySkinToAll(evt.CurrentSkin);
+        }
+
+        private void ApplySkinToAll(IBlockSkin skin)
+        {
+            if (skin == null)
+            {
+                return;
+            }
+
+            Sprite sprite = skin.Sprite;
+            foreach (KeyValuePair<int, OccupiedCellView> entry in _cellsById)
+            {
+                if (entry.Value != null)
+                {
+                    entry.Value.ApplyVisual(sprite);
+                }
+            }
         }
 
         /// <summary>
