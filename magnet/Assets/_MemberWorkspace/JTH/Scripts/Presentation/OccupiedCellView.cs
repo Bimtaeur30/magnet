@@ -47,6 +47,16 @@ namespace JTH.Scripts.Presentation
             transform.localEulerAngles = Vector3.zero;
         }
 
+        public void ApplyVisual(Sprite sprite)
+        {
+            if (_block == null)
+            {
+                return;
+            }
+
+            _block.ApplyVisual(sprite);
+        }
+
         public void SnapToGrid(Vector2Int gridPosition, float cellSize, float fill)
         {
             _gridPosition = gridPosition;

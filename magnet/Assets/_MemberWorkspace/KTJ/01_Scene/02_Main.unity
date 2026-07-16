@@ -2581,6 +2581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Board
       objectReference: {fileID: 0}
+    - target: {fileID: 8820894275675584637, guid: 8f67ded4bb5b43a4bbaa2f1dceed218b, type: 3}
+      propertyPath: skinChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
     - target: {fileID: 9207064799562544040, guid: 8f67ded4bb5b43a4bbaa2f1dceed218b, type: 3}
       propertyPath: skinChannel
       value: 
