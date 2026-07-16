@@ -97,6 +97,8 @@ namespace JTH.Scripts.Bootstrap
                     return new TurnResolutionResult(result, ClearReassemblyResult.None, boardRotated: false);
                 }
 
+                _blockSpawnBootstrap.Consume(slotIndex);
+                
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
                     result.BlockId,
                     slotIndex,
@@ -134,7 +136,6 @@ namespace JTH.Scripts.Bootstrap
 
                 await _placedBlocksView.PlayRotateAsync();
 
-                _blockSpawnBootstrap.Consume(slotIndex);
 
                 return new TurnResolutionResult(result, reassembly, boardRotated: true);
             }

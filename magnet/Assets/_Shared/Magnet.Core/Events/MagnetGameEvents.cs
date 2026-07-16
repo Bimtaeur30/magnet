@@ -133,10 +133,14 @@ namespace JTH.Scripts.Events
     public sealed class BlockCandidatesUpdatedEvent : GameEvent
     {
         public IReadOnlyList<IBlockShape> Candidates { get; private set; }
+        public IReadOnlyList<int> CandidateDegreesClockwise { get; private set; }
 
-        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<IBlockShape> candidates)
+        public BlockCandidatesUpdatedEvent Init(
+            IReadOnlyList<IBlockShape> candidates,
+            IReadOnlyList<int> candidateDegreesClockwise)
         {
             Candidates = candidates;
+            CandidateDegreesClockwise = candidateDegreesClockwise;
             return this;
         }
     }
