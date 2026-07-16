@@ -41,7 +41,9 @@ namespace JTH.Scripts.Input
         }
 
         private void OnSkinInitialized(SkinInitializedEvent evt)
-            => _currentSkin = evt.Skin;
+        {
+            _currentSkin = evt.Skin;
+        }
 
         public void ShowStaging(IBlockShape shape, float worldCenterX, int stagingGridY)
         {

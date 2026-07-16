@@ -114,7 +114,6 @@ namespace JTH.Scripts.Bootstrap
                 PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
                 RaiseReassemblyEvents(reassembly, scoreResult);
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
-                RaiseScoreSkinUnlockCheck(scoreResult.TotalScore);
                 await _placedBlocksView.PlayReassemblyAsync(reassembly);
 
                 if (reassembly.HasCellsOutsideBounds)
