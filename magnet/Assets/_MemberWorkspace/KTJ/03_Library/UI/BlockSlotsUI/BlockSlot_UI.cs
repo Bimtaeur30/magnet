@@ -38,6 +38,6 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     {
         Debug.Log("BlockSlot≈¨∏Øµ , ¿Œµ¶Ω∫: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
-        
+        SetBlockImageAlpha(0.2f);
     }
 }
