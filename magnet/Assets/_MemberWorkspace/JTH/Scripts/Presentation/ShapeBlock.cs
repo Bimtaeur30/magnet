@@ -66,7 +66,7 @@ namespace JTH.Scripts.Presentation
             EnsureBlockCount(cellOffsets.Count);
 
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
+            float fill = placementConfig.Visual.CellFill;
             _cellGridPositions.Clear();
 
             for (int i = 0; i < cellOffsets.Count; i++)
@@ -86,7 +86,7 @@ namespace JTH.Scripts.Presentation
             EnsureBlockCount(shape.CellOffsets.Count);
 
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
+            float fill = placementConfig.Visual.CellFill;
             Vector2 centerOffset = BlockPlacementCells.GetShapeCenterOffset(shape.CellOffsets);
             int maxOffsetY = BlockPlacementCells.GetMaxOffsetY(shape.CellOffsets);
             float stagingWorldY = stagingGridY * cellSize;
@@ -118,7 +118,7 @@ namespace JTH.Scripts.Presentation
             EnsureBlockCount(cellOffsets.Count);
 
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
+            float fill = placementConfig.Visual.CellFill;
             _cellGridPositions.Clear();
             int stagingPivotY = BlockPlacementCells.GetStagingPivotY(stagingGridY, cellOffsets);
 
@@ -140,9 +140,10 @@ namespace JTH.Scripts.Presentation
             Vector2Int finalPivot,
             BoardConfigSO configSO,
             float durationPerCell,
+            Ease snapEase,
             Action onComplete)
         {
-            AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, durationPerCell, onComplete);
+            AnimateSnapYFromOffsets(shape.CellOffsets, finalPivot, configSO, durationPerCell, snapEase, onComplete);
         }
 
         public void AnimateSnapYFromOffsets(
@@ -150,6 +151,7 @@ namespace JTH.Scripts.Presentation
             Vector2Int finalPivot,
             BoardConfigSO configSO,
             float durationPerCell,
+            Ease snapEase,
             Action onComplete)
         {
             CancelMotions();
@@ -203,7 +205,7 @@ namespace JTH.Scripts.Presentation
                 float duration = Mathf.Max(0.01f, durationPerCell * Mathf.Max(cells, 1f));
 
                 MotionHandle handle = LMotion.Create(startY, targetY, duration)
-                    .WithEase(placementConfig.SnapEase)
+                    .WithEase(snapEase)
                     .WithOnComplete(OnCellComplete)
                     .Bind(y => boardView.SetAtBoardLocal(block.transform, new Vector2(boardLocalX, y)));
                 _activeMotions.Add(handle);

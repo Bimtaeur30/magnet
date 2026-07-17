@@ -57,7 +57,7 @@ namespace JTH.Scripts.Presentation
             }
 
             float cellSize = boardConfig.CellSize;
-            float halfWidth = placementConfig.CorridorHalfWidth;
+            float halfWidth = placementConfig.ClearReassemblyRule.CorridorHalfWidth;
 
             // 시드가 있으면 그 점유만 사용 (빈 보드 결과를 겹쳐 그리지 않음)
             BoardGrid grid = CreateGrid(boardConfig.BoardSize, seedOccupied);

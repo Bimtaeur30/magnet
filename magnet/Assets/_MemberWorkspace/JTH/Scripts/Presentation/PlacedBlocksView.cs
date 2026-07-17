@@ -101,7 +101,7 @@ namespace JTH.Scripts.Presentation
                 offsets.Add(positions[i] - placement.FinalPivot);
             }
 
-            int stagingGridY = placementConfig.GetStagingY(boardConfig.CellsPerSide);
+            int stagingGridY = placementConfig.Visual.GetStagingY(boardConfig.CellsPerSide);
             var completion = new UniTaskCompletionSource();
             BlockSnapMotion.PlayFromOffsets(
                 staging,
@@ -109,7 +109,7 @@ namespace JTH.Scripts.Presentation
                 placement.FinalPivot,
                 stagingGridY,
                 boardConfig,
-                placementConfig,
+                placementConfig.Snap,
                 () =>
                 {
                     SplitStagingIntoCells(staging, cellIds);
@@ -118,20 +118,14 @@ namespace JTH.Scripts.Presentation
             return completion.Task;
         }
 
-        public async UniTask PlayReassemblyAsync(ClearReassemblyResult reassembly)
+        public void DestroyWaveCellViews(IReadOnlyList<int> cellIds)
         {
-            if (reassembly == null || !reassembly.HasAnyWave)
-            {
-                return;
-            }
+            DestroyCellViews(cellIds);
+        }
 
-            for (int w = 0; w < reassembly.Waves.Count; w++)
-            {
-                ClearWave wave = reassembly.Waves[w];
-                DestroyCellViews(wave.DestroyedCellIds);
-
-                await PlayWaveRelocationsAsync(wave);
-            }
+        public UniTask PlayWaveRelocationsAsync(ClearWave wave)
+        {
+            return PlayWaveRelocationsInternalAsync(wave);
         }
 
         public UniTask PlayRotateAsync()
@@ -155,7 +149,7 @@ namespace JTH.Scripts.Presentation
                     continue;
                 }
 
-                entry.Value.SnapToGrid(cell.Position, boardConfig.CellSize, placementConfig.CellFill);
+                entry.Value.SnapToGrid(cell.Position, boardConfig.CellSize, placementConfig.Visual.CellFill);
             }
 
             for (int i = 0; i < staleIds.Count; i++)
@@ -180,7 +174,7 @@ namespace JTH.Scripts.Presentation
         {
             List<(Block block, Vector2Int grid)> detached = staging.DetachActiveBlocks();
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
+            float fill = placementConfig.Visual.CellFill;
 
             int count = Mathf.Min(detached.Count, cellIds.Count);
             for (int i = 0; i < count; i++)
@@ -221,7 +215,7 @@ namespace JTH.Scripts.Presentation
             }
         }
 
-        private async UniTask PlayWaveRelocationsAsync(ClearWave wave)
+        private async UniTask PlayWaveRelocationsInternalAsync(ClearWave wave)
         {
             if (wave.Relocations.Count == 0)
             {
@@ -241,7 +235,7 @@ namespace JTH.Scripts.Presentation
                 {
                     if (currentRing >= 0)
                     {
-                        ringStartDelay += placementConfig.StaggerPerRing;
+                        ringStartDelay += placementConfig.ClearReassemblyMotion.StaggerPerRing;
                     }
 
                     currentRing = ring;
@@ -255,7 +249,8 @@ namespace JTH.Scripts.Presentation
                 tasks.Add(view.PlayRelocationAsync(
                     relocation,
                     boardConfig,
-                    placementConfig,
+                    placementConfig.Visual,
+                    placementConfig.ClearReassemblyMotion,
                     ringStartDelay));
             }
 
@@ -285,8 +280,8 @@ namespace JTH.Scripts.Presentation
             }
 
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
-            float duration = placementConfig.RotationDuration;
+            float fill = placementConfig.Visual.CellFill;
+            float duration = placementConfig.Rotation.Duration;
 
             foreach (KeyValuePair<int, OccupiedCellView> entry in _cellsById)
             {
@@ -302,7 +297,7 @@ namespace JTH.Scripts.Presentation
                     cellSize,
                     fill,
                     duration,
-                    placementConfig.RotationEase,
+                    placementConfig.Rotation.Ease,
                     OnCellComplete);
             }
         }
