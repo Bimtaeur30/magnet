@@ -32,6 +32,7 @@ namespace JTH.Scripts.Bootstrap
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         [Inject] private readonly PlacedBlocksView _placedBlocksView;
+        [Inject] private readonly BoardView _boardView;
 
         private BoardSession _session;
         private BlockPlacementService _placementService;
@@ -52,6 +53,7 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
             Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
+            Debug.Assert(_boardView != null, "[BoardPlacementBootstrap] BoardView was not injected.", this);
 
             _session = new BoardSession(boardConfig.BoardSize);
             _placementService = new BlockPlacementService(_session);
@@ -97,9 +99,9 @@ namespace JTH.Scripts.Bootstrap
                     return new TurnResolutionResult(result, ClearReassemblyResult.None, boardRotated: false);
                 }
 
-                await _placedBlocksView.PlayPlaceAsync(staging, result);
-
                 _blockSpawnBootstrap.Consume(slotIndex);
+
+                await _placedBlocksView.PlayPlaceAsync(staging, result);
 
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
                     result.BlockId,
@@ -110,11 +112,10 @@ namespace JTH.Scripts.Bootstrap
 
                 ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(
                     _session,
-                    placementConfig.CorridorHalfWidth);
+                    placementConfig.ClearReassemblyRule.CorridorHalfWidth);
                 PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
-                RaiseReassemblyEvents(reassembly, scoreResult);
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
-                await _placedBlocksView.PlayReassemblyAsync(reassembly);
+                await PlayClearReassemblyWavesAsync(reassembly, scoreResult);
 
                 if (reassembly.HasCellsOutsideBounds)
                 {
@@ -124,9 +125,9 @@ namespace JTH.Scripts.Bootstrap
                     return new TurnResolutionResult(result, reassembly, boardRotated: false);
                 }
 
-                if (placementConfig.PreRotationDelay > 0f)
+                if (placementConfig.Rotation.PreRotationDelay > 0f)
                 {
-                    await UniTask.Delay(TimeSpan.FromSeconds(placementConfig.PreRotationDelay));
+                    await UniTask.Delay(TimeSpan.FromSeconds(placementConfig.Rotation.PreRotationDelay));
                 }
 
                 _rotationService.RotateClockwise(_session);
@@ -167,7 +168,9 @@ namespace JTH.Scripts.Bootstrap
             return _scoreSession.ApplyPlacement(cellsPlaced, waveSizes);
         }
 
-        private void RaiseReassemblyEvents(ClearReassemblyResult reassembly, PlacementScoreResult scoreResult)
+        private async UniTask PlayClearReassemblyWavesAsync(
+            ClearReassemblyResult reassembly,
+            PlacementScoreResult scoreResult)
         {
             if (reassembly == null || !reassembly.HasAnyWave)
             {
@@ -179,33 +182,52 @@ namespace JTH.Scripts.Bootstrap
             {
                 ClearWave wave = reassembly.Waves[w];
                 int scoreAwarded = w < waveScores.Count ? waveScores[w] : 0;
-                magnetGameChannel.RaiseEvent(MagnetGameEvents.SquareClearedEvent.Init(
-                    wave.SquareSize,
-                    scoreAwarded,
-                    wave.DestroyedCells));
+                RaiseWaveEvents(wave, scoreAwarded);
 
-                if (wave.Relocations.Count == 0)
-                {
-                    continue;
-                }
-
-                var cellIds = new List<int>(wave.Relocations.Count);
-                var fromCells = new List<Vector2Int>(wave.Relocations.Count);
-                var toCells = new List<Vector2Int>(wave.Relocations.Count);
-                for (int i = 0; i < wave.Relocations.Count; i++)
-                {
-                    CellRelocation relocation = wave.Relocations[i];
-                    cellIds.Add(relocation.CellId);
-                    fromCells.Add(relocation.From);
-                    toCells.Add(relocation.To);
-                }
-
-                magnetGameChannel.RaiseEvent(MagnetGameEvents.CellsRelocatedEvent.Init(
-                    wave.SquareSize,
-                    cellIds,
-                    fromCells,
-                    toCells));
+                await PlayExplosionWaveAsync(wave);
+                await _placedBlocksView.PlayWaveRelocationsAsync(wave);
             }
+        }
+
+        private async UniTask PlayExplosionWaveAsync(ClearWave wave)
+        {
+            UniTask borderPulse = ExplosionBorderPulseView.PlayAsync(
+                _boardView,
+                wave.SquareSize,
+                boardConfig,
+                placementConfig.ExplosionBorder);
+            _placedBlocksView.DestroyWaveCellViews(wave.DestroyedCellIds);
+            await borderPulse;
+        }
+
+        private void RaiseWaveEvents(ClearWave wave, int scoreAwarded)
+        {
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.SquareClearedEvent.Init(
+                wave.SquareSize,
+                scoreAwarded,
+                wave.DestroyedCells));
+
+            if (wave.Relocations.Count == 0)
+            {
+                return;
+            }
+
+            var cellIds = new List<int>(wave.Relocations.Count);
+            var fromCells = new List<Vector2Int>(wave.Relocations.Count);
+            var toCells = new List<Vector2Int>(wave.Relocations.Count);
+            for (int i = 0; i < wave.Relocations.Count; i++)
+            {
+                CellRelocation relocation = wave.Relocations[i];
+                cellIds.Add(relocation.CellId);
+                fromCells.Add(relocation.From);
+                toCells.Add(relocation.To);
+            }
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.CellsRelocatedEvent.Init(
+                wave.SquareSize,
+                cellIds,
+                fromCells,
+                toCells));
         }
     }
 }
