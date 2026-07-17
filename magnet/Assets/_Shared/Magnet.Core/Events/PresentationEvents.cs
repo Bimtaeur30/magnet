@@ -2,7 +2,7 @@ using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 
-namespace PTY.Scripts.Events
+namespace _Shared.Magnet.Core.Events
 {
     /// <summary>
     /// SCRUM-26 연출 이벤트 구조 첫 항목. JTH 소유 MagnetGameEvents.cs는 수정하지 않고 별도 파일로 둔다

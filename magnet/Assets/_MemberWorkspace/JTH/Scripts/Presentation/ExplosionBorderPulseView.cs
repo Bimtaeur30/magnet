@@ -57,18 +57,17 @@ namespace JTH.Scripts.Presentation
             var completion = new UniTaskCompletionSource();
             float peakScale = config.PeakScale;
             float maxAlpha = config.MaxAlpha;
-            Ease sizeEase = config.SizeEase;
-            Ease alphaEase = config.AlphaEase;
+            Ease ease = config.Ease;
 
             _motionHandle = LMotion.Create(0f, 1f, duration)
                 .WithOnComplete(() => completion.TrySetResult())
                 .Bind(t =>
                 {
-                    float sizeT = EaseUtility.Evaluate(t, sizeEase);
+                    float sizeT = EaseUtility.Evaluate(t, ease);
                     float scaleMultiplier = Mathf.Lerp(1f, peakScale, sizeT);
                     transform.localScale = new Vector3(baseSide * scaleMultiplier, baseSide * scaleMultiplier, 1f);
 
-                    float alphaPulse = Pulse01(EaseUtility.Evaluate(t, alphaEase));
+                    float alphaPulse = Pulse01(EaseUtility.Evaluate(t, ease));
                     Color color = _baseColor;
                     color.a = _baseColor.a * maxAlpha * alphaPulse;
                     _lineRenderer.startColor = color;

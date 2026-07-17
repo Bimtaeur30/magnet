@@ -1,3 +1,4 @@
+using _Shared.Magnet.Core.Events;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using PTY.Scripts.Events;
