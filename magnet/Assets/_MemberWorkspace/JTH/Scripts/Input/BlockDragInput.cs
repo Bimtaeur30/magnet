@@ -49,9 +49,9 @@ namespace JTH.Scripts.Input
 
             _drawer = GetComponent<BlockDragDrawer>();
             _sensitivityRamp = new DragSensitivityRamp(
-                placementConfig.DragSensitivityRampPerUnit,
-                placementConfig.DragSensitivityMaxMultiplier);
-            _stagingGridY = placementConfig.GetStagingY(boardConfig.CellsPerSide);
+                placementConfig.Drag.SensitivityRampPerUnit,
+                placementConfig.Drag.SensitivityMaxMultiplier);
+            _stagingGridY = placementConfig.Visual.GetStagingY(boardConfig.CellsPerSide);
         }
 
         private void OnEnable()

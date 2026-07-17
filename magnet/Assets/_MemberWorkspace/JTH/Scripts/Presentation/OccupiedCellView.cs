@@ -101,7 +101,8 @@ namespace JTH.Scripts.Presentation
         public async UniTask PlayRelocationAsync(
             CellRelocation relocation,
             BoardConfigSO boardConfig,
-            PlacementConfigSO placementConfig,
+            BlockVisualConfigSO visualConfig,
+            ClearReassemblyMotionConfigSO motionConfig,
             float delaySeconds)
         {
             if (delaySeconds > 0f)
@@ -112,29 +113,29 @@ namespace JTH.Scripts.Presentation
             CancelMotions();
 
             float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.CellFill;
+            float fill = visualConfig.CellFill;
             Vector2 fromBoardLocal = BoardCoordinates.GridToWorld(relocation.From.x, relocation.From.y, cellSize);
             Vector2 toBoardLocal = BoardCoordinates.GridToWorld(relocation.To.x, relocation.To.y, cellSize);
 
             Vector2 radial = fromBoardLocal.sqrMagnitude > 0.0001f ? fromBoardLocal.normalized : Vector2.up;
-            Vector2 bounceEnd = fromBoardLocal + radial * (placementConfig.BounceCells * cellSize);
+            Vector2 bounceEnd = fromBoardLocal + radial * (motionConfig.BounceCells * cellSize);
 
             await TweenPositionWithSpin(
                 GetBoardLocalPosition(),
                 bounceEnd,
-                placementConfig.BounceDuration,
-                placementConfig.BounceEase,
-                placementConfig.SpinDegreesPerSecond);
+                motionConfig.BounceDuration,
+                motionConfig.BounceEase,
+                motionConfig.SpinDegreesPerSecond);
 
             Vector2 landStart = GetBoardLocalPosition();
             Vector2 landEnd = toBoardLocal;
-            float landDuration = placementConfig.LandDuration;
-            float spinSpeed = placementConfig.SpinDegreesPerSecond;
+            float landDuration = motionConfig.LandDuration;
+            float spinSpeed = motionConfig.SpinDegreesPerSecond;
 
             var landCompletion = new UniTaskCompletionSource();
             float spinZ = transform.localEulerAngles.z;
             MotionHandle landHandle = LMotion.Create(0f, 1f, landDuration)
-                .WithEase(placementConfig.LandEase)
+                .WithEase(motionConfig.LandEase)
                 .WithOnComplete(() => landCompletion.TrySetResult())
                 .Bind(t =>
                 {
