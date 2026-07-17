@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8395bc0f23de2c4982c74f1e18ab6a5, type: 3}
   m_Name: Seahorse
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
-  <SkinName>k__BackingField: "\uD574\uB9C8"
+  <SkinName>k__BackingField: "\uBC14\uB2F7\uC18D\uD574\uB9C8"
   <SkinId>k__BackingField: Seahorse
   sprites: {fileID: 21300000, guid: 953f5211e762a0c46893507cb93e0bb5, type: 3}
   icon: {fileID: 21300000, guid: 953f5211e762a0c46893507cb93e0bb5, type: 3}
-  unlockType: 0
-  unlockValue: 0
+  unlockType: 1
+  unlockValue: 150
   unlockDescription: 

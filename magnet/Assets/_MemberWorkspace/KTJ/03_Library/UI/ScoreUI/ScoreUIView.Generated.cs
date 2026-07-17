@@ -9,6 +9,7 @@ namespace Game.UI
 public sealed partial class ScoreUIView
 {
     [SerializeField] private TMP_Text scoreUICurrentScoreTxtText;
+    [SerializeField] private RectTransform scoreUICurrentScoreTxtLocalScale;
     [SerializeField] private TMP_Text scoreUIBestScoreTxtText;
 
     protected override void OnBind()
@@ -46,6 +47,11 @@ public sealed partial class ScoreUIView
             if ((propertyName == null || propertyName == nameof(ViewModel.CurrentScoreTxt)) && scoreUICurrentScoreTxtText != null)
             {
                 scoreUICurrentScoreTxtText.text = ViewModel.CurrentScoreTxt;
+            }
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.CurrentScoreScale)) && scoreUICurrentScoreTxtLocalScale != null)
+            {
+                scoreUICurrentScoreTxtLocalScale.localScale = ViewModel.CurrentScoreScale;
             }
 
             if ((propertyName == null || propertyName == nameof(ViewModel.BestScoreTxt)) && scoreUIBestScoreTxtText != null)

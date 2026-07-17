@@ -51,6 +51,7 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(boardConfig != null, "[BoardPlacementBootstrap] BoardConfigSO is not assigned.", this);
             Debug.Assert(placementConfig != null, "[BoardPlacementBootstrap] PlacementConfigSO is not assigned.", this);
             Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
+            Debug.Assert(skinChannel != null, "[BoardPlacementBootstrap] Skin EventChannelSO is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
             Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
             Debug.Assert(_boardView != null, "[BoardPlacementBootstrap] BoardView was not injected.", this);
@@ -147,7 +148,7 @@ namespace JTH.Scripts.Bootstrap
 
         private void RaiseScoreSkinUnlockCheck(int totalScore)
         {
-            magnetGameChannel.RaiseEvent(
+            skinChannel.RaiseEvent(
                 SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, totalScore));
         }
 

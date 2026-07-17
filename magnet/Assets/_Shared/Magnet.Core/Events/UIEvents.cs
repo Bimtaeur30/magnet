@@ -8,12 +8,14 @@ public static class UIEvents
 {
     public static readonly UIBackgroundRequestEvent BackgroundRequestEvent = new();
     public static readonly UIPlayNewSkinEvent UIPlayNewSkinEvent = new();
+    public static readonly UIShowGameOverEvent UIShowGameOverEvent = new();
 
 
     //public static readonly BlockSlotSetEvent BlockSlotSetEvent = new(); // 폐기됨, 사용하지 않음
 }
 
 public sealed class UIPlayNewSkinEvent : GameEvent { }
+public sealed class UIShowGameOverEvent : GameEvent { }
 public sealed class UIBackgroundRequestEvent : GameEvent
 {
     public Object Requester { get; private set; }

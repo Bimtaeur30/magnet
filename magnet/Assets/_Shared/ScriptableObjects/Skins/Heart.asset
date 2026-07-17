@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8395bc0f23de2c4982c74f1e18ab6a5, type: 3}
   m_Name: Heart
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
-  <SkinName>k__BackingField: "\uD558\uD2B8"
+  <SkinName>k__BackingField: "\uC794\uC794\uD55C\uD558\uD2B8"
   <SkinId>k__BackingField: Heart
   sprites: {fileID: 21300000, guid: 2643acebbc056e34da5de027a854a827, type: 3}
   icon: {fileID: 21300000, guid: 2643acebbc056e34da5de027a854a827, type: 3}
-  unlockType: 0
-  unlockValue: 0
+  unlockType: 1
+  unlockValue: 50
   unlockDescription: 

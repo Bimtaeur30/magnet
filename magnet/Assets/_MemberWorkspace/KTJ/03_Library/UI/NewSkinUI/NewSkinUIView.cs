@@ -18,14 +18,22 @@ namespace Game.UI
         [SerializeField] private Button continueBtn;
         //[SerializeField] private Button equipBtn;
 
-        private Queue<SkinDataSO> _queue;
+        private readonly Queue<SkinDataSO> _queue = new();
 
         protected override void Awake()
         {
-            //magnetEventChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
+            base.Awake();
 
-            //equipBtn.onClick.AddListener(() => HandleEquipBtnClick());
-            continueBtn.onClick.AddListener(() => HandleContinueBtnClick());
+            //magnetEventChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
+            skinEventChannel.AddListener<SkinUnlockedEvent>(HandleSkinUnlockedEvent);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            //equipBtn.onClick.AddListener(HandleEquipBtnClick);
+            continueBtn.onClick.AddListener(HandleContinueBtnClick);
             uiEventChannel.AddListener<UIPlayNewSkinEvent>(HandleUIPlayNewSkinEvent);
         }
 
@@ -33,17 +41,11 @@ namespace Game.UI
         {
             //magnetEventChannel.RemoveListener<GameOverEvent>(HandleGameOverEvent);
 
-            //equipBtn.onClick.RemoveListener(() => HandleEquipBtnClick());
-            continueBtn.onClick.RemoveListener(() => HandleContinueBtnClick());
+            //equipBtn.onClick.RemoveListener(HandleEquipBtnClick);
+            continueBtn.onClick.RemoveListener(HandleContinueBtnClick);
             uiEventChannel.RemoveListener<UIPlayNewSkinEvent>(HandleUIPlayNewSkinEvent);
-        }
 
-        private void Start() // Start나 Awake 알아서
-        {
-            skinEventChannel.AddListener<SkinUnlockedEvent>(HandleSkinUnlockedEvent);
-            // SkinEvents에 SkinSelectRequestEvent를 스킨 바꿨을때 그 스킨 인덱스 넣어서 Raise해주기
-            // 위에 주석은 여기서 하는 게 아닐 수도 있음 그냥 스킨 바꾸는 곳에서 이벤트 발행해주면 됨 ㅇㅇ
-            
+            base.OnDisable();
         }
 
         private void OnDestroy()
@@ -53,6 +55,8 @@ namespace Game.UI
 
         private void HandleSkinUnlockedEvent(SkinUnlockedEvent evt)
         {
+            if (evt.SkinData == null) return;
+
             _queue.Enqueue(evt.SkinData);
         }
 
@@ -65,7 +69,7 @@ namespace Game.UI
         {
             if (_queue.Count == 0)
             {
-                container.gameObject.SetActive(false);
+                CompleteNewSkinSequence();
                 return;
             }
 
@@ -76,8 +80,20 @@ namespace Game.UI
 
         private void HandleUIPlayNewSkinEvent(UIPlayNewSkinEvent @event)
         {
-            container.gameObject.SetActive(true);
+            if (_queue.Count == 0)
+            {
+                CompleteNewSkinSequence();
+                return;
+            }
+
+            container.SetActive(true);
             PlayNewSkin();
+        }
+
+        private void CompleteNewSkinSequence()
+        {
+            container.SetActive(false);
+            uiEventChannel.RaiseEvent(UIEvents.UIShowGameOverEvent);
         }
     }
 }
