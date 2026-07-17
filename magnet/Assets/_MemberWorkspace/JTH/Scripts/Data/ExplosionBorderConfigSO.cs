@@ -10,10 +10,8 @@ namespace JTH.Scripts.Data
         [field: SerializeField] public float Duration { get; private set; } = 0.4f;
         [Tooltip("테두리 기준 크기 대비 최대 배율. 1이면 크기 변화 없음")]
         [field: SerializeField] public float PeakScale { get; private set; } = 1.15f;
-        [Tooltip("펄스 크기 LitMotion 이징. t는 alpha와 동일, Ease만 다름")]
-        [field: SerializeField] public Ease SizeEase { get; private set; } = Ease.OutQuad;
-        [Tooltip("펄스 알파 LitMotion 이징. t는 크기와 동일, Ease만 다름")]
-        [field: SerializeField] public Ease AlphaEase { get; private set; } = Ease.InQuad;
+        [Tooltip("LitMotion 이징.")]
+        [field: SerializeField] public Ease Ease { get; private set; } = Ease.OutQuad;
         [Tooltip("펄스 최대 알파(0~1). 기본색 알파에 곱함")]
         [field: SerializeField] public float MaxAlpha { get; private set; } = 1f;
         [Tooltip("폭발 테두리 LineRenderer 색")]
