@@ -18,6 +18,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     [SerializeField] private BlockSlotView SlotView;
     private int _index;
     private IBlockShape _shape;
+    private int _candidateDegreesClockwise;
 
     private void Awake()
     {
@@ -29,14 +30,15 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         SkinEventChannel.RemoveListener<SkinChangedResponseEvent>(HandleSkinChangedResponseEvent);
     }
 
-    public void SetSlot(IBlockShape shape, int index)
+    public void SetSlot(IBlockShape shape, int candidateDegreesClockwise, int index)
     {
-        if (shape == null)
-            return;
-
         SlotView.ViewModel.BlockImage1Texture = shape.Icon;
         _index = index;
+        //Shape가 null일 때 리턴하면 이게 사용한 _shape인지 사용하지 않은 shape인지 알 수가 없어서 일단 null로 만듦.
         _shape = shape;
+        //이게 각도. z값을 이 만큼 회전시키면 됨.
+        _candidateDegreesClockwise = candidateDegreesClockwise;
+        
         SetBlockImageAlpha(1f);
     }
 
@@ -53,12 +55,12 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("BlockSlotŬ����, �ε���: " + _index);
+        Debug.Log("BlockSlotŬ����, �ε���: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
         SetBlockImageAlpha(0.2f);
     }
     private void HandleSkinChangedResponseEvent(SkinChangedResponseEvent @event)
     {
-        SetSlot(_shape, _index);
+        SetSlot(_shape, _candidateDegreesClockwise, _index);
     }
 }
