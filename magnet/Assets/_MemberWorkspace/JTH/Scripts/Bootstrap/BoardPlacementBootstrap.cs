@@ -102,6 +102,7 @@ namespace JTH.Scripts.Bootstrap
                 _blockSpawnBootstrap.Consume(slotIndex);
 
                 await _placedBlocksView.PlayPlaceAsync(staging, result);
+                _placedBlocksView.RefreshBlockedRingDim();
 
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
                     result.BlockId,
@@ -186,6 +187,7 @@ namespace JTH.Scripts.Bootstrap
 
                 await PlayExplosionWaveAsync(wave);
                 await _placedBlocksView.PlayWaveRelocationsAsync(wave);
+                _placedBlocksView.RefreshBlockedRingDim();
             }
         }
 

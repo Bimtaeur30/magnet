@@ -81,6 +81,7 @@
 | `Scripts/Presentation/BoardView.cs` | `placementConfigPreview` | 폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색 |
 | `Scripts/Presentation/ShapeBlock.cs` | `blockPrefab` | 블록 칸 1개 프리팹(Block 컴포넌트 + SpriteRenderer). 필요 개수만큼 인스턴스 생성 후 재사용 |
 | `Scripts/Presentation/Block.cs` | `spriteMask` | 칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리 |
+| `Scripts/Data/BlockedRingDimConfigSO.cs` | `dimMultiply` | 비활성(막힌) 테두리 링 점유 칸 RGB 배수. 1=변화 없음 |
 | `Scripts/Input/BlockDragDrawer.cs` | `shapeBlockPrefab` | 스테이징·프리뷰 표시용 ShapeBlock 프리팹. Awake에서 2개 Instantiate |
 
 ### KTJ — `Assets/_MemberWorkspace/KTJ/`

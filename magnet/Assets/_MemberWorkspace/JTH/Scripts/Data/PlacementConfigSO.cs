@@ -15,6 +15,7 @@ namespace JTH.Scripts.Data
         [SerializeField] private ClearReassemblyRuleConfigSO clearReassemblyRule;
         [SerializeField] private ClearReassemblyMotionConfigSO clearReassemblyMotion;
         [SerializeField] private ExplosionBorderConfigSO explosionBorder;
+        [SerializeField] private BlockedRingDimConfigSO blockedRingDim;
 
         public BlockVisualConfigSO Visual => visual;
         public BlockDragConfigSO Drag => drag;
@@ -23,5 +24,6 @@ namespace JTH.Scripts.Data
         public ClearReassemblyRuleConfigSO ClearReassemblyRule => clearReassemblyRule;
         public ClearReassemblyMotionConfigSO ClearReassemblyMotion => clearReassemblyMotion;
         public ExplosionBorderConfigSO ExplosionBorder => explosionBorder;
+        public BlockedRingDimConfigSO BlockedRingDim => blockedRingDim;
     }
 }

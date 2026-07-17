@@ -18,6 +18,8 @@ namespace JTH.Scripts.Presentation
         private Vector2Int _gridPosition;
         private readonly List<MotionHandle> _motions = new();
         private BoardView _boardView;
+        private bool _dimmed;
+        private float _dimMultiply = 1f;
 
         public Vector2Int GridPosition => _gridPosition;
 
@@ -55,6 +57,20 @@ namespace JTH.Scripts.Presentation
             }
 
             _block.ApplyVisual(sprite);
+            _block.SetDimmed(_dimmed, _dimMultiply);
+        }
+
+        /// <summary>
+        /// 막힌 테두리 링에 속한 점유 칸을 어둡게 / 정상으로 되돌린다.
+        /// </summary>
+        public void SetDimmed(bool dimmed, float multiply)
+        {
+            _dimmed = dimmed;
+            _dimMultiply = multiply;
+            if (_block != null)
+            {
+                _block.SetDimmed(dimmed, multiply);
+            }
         }
 
         public void SnapToGrid(Vector2Int gridPosition, float cellSize, float fill)

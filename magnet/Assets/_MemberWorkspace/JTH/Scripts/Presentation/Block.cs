@@ -17,11 +17,19 @@ namespace JTH.Scripts.Presentation
 
         private static int nextMaskSlot;
         private int maskSlot = -1;
+        private Color baseColor = Color.white;
+        private bool dimmed;
+        private float dimMultiply = 1f;
 
         private void Awake()
         {
             Debug.Assert(spriteRenderer != null, "[Block] spriteRenderer is not assigned.", this);
             Debug.Assert(spriteMask != null, "[Block] spriteMask is not assigned.", this);
+            if (spriteRenderer != null)
+            {
+                baseColor = spriteRenderer.color;
+            }
+
             SetSortingOrder(0);
         }
 
@@ -31,6 +39,38 @@ namespace JTH.Scripts.Presentation
             {
                 spriteRenderer.sprite = sprite;
             }
+
+            RefreshColor();
+        }
+
+        /// <summary>
+        /// 비활성 링 UX용. RGB만 <paramref name="multiply"/> 배로 어둡게 하고, false면 기본색 복원.
+        /// </summary>
+        public void SetDimmed(bool isDimmed, float multiply)
+        {
+            dimmed = isDimmed;
+            dimMultiply = multiply;
+            RefreshColor();
+        }
+
+        private void RefreshColor()
+        {
+            if (spriteRenderer == null)
+            {
+                return;
+            }
+
+            if (!dimmed)
+            {
+                spriteRenderer.color = baseColor;
+                return;
+            }
+
+            Color color = baseColor;
+            color.r *= dimMultiply;
+            color.g *= dimMultiply;
+            color.b *= dimMultiply;
+            spriteRenderer.color = color;
         }
 
         public void SetActive(bool active)

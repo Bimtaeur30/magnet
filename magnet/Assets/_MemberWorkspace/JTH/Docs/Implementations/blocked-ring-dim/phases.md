@@ -7,5 +7,5 @@
 | Phase | 제목 | 계획 | 변경 기록 | 상태 |
 |-------|------|------|-----------|------|
 | 1 | Domain 비활성 링 판정 | [phase1.md](phase1.md) | [sequence1.md](sequence1.md) | 구현됨 · 확인 대기 |
-| 2 | 점유 칸 dim Presentation | — | — | 미착수 |
-| 3 | 갱신 배선 + 튜닝 SO | — | — | 미착수 |
+| 2 | 점유 칸 dim Presentation | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) | 구현됨 · 확인 대기 |
+| 3 | 갱신 배선 + 튜닝 SO | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) | 구현됨 · 확인 대기 |
