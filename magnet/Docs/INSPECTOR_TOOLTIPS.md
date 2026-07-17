@@ -42,6 +42,7 @@
 | `Scripts/Data/BoardConfigSO.cs` | `cellsPerSide` | 자석 중심(0,0)에서 한쪽 끝까지의 칸 수. 전체 한 변 = CellsPerSide × 2 + 1 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `stagingYExtraBelow` | 보드 하단에서 스테이징 영역까지 추가로 내릴 칸 수. stagingY = -(CellsPerSide + 이 값) |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
+| `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityRampPerUnit` | Press 시작 포인터 X와의 거리(월드 유닛) 1당 블록 이동 배율 증가량. Block Blast식 감도 램프 |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
 | `Scripts/Data/BlockSnapConfigSO.cs` | `duration` | 손 놓은 뒤 Y축 자석 스냅: 칸 1칸 이동에 걸리는 시간(초). 이동 칸 수에 비례 |
@@ -72,6 +73,8 @@
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `color` | 폭발 테두리 LineRenderer 색 |
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `lineWidth` | 폭발 테두리 LineRenderer 두께 |
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `sortingOrder` | 폭발 테두리 LineRenderer sortingOrder |
+| `Scripts/Data/ExplosionBorderConfigSO.cs` | `shakeAmplitude` | 클리어 시 Cinemachine Impulse 카메라 쉐이크 좌우 진폭(월드 유닛). 0이면 쉐이크 없음 |
+| `Scripts/Data/ExplosionBorderConfigSO.cs` | `shakeDuration` | 클리어 시 카메라 쉐이크 지속 시간(초). 짧게 유지 |
 | `Scripts/Data/ScoreConfigSO.cs` | `kTiers` | 콤보 구간별 k. maxComboInclusive 오름차순. 마지막 구간이 60+ 등으로 나머지 처리 |
 | `Scripts/Data/ScoreConfigSO.cs` | `KTier.maxComboInclusive` | 이 구간에 포함되는 최대 콤보(이상이면 다음 구간). 오름차순이어야 함 |
 | `Scripts/Data/ScoreConfigSO.cs` | `KTier.k` | 해당 콤보 구간의 배율 k |

@@ -193,6 +193,7 @@ namespace JTH.Scripts.Bootstrap
 
         private async UniTask PlayExplosionWaveAsync(ClearWave wave)
         {
+            ExplosionCameraShake.Play(placementConfig.ExplosionBorder);
             UniTask borderPulse = ExplosionBorderPulseView.PlayAsync(
                 _boardView,
                 wave.SquareSize,

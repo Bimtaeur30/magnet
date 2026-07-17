@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BlockVisualConfigSO
   stagingYExtraBelow: 1
   <CellFill>k__BackingField: 0.9
+  <PreviewAlpha>k__BackingField: 0.4

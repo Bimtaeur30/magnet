@@ -77,7 +77,7 @@ namespace JTH.Scripts.Input
         public void ShowPreview(IBlockShape shape, Vector2Int pivot)
         {
             _stagingBlock.ShareSkinWith(_previewBlock);
-            _previewBlock.Show(shape, pivot, sortingOrder: 3);
+            _previewBlock.ShowPreview(shape, pivot, sortingOrder: 3);
         }
 
         public void ClearPreview()

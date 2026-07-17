@@ -20,6 +20,7 @@ namespace JTH.Scripts.Presentation
         private Color baseColor = Color.white;
         private bool dimmed;
         private float dimMultiply = 1f;
+        private float alpha = 1f;
 
         private void Awake()
         {
@@ -53,6 +54,15 @@ namespace JTH.Scripts.Presentation
             RefreshColor();
         }
 
+        /// <summary>
+        /// 스프라이트 알파 배율. 프리뷰 고스트 등에서 사용.
+        /// </summary>
+        public void SetAlpha(float value)
+        {
+            alpha = Mathf.Clamp01(value);
+            RefreshColor();
+        }
+
         private void RefreshColor()
         {
             if (spriteRenderer == null)
@@ -60,16 +70,15 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            if (!dimmed)
+            Color color = baseColor;
+            if (dimmed)
             {
-                spriteRenderer.color = baseColor;
-                return;
+                color.r *= dimMultiply;
+                color.g *= dimMultiply;
+                color.b *= dimMultiply;
             }
 
-            Color color = baseColor;
-            color.r *= dimMultiply;
-            color.g *= dimMultiply;
-            color.b *= dimMultiply;
+            color.a = baseColor.a * alpha;
             spriteRenderer.color = color;
         }
 
