@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a10007000700070007000700000007, type: 3}
   m_Name: DefaultExplosionBorderConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.ExplosionBorderConfigSO
-  <Duration>k__BackingField: 1
-  <PeakScale>k__BackingField: 1.15
+  <Duration>k__BackingField: 0.7
+  <PeakScale>k__BackingField: 1.5
   <SizeEase>k__BackingField: 5
   <AlphaEase>k__BackingField: 3
-  <MaxAlpha>k__BackingField: 1
-  <Color>k__BackingField: {r: 0.95, g: 0.75, b: 0.2, a: 1}
-  <LineWidth>k__BackingField: 0.06
+  <MaxAlpha>k__BackingField: 0.7
+  <Color>k__BackingField: {r: 1, g: 0.81131506, b: 0.3254717, a: 1}
+  <LineWidth>k__BackingField: 0.15001
   <SortingOrder>k__BackingField: 2
