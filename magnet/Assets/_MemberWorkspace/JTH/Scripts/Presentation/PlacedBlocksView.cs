@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Shared.Magnet.Core.Events;
 using Cysharp.Threading.Tasks;
 using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
@@ -20,18 +22,37 @@ namespace JTH.Scripts.Presentation
     public sealed class PlacedBlocksView : MonoBehaviour
     {
         [SerializeField] private EventChannelSO skinChannel;
+        [SerializeField] private EventChannelSO presentationChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
+        [SerializeField] private PoolItemSO blockBlastEffect;
 
         [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
 
         private readonly Dictionary<int, OccupiedCellView> _cellsById = new();
+        private IBlockSkin _currentSkin;
+        private BoardView _boardView;
+
+        private BoardView BoardView
+        {
+            get
+            {
+                if (_boardView == null)
+                {
+                    _boardView = GetComponentInParent<BoardView>();
+                }
+
+                return _boardView;
+            }
+        }
 
         private void Awake()
         {
             Debug.Assert(boardConfig != null, "[PlacedBlocksView] boardConfig is not assigned.", this);
             Debug.Assert(skinChannel != null, "[PlacedBlocksView] skinChannel is not assigned.", this);
+            Debug.Assert(presentationChannel != null, "[PlacedBlocksView] presentationChannel is not assigned.", this);
             Debug.Assert(placementConfig != null, "[PlacedBlocksView] placementConfig is not assigned.", this);
+            Debug.Assert(blockBlastEffect != null, "[PlacedBlocksView] blockBlastEffect is not assigned.", this);
             Debug.Assert(_placementBootstrap != null, "[PlacedBlocksView] BoardPlacementBootstrap was not injected.", this);
 
             skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
@@ -51,11 +72,13 @@ namespace JTH.Scripts.Presentation
 
         private void OnSkinInitialized(SkinInitializedEvent evt)
         {
+            _currentSkin = evt.Skin;
             ApplySkinToAll(evt.Skin);
         }
 
         private void OnSkinChanged(SkinChangedEvent evt)
         {
+            _currentSkin = evt.CurrentSkin;
             ApplySkinToAll(evt.CurrentSkin);
         }
 
@@ -199,20 +222,86 @@ namespace JTH.Scripts.Presentation
 
         private void DestroyCellViews(IReadOnlyList<int> cellIds)
         {
+            Texture skinTexture = _currentSkin?.Sprite != null ? _currentSkin.Sprite.texture : null;
+
             for (int i = 0; i < cellIds.Count; i++)
             {
                 int cellId = cellIds[i];
-                if (!_cellsById.TryGetValue(cellId, out OccupiedCellView view))
+                if (!_cellsById.Remove(cellId, out OccupiedCellView view))
                 {
                     continue;
                 }
 
-                _cellsById.Remove(cellId);
-                if (view != null)
+                if (view == null)
                 {
-                    Destroy(view.gameObject);
+                    continue;
                 }
+
+                presentationChannel.RaiseEvent(
+                    PresentationEvents.PlayParticleEffectEvent.Init(
+                        blockBlastEffect,
+                        view.transform.position,
+                        GetOutwardWorldRotation(view.GridPosition),
+                        skinTexture));
+
+                Destroy(view.gameObject);
             }
+        }
+
+        /// <summary>
+        /// 정사각 테두리 기준: 변은 직교, 모서리는 대각. 보드 Transform 회전을 월드에 반영한다.
+        /// </summary>
+        private Quaternion GetOutwardWorldRotation(Vector2Int grid)
+        {
+            Vector2Int dir = GetOutwardGridDirection(grid);
+            Quaternion localRotation = Quaternion.FromToRotation(
+                Vector3.up,
+                new Vector3(dir.x, dir.y, 0f));
+
+            BoardView boardView = BoardView;
+            if (boardView == null)
+            {
+                return localRotation;
+            }
+
+            return boardView.transform.rotation * localRotation;
+        }
+
+        private static Vector2Int GetOutwardGridDirection(Vector2Int grid)
+        {
+            int absX = Mathf.Abs(grid.x);
+            int absY = Mathf.Abs(grid.y);
+            if (absX == 0 && absY == 0)
+            {
+                return Vector2Int.up;
+            }
+
+            if (absX == absY)
+            {
+                return new Vector2Int(Sign(grid.x), Sign(grid.y));
+            }
+
+            if (absX > absY)
+            {
+                return new Vector2Int(Sign(grid.x), 0);
+            }
+
+            return new Vector2Int(0, Sign(grid.y));
+        }
+
+        private static int Sign(int value)
+        {
+            if (value > 0)
+            {
+                return 1;
+            }
+
+            if (value < 0)
+            {
+                return -1;
+            }
+
+            return 0;
         }
 
         private async UniTask PlayWaveRelocationsInternalAsync(ClearWave wave)
