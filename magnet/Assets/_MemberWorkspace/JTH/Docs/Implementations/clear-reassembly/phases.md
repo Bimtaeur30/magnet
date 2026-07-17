@@ -14,3 +14,4 @@
 | 6 | 재배치 후보 칸 기즈모 | [phase6.md](phase6.md) | [sequence6.md](sequence6.md) | 구현됨 · 확인 대기 |
 | 7 | 재배치: 자석 원점 부채꼴 + 보드밖 주차 | [phase7.md](phase7.md) | [sequence7.md](sequence7.md) | 구현됨 · 확인 대기 |
 | 8 | 재배치: 각도 → 수선 복도 폭 | [phase8.md](phase8.md) | [sequence8.md](sequence8.md) | 구현됨 · 확인 대기 |
+| 9 | 파괴 칸 파티클 (`PlayParticleEffectEvent`) | [phase9.md](phase9.md) | [sequence9.md](sequence9.md) | 구현됨 · 확인 대기 |

@@ -14,23 +14,23 @@ namespace PTY.Scripts.Vfx
     /// </summary>
     public sealed class ParticleEffectManager : MonoBehaviour
     {
-        [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO presentationChannel;
         [SerializeField] private PoolManagerSO particlePool;
 
         private void Awake()
         {
-            Debug.Assert(magnetGameChannel != null, "[ParticleEffectManager] EventChannelSO is not assigned.", this);
+            Debug.Assert(presentationChannel != null, "[ParticleEffectManager] EventChannelSO is not assigned.", this);
             Debug.Assert(particlePool != null, "[ParticleEffectManager] PoolManagerSO is not assigned.", this);
         }
 
         private void OnEnable()
         {
-            magnetGameChannel.AddListener<PlayParticleEffectEvent>(HandlePlayParticleEffect);
+            presentationChannel.AddListener<PlayParticleEffectEvent>(HandlePlayParticleEffect);
         }
 
         private void OnDisable()
         {
-            magnetGameChannel.RemoveListener<PlayParticleEffectEvent>(HandlePlayParticleEffect);
+            presentationChannel.RemoveListener<PlayParticleEffectEvent>(HandlePlayParticleEffect);
         }
 
         private void HandlePlayParticleEffect(PlayParticleEffectEvent evt)

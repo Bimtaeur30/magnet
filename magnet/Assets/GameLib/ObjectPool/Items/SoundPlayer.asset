@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c5f6566816455f9f3300c866543d54, type: 3}
   m_Name: SoundPlayer
   m_EditorClassIdentifier: ObjectPool::GameLib.ObjectPool.Runtime.PoolItemSO
-  itemName: 
+  itemName: SoundPlayer
   prefab: {fileID: 7076061607967571621, guid: 40b38c91206e1cf4fac41dd93cf226eb, type: 3}
   initCount: 8
