@@ -191,6 +191,49 @@ namespace JTH.Scripts.Presentation
 
                 // Domain에만 있는 칸은 시각 복구하지 않음(연출 경로에서 등록).
             }
+
+            RefreshBlockedRingDim();
+        }
+
+        /// <summary>
+        /// 비활성 링에 속한 점유 칸만 dim.
+        /// </summary>
+        public void RefreshBlockedRingDim()
+        {
+            BoardSession session = _placementBootstrap != null ? _placementBootstrap.Session : null;
+            BoardGrid grid = session != null ? session.Grid : null;
+            if (grid == null)
+            {
+                return;
+            }
+
+            IReadOnlyList<int> inactiveSizes = BlockedRingDetector.DetectInactiveSquareSizes(grid);
+            var inactiveHalves = new HashSet<int>(inactiveSizes.Count);
+            for (int i = 0; i < inactiveSizes.Count; i++)
+            {
+                inactiveHalves.Add((inactiveSizes[i] - 1) / 2);
+            }
+
+            float multiply = ResolveDimMultiply();
+            foreach (KeyValuePair<int, OccupiedCellView> entry in _cellsById)
+            {
+                OccupiedCellView view = entry.Value;
+                if (view == null)
+                {
+                    continue;
+                }
+
+                Vector2Int pos = view.GridPosition;
+                int ring = Mathf.Max(Mathf.Abs(pos.x), Mathf.Abs(pos.y));
+                bool dim = inactiveHalves.Contains(ring);
+                view.SetDimmed(dim, multiply);
+            }
+        }
+
+        private float ResolveDimMultiply()
+        {
+            BlockedRingDimConfigSO config = placementConfig != null ? placementConfig.BlockedRingDim : null;
+            return config != null ? config.DimMultiply : 0.35f;
         }
 
         private void SplitStagingIntoCells(ShapeBlock staging, IReadOnlyList<int> cellIds)

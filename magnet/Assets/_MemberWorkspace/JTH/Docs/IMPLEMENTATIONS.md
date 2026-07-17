@@ -16,6 +16,7 @@
 | [board-rotation](./Implementations/board-rotation/phases.md) | 회전·턴 흐름 | [SCRUM-21](https://bimtaeur30.atlassian.net/browse/SCRUM-21) | phase3 완료 | Place→재조립 연쇄→Rotate (clear-reassembly와 연동) |
 | game-over | 게임 오버 판정 | [SCRUM-22](https://bimtaeur30.atlassian.net/browse/SCRUM-22) | — | 미착수 |
 | [score-logic](./Implementations/score-logic/phases.md) | 점수 관리 (로직) | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase3 완료 | 턴 콤보 리셋·GO FinalScore·SkinUnlockCheck(TotalScore) |
+| [blocked-ring-dim](./Implementations/blocked-ring-dim/phases.md) | 막힌 테두리 dim UX | — | phase3 완료 | Place·재조립 후 dim + BlockedRingDimConfigSO |
 
 **UI / HUD / 인벤토리 / 메뉴는 JTH 담당·Jira 범위 밖.**
 

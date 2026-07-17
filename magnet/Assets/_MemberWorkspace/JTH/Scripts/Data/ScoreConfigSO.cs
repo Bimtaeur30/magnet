@@ -19,10 +19,10 @@ namespace JTH.Scripts.Data
         [Tooltip("콤보 구간별 k. maxComboInclusive 오름차순. 마지막 구간이 60+ 등으로 나머지 처리")]
         [SerializeField] private KTier[] kTiers =
         {
-            new KTier { maxComboInclusive = 5, k = 80f },
-            new KTier { maxComboInclusive = 12, k = 66f },
-            new KTier { maxComboInclusive = 59, k = 45f },
-            new KTier { maxComboInclusive = 9999, k = 36f },
+            new KTier { maxComboInclusive = 5, k = 53.33f },
+            new KTier { maxComboInclusive = 12, k = 44f },
+            new KTier { maxComboInclusive = 59, k = 30f },
+            new KTier { maxComboInclusive = 9999, k = 24f },
         };
 
         [Tooltip("같은 배치 안 웨이브 순번(1-based)별 연쇄 배율. 길이 부족 시 마지막 값 사용")]

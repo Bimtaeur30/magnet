@@ -59,6 +59,16 @@ namespace JTH.Scripts.Presentation
         public void Show(IBlockShape shape, Vector2Int pivot, int sortingOrder)
         {
             ShowCells(pivot, shape.CellOffsets, sortingOrder);
+            SetAlpha(1f);
+        }
+
+        /// <summary>
+        /// 보드 격자 프리뷰(고스트). <see cref="BlockVisualConfigSO.PreviewAlpha"/> 적용.
+        /// </summary>
+        public void ShowPreview(IBlockShape shape, Vector2Int pivot, int sortingOrder)
+        {
+            ShowCells(pivot, shape.CellOffsets, sortingOrder);
+            SetAlpha(placementConfig.Visual.PreviewAlpha);
         }
 
         public void ShowCells(Vector2Int pivot, IReadOnlyList<Vector2Int> cellOffsets, int sortingOrder)
@@ -102,6 +112,7 @@ namespace JTH.Scripts.Presentation
 
             HideExtraBlocks(shape.CellOffsets.Count);
             ApplyResolvedSkin();
+            SetAlpha(1f);
         }
 
         public void ShowAtSnapStart(IBlockShape shape, Vector2Int finalPivot, int stagingGridY, int sortingOrder = 2)
@@ -133,6 +144,7 @@ namespace JTH.Scripts.Presentation
 
             HideExtraBlocks(cellOffsets.Count);
             ApplyResolvedSkin();
+            SetAlpha(1f);
         }
 
         public void AnimateSnapY(
@@ -293,6 +305,17 @@ namespace JTH.Scripts.Presentation
 
             target._resolvedSprite = _resolvedSprite;
             target._skinResolved = true;
+        }
+
+        public void SetAlpha(float alpha)
+        {
+            for (int i = 0; i < _blocks.Count; i++)
+            {
+                if (_blocks[i].gameObject.activeSelf)
+                {
+                    _blocks[i].SetAlpha(alpha);
+                }
+            }
         }
 
         private void ApplyVisualToActiveBlocks(Sprite sprite)

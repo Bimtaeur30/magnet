@@ -19,3 +19,4 @@ MonoBehaviour:
   clearReassemblyRule: {fileID: 11400000, guid: d1a10005000500050005000500000005, type: 2}
   clearReassemblyMotion: {fileID: 11400000, guid: d1a10006000600060006000600000006, type: 2}
   explosionBorder: {fileID: 11400000, guid: d1a10007000700070007000700000007, type: 2}
+  blockedRingDim: {fileID: 11400000, guid: d1a10008000800080008000800000008, type: 2}

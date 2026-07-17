@@ -66,3 +66,40 @@
 **메모** — 최초 요청에 PresentationChannel이 명시돼 있었으나 magnetGameChannel로 잘못 연결했음.
 
 ---
+
+## 3 — 2026-07-17 · 클리어 Cinemachine 좌우 감쇠 카메라 쉐이크
+
+**바뀐 것** — 생성: `Scripts/Presentation/ExplosionCameraShake.cs` · 수정: `ExplosionBorderConfigSO`, `DefaultExplosionBorderConfig.asset`, `BoardPlacementBootstrap`, `Magnet.JTH.asmdef`, `INSPECTOR_TOOLTIPS.md`
+
+**변경 상세 (왜/무엇)**  
+- 파일: `Scripts/Presentation/ExplosionCameraShake.cs`
+  - 심볼: `ExplosionCameraShake.Play` — 메서드 (추가)
+    - 설명: `ShakeAmplitude`/`ShakeDuration`으로 Cinemachine Impulse를 1회 발사한다.
+    - 이유: 블록 터질 때 짧은 좌우 감쇠 카메라 쉐이크.
+  - 심볼: `ExplosionCameraShake.EnsureListener` — 메서드 (추가)
+    - 설명: `Camera.main`에 `CinemachineIndependentImpulseListener`를 없으면 추가하고 2차 Noise 반응을 끈다.
+    - 이유: VCam 없이도 Main Camera가 Impulse를 받게. 2차는 좌우 패턴을 흐리게 함.
+  - 심볼: `ExplosionCameraShake.EnsureSource` — 메서드 (추가)
+    - 설명: DontDestroy ImpulseSource에 Custom 좌우 감쇠 곡선·Uniform·Duration을 설정한다.
+    - 이유: 웨이브마다 같은 Source를 재사용.
+  - 심볼: `ExplosionCameraShake.GetLeftRightDecayCurve` — 메서드 (추가)
+    - 설명: +1 → −0.7 → +0.4 → −0.2 → 0 형태의 AnimationCurve를 캐시한다.
+    - 이유: 오른쪽·왼쪽 반복하며 줄어드는 체감.
+- 파일: `Scripts/Data/ExplosionBorderConfigSO.cs`
+  - 심볼: `ExplosionBorderConfigSO.ShakeAmplitude` — 프로퍼티 (추가)
+    - 설명: Impulse velocity 크기(월드 유닛). 0이면 Play no-op.
+    - 이유: 인스펙터 튜닝.
+  - 심볼: `ExplosionBorderConfigSO.ShakeDuration` — 프로퍼티 (추가)
+    - 설명: Impulse 신호 길이(초). 기본 0.22.
+    - 이유: “너무 오래는 하지 말고” 요구.
+- 파일: `Scripts/Bootstrap/BoardPlacementBootstrap.cs`
+  - 심볼: `BoardPlacementBootstrap.PlayExplosionWaveAsync` — 메서드 (수정)
+    - 설명: 테두리 펄스와 함께 `ExplosionCameraShake.Play`를 호출(await 없음).
+    - 이유: 파괴 연출과 동시에 짧게 흔들기.
+- 파일: `Scripts/Magnet.JTH.asmdef`
+  - 심볼: `references` — Cinemachine GUID 추가
+    - 설명: Impulse API 참조.
+    - 이유: 컴파일에 필요.
+
+**메모** — 진폭·시간은 `DefaultExplosionBorderConfig`에서 조절.
+---

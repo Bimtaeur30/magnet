@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.ScoreConfigSO
   kTiers:
   - maxComboInclusive: 5
-    k: 80
+    k: 53.33
   - maxComboInclusive: 12
-    k: 66
+    k: 44
   - maxComboInclusive: 59
-    k: 45
+    k: 30
   - maxComboInclusive: 9999
-    k: 36
+    k: 24
   streakMultipliers:
   - 1
   - 1.35

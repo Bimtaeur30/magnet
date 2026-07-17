@@ -20,6 +20,10 @@ namespace JTH.Scripts.Data
         [field: SerializeField] public float LineWidth { get; private set; } = 0.06f;
         [Tooltip("폭발 테두리 LineRenderer sortingOrder")]
         [field: SerializeField] public int SortingOrder { get; private set; } = 2;
+        [Tooltip("클리어 시 Cinemachine Impulse 카메라 쉐이크 좌우 진폭(월드 유닛). 0이면 쉐이크 없음")]
+        [field: SerializeField] public float ShakeAmplitude { get; private set; } = 0.18f;
+        [Tooltip("클리어 시 카메라 쉐이크 지속 시간(초). 짧게 유지")]
+        [field: SerializeField] public float ShakeDuration { get; private set; } = 0.22f;
 
         private void OnValidate()
         {
@@ -27,6 +31,8 @@ namespace JTH.Scripts.Data
             PeakScale = Mathf.Max(1f, PeakScale);
             MaxAlpha = Mathf.Clamp01(MaxAlpha);
             LineWidth = Mathf.Max(0.001f, LineWidth);
+            ShakeAmplitude = Mathf.Max(0f, ShakeAmplitude);
+            ShakeDuration = Mathf.Max(0f, ShakeDuration);
         }
     }
 }
