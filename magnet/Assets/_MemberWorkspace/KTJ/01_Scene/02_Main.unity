@@ -2827,6 +2827,10 @@ PrefabInstance:
       propertyPath: isOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6199891143709726747, guid: ed46513a919559e43afdecc684c01294, type: 3}
+      propertyPath: magnetGameChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
     - target: {fileID: 6366211288414276240, guid: ed46513a919559e43afdecc684c01294, type: 3}
       propertyPath: isOn
       value: 1
@@ -3166,7 +3170,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7007201562544622618, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
