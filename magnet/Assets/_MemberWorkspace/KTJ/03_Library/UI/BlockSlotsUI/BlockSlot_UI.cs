@@ -36,9 +36,9 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         _index = index;
         //Shape가 null일 때 리턴하면 이게 사용한 _shape인지 사용하지 않은 shape인지 알 수가 없어서 일단 null로 만듦.
         _shape = shape;
-        //이게 각도. z값을 이 만큼 회전시키면 됨.
+        // DegreesClockwise → Unity UI Z: +Z는 반시계이므로 부호 반전.
         _candidateDegreesClockwise = candidateDegreesClockwise;
-        SlotView.ViewModel.BlockImage1RotationZ = _candidateDegreesClockwise;
+        SlotView.ViewModel.BlockImage1RotationZ = -_candidateDegreesClockwise;
         SetBlockImageAlpha(1f);
     }
 
