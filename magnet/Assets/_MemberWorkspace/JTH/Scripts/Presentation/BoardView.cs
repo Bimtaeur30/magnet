@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain;
 using UnityEngine;
@@ -12,11 +13,65 @@ namespace JTH.Scripts.Presentation
     {
         [Tooltip("격자 크기·색상 등 보드 시각화 설정")]
         [SerializeField] private BoardConfigSO config;
+        [Tooltip("폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색")]
+        [SerializeField] private PlacementConfigSO placementConfigPreview;
         [Tooltip("격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성")]
         [SerializeField] private Transform linesRoot;
         [SerializeField] private float lineWidth = 0.04f;
 
         private static Material _sharedLineMaterial;
+
+        [ContextMenu("Preview/Play 3x3 Explosion Border")]
+        private void PreviewExplosionBorder3x3()
+        {
+            PreviewExplosionBorder(3);
+        }
+
+        private void PreviewExplosionBorder(int squareSize)
+        {
+            if (!Application.isPlaying)
+            {
+                Debug.LogWarning("[BoardView] 폭발 테두리 프리뷰는 Play 모드에서 실행하세요.", this);
+                return;
+            }
+
+            if (config == null)
+            {
+                Debug.LogWarning("[BoardView] BoardConfigSO가 할당되지 않았습니다.", this);
+                return;
+            }
+
+            PlacementConfigSO placementConfig = ResolvePlacementConfigForPreview();
+            if (placementConfig?.ExplosionBorder == null)
+            {
+                Debug.LogWarning(
+                    "[BoardView] ExplosionBorderConfigSO를 찾을 수 없습니다. placementConfigPreview에 할당하세요.",
+                    this);
+                return;
+            }
+
+            ExplosionBorderPulseView.PlayAsync(this, squareSize, config, placementConfig.ExplosionBorder).Forget();
+        }
+
+        private PlacementConfigSO ResolvePlacementConfigForPreview()
+        {
+            if (placementConfigPreview != null)
+            {
+                return placementConfigPreview;
+            }
+
+            PlacementConfigSO[] configs = Resources.FindObjectsOfTypeAll<PlacementConfigSO>();
+            for (int i = 0; i < configs.Length; i++)
+            {
+                PlacementConfigSO candidate = configs[i];
+                if (candidate != null && candidate.hideFlags == HideFlags.None)
+                {
+                    return candidate;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>격자 → 보드 로컬 (자석 = 0,0).</summary>
         public Vector2 GridToLocal(int gridX, int gridY, float cellSize)

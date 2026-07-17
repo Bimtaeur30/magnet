@@ -17,7 +17,7 @@ namespace JTH.Scripts.Presentation
             Vector2Int finalPivot,
             int stagingGridY,
             BoardConfigSO boardConfig,
-            PlacementConfigSO placementConfig,
+            BlockSnapConfigSO snapConfig,
             Action onComplete)
         {
             shapeBlock.ShowAtSnapStart(shape, finalPivot, stagingGridY);
@@ -25,7 +25,8 @@ namespace JTH.Scripts.Presentation
                 shape,
                 finalPivot,
                 boardConfig,
-                placementConfig.SnapDuration,
+                snapConfig.Duration,
+                snapConfig.Ease,
                 onComplete);
         }
 
@@ -35,7 +36,7 @@ namespace JTH.Scripts.Presentation
             Vector2Int finalPivot,
             int stagingGridY,
             BoardConfigSO boardConfig,
-            PlacementConfigSO placementConfig,
+            BlockSnapConfigSO snapConfig,
             Action onComplete)
         {
             shapeBlock.ShowAtSnapStartFromOffsets(cellOffsets, finalPivot, stagingGridY);
@@ -43,7 +44,8 @@ namespace JTH.Scripts.Presentation
                 cellOffsets,
                 finalPivot,
                 boardConfig,
-                placementConfig.SnapDuration,
+                snapConfig.Duration,
+                snapConfig.Ease,
                 onComplete);
         }
     }
