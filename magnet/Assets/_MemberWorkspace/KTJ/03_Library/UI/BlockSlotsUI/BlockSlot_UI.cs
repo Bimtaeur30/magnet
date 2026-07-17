@@ -38,12 +38,13 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         _shape = shape;
         //이게 각도. z값을 이 만큼 회전시키면 됨.
         _candidateDegreesClockwise = candidateDegreesClockwise;
-        
+        SlotView.ViewModel.BlockImage1RotationZ = _candidateDegreesClockwise;
         SetBlockImageAlpha(1f);
     }
 
     public void EmptySlot()
     {
+        _shape = null;
         SetBlockImageAlpha(0f);
         SlotView.ViewModel.BlockImage1Texture = null;
     }
@@ -57,7 +58,6 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     {
         Debug.Log("BlockSlotŬ����, �ε���: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
-        SetBlockImageAlpha(0.2f);
     }
     private void HandleSkinChangedResponseEvent(SkinChangedResponseEvent @event)
     {

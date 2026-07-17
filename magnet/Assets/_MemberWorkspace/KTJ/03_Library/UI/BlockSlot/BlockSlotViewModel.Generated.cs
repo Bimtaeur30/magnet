@@ -6,6 +6,14 @@ namespace Game.UI
 {
 public sealed partial class BlockSlotViewModel : ObservableObject
 {
+    private float blockImage1RotationZ;
+
+    public float BlockImage1RotationZ
+    {
+        get => blockImage1RotationZ;
+        set => SetProperty(ref blockImage1RotationZ, value);
+    }
+
     private UnityEngine.Texture blockImage1Texture;
 
     public UnityEngine.Texture BlockImage1Texture

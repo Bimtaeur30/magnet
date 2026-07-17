@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a520328c9a5c0a4188ef3f5ba0b74dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.BlockSlotView
+  blockSlot1BlockImage1LocalEulerAnglesZ: {fileID: 7242232098925647109}
   blockSlot1BlockImage1Texture: {fileID: 3563453093480263201}
   blockSlot1BlockImage1ColorA: {fileID: 3563453093480263201}
 --- !u!114 &5920962402939296992

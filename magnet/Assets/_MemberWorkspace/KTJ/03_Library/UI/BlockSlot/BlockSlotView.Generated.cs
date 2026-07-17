@@ -8,6 +8,7 @@ namespace Game.UI
 {
 public sealed partial class BlockSlotView
 {
+    [SerializeField] private RectTransform blockSlot1BlockImage1LocalEulerAnglesZ;
     [SerializeField] private RawImage blockSlot1BlockImage1Texture;
     [SerializeField] private RawImage blockSlot1BlockImage1ColorA;
 
@@ -42,6 +43,13 @@ public sealed partial class BlockSlotView
             return;
         }
 
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.BlockImage1RotationZ)) && blockSlot1BlockImage1LocalEulerAnglesZ != null)
+            {
+                var eulerAngles = blockSlot1BlockImage1LocalEulerAnglesZ.localEulerAngles;
+                eulerAngles.z = ViewModel.BlockImage1RotationZ;
+                blockSlot1BlockImage1LocalEulerAnglesZ.localEulerAngles = eulerAngles;
+            }
 
             if ((propertyName == null || propertyName == nameof(ViewModel.BlockImage1Texture)) && blockSlot1BlockImage1Texture != null)
             {

@@ -22,7 +22,18 @@ public class BlockSlotContainer : MonoBehaviour
     {
         for (int i = 0; i < evt.Candidates.Count; i++)
         {
-            Slots[i].SetSlot(evt.Candidates[i], evt.CandidateDegreesClockwise[i], i);
-        };
+            var shape = evt.Candidates[i];
+
+            if (shape == null)
+            {
+                Slots[i].EmptySlot();
+                continue;
+            }
+
+            Slots[i].SetSlot(
+                shape,
+                evt.CandidateDegreesClockwise[i],
+                i);
+        }
     }
 }
