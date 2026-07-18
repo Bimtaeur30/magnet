@@ -32,4 +32,4 @@
 |-----------|------|
 | Y 스냅 | `Scripts/Presentation/ShapeBlock.cs`, `BlockSnapMotion.cs` |
 | 스폰 회전 | `Scripts/Domain/Spawn/RotatedBlockShape.cs`, `BlockDrawer.cs` |
-
+

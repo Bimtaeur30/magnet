@@ -13,6 +13,7 @@ namespace JTH.Scripts.Events
         public static readonly CellsRelocatedEvent CellsRelocatedEvent = new();
         public static readonly BoardRotatedEvent BoardRotatedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
+        public static readonly ComboChangedEvent ComboChangedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
@@ -99,6 +100,17 @@ namespace JTH.Scripts.Events
         public ScoreChangedEvent Init(int totalScore)
         {
             TotalScore = totalScore;
+            return this;
+        }
+    }
+
+    public sealed class ComboChangedEvent : GameEvent
+    {
+        public int Combo { get; private set; }
+
+        public ComboChangedEvent Init(int combo)
+        {
+            Combo = combo;
             return this;
         }
     }
