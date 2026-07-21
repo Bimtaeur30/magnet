@@ -73,7 +73,14 @@ namespace JTH.Scripts.Bootstrap
 
         private void OnTurnEnded(TurnEndedEvent _)
         {
-            _scoreSession?.NotifyTurnEnded();
+            if (_scoreSession == null)
+            {
+                return;
+            }
+
+            int comboBefore = _scoreSession.Combo;
+            _scoreSession.NotifyTurnEnded();
+            RaiseComboChangedIfNeeded(comboBefore, _scoreSession.Combo);
         }
 
         /// <summary>
@@ -115,8 +122,10 @@ namespace JTH.Scripts.Bootstrap
                 ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(
                     _session,
                     placementConfig.ClearReassemblyRule.CorridorHalfWidth);
+                int comboBefore = _scoreSession.Combo;
                 PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
+                RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
                 await PlayClearReassemblyWavesAsync(reassembly, scoreResult);
 
                 if (reassembly.HasCellsOutsideBounds)
@@ -151,6 +160,16 @@ namespace JTH.Scripts.Bootstrap
         {
             skinChannel.RaiseEvent(
                 SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, totalScore));
+        }
+
+        private void RaiseComboChangedIfNeeded(int comboBefore, int comboAfter)
+        {
+            if (comboAfter == comboBefore)
+            {
+                return;
+            }
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.ComboChangedEvent.Init(comboAfter));
         }
 
         private PlacementScoreResult ApplyPlacementScore(PlacementResult placement, ClearReassemblyResult reassembly)

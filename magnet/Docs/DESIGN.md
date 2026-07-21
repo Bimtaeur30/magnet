@@ -156,7 +156,7 @@
 - 클리어 있음: 배치 칸 점수 없음. 같은 배치의 연쇄 **웨이브마다** `round(k × combo × squareSize × streakMult)` (`ScoreConfigSO` 튜닝). 웨이브마다 콤보 +1.
 - 재배치 칸은 점수 없음. **풀 클리어 보너스 없음** (프로토타입).
 - 핸드(턴) 종료 시 그 턴에 클리어가 한 번도 없으면 **콤보 0**.
-- `ScoreChangedEvent`(총점) · `SquareClearedEvent.scoreAwarded`(웨이브 점수). 게임오버 시 `GameOverEvent.FinalScore` → 베스트/`SubmitScore`, 세션 총점으로 스킨 `SkinUnlockCheck`(Score).
+- `ScoreChangedEvent`(총점) · `ComboChangedEvent`(콤보) · `SquareClearedEvent.scoreAwarded`(웨이브 점수). 게임오버 시 `GameOverEvent.FinalScore` → 베스트/`SubmitScore`, 세션 총점으로 스킨 `SkinUnlockCheck`(Score).
 - HUD·베스트 UI 표출은 M7 UI 담당 (SCRUM-23은 로직·이벤트만).
 
 ### 4.8 스킨 시스템 (코스메틱)
@@ -270,6 +270,7 @@
 | `SquareClearedEvent` | 폭발 처리 (크기, 점수) |
 | `BoardRotatedEvent` | 90° 회전 완료 |
 | `ScoreChangedEvent` | 점수 갱신 |
+| `ComboChangedEvent` | 콤보 갱신 (값 변경 시) |
 | `SkinUnlockedEvent` | 스킨 해금 |
 | `GameOverEvent` | 게임 종료 |
 
