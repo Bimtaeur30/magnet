@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Shared.Magnet.Core.Events;
+using _Shared.Magnet.Core.SO.Skin;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts.Save;
-using JTH.Scripts.Events;
-using PMS.Scripts.Events;
-using PMS.Scripts.Skin;
+using Magnet.Core.Events;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using UnityEngine;

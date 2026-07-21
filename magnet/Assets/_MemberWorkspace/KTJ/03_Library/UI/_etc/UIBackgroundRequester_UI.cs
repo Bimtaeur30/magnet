@@ -1,4 +1,5 @@
 using GameLib.EventChannelSystem;
+using Magnet.Core.Events;
 using UnityEngine;
 
 public sealed class UIBackgroundRequester_UI : MonoBehaviour

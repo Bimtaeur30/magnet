@@ -1,10 +1,11 @@
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Events;
 using Magnet.Contracts.Save;
 using Mvvm;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using System.Collections;
+using _Shared.Magnet.Core.Events;
+using Magnet.Core.Events;
 using TMPro;
 using UnityEngine;
 

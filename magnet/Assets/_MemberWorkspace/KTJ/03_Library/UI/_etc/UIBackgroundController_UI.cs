@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using LitMotion;
+using Magnet.Core.Events;
 using UnityEngine;
 using UnityEngine.UI;
 

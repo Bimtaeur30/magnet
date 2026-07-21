@@ -15,12 +15,12 @@ namespace JTH.Scripts.Presentation
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]
         [SerializeField] private SpriteMask spriteMask;
 
-        private static int nextMaskSlot;
-        private int maskSlot = -1;
-        private Color baseColor = Color.white;
-        private bool dimmed;
-        private float dimMultiply = 1f;
-        private float alpha = 1f;
+        private static int _nextMaskSlot;
+        private int _maskSlot = -1;
+        private Color _baseColor = Color.white;
+        private bool _dimmed;
+        private float _dimMultiply = 1f;
+        private float _alpha = 1f;
 
         private void Awake()
         {
@@ -28,7 +28,7 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(spriteMask != null, "[Block] spriteMask is not assigned.", this);
             if (spriteRenderer != null)
             {
-                baseColor = spriteRenderer.color;
+                _baseColor = spriteRenderer.color;
             }
 
             SetSortingOrder(0);
@@ -49,8 +49,8 @@ namespace JTH.Scripts.Presentation
         /// </summary>
         public void SetDimmed(bool isDimmed, float multiply)
         {
-            dimmed = isDimmed;
-            dimMultiply = multiply;
+            _dimmed = isDimmed;
+            _dimMultiply = multiply;
             RefreshColor();
         }
 
@@ -59,7 +59,7 @@ namespace JTH.Scripts.Presentation
         /// </summary>
         public void SetAlpha(float value)
         {
-            alpha = Mathf.Clamp01(value);
+            _alpha = Mathf.Clamp01(value);
             RefreshColor();
         }
 
@@ -70,15 +70,15 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            Color color = baseColor;
-            if (dimmed)
+            Color color = _baseColor;
+            if (_dimmed)
             {
-                color.r *= dimMultiply;
-                color.g *= dimMultiply;
-                color.b *= dimMultiply;
+                color.r *= _dimMultiply;
+                color.g *= _dimMultiply;
+                color.b *= _dimMultiply;
             }
 
-            color.a = baseColor.a * alpha;
+            color.a = _baseColor.a * _alpha;
             spriteRenderer.color = color;
         }
 
@@ -100,19 +100,19 @@ namespace JTH.Scripts.Presentation
         public void SetSortingOrder(int sortingOrder)
         {
             EnsureMaskSlot();
-            int order = sortingOrder * LayerOrderBand + maskSlot * MaskOrderStride;
+            int order = sortingOrder * LayerOrderBand + _maskSlot * MaskOrderStride;
             spriteRenderer.sortingOrder = order;
             ApplyMaskIsolation(order);
         }
 
         private void EnsureMaskSlot()
         {
-            if (maskSlot >= 0)
+            if (_maskSlot >= 0)
             {
                 return;
             }
 
-            maskSlot = nextMaskSlot++;
+            _maskSlot = _nextMaskSlot++;
         }
 
         private void ApplyMaskIsolation(int order)

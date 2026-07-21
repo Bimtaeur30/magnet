@@ -1,8 +1,8 @@
 using GameLib.EventChannelSystem;
-using PMS.Scripts.Events;
-using PMS.Scripts.Skin;
 using System;
 using System.Collections.Generic;
+using _Shared.Magnet.Core.SO.Skin;
+using Magnet.Core.Events;
 using UnityEngine;
 
 public class SkinBoxContainer : MonoBehaviour

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
+using _Shared.Magnet.Core.SO.Block;
+using _Shared.Magnet.Core.SO.Skin;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Presentation;
-using Magnet.Contracts.BlockShapes;
-using Magnet.Contracts.BlockSkins;
-using PMS.Scripts.Events;
-using PTY.Scripts.Data;
+using Magnet.Core.Events;
 using UnityEngine;
 
 namespace PTY.Scripts.Presentation
@@ -24,7 +23,7 @@ namespace PTY.Scripts.Presentation
 
         private static readonly Vector3 RigPosition = new(10000f, 10000f, 0f);
 
-        private IBlockSkin _currentSkin;
+        private SkinDataSO _currentSkin;
         private ShapeBlock _rigShapeBlock;
         private Camera _rigCamera;
 
@@ -65,21 +64,21 @@ namespace PTY.Scripts.Presentation
             }
 
             EnsureRig();
-            _rigShapeBlock.ApplySkin(_currentSkin);
-
-            IReadOnlyList<IBlockShape> shapes = blockShapeSource.Shapes;
-            for (int i = 0; i < shapes.Count; i++)
-            {
-                if (shapes[i] is BlockShapeSO shapeSo && shapeSo.CellOffsets.Count > 0)
-                {
-                    GenerateIcon(shapeSo);
-                }
-            }
+            // _rigShapeBlock.ApplySkin(_currentSkin);
+            //
+            // IReadOnlyList<IBlockShape> shapes = blockShapeSource.Shapes;
+            // for (int i = 0; i < shapes.Count; i++)
+            // {
+            //     if (shapes[i] is BlockShapeSO shapeSo && shapeSo.CellOffsets.Count > 0)
+            //     {
+            //         GenerateIcon(shapeSo);
+            //     }
+            // }
         }
 
         private void GenerateIcon(BlockShapeSO shapeSo)
         {
-            _rigShapeBlock.ShowCells(Vector2Int.zero, shapeSo.CellOffsets, sortingOrder: 0);
+            // _rigShapeBlock.ShowCells(Vector2Int.zero, shapeSo.CellOffsets, sortingOrder: 0);
 
             Bounds bounds = ComputeBounds(_rigShapeBlock);
             if (bounds.size == Vector3.zero)

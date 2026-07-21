@@ -1,7 +1,7 @@
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Events;
-using PMS.Scripts.Events;
 using System;
+using _Shared.Magnet.Core.Events;
+using Magnet.Core.Events;
 using UnityEngine;
 
 public class BlockSlotContainer : MonoBehaviour

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Magnet.Contracts.BlockShapes;
 
 namespace JTH.Scripts.Domain.Spawn
 {
@@ -8,58 +7,58 @@ namespace JTH.Scripts.Domain.Spawn
     /// </summary>
     public sealed class BlockSupply
     {
-        public const int SlotCount = 4;
-
-        private readonly BlockDrawer _drawer;
-        private readonly IBlockShape[] _slots = new IBlockShape[SlotCount];
-
-        public BlockSupply(BlockDrawer drawer)
-        {
-            _drawer = drawer;
-        }
-
-        public IReadOnlyList<IBlockShape> Candidates => _slots;
-
-        public void Fill()
-        {
-            for (var i = 0; i < SlotCount; i++)
-            {
-                _slots[i] = _drawer.Draw();
-            }
-        }
-
-        public void Consume(int slotIndex)
-        {
-            if (slotIndex < 0 || slotIndex >= SlotCount)
-            {
-                return;
-            }
-
-            _slots[slotIndex] = null;
-        }
-
-        public bool AreAllSlotsEmpty()
-        {
-            for (var i = 0; i < SlotCount; i++)
-            {
-                if (_slots[i] != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public IBlockShape[] CreateSnapshot()
-        {
-            var copy = new IBlockShape[SlotCount];
-            for (var i = 0; i < SlotCount; i++)
-            {
-                copy[i] = _slots[i];
-            }
-
-            return copy;
-        }
+        // public const int SlotCount = 4;
+        //
+        // private readonly BlockDrawer _drawer;
+        // private readonly IBlockShape[] _slots = new IBlockShape[SlotCount];
+        //
+        // public BlockSupply(BlockDrawer drawer)
+        // {
+        //     _drawer = drawer;
+        // }
+        //
+        // public IReadOnlyList<IBlockShape> Candidates => _slots;
+        //
+        // public void Fill()
+        // {
+        //     for (var i = 0; i < SlotCount; i++)
+        //     {
+        //         _slots[i] = _drawer.Draw();
+        //     }
+        // }
+        //
+        // public void Consume(int slotIndex)
+        // {
+        //     if (slotIndex < 0 || slotIndex >= SlotCount)
+        //     {
+        //         return;
+        //     }
+        //
+        //     _slots[slotIndex] = null;
+        // }
+        //
+        // public bool AreAllSlotsEmpty()
+        // {
+        //     for (var i = 0; i < SlotCount; i++)
+        //     {
+        //         if (_slots[i] != null)
+        //         {
+        //             return false;
+        //         }
+        //     }
+        //
+        //     return true;
+        // }
+        //
+        // public IBlockShape[] CreateSnapshot()
+        // {
+        //     var copy = new IBlockShape[SlotCount];
+        //     for (var i = 0; i < SlotCount; i++)
+        //     {
+        //         copy[i] = _slots[i];
+        //     }
+        //
+        //     return copy;
+        // }
     }
 }

@@ -1,14 +1,9 @@
 using Game.UI;
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Events;
-using Magnet.Contracts.BlockShapes;
-using PMS.Scripts.Events;
-using System;
-using Unity.VectorGraphics;
+using _Shared.Magnet.Core.SO.Block;
+using Magnet.Core.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using static LitMotion.LMotion;
 
 public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 {
@@ -17,7 +12,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
     [SerializeField] private BlockSlotView SlotView;
     private int _index;
-    private IBlockShape _shape;
+    private BlockShapeSO _shape;
     private int _candidateDegreesClockwise;
 
     private void Awake()
@@ -30,7 +25,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         SkinEventChannel.RemoveListener<SkinChangedResponseEvent>(HandleSkinChangedResponseEvent);
     }
 
-    public void SetSlot(IBlockShape shape, int candidateDegreesClockwise, int index)
+    public void SetSlot(BlockShapeSO shape, int candidateDegreesClockwise, int index)
     {
         SlotView.ViewModel.BlockImage1Texture = shape.Icon;
         _index = index;

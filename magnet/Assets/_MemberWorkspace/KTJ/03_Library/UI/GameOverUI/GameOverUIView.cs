@@ -1,8 +1,9 @@
 ﻿using GameLib.EventChannelSystem;
-using JTH.Scripts.Events;
 using Mvvm;
 using PTY.Scripts.Events;
 using System;
+using _Shared.Magnet.Core.Events;
+using Magnet.Core.Events;
 using UnityEngine;
 
 namespace Game.UI

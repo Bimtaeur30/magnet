@@ -1,8 +1,6 @@
 using Game.UI;
-using GameLib.EventChannelSystem;
-using Magnet.Contracts.BlockSkins;
-using PMS.Scripts.Events;
 using System;
+using _Shared.Magnet.Core.SO.Skin;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,7 +11,7 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
     public Action<int> EquipSkinBoxEvent;
     int _myIdx;
 
-    public void Init(IBlockSkin skin, int idx)
+    public void Init(SkinDataSO skin, int idx)
     {
         if (skin == null)
             throw new ArgumentNullException(nameof(skin));

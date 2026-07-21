@@ -39,7 +39,9 @@ namespace JTH.Scripts.Domain
 
         public bool IsInBounds(int gridX, int gridY)
         {
-            return BoardCoordinates.IsInBounds(gridX, gridY, _boardSize);
+            //TODO 고치기
+            return false;
+            // return BoardCoordinates.IsInBounds(gridX, gridY, _boardSize);
         }
 
         public bool HasOccupiedCellOutsideBounds()

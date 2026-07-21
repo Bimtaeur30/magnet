@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using _Shared.Magnet.Core.SO.Block;
 using GameLib.EventChannelSystem;
-using Magnet.Contracts.BlockShapes;
 using UnityEngine;
 
-namespace JTH.Scripts.Events
+namespace Magnet.Core.Events
 {
     public static class MagnetGameEvents
     {
@@ -132,9 +132,9 @@ namespace JTH.Scripts.Events
     public sealed class BlockSelectedEvent : GameEvent
     {
         public int SlotIndex { get; private set; }
-        public IBlockShape Shape { get; private set; }
+        public BlockShapeSO Shape { get; private set; }
 
-        public BlockSelectedEvent Init(int slotIndex, IBlockShape shape)
+        public BlockSelectedEvent Init(int slotIndex, BlockShapeSO shape)
         {
             SlotIndex = slotIndex;
             Shape = shape;
@@ -144,11 +144,11 @@ namespace JTH.Scripts.Events
 
     public sealed class BlockCandidatesUpdatedEvent : GameEvent
     {
-        public IReadOnlyList<IBlockShape> Candidates { get; private set; }
+        public IReadOnlyList<BlockShapeSO> Candidates { get; private set; }
         public IReadOnlyList<int> CandidateDegreesClockwise { get; private set; }
 
         public BlockCandidatesUpdatedEvent Init(
-            IReadOnlyList<IBlockShape> candidates,
+            IReadOnlyList<BlockShapeSO> candidates,
             IReadOnlyList<int> candidateDegreesClockwise)
         {
             Candidates = candidates;

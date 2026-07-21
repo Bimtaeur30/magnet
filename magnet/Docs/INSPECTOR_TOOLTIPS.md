@@ -4,6 +4,8 @@
 
 > 코드 식별자·API 이름은 English, Tooltip 문구는 **한국어**.
 
+> **v0.7 (2026-07-21):** `BoardSnapConfigSO`, `BoardRotationConfigSO`, `ExplosionBorderConfigSO`, `BlockedRingDimConfigSO`, 자석 축 관련 Tooltip은 **deprecated** (Block Blast 피벗). 신규 필드는 §JTH v0.7 참고.
+
 ---
 
 ## 규칙
@@ -35,11 +37,18 @@
 
 ## 필드 목록 (멤버별)
 
-### JTH — `Assets/_MemberWorkspace/JTH/`
+### JTH v0.7 (Block Blast — Phase 구현 시 Tooltip 추가)
 
 | 파일 | 필드 | Tooltip |
 |------|------|---------|
-| `Scripts/Data/BoardConfigSO.cs` | `cellsPerSide` | 자석 중심(0,0)에서 한쪽 끝까지의 칸 수. 전체 한 변 = CellsPerSide × 2 + 1 |
+| `Scripts/Data/BoardConfigSO.cs` | `boardSize` | 8×8 격자 한 변 칸 수. Block Blast 기본 8 |
+| `Scripts/Data/BlockBlastPoolSO.cs` | `shapes` | Block Blast 표준 polyomino 목록 (1x1~Z4). 인게임 추첨 풀 |
+
+### JTH — `Assets/_MemberWorkspace/JTH/` (v0.6 · 일부 deprecated)
+
+| 파일 | 필드 | Tooltip |
+|------|------|---------|
+| `Scripts/Data/BoardConfigSO.cs` | `cellsPerSide` | *(deprecated v0.7)* 자석 중심(0,0)에서 한쪽 끝까지의 칸 수 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `stagingYExtraBelow` | 보드 하단에서 스테이징 영역까지 추가로 내릴 칸 수. stagingY = -(CellsPerSide + 이 값) |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
@@ -108,3 +117,4 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-07-09 | JTH 7개 필드 Tooltip 추가 및 팀 문서 최초 작성 |
 | 2026-07-09 | JTH Phase 3 — 감도 램프·프리뷰 뷰 Tooltip 3개 추가 |
 | 2026-07-16 | JTH Block.spriteMask Tooltip 추가 (SpriteMask Custom Range 격리) |
+| 2026-07-21 | v0.7 Block Blast 피벗 — deprecated 안내, BlockBlastPoolSO·boardSize 예정 |
