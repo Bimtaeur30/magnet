@@ -1,23 +1,23 @@
-using GGMLib.Anim;
 using GGMLib.FSM;
 
 public abstract class EnemyState : IState<EnemyAgent>
 {
-    private readonly AnimationParamSO _animationParam;
-
     protected EnemyAgent Agent { get; private set; }
+    protected IAgentRenderer Renderer { get; private set; }
+    protected EnemyStateDefinition Definition { get; }
 
-    protected EnemyState(AnimationParamSO animationParam)
+    protected EnemyState(EnemyStateDefinition definition)
     {
-        _animationParam = animationParam;
+        Definition = definition;
     }
 
     public void Enter(EnemyAgent context)
     {
         Agent = context;
+        Renderer = Agent.GetModule<IAgentRenderer>();
 
-        if (_animationParam != null)
-            Agent.GetModule<IAgentRenderer>().PlayAnimation(_animationParam);
+        if (Definition.Animation != null)
+            Renderer.PlayAnimation(Definition.Animation);
 
         OnEnter();
     }
@@ -30,6 +30,7 @@ public abstract class EnemyState : IState<EnemyAgent>
     public void Exit(EnemyAgent context)
     {
         OnExit();
+        Renderer = null;
         Agent = null;
     }
 

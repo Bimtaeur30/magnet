@@ -1197,6 +1197,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Visual
       objectReference: {fileID: 0}
+    - target: {fileID: 5868006960256717651, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.6619999
+      objectReference: {fileID: 0}
     - target: {fileID: 7374259889551746862, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1240,13 +1244,58 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2953020713518618906, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1698935907851553364}
+    - targetCorrespondingSourceObject: {fileID: 2953020713518618906, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8954302209301523314}
   m_SourcePrefab: {fileID: 100100000, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
 --- !u!4 &352160111002868223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7374259889551746862, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
   m_PrefabInstance: {fileID: 7112799603518865105}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5354359104605398987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2953020713518618906, guid: b59282837d9a13b42978c6703a13c24c, type: 3}
+  m_PrefabInstance: {fileID: 7112799603518865105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1698935907851553364
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354359104605398987}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3606390ef354ce249bac97294226bc93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8954302209301523314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354359104605398987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9646040023ae9614c87fe809c6679b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::AgentRenderer
 --- !u!1001 &7418672712113739113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1297,8 +1346,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5874702581143671198, guid: fcabf78f505191a4a9832ff1f59b35e5, type: 3}
       propertyPath: m_Name
-      value: EnemyStateMachine
+      value: EnemyStateMachineModule
       objectReference: {fileID: 0}
+    - target: {fileID: 6143781428433597626, guid: fcabf78f505191a4a9832ff1f59b35e5, type: 3}
+      propertyPath: stateConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 5fffe233d149619479c707aee7b396aa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private EnemyDataContainerSO EnemyDataContainer;
+    [SerializeField] private Transform EnemySpawnPos;
     private int _currentStageIdx = 0;
 
     private void Start()
@@ -14,6 +15,8 @@ public class EnemyManager : MonoBehaviour
     private void SpawnEnemy(int idx)
     {
         EnemyDataSO data = EnemyDataContainer.EnemyDataContainer[idx];
-        EnemyAgent enemy = Instantiate(data.EnemyPrefab);
+        EnemyAgent enemy = Instantiate(data.EnemyPrefab, EnemySpawnPos);
+        enemy.gameObject.transform.localPosition = Vector3.zero;
+        enemy.InitializeEnemyData(data);
     }
 }

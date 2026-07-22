@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::EnemyManager
   EnemyDataContainer: {fileID: 11400000, guid: 55dc97970fa63a64c843d9090d529623, type: 2}
+  EnemySpawnPos: {fileID: 612737959}
 --- !u!4 &5833929
 Transform:
   m_ObjectHideFlags: 0
@@ -161,7 +162,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 612737959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &21024062 stripped
@@ -1317,6 +1319,37 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &612737958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612737959}
+  m_Layer: 0
+  m_Name: EnemySpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &612737959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612737958}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.16, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5833929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &652203722 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6795938751068450572, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
@@ -4988,6 +5021,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1457686705196010929, guid: 82715c11c14449f49a674923b46eda28, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2365552053235035054, guid: 82715c11c14449f49a674923b46eda28, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -5032,10 +5069,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 551288190}
-    - target: {fileID: 3995617943698261239, guid: 82715c11c14449f49a674923b46eda28, type: 3}
-      propertyPath: m_Name
-      value: EnemyStateMachineModule
-      objectReference: {fileID: 0}
     - target: {fileID: 5083421934526529371, guid: 82715c11c14449f49a674923b46eda28, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -5087,53 +5120,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5354359104605398987, guid: 82715c11c14449f49a674923b46eda28, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 380020857060988170}
-    - targetCorrespondingSourceObject: {fileID: 5354359104605398987, guid: 82715c11c14449f49a674923b46eda28, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 380020857060988169}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82715c11c14449f49a674923b46eda28, type: 3}
---- !u!1 &380020857060988168 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5354359104605398987, guid: 82715c11c14449f49a674923b46eda28, type: 3}
-  m_PrefabInstance: {fileID: 380020857060988167}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &380020857060988169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380020857060988168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9646040023ae9614c87fe809c6679b28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Magent.KTJ::AgentRenderer
---- !u!95 &380020857060988170
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380020857060988168}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3606390ef354ce249bac97294226bc93, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!224 &1601521101290691572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7919351375288117728, guid: 74fbc7dd35516f24598480ef84a4c11a, type: 3}
@@ -5488,7 +5476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2634908539778724718, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
       propertyPath: m_text
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2634908539778724718, guid: 7426b6705fa0e3b46acee9adc76704ab, type: 3}
       propertyPath: m_fontSize

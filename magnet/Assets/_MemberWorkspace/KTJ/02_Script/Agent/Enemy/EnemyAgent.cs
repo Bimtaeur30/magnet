@@ -7,28 +7,29 @@ public class EnemyAgent : ModuleOwner
 {
     [SerializeField] private EnemyProfileUIView EnemyProfileUIView;
     private IHealthModule _healthModule;
+    private IStateMachineModule _stateMachineModule;
     private EnemyProfileUIViewModel _profileViewModel;
 
     protected override void InitializeModules()
     {
         base.InitializeModules();
         _healthModule = GetModule<IHealthModule>();
+        _stateMachineModule = GetModule<IStateMachineModule>();
         //_profileViewModel.Health = ;
-    }
-
-    private void Start()
-    {
-        Debug.Assert(EnemyProfileUIView != null, "에너미 에이전트 인스펙터에서 EnemyProfileUIView를 추가하세요.");
-        _profileViewModel = EnemyProfileUIView.ViewModel;
     }
 
     public void InitializeEnemyData(EnemyDataSO enemyDataSO)
     {
+        Debug.Assert(EnemyProfileUIView != null, "에너미 에이전트 인스펙터에서 EnemyProfileUIView를 추가하세요.");
+        _profileViewModel = EnemyProfileUIView.ViewModel;
+
         _profileViewModel.HealthMaxValue = enemyDataSO.MaxHealth;
         _profileViewModel.Health = enemyDataSO.MaxHealth;
         _profileViewModel.HealthMinValue = 0;
         _profileViewModel.NameTxt = "[ " + enemyDataSO.EnemyName + " ]";
         _profileViewModel.No = "NO." + enemyDataSO.NoNumber;
+
+        _stateMachineModule.StartStateMachine();
     }
 }
 
