@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6db38be9eea4542b2b9819d40898f7, type: 3}
+  m_Name: _EnemyDataContainer
+  m_EditorClassIdentifier: Magent.KTJ::Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy.EnemyDataContainerSO
+  <EnemyDataContainer>k__BackingField:
+  - {fileID: 11400000, guid: ce262d7cc214a0e4eb75e0c0f18cbcd9, type: 2}
