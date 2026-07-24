@@ -153,10 +153,15 @@
 
 ### 4.7 점수
 
-- **클리어 없음:** 배치한 **칸 수**만큼 가산 (콤보 불변).
-- **클리어 있음:** 배치 칸 점수 없음. 연쇄 **웨이브마다** 지워진 **줄 수**(행+열) × 콤보 × `ScoreConfigSO` 계수. 웨이브마다 콤보 +1.
-- **턴 종료** 시 그 턴에 클리어 없으면 콤보 0.
-- `ScoreChangedEvent` · `ComboChangedEvent` · `LineClearedEvent`(웨이브 점수). 게임오버 `GameOverEvent.FinalScore`.
+세션 시작 시 `ScoreConfigSO`의 `[BaseMin, BaseMax]`에서 **base**를 한 번 랜덤 추출해 `ScoreSession`에 고정한다.
+
+- **배치:** 안착 칸 수만큼 가산 (콤보·base 무관). 클리어가 있어도 배치 점수는 유지.
+- **클리어:** `λ(n) × base × clearIndex × tier`. `λ(1)=1`, `λ(n≥2)=n(n-1)`. 클리어 **사건당** 체인 인덱스 +1 (다줄도 +1).
+- **콤보(UI):** 체인 첫 클리어는 콤보 0(점수만, clearIndex=1). **그다음** 클리어부터 콤보 1. 즉 `Combo = max(0, clearIndex - 1)`.
+- **tier:** clearIndex 1–5 → 1.0 / 6–10 → 1.5 / 11+ → 2.0 (상한, 감쇠 없음).
+- **콤보 유지:** 턴(최대 3블록) 중 1회 이상 클리어면 유지. 무소거 턴 다음은 리셋. 예외: **이미 콤보≥1**인 상태에서 직전 턴 무소거여도 **다음 턴 첫 수 2줄+**면 유지(구조). 첫 클리어만 한 뒤(콤보 0)에는 이 예외 없음.
+- **올클리어** 별도 보너스 없음.
+- `ScoreChangedEvent` · `ComboChangedEvent` · `LineClearedEvent`. 게임오버 `GameOverEvent.FinalScore`.
 - HUD·베스트 UI는 M7 UI 담당 (SCRUM-23은 로직·이벤트만).
 
 ### 4.8 스킨 시스템 (코스메틱)

@@ -84,10 +84,8 @@
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `sortingOrder` | 폭발 테두리 LineRenderer sortingOrder |
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `shakeAmplitude` | 클리어 시 Cinemachine Impulse 카메라 쉐이크 좌우 진폭(월드 유닛). 0이면 쉐이크 없음 |
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `shakeDuration` | 클리어 시 카메라 쉐이크 지속 시간(초). 짧게 유지 |
-| `Scripts/Data/ScoreConfigSO.cs` | `kTiers` | 콤보 구간별 k. maxComboInclusive 오름차순. 마지막 구간이 60+ 등으로 나머지 처리 |
-| `Scripts/Data/ScoreConfigSO.cs` | `KTier.maxComboInclusive` | 이 구간에 포함되는 최대 콤보(이상이면 다음 구간). 오름차순이어야 함 |
-| `Scripts/Data/ScoreConfigSO.cs` | `KTier.k` | 해당 콤보 구간의 배율 k |
-| `Scripts/Data/ScoreConfigSO.cs` | `streakMultipliers` | 같은 배치 안 웨이브 순번(1-based)별 연쇄 배율. 길이 부족 시 마지막 값 사용 |
+| `Scripts/Data/ScoreConfigSO.cs` | `BaseMin` | 세션 base 랜덤 하한(포함). ScoreSession 시작·Reset 시 한 번 추출 |
+| `Scripts/Data/ScoreConfigSO.cs` | `BaseMax` | 세션 base 랜덤 상한(포함) |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/BoardView.cs` | `placementConfigPreview` | 폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색 |
@@ -118,3 +116,4 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-07-09 | JTH Phase 3 — 감도 램프·프리뷰 뷰 Tooltip 3개 추가 |
 | 2026-07-16 | JTH Block.spriteMask Tooltip 추가 (SpriteMask Custom Range 격리) |
 | 2026-07-21 | v0.7 Block Blast 피벗 — deprecated 안내, BlockBlastPoolSO·boardSize 예정 |
+| 2026-07-24 | JTH ScoreConfigSO — BaseMin/BaseMax (구 kTiers·SoftCap 제거) |

@@ -12,17 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea0ec83cf7ece844f827cc19611ed6d9, type: 3}
   m_Name: DefaultScoreConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.ScoreConfigSO
-  kTiers:
-  - maxComboInclusive: 5
-    k: 53.33
-  - maxComboInclusive: 12
-    k: 44
-  - maxComboInclusive: 59
-    k: 30
-  - maxComboInclusive: 9999
-    k: 24
-  streakMultipliers:
-  - 1
-  - 1.35
-  - 1.6
-  - 1.8
+  <BaseMin>k__BackingField: 30
+  <BaseMax>k__BackingField: 55

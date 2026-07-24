@@ -1,237 +1,135 @@
+using System.Collections.Generic;
+using GameLib.EventChannelSystem;
+using JTH.Scripts.Data;
+using JTH.Scripts.Domain.Board;
+using JTH.Scripts.Domain.Clear;
+using JTH.Scripts.Domain.Placement;
+using JTH.Scripts.Domain.Score;
+using JTH.Scripts.Domain.Spawn;
+using JTH.Scripts.Presentation;
+using Magnet.Core.Events;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace JTH.Scripts.Bootstrap
 {
-    //TODO 고치기
+    // TODO: 턴 FSM·게임오버·클리어 FX와 재연결
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
-        //[SerializeField] private EventChannelSO magnetGameChannel;
-        //[SerializeField] private EventChannelSO skinChannel;
-        //[SerializeField] private BoardConfigSO boardConfig;
-        //[SerializeField] private PlacementConfigSO placementConfig;
-        //[SerializeField] private ScoreConfigSO scoreConfig;
-        //
-        //[Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
-        //[Inject] private readonly PlacedBlocksView _placedBlocksView;
-        //[Inject] private readonly BoardView _boardView;
-        //
-        //private BoardSession _session;
-        //private BlockPlacementService _placementService;
-        //private ScoreSession _scoreSession;
-        //private readonly ClearReassemblyService _reassemblyService = new();
-        //private readonly BoardRotationService _rotationService = new();
-        //
-        //public BoardSession Session => _session;
-        //public BlockPlacementService PlacementService => _placementService;
-        //public ScoreSession ScoreSession => _scoreSession;
-        //public BlockSpawnBootstrap BlockSpawn => _blockSpawnBootstrap;
-        //public bool IsTurnResolving { get; private set; }
-        //
-        //private void Awake()
-        //{
-        //    Debug.Assert(boardConfig != null, "[BoardPlacementBootstrap] BoardConfigSO is not assigned.", this);
-        //    Debug.Assert(placementConfig != null, "[BoardPlacementBootstrap] PlacementConfigSO is not assigned.", this);
-        //    Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
-        //    Debug.Assert(skinChannel != null, "[BoardPlacementBootstrap] Skin EventChannelSO is not assigned.", this);
-        //    Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
-        //    Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
-        //    Debug.Assert(_boardView != null, "[BoardPlacementBootstrap] BoardView was not injected.", this);
-        //
-        //    _session = new BoardSession(boardConfig.BoardSize);
-        //    _placementService = new BlockPlacementService(_session);
-        //    _scoreSession = new ScoreSession(scoreConfig);
-        //}
-        //
-        //private void OnEnable()
-        //{
-        //    magnetGameChannel.AddListener<TurnEndedEvent>(OnTurnEnded);
-        //}
-        //
-        //private void OnDisable()
-        //{
-        //    magnetGameChannel.RemoveListener<TurnEndedEvent>(OnTurnEnded);
-        //}
-        //
-        //private void OnTurnEnded(TurnEndedEvent _)
-        //{
-        //    if (_scoreSession == null)
-        //    {
-        //        return;
-        //    }
-        //
-        //    int comboBefore = _scoreSession.Combo;
-        //    _scoreSession.NotifyTurnEnded();
-        //    RaiseComboChangedIfNeeded(comboBefore, _scoreSession.Combo);
-        //}
-        //
-        ///// <summary>
-        ///// Place → Clear재조립 연쇄 → Rotate 를 Domain → Raise → await FX 순으로 실행한다.
-        ///// </summary>
-        //public async UniTask<TurnResolutionResult> TryConfirmPlacement(
-        //    IBlockShape shape,
-        //    Vector2Int startPivot,
-        //    int slotIndex,
-        //    ShapeBlock staging)
-        //{
-        //    IsTurnResolving = true;
-        //    try
-        //    {
-        //        PlacementResult result = _placementService.TryPlace(shape, startPivot);
-        //        if (!result.Success)
-        //        {
-        //            if (staging != null)
-        //            {
-        //                staging.Clear();
-        //                Destroy(staging.gameObject);
-        //            }
-        //
-        //            return new TurnResolutionResult(result, ClearReassemblyResult.None, boardRotated: false);
-        //        }
-        //
-        //        _blockSpawnBootstrap.Consume(slotIndex);
-        //
-        //        await _placedBlocksView.PlayPlaceAsync(staging, result);
-        //        _placedBlocksView.RefreshBlockedRingDim();
-        //
-        //        magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
-        //            result.BlockId,
-        //            slotIndex,
-        //            shape.ShapeId,
-        //            result.FinalPivot,
-        //            result.CellPositions));
-        //
-        //        ClearReassemblyResult reassembly = _reassemblyService.ResolveAllWaves(
-        //            _session,
-        //            placementConfig.ClearReassemblyRule.CorridorHalfWidth);
-        //        int comboBefore = _scoreSession.Combo;
-        //        PlacementScoreResult scoreResult = ApplyPlacementScore(result, reassembly);
-        //        magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
-        //        RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
-        //        await PlayClearReassemblyWavesAsync(reassembly, scoreResult);
-        //
-        //        if (reassembly.HasCellsOutsideBounds)
-        //        {
-        //            int finalScore = _scoreSession.TotalScore;
-        //            RaiseScoreSkinUnlockCheck(finalScore);
-        //            magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(finalScore));
-        //            return new TurnResolutionResult(result, reassembly, boardRotated: false);
-        //        }
-        //
-        //        if (placementConfig.Rotation.PreRotationDelay > 0f)
-        //        {
-        //            await UniTask.Delay(TimeSpan.FromSeconds(placementConfig.Rotation.PreRotationDelay));
-        //        }
-        //
-        //        _rotationService.RotateClockwise(_session);
-        //        magnetGameChannel.RaiseEvent(MagnetGameEvents.BoardRotatedEvent.Init(
-        //            BoardRotationService.DefaultDegreesClockwise));
-        //
-        //        await _placedBlocksView.PlayRotateAsync();
-        //
-        //
-        //        return new TurnResolutionResult(result, reassembly, boardRotated: true);
-        //    }
-        //    finally
-        //    {
-        //        IsTurnResolving = false;
-        //    }
-        //}
-        //
-        //private void RaiseScoreSkinUnlockCheck(int totalScore)
-        //{
-        //    skinChannel.RaiseEvent(
-        //        SkinEvents.SkinUnlockCheckEvent.Init(SkinUnlockTypeEnum.Score, totalScore));
-        //}
-        //
-        //private void RaiseComboChangedIfNeeded(int comboBefore, int comboAfter)
-        //{
-        //    if (comboAfter == comboBefore)
-        //    {
-        //        return;
-        //    }
-        //
-        //    magnetGameChannel.RaiseEvent(MagnetGameEvents.ComboChangedEvent.Init(comboAfter));
-        //}
-        //
-        //private PlacementScoreResult ApplyPlacementScore(PlacementResult placement, ClearReassemblyResult reassembly)
-        //{
-        //    int cellsPlaced = placement.CellPositions != null ? placement.CellPositions.Count : 0;
-        //    if (reassembly == null || !reassembly.HasAnyWave)
-        //    {
-        //        return _scoreSession.ApplyPlacement(cellsPlaced, waveSquareSizes: null);
-        //    }
-        //
-        //    var waveSizes = new int[reassembly.Waves.Count];
-        //    for (int i = 0; i < reassembly.Waves.Count; i++)
-        //    {
-        //        waveSizes[i] = reassembly.Waves[i].SquareSize;
-        //    }
-        //
-        //    return _scoreSession.ApplyPlacement(cellsPlaced, waveSizes);
-        //}
-        //
-        //private async UniTask PlayClearReassemblyWavesAsync(
-        //    ClearReassemblyResult reassembly,
-        //    PlacementScoreResult scoreResult)
-        //{
-        //    if (reassembly == null || !reassembly.HasAnyWave)
-        //    {
-        //        return;
-        //    }
-        //
-        //    IReadOnlyList<int> waveScores = scoreResult.WaveScores;
-        //    for (int w = 0; w < reassembly.Waves.Count; w++)
-        //    {
-        //        ClearWave wave = reassembly.Waves[w];
-        //        int scoreAwarded = w < waveScores.Count ? waveScores[w] : 0;
-        //        RaiseWaveEvents(wave, scoreAwarded);
-        //
-        //        await PlayExplosionWaveAsync(wave);
-        //        await _placedBlocksView.PlayWaveRelocationsAsync(wave);
-        //        _placedBlocksView.RefreshBlockedRingDim();
-        //    }
-        //}
-        //
-        //private async UniTask PlayExplosionWaveAsync(ClearWave wave)
-        //{
-        //    ExplosionCameraShake.Play(placementConfig.ExplosionBorder);
-        //    UniTask borderPulse = ExplosionBorderPulseView.PlayAsync(
-        //        _boardView,
-        //        wave.SquareSize,
-        //        boardConfig,
-        //        placementConfig.ExplosionBorder);
-        //    _placedBlocksView.DestroyWaveCellViews(wave.DestroyedCellIds);
-        //    await borderPulse;
-        //}
-        //
-        //private void RaiseWaveEvents(ClearWave wave, int scoreAwarded)
-        //{
-        //    magnetGameChannel.RaiseEvent(MagnetGameEvents.SquareClearedEvent.Init(
-        //        wave.SquareSize,
-        //        scoreAwarded,
-        //        wave.DestroyedCells));
-        //
-        //    if (wave.Relocations.Count == 0)
-        //    {
-        //        return;
-        //    }
-        //
-        //    var cellIds = new List<int>(wave.Relocations.Count);
-        //    var fromCells = new List<Vector2Int>(wave.Relocations.Count);
-        //    var toCells = new List<Vector2Int>(wave.Relocations.Count);
-        //    for (int i = 0; i < wave.Relocations.Count; i++)
-        //    {
-        //        CellRelocation relocation = wave.Relocations[i];
-        //        cellIds.Add(relocation.CellId);
-        //        fromCells.Add(relocation.From);
-        //        toCells.Add(relocation.To);
-        //    }
-        //
-        //    magnetGameChannel.RaiseEvent(MagnetGameEvents.CellsRelocatedEvent.Init(
-        //        wave.SquareSize,
-        //        cellIds,
-        //        fromCells,
-        //        toCells));
-        //}
+        [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO skinChannel;
+        [SerializeField] private BoardConfigSO boardConfig;
+        [SerializeField] private PlacementConfigSO placementConfig;
+        [SerializeField] private ScoreConfigSO scoreConfig;
+
+        [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
+        [Inject] private readonly PlacedBlocksView _placedBlocksView;
+        [Inject] private GameBoard _gameBoard;
+
+        private ScoreSession _scoreSession;
+
+        public ScoreSession ScoreSession => _scoreSession;
+
+        private void Awake()
+        {
+            Debug.Assert(boardConfig != null, "[BoardPlacementBootstrap] BoardConfigSO is not assigned.", this);
+            Debug.Assert(placementConfig != null, "[BoardPlacementBootstrap] PlacementConfigSO is not assigned.", this);
+            Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
+            Debug.Assert(magnetGameChannel != null, "[BoardPlacementBootstrap] magnetGameChannel is not assigned.", this);
+            Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
+            Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
+
+            _scoreSession = new ScoreSession(scoreConfig);
+        }
+
+        /// <summary>
+        /// Place → line clear → ScoreSession 반영.
+        /// </summary>
+        public PlacementResult PlaceBlock(
+            Vector2Int finalPivot,
+            int slotIndex,
+            ShapeBlock staging)
+        {
+            int filledBefore = CountFilledSlots();
+            bool firstDrop = filledBefore == BlockSupply.SlotCount;
+            bool lastDrop = filledBefore == 1;
+            int cellsPlaced = staging.CellOffsets.Count;
+            int comboBefore = _scoreSession.Combo;
+
+            _blockSpawnBootstrap.Consume(slotIndex);
+            _placedBlocksView.PlaceStagingBlock(staging, finalPivot);
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
+                finalPivot,
+                staging.CellOffsets));
+
+            ClearedLineResult clearResult = LineClearService.DetectAndApply(
+                _gameBoard,
+                GetChangedPositions(staging.CellOffsets, finalPivot));
+
+            PlacementScoreResult scoreResult = ApplyPlacementScore(
+                cellsPlaced,
+                clearResult.ClearedLineCount,
+                firstDrop,
+                lastDrop);
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
+            RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
+
+            return new PlacementResult(gameOver: false);
+        }
+
+        private static int CountFilledSlots(IReadOnlyList<ShapeBlock> candidates)
+        {
+            int filled = 0;
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                if (candidates[i] != null)
+                {
+                    filled++;
+                }
+            }
+
+            return filled;
+        }
+
+        private int CountFilledSlots()
+            => CountFilledSlots(_blockSpawnBootstrap.Supply.Candidates);
+
+        private IReadOnlyList<Vector2Int> GetChangedPositions(
+            IReadOnlyList<Vector2Int> cellOffsets,
+            Vector2Int finalPivot)
+        {
+            var changed = new List<Vector2Int>(cellOffsets.Count);
+            for (int i = 0; i < cellOffsets.Count; i++)
+            {
+                changed.Add(cellOffsets[i] + finalPivot);
+            }
+
+            return changed;
+        }
+
+        private void RaiseComboChangedIfNeeded(int comboBefore, int comboAfter)
+        {
+            if (comboAfter == comboBefore)
+            {
+                return;
+            }
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.ComboChangedEvent.Init(comboAfter));
+        }
+
+        private PlacementScoreResult ApplyPlacementScore(
+            int cellsPlaced,
+            int clearedLineCount,
+            bool firstDrop,
+            bool lastDrop)
+        {
+            return _scoreSession.ApplyPlacement(
+                clearedLineCount,
+                cellsPlaced,
+                firstDrop,
+                lastDrop);
+        }
     }
 }
