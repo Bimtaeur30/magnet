@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using _Shared.Magnet.Core.SO.Skin;
+using UnityEngine;
 
-namespace _Shared.Magnet.Core.SO.Skin
+namespace Magnet.Core.SO.Skin
 {
     [CreateAssetMenu(fileName = "Skin data", menuName = "Skin/SkinData")]
     public class SkinDataSO : ScriptableObject
     {
         [field: SerializeField] public string SkinName {  get; private set; }
         [field: SerializeField] public string SkinId {  get; private set; }
-        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public Sprite[] Sprites { get; private set; }
 
         public Sprite icon;
         public SkinUnlockTypeEnum unlockType;

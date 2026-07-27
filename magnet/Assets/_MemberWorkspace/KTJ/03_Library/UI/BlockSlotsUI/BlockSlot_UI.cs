@@ -1,7 +1,7 @@
 using Game.UI;
 using GameLib.EventChannelSystem;
-using _Shared.Magnet.Core.SO.Block;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Block;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -54,6 +54,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         Debug.Log("BlockSlotŬ����, �ε���: " + _index);
         MagnetChannel.RaiseEvent(MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
     }
+    
     private void HandleSkinChangedResponseEvent(SkinChangedResponseEvent @event)
     {
         SetSlot(_shape, _candidateDegreesClockwise, _index);

@@ -1,6 +1,6 @@
 using System.IO;
-using _Shared.Magnet.Core.SO.Block;
 using JTH.Scripts.Presentation;
+using Magnet.Core.SO.Block;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

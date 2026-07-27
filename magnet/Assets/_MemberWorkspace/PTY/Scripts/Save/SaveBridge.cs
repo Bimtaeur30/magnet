@@ -5,6 +5,7 @@ using _Shared.Magnet.Core.SO.Skin;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts.Save;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using UnityEngine;

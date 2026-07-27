@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using _Shared.Magnet.Core.SO.Skin;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 public class SkinBoxContainer : MonoBehaviour

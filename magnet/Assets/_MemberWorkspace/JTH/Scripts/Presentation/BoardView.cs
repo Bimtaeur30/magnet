@@ -1,219 +1,136 @@
-using Cysharp.Threading.Tasks;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
 {
-    //TODO 고치기
     public sealed class BoardView : MonoBehaviour
     {
-        // [Tooltip("격자 크기·색상 등 보드 시각화 설정")]
-        // [SerializeField] private BoardConfigSO config;
-        // [Tooltip("폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색")]
-        // [SerializeField] private PlacementConfigSO placementConfigPreview;
-        // [Tooltip("격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성")]
-        // [SerializeField] private Transform linesRoot;
-        // [SerializeField] private float lineWidth = 0.04f;
-        //
-        // private static Material _sharedLineMaterial;
-        //
-        // [ContextMenu("Preview/Play 3x3 Explosion Border")]
-        // private void PreviewExplosionBorder3x3()
-        // {
-        //     PreviewExplosionBorder(3);
-        // }
-        //
-        // private void PreviewExplosionBorder(int squareSize)
-        // {
-        //     if (!Application.isPlaying)
-        //     {
-        //         Debug.LogWarning("[BoardView] 폭발 테두리 프리뷰는 Play 모드에서 실행하세요.", this);
-        //         return;
-        //     }
-        //
-        //     if (config == null)
-        //     {
-        //         Debug.LogWarning("[BoardView] BoardConfigSO가 할당되지 않았습니다.", this);
-        //         return;
-        //     }
-        //
-        //     PlacementConfigSO placementConfig = ResolvePlacementConfigForPreview();
-        //     if (placementConfig?.ExplosionBorder == null)
-        //     {
-        //         Debug.LogWarning(
-        //             "[BoardView] ExplosionBorderConfigSO를 찾을 수 없습니다. placementConfigPreview에 할당하세요.",
-        //             this);
-        //         return;
-        //     }
-        //
-        //     ExplosionBorderPulseView.PlayAsync(this, squareSize, config, placementConfig.ExplosionBorder).Forget();
-        // }
-        //
-        // private PlacementConfigSO ResolvePlacementConfigForPreview()
-        // {
-        //     if (placementConfigPreview != null)
-        //     {
-        //         return placementConfigPreview;
-        //     }
-        //
-        //     PlacementConfigSO[] configs = Resources.FindObjectsOfTypeAll<PlacementConfigSO>();
-        //     for (int i = 0; i < configs.Length; i++)
-        //     {
-        //         PlacementConfigSO candidate = configs[i];
-        //         if (candidate != null && candidate.hideFlags == HideFlags.None)
-        //         {
-        //             return candidate;
-        //         }
-        //     }
-        //
-        //     return null;
-        // }
-        //
-        // /// <summary>격자 → 보드 로컬 (자석 = 0,0).</summary>
-        // public Vector2 GridToLocal(int gridX, int gridY, float cellSize)
-        // {
-        //     return BoardCoordinates.GridToWorld(gridX, gridY, cellSize);
-        // }
-        //
-        // /// <summary>월드 위치 → 보드 로컬 XY.</summary>
-        // public Vector2 WorldToBoardLocal(Vector3 world)
-        // {
-        //     Vector3 local = transform.InverseTransformPoint(world);
-        //     return new Vector2(local.x, local.y);
-        // }
-        //
-        // public float WorldToBoardLocalX(Vector3 world) => WorldToBoardLocal(world).x;
-        //
-        // /// <summary>보드 로컬 좌표로 <paramref name="target"/>을 배치한다. 중간 부모 오프셋을 보정한다.</summary>
-        // public void SetAtBoardLocal(Transform target, Vector2 boardLocal)
-        // {
-        //     Vector3 world = transform.TransformPoint(new Vector3(boardLocal.x, boardLocal.y, 0f));
-        //     if (target.parent == null)
-        //     {
-        //         target.position = world;
-        //         return;
-        //     }
-        //
-        //     target.localPosition = target.parent.InverseTransformPoint(world);
-        // }
-        //
-        // private void Start()
-        // {
-        //     Debug.Assert(config != null, "[BoardView] BoardConfigSO is not assigned.", this);
-        //
-        //     BuildBoardLines();
-        // }
-        //
-        // private void BuildBoardLines()
-        // {
-        //     EnsureLinesRoot();
-        //     ClearLines();
-        //
-        //     int half = config.CellsPerSide;
-        //     float cellSize = config.CellSize;
-        //     float min = (-half - 0.5f) * cellSize;
-        //     float max = (half + 0.5f) * cellSize;
-        //     int lineCount = config.BoardSize + 1;
-        //
-        //     var gridRoot = CreateChild("Grid");
-        //     for (int i = 0; i < lineCount; i++)
-        //     {
-        //         float t = min + i * cellSize;
-        //         AddLineSegment(
-        //             gridRoot,
-        //             config.CellColor,
-        //             new Vector3(t, min, 0f),
-        //             new Vector3(t, max, 0f));
-        //         AddLineSegment(
-        //             gridRoot,
-        //             config.CellColor,
-        //             new Vector3(min, t, 0f),
-        //             new Vector3(max, t, 0f));
-        //     }
-        //
-        //     float magnetHalf = cellSize * 0.5f;
-        //     var magnetRoot = CreateChild("MagnetAxis");
-        //     AddLineLoop(
-        //         magnetRoot,
-        //         config.MagnetAxisColor,
-        //         sortingOrder: 1,
-        //         new Vector3(-magnetHalf, -magnetHalf, 0f),
-        //         new Vector3(magnetHalf, -magnetHalf, 0f),
-        //         new Vector3(magnetHalf, magnetHalf, 0f),
-        //         new Vector3(-magnetHalf, magnetHalf, 0f));
-        // }
-        //
-        // private void EnsureLinesRoot()
-        // {
-        //     if (linesRoot == null)
-        //     {
-        //         var root = new GameObject("Lines");
-        //         root.transform.SetParent(transform, false);
-        //         linesRoot = root.transform;
-        //     }
-        // }
-        //
-        // private Transform CreateChild(string childName)
-        // {
-        //     var child = new GameObject(childName);
-        //     child.transform.SetParent(linesRoot, false);
-        //     return child.transform;
-        // }
-        //
-        // private void ClearLines()
-        // {
-        //     for (int i = linesRoot.childCount - 1; i >= 0; i--)
-        //     {
-        //         Destroy(linesRoot.GetChild(i).gameObject);
-        //     }
-        // }
-        //
-        // private void AddLineSegment(Transform parent, Color color, Vector3 start, Vector3 end, int sortingOrder = 0)
-        // {
-        //     var lineGo = new GameObject("Line");
-        //     lineGo.transform.SetParent(parent, false);
-        //     ConfigureLine(lineGo.AddComponent<LineRenderer>(), color, sortingOrder, false, start, end);
-        // }
-        //
-        // private void AddLineLoop(Transform parent, Color color, int sortingOrder, params Vector3[] corners)
-        // {
-        //     var lineGo = new GameObject("Loop");
-        //     lineGo.transform.SetParent(parent, false);
-        //     ConfigureLine(lineGo.AddComponent<LineRenderer>(), color, sortingOrder, true, corners);
-        // }
-        //
-        // private void ConfigureLine(
-        //     LineRenderer lineRenderer,
-        //     Color color,
-        //     int sortingOrder,
-        //     bool closedLoop,
-        //     params Vector3[] points)
-        // {
-        //     lineRenderer.useWorldSpace = false;
-        //     lineRenderer.loop = closedLoop;
-        //     lineRenderer.positionCount = points.Length;
-        //     for (int i = 0; i < points.Length; i++)
-        //     {
-        //         lineRenderer.SetPosition(i, points[i]);
-        //     }
-        //
-        //     lineRenderer.widthMultiplier = lineWidth;
-        //     lineRenderer.numCapVertices = 0;
-        //     lineRenderer.numCornerVertices = 0;
-        //     lineRenderer.material = GetLineMaterial();
-        //     lineRenderer.startColor = color;
-        //     lineRenderer.endColor = color;
-        //     lineRenderer.sortingOrder = sortingOrder;
-        //     lineRenderer.alignment = LineAlignment.View;
-        // }
-        //
-        // private static Material GetLineMaterial()
-        // {
-        //     _sharedLineMaterial ??= new Material(
-        //         Shader.Find("Sprites/Default")
-        //         ?? Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default"));
-        //     return _sharedLineMaterial;
-        // }
+        [Tooltip("격자 크기·색상 등 보드 시각화 설정")]
+        [SerializeField] private BoardConfigSO config;
+        [Tooltip("폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색")]
+        [SerializeField] private PlacementConfigSO placementConfigPreview;
+        [Tooltip("격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성")]
+        [SerializeField] private Transform linesRoot;
+        [SerializeField] private float lineWidth = 0.04f;
+        
+        private static Material _sharedLineMaterial;
+        
+        private void Start()
+        {
+            Debug.Assert(config != null, "[BoardView] BoardConfigSO is not assigned.", this);
+        
+            BuildBoardLines();
+        }
+        
+        private void BuildBoardLines()
+        {
+            EnsureLinesRoot();
+            ClearLines();
+        
+            int half = config.CellCount / 2;
+            float cellSize = config.CellSize;
+            float min = (-half - 0.5f) * cellSize;
+            float max = (half + 0.5f) * cellSize;
+            int lineCount = config.CellCount + 1;
+        
+            var gridRoot = CreateChild("Grid");
+            for (int i = 0; i < lineCount; i++)
+            {
+                float t = min + i * cellSize;
+                AddLineSegment(
+                    gridRoot,
+                    config.CellColor,
+                    new Vector3(t, min, 0f),
+                    new Vector3(t, max, 0f));
+                AddLineSegment(
+                    gridRoot,
+                    config.CellColor,
+                    new Vector3(min, t, 0f),
+                    new Vector3(max, t, 0f));
+            }
+        
+            float magnetHalf = cellSize * 0.5f;
+            var magnetRoot = CreateChild("MagnetAxis");
+            AddLineLoop(
+                magnetRoot,
+                config.MagnetAxisColor,
+                sortingOrder: 1,
+                new Vector3(-magnetHalf, -magnetHalf, 0f),
+                new Vector3(magnetHalf, -magnetHalf, 0f),
+                new Vector3(magnetHalf, magnetHalf, 0f),
+                new Vector3(-magnetHalf, magnetHalf, 0f));
+        }
+        
+        private void EnsureLinesRoot()
+        {
+            if (linesRoot == null)
+            {
+                var root = new GameObject("Lines");
+                root.transform.SetParent(transform, false);
+                linesRoot = root.transform;
+            }
+        }
+        
+        private Transform CreateChild(string childName)
+        {
+            var child = new GameObject(childName);
+            child.transform.SetParent(linesRoot, false);
+            return child.transform;
+        }
+        
+        private void ClearLines()
+        {
+            for (int i = linesRoot.childCount - 1; i >= 0; i--)
+            {
+                Destroy(linesRoot.GetChild(i).gameObject);
+            }
+        }
+        
+        private void AddLineSegment(Transform parent, Color color, Vector3 start, Vector3 end, int sortingOrder = 0)
+        {
+            var lineGo = new GameObject("Line");
+            lineGo.transform.SetParent(parent, false);
+            ConfigureLine(lineGo.AddComponent<LineRenderer>(), color, sortingOrder, false, start, end);
+        }
+        
+        private void AddLineLoop(Transform parent, Color color, int sortingOrder, params Vector3[] corners)
+        {
+            var lineGo = new GameObject("Loop");
+            lineGo.transform.SetParent(parent, false);
+            ConfigureLine(lineGo.AddComponent<LineRenderer>(), color, sortingOrder, true, corners);
+        }
+        
+        private void ConfigureLine(
+            LineRenderer lineRenderer,
+            Color color,
+            int sortingOrder,
+            bool closedLoop,
+            params Vector3[] points)
+        {
+            lineRenderer.useWorldSpace = false;
+            lineRenderer.loop = closedLoop;
+            lineRenderer.positionCount = points.Length;
+            for (int i = 0; i < points.Length; i++)
+            {
+                lineRenderer.SetPosition(i, points[i]);
+            }
+        
+            lineRenderer.widthMultiplier = lineWidth;
+            lineRenderer.numCapVertices = 0;
+            lineRenderer.numCornerVertices = 0;
+            lineRenderer.material = GetLineMaterial();
+            lineRenderer.startColor = color;
+            lineRenderer.endColor = color;
+            lineRenderer.sortingOrder = sortingOrder;
+            lineRenderer.alignment = LineAlignment.View;
+        }
+        
+        private static Material GetLineMaterial()
+        {
+            _sharedLineMaterial ??= new Material(
+                Shader.Find("Sprites/Default")
+                ?? Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default"));
+            return _sharedLineMaterial;
+        }
     }
 }

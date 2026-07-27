@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     [CreateAssetMenu(fileName = "New Scene Def", menuName = "Magnet/Scene Transition/Scene Def", order = 1)]
     public class SceneDefSO : ScriptableObject

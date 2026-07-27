@@ -1,4 +1,4 @@
-using _Shared.Magnet.Core.SceneTransition;
+using Magnet.Core.SceneTransition;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

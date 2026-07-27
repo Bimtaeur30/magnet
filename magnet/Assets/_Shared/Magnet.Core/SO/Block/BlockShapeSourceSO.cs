@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Shared.Magnet.Core.SO.Block
+namespace Magnet.Core.SO.Block
 {
     /// <summary>
     /// 추첨 풀에 포함할 BlockShapeSO 목록. IBlockShapeSource 계약 구현.

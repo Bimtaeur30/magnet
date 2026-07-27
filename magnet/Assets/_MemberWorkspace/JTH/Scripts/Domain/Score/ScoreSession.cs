@@ -32,12 +32,8 @@ namespace JTH.Scripts.Domain.Score
             Reset();
         }
 
-        public int TotalScore => _totalScore;
-
         /// <summary>표시 콤보. 첫 클리어 후 0, 그다음 클리어부터 1.</summary>
         public int Combo => _chainClears <= 0 ? 0 : _chainClears - 1;
-
-        public int SessionBase => _sessionBase;
 
         public PlacementScoreResult ApplyPlacement(
             int clearedLineCount,

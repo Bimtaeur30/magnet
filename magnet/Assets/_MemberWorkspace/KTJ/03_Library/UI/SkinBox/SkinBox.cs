@@ -1,6 +1,7 @@
 using Game.UI;
 using System;
 using _Shared.Magnet.Core.SO.Skin;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -24,7 +25,7 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 
         _myIdx = idx;
         View.ViewModel.SkinNameTxt = skin.SkinName;
-        View.ViewModel.Pattern = skin.Sprite;
+        View.ViewModel.Pattern = skin.Sprites[0];
     }
 
     public void SetSkinBoxEquip(bool value)

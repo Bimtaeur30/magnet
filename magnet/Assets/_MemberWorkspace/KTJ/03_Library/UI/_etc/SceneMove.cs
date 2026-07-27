@@ -1,5 +1,5 @@
-using _Shared.Magnet.Core.SceneTransition;
 using GameLib.EventChannelSystem;
+using Magnet.Core.SceneTransition;
 using UnityEngine;
 
 public class SceneMove : MonoBehaviour

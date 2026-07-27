@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using _Shared.Magnet.Core.SO.Block;
+using Magnet.Core.SO.Block;
 using UnityEditor;
 using UnityEngine;
 

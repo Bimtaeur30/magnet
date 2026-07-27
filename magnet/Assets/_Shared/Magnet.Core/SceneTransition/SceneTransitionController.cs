@@ -5,7 +5,7 @@ using LitMotion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     /// <summary>
     /// 부트스트랩 씬에 1개만 배치하는 씬 전환 리스너. SoundManager와 동일하게

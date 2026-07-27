@@ -1,3 +1,4 @@
+using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
@@ -6,39 +7,48 @@ namespace JTH.Scripts.Presentation
     /// 블록 칸 1개. SpriteRenderer에 색·스프라이트를 적용한다.
     /// SpriteMask Custom Range로 인접 칸 마스크와 격리한다.
     /// </summary>
-    public sealed class Block : MonoBehaviour
+    public sealed class Block : AbstractMonoPoolable
     {
-        private const int LayerOrderBand = 10000;
-        private const int MaskOrderStride = 3;
-
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer skinRenderer;
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]
         [SerializeField] private SpriteMask spriteMask;
 
+        private Vector2Int _offset;
+        
+        public Vector2Int Offset
+        {
+            get => _offset;
+            set
+            {
+                _offset = value;
+                transform.localPosition = new Vector3(_offset.x, _offset.y, 0);
+            }
+        }
+        
+        public Texture Skin => skinRenderer.sprite.texture;
+        
         private static int _nextMaskSlot;
-        private int _maskSlot = -1;
-        private Color _baseColor = Color.white;
         private bool _dimmed;
         private float _dimMultiply = 1f;
         private float _alpha = 1f;
-
-        private void Awake()
+        
+        public override void ResetItem()
         {
-            Debug.Assert(spriteRenderer != null, "[Block] spriteRenderer is not assigned.", this);
+            base.ResetItem();
+            
+            Debug.Assert(skinRenderer != null, "[Block] spriteRenderer is not assigned.", this);
             Debug.Assert(spriteMask != null, "[Block] spriteMask is not assigned.", this);
-            if (spriteRenderer != null)
-            {
-                _baseColor = spriteRenderer.color;
-            }
 
-            SetSortingOrder(0);
+            SetSortingOrder(10000);
+            SetDimmed(false, 0);
+            SetAlpha(Color.white.a);
         }
 
-        public void ApplyVisual(Sprite sprite)
+        public void ApplySkin(Sprite skinSprite)
         {
-            if (sprite != null)
+            if (skinSprite != null)
             {
-                spriteRenderer.sprite = sprite;
+                skinRenderer.sprite = skinSprite;
             }
 
             RefreshColor();
@@ -65,12 +75,12 @@ namespace JTH.Scripts.Presentation
 
         private void RefreshColor()
         {
-            if (spriteRenderer == null)
+            if (skinRenderer == null)
             {
                 return;
             }
 
-            Color color = _baseColor;
+            Color color = Color.white;
             if (_dimmed)
             {
                 color.r *= _dimMultiply;
@@ -78,41 +88,20 @@ namespace JTH.Scripts.Presentation
                 color.b *= _dimMultiply;
             }
 
-            color.a = _baseColor.a * _alpha;
-            spriteRenderer.color = color;
+            color.a = _alpha;
+            skinRenderer.color = color;
         }
-
-        public void SetActive(bool active)
-        {
-            gameObject.SetActive(active);
-        }
-
-        public void SetLocalPosition(Vector3 localPosition)
-        {
-            transform.localPosition = localPosition;
-        }
-
+        
         public void SetLocalScale(Vector3 localScale)
         {
             transform.localScale = localScale;
         }
 
-        public void SetSortingOrder(int sortingOrder)
+        private void SetSortingOrder(int sortingOrder)
         {
-            EnsureMaskSlot();
-            int order = sortingOrder * LayerOrderBand + _maskSlot * MaskOrderStride;
-            spriteRenderer.sortingOrder = order;
+            int order = sortingOrder + _nextMaskSlot++;
+            skinRenderer.sortingOrder = order;
             ApplyMaskIsolation(order);
-        }
-
-        private void EnsureMaskSlot()
-        {
-            if (_maskSlot >= 0)
-            {
-                return;
-            }
-
-            _maskSlot = _nextMaskSlot++;
         }
 
         private void ApplyMaskIsolation(int order)
@@ -123,10 +112,8 @@ namespace JTH.Scripts.Presentation
             }
 
             spriteMask.isCustomRangeActive = true;
-            spriteMask.backSortingLayerID = spriteRenderer.sortingLayerID;
-            spriteMask.frontSortingLayerID = spriteRenderer.sortingLayerID;
-            spriteMask.backSortingOrder = order - 1;
-            spriteMask.frontSortingOrder = order + 1;
+            spriteMask.backSortingLayerID = spriteMask.frontSortingLayerID = skinRenderer.sortingLayerID;
+            spriteMask.backSortingOrder = spriteMask.frontSortingOrder= order;
         }
     }
 }

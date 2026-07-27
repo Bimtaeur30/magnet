@@ -8,22 +8,7 @@ namespace JTH.Scripts.Data
     [CreateAssetMenu(fileName = "PlacementConfig", menuName = "Magnet/Placement Config")]
     public sealed class PlacementConfigSO : ScriptableObject
     {
-        [SerializeField] private BlockVisualConfigSO visual;
-        [SerializeField] private BlockDragConfigSO drag;
-        [SerializeField] private BlockSnapConfigSO snap;
-        [SerializeField] private BoardRotationConfigSO rotation;
-        [SerializeField] private ClearReassemblyRuleConfigSO clearReassemblyRule;
-        [SerializeField] private ClearReassemblyMotionConfigSO clearReassemblyMotion;
-        [SerializeField] private ExplosionBorderConfigSO explosionBorder;
-        [SerializeField] private BlockedRingDimConfigSO blockedRingDim;
-
-        public BlockVisualConfigSO Visual => visual;
-        public BlockDragConfigSO Drag => drag;
-        public BlockSnapConfigSO Snap => snap;
-        public BoardRotationConfigSO Rotation => rotation;
-        public ClearReassemblyRuleConfigSO ClearReassemblyRule => clearReassemblyRule;
-        public ClearReassemblyMotionConfigSO ClearReassemblyMotion => clearReassemblyMotion;
-        public ExplosionBorderConfigSO ExplosionBorder => explosionBorder;
-        public BlockedRingDimConfigSO BlockedRingDim => blockedRingDim;
+        [field: SerializeField] public BlockVisualConfigSO Visual { get; private set; }
+        [field: SerializeField] public BlockDragConfigSO Drag { get; private set; }
     }
 }

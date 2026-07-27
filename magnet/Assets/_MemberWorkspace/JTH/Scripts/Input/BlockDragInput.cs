@@ -1,218 +1,160 @@
-using _Shared.Magnet.Core.Events;
-using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
+using JTH.Scripts.Domain.Spawn;
+using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
-using Magnet.Core.Events;
+using Magnet.Contracts;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace JTH.Scripts.Input
 {
-    //TODO 고치기
     public sealed class BlockDragInput : MonoBehaviour
     {
-        // [SerializeField] private MagnetInputSO magnetInput;
-        // [SerializeField] private BoardConfigSO boardConfig;
-        // [SerializeField] private PlacementConfigSO placementConfig;
-        // [SerializeField] private EventChannelSO magnetGameChannel;
-        //
-        // [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
-        // [Inject] private readonly BoardView _boardView;
-        //
-        // private BlockDragDrawer _drawer;
-        // private DragSensitivityRamp _sensitivityRamp;
-        //
-        // private IBlockShape _selectedShape;
-        // private int _selectedSlotIndex = -1;
-        // private int _stagingGridY;
-        // private float _shapeCenterOffsetX;
-        // private int _minPivotX;
-        // private int _maxPivotX;
-        // private float _minWorldCenterX;
-        // private float _maxWorldCenterX;
-        //
-        // private float _blockWorldCenterX;
-        // private bool _isPlacing;
-        //
-        // private void Awake()
-        // {
-        //     Debug.Assert(placementConfig != null, "[BlockDragInput] placementConfig is not assigned.", this);
-        //     Debug.Assert(boardConfig != null, "[BlockDragInput] boardConfig is not assigned.", this);
-        //     Debug.Assert(_placementBootstrap != null, "[BlockDragInput] BoardPlacementBootstrap was not injected.", this);
-        //     Debug.Assert(_boardView != null, "[BlockDragInput] BoardView was not injected.", this);
-        //
-        //     _drawer = GetComponent<BlockDragDrawer>();
-        //     _sensitivityRamp = new DragSensitivityRamp(
-        //         placementConfig.Drag.SensitivityRampPerUnit,
-        //         placementConfig.Drag.SensitivityMaxMultiplier);
-        //     _stagingGridY = placementConfig.Visual.GetStagingY(boardConfig.CellsPerSide);
-        // }
-        //
-        // private void OnEnable()
-        // {
-        //     magnetInput.OnPointerPressed += OnPointerPressed;
-        //     magnetInput.OnPointerReleased += OnPointerReleased;
-        //     magnetInput.OnPointerChange += OnPointerMoved;
-        //     magnetGameChannel.AddListener<BlockSelectedEvent>(OnBlockSelected);
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     if (magnetInput != null)
-        //     {
-        //         magnetInput.OnPointerPressed -= OnPointerPressed;
-        //         magnetInput.OnPointerReleased -= OnPointerReleased;
-        //         magnetInput.OnPointerChange -= OnPointerMoved;
-        //     }
-        //
-        //     magnetGameChannel?.RemoveListener<BlockSelectedEvent>(OnBlockSelected);
-        // }
-        //
-        // private void OnBlockSelected(BlockSelectedEvent evt)
-        // {
-        //     if (_isPlacing || _placementBootstrap.IsTurnResolving)
-        //     {
-        //         return;
-        //     }
-        //
-        //     _selectedShape = evt.Shape;
-        //     _selectedSlotIndex = evt.SlotIndex;
-        //     _sensitivityRamp.Reset();
-        //     _drawer.ClearPreview();
-        //
-        //     Vector2 centerOffset = BlockPlacementCells.GetShapeCenterOffset(_selectedShape.CellOffsets);
-        //     _shapeCenterOffsetX = centerOffset.x;
-        //     BlockPlacementCells.GetPivotXRange(_selectedShape, boardConfig.BoardSize, out _minPivotX, out _maxPivotX);
-        //     BlockPlacementCells.GetWorldCenterXRange(
-        //         _minPivotX,
-        //         _maxPivotX,
-        //         boardConfig.CellSize,
-        //         _shapeCenterOffsetX,
-        //         out _minWorldCenterX,
-        //         out _maxWorldCenterX);
-        //
-        //     _blockWorldCenterX = BlockPlacementCells.PivotXToWorldCenterX(0, boardConfig.CellSize, _shapeCenterOffsetX);
-        //     _drawer.ShowStaging(_selectedShape, _blockWorldCenterX, _stagingGridY);
-        // }
-        //
-        // private void OnPointerPressed()
-        // {
-        //     if (_selectedShape == null || _isPlacing || _placementBootstrap.IsTurnResolving)
-        //     {
-        //         return;
-        //     }
-        //
-        //     BeginDrag();
-        // }
-        //
-        // private void BeginDrag()
-        // {
-        //     float pointerBoardLocalX = GetPointerBoardLocalX();
-        //     _sensitivityRamp.Begin(pointerBoardLocalX);
-        //     _blockWorldCenterX = Mathf.Clamp(pointerBoardLocalX, _minWorldCenterX, _maxWorldCenterX);
-        //
-        //     UpdateViews();
-        // }
-        //
-        // private void OnPointerMoved(Vector2 _)
-        // {
-        //     if (_selectedShape == null || !magnetInput.IsPointerPressed || _isPlacing || _placementBootstrap.IsTurnResolving)
-        //     {
-        //         return;
-        //     }
-        //
-        //     float pointerBoardLocalX = GetPointerBoardLocalX();
-        //     float blockDeltaX = _sensitivityRamp.UpdateDelta(pointerBoardLocalX);
-        //     _blockWorldCenterX = Mathf.Clamp(_blockWorldCenterX + blockDeltaX, _minWorldCenterX, _maxWorldCenterX);
-        //
-        //     UpdateViews();
-        // }
-        //
-        // private void OnPointerReleased()
-        // {
-        //     ConfirmPlacementAsync().Forget();
-        // }
-        //
-        // private async UniTaskVoid ConfirmPlacementAsync()
-        // {
-        //     if (_selectedShape == null || _isPlacing || _placementBootstrap.IsTurnResolving)
-        //     {
-        //         return;
-        //     }
-        //
-        //     _sensitivityRamp.Reset();
-        //
-        //     Vector2Int pivot = GetCurrentPivot();
-        //     PlacementResult simulated = _placementBootstrap.PlacementService.Simulate(_selectedShape, pivot);
-        //     if (!simulated.Success)
-        //     {
-        //         DisconnectSelection();
-        //         return;
-        //     }
-        //
-        //     IBlockShape shape = _selectedShape;
-        //     int slotIndex = _selectedSlotIndex;
-        //
-        //     _drawer.ClearPreview();
-        //     ShapeBlock staging = _drawer.TakeStagingForPlacement();
-        //     DisconnectSelection();
-        //     _isPlacing = true;
-        //
-        //     try
-        //     {
-        //         await _placementBootstrap.TryConfirmPlacement(shape, pivot, slotIndex, staging);
-        //     }
-        //     finally
-        //     {
-        //         _isPlacing = false;
-        //     }
-        // }
-        //
-        // private void DisconnectSelection()
-        // {
-        //     _selectedShape = null;
-        //     _selectedSlotIndex = -1;
-        //     _drawer.ClearAll();
-        // }
-        //
-        // private void UpdateViews()
-        // {
-        //     _drawer.ShowStaging(_selectedShape, _blockWorldCenterX, _stagingGridY);
-        //
-        //     Vector2Int pivot = GetCurrentPivot();
-        //     PlacementResult result = _placementBootstrap.PlacementService.Simulate(_selectedShape, pivot);
-        //     if (result.Success)
-        //     {
-        //         _drawer.ShowPreview(_selectedShape, result.FinalPivot);
-        //     }
-        //     else
-        //     {
-        //         _drawer.ClearPreview();
-        //     }
-        // }
-        //
-        // private Vector2Int GetCurrentPivot()
-        // {
-        //     int pivotX = BlockPlacementCells.WorldCenterXToPivotX(
-        //         _blockWorldCenterX,
-        //         boardConfig.CellSize,
-        //         _shapeCenterOffsetX,
-        //         _minPivotX,
-        //         _maxPivotX);
-        //     int pivotY = BlockPlacementCells.GetStagingPivotY(_stagingGridY, _selectedShape.CellOffsets);
-        //     return new Vector2Int(pivotX, pivotY);
-        // }
-        //
-        // /// <summary>
-        // /// 스크린 포인터 월드 위치를 Board Transform 기준 로컬 X로 변환한다.
-        // /// </summary>
-        // private float GetPointerBoardLocalX()
-        // {
-        //     Vector3 world = magnetInput.GetWorldPointerPosition();
-        //     return _boardView.WorldToBoardLocalX(world);
-        // }
+        [SerializeField] private MagnetInputSO inputSO;
+        [SerializeField] private BoardConfigSO boardConfig;
+        [SerializeField] private PlacementConfigSO placementConfig;
+        [SerializeField] private EventChannelSO inGameChannel;
+        
+        [Inject] private readonly BoardPlacementBootstrap _placementBootstrap;
+        [Inject] private readonly GameBoard _gameBoard;
+        
+        private BlockDragDrawer _drawer;
+        private DragSensitivityRamp _sensitivityRamp;
+        
+        private ShapeBlockData _selectedBlockData;
+        private int _selectedSlotIndex;
+        private Vector2 _blockWorldCenter;
+        private Vector2 _halfSize;
+        private Vector2Int? _lastBoardPivot;
+
+        private void Awake()
+        {
+            Debug.Assert(placementConfig != null, "[BlockDragInput] placementConfig is not assigned.", this);
+            Debug.Assert(boardConfig != null, "[BlockDragInput] boardConfig is not assigned.", this);
+            Debug.Assert(_placementBootstrap != null, "[BlockDragInput] BoardPlacementBootstrap was not injected.", this);
+            Debug.Assert(_gameBoard != null, "[BlockDragInput] _gameBoard was not injected.", this);
+        
+            _drawer = GetComponent<BlockDragDrawer>();
+            _sensitivityRamp = new DragSensitivityRamp(
+                placementConfig.Drag.SensitivityRampPerUnit,
+                placementConfig.Drag.SensitivityMaxMultiplier);
+        }
+        
+        private void OnEnable()
+        {
+            inputSO.OnPointerReleased += OnPointerReleased;
+            inputSO.OnPointerChange += OnPointerMoved;
+            inGameChannel.AddListener<BlockSelectedEvent>(OnBlockSelected);
+        }
+        
+        private void OnDisable()
+        {
+            if (inputSO != null)
+            {
+                inputSO.OnPointerReleased -= OnPointerReleased;
+                inputSO.OnPointerChange -= OnPointerMoved;
+            }
+        
+            inGameChannel?.RemoveListener<BlockSelectedEvent>(OnBlockSelected);
+        }
+        
+        private void OnBlockSelected(BlockSelectedEvent evt)
+        {
+            _selectedBlockData = evt.BlockData;
+            _selectedSlotIndex = evt.SlotIndex;
+            _sensitivityRamp.Reset();
+            _drawer.ClearAll();
+        
+            _drawer.ShowStaging(evt.BlockData);
+
+            Vector2 worldPointerPos = inputSO.GetWorldPointerPosition();
+            float startXPosition = placementConfig.Drag.StagingBlockStartXPositions[_selectedSlotIndex];
+            Vector2 startPosition = new Vector2(startXPosition, _gameBoard.GetStartStagingY());
+            
+            _sensitivityRamp.Begin(worldPointerPos);
+            _blockWorldCenter = startPosition;
+            
+            int maxX = int.MinValue, maxY = int.MinValue;
+
+            foreach (Vector2Int offset in _selectedBlockData.CellOffsets)
+            {
+                if (maxX < offset.x)
+                    maxX = offset.x;
+                if (maxY < offset.y)
+                    maxY = offset.y;
+            }
+            
+            _halfSize = new Vector2(maxX / 2f, maxY / 2f);
+            
+            UpdateViews();
+        }
+        
+        private void OnPointerMoved(Vector2 _)
+        {
+            if (_selectedBlockData == null || !inputSO.IsPointerPressed)
+            {
+                return;
+            }
+        
+            Vector2 delta = _sensitivityRamp.UpdateDelta(inputSO.GetWorldPointerPosition());
+            _blockWorldCenter += delta;
+        
+            UpdateViews();
+        }
+        
+        private void OnPointerReleased()
+        {
+            _sensitivityRamp.Reset();
+        
+            if (_lastBoardPivot == null)
+            {
+                DisconnectSelection();
+                return;
+            }
+        
+            _placementBootstrap.PlaceBlock(
+                _drawer.GetStagingBlocks(),
+                _lastBoardPivot.Value,
+                _selectedBlockData.CellOffsets,
+                _selectedSlotIndex);
+            
+            DisconnectSelection();
+        }
+        
+        private void DisconnectSelection()
+        {
+            _selectedBlockData = null;
+            _selectedSlotIndex = -1;
+            _drawer.ClearAll();
+        }
+        
+        private void UpdateViews()
+        {
+            _drawer.MoveStaging(_blockWorldCenter);
+            bool hadPreview = _lastBoardPivot != null;
+
+            float threshold = placementConfig.Drag.LastPivotSnapThreshold * boardConfig.CellSize;
+            Vector2 boardLocal = _gameBoard.WorldToBoardLocal(_blockWorldCenter - _halfSize);
+            if (!PlacementHelper.TryGetBoardPivot(boardLocal, _selectedBlockData.CellOffsets,
+                    _gameBoard.Grid, _lastBoardPivot, threshold,
+                    out Vector2Int boardPivot))
+            {
+                _lastBoardPivot = null;
+                _drawer.ClearPreview();
+                return;
+            }
+            
+            _lastBoardPivot = boardPivot;
+
+            if (!hadPreview)
+            {
+                _drawer.ShowPreview(_selectedBlockData);
+            }
+            _drawer.MovePreview(_gameBoard.BoardLocalToWorld(boardPivot));
+        }
     }
 }

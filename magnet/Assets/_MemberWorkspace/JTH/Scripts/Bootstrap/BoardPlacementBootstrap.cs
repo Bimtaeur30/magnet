@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain.Board;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Score;
 using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Presentation;
+using Magnet.Contracts;
 using Magnet.Core.Events;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace JTH.Scripts.Bootstrap
 {
-    // TODO: 턴 FSM·게임오버·클리어 FX와 재연결
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO magnetGameChannel;
@@ -23,7 +22,6 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private ScoreConfigSO scoreConfig;
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
-        [Inject] private readonly PlacedBlocksView _placedBlocksView;
         [Inject] private GameBoard _gameBoard;
 
         private ScoreSession _scoreSession;
@@ -37,7 +35,6 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(scoreConfig != null, "[BoardPlacementBootstrap] ScoreConfigSO is not assigned.", this);
             Debug.Assert(magnetGameChannel != null, "[BoardPlacementBootstrap] magnetGameChannel is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
-            Debug.Assert(_placedBlocksView != null, "[BoardPlacementBootstrap] PlacedBlocksView was not injected.", this);
 
             _scoreSession = new ScoreSession(scoreConfig);
         }
@@ -46,26 +43,27 @@ namespace JTH.Scripts.Bootstrap
         /// Place → line clear → ScoreSession 반영.
         /// </summary>
         public PlacementResult PlaceBlock(
+            IReadOnlyList<Block> detached,
             Vector2Int finalPivot,
-            int slotIndex,
-            ShapeBlock staging)
+            IReadOnlyList<Vector2Int> cellOffsets,
+            int slotIndex)
         {
             int filledBefore = CountFilledSlots();
             bool firstDrop = filledBefore == BlockSupply.SlotCount;
             bool lastDrop = filledBefore == 1;
-            int cellsPlaced = staging.CellOffsets.Count;
+            int cellsPlaced = cellOffsets.Count;
             int comboBefore = _scoreSession.Combo;
 
             _blockSpawnBootstrap.Consume(slotIndex);
-            _placedBlocksView.PlaceStagingBlock(staging, finalPivot);
+            _gameBoard.AddBlock(detached, finalPivot, cellOffsets);
 
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
                 finalPivot,
-                staging.CellOffsets));
+                cellOffsets));
 
             ClearedLineResult clearResult = LineClearService.DetectAndApply(
                 _gameBoard,
-                GetChangedPositions(staging.CellOffsets, finalPivot));
+                GetChangedPositions(cellOffsets, finalPivot));
 
             PlacementScoreResult scoreResult = ApplyPlacementScore(
                 cellsPlaced,
@@ -79,12 +77,14 @@ namespace JTH.Scripts.Bootstrap
             return new PlacementResult(gameOver: false);
         }
 
-        private static int CountFilledSlots(IReadOnlyList<ShapeBlock> candidates)
+        private int CountFilledSlots()
         {
+            IReadOnlyList<ShapeBlockData> candidates = _blockSpawnBootstrap.Supply.Candidates;
+            
             int filled = 0;
-            for (int i = 0; i < candidates.Count; i++)
+            foreach (var block in candidates)
             {
-                if (candidates[i] != null)
+                if (block != null)
                 {
                     filled++;
                 }
@@ -92,9 +92,6 @@ namespace JTH.Scripts.Bootstrap
 
             return filled;
         }
-
-        private int CountFilledSlots()
-            => CountFilledSlots(_blockSpawnBootstrap.Supply.Candidates);
 
         private IReadOnlyList<Vector2Int> GetChangedPositions(
             IReadOnlyList<Vector2Int> cellOffsets,

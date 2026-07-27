@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using _Shared.Magnet.Core.SO.Skin;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Game.UI

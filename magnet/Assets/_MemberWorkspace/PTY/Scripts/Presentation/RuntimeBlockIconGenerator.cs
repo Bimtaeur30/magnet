@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using _Shared.Magnet.Core.SO.Block;
 using _Shared.Magnet.Core.SO.Skin;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Presentation;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Block;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace PTY.Scripts.Presentation

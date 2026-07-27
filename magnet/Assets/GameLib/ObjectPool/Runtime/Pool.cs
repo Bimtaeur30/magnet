@@ -43,6 +43,7 @@ namespace GameLib.ObjectPool.Runtime
         public void Push(IPoolable item)
         {
             item.GameObject.SetActive(false);
+            item.GameObject.transform.SetParent(_parentTrm);
             _pool.Push(item);
         }
     }

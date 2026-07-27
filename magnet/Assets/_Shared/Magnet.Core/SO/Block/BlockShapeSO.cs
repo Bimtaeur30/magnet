@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Shared.Magnet.Core.SO.Block
+namespace Magnet.Core.SO.Block
 {
     [CreateAssetMenu(fileName = "BlockShape", menuName = "Magnet/Block Shape")]
     public sealed class BlockShapeSO : ScriptableObject

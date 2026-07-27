@@ -1,5 +1,7 @@
-using System;
-using Magnet.Contracts;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Random = System.Random;
 
 namespace JTH.Scripts.Domain.Spawn
 {
@@ -20,11 +22,21 @@ namespace JTH.Scripts.Domain.Spawn
             _random = new Random(seed);
         }
 
-        public int Next(int maxExclusive) => _random.Next(maxExclusive);
-        
-        public override IBlockShape_ Next(BlockSpawnContext context)
+        public override List<IReadOnlyList<Vector2Int>> Draw(BlockSpawnContext context, int drawCount)
         {
-            return context.Shapes[_random.Next(context.Shapes.Length)];
+            List<IReadOnlyList<Vector2Int>> drawn = new(drawCount);
+            List<IReadOnlyList<Vector2Int>> remaining = context.BlockShapeSourceSO.Shapes
+                .Select(so => so.CellOffsets)
+                .ToList();
+            
+            for (int i = 0; i < drawCount; ++i)
+            {
+                int index = _random.Next(remaining.Count);
+                drawn.Add(remaining[index]);
+                remaining.RemoveAt(index);
+            }
+            
+            return drawn;
         }
     }
 }

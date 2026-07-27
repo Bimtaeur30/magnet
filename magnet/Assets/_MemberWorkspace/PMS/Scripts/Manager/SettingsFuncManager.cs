@@ -1,6 +1,6 @@
-﻿using _Shared.Magnet.Core.SceneTransition;
-using GameLib.EventChannelSystem;
+﻿using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
+using Magnet.Core.SceneTransition;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

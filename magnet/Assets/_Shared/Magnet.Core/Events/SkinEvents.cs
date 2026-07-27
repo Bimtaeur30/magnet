@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Shared.Magnet.Core.SO.Skin;
 using GameLib.EventChannelSystem;
+using Magnet.Core.SO.Skin;
 
 namespace Magnet.Core.Events
 {
