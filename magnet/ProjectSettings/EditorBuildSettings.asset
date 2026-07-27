@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_MemberWorkspace/KTJ/01_Scene/01_Menu.unity
+    path: Assets/_MemberWorkspace/KTJ/01_Scene/Old/Old_01_Menu.unity
     guid: fca62f1a53b80834fb66d60ec705bc98
   - enabled: 1
-    path: Assets/_MemberWorkspace/KTJ/01_Scene/02_Main.unity
+    path: Assets/_MemberWorkspace/KTJ/01_Scene/Old/Old_02_Main.unity
     guid: 697bf02e9902c2943936479466a0ae1f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
