@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using Magnet.Contracts;
 using Magnet.Core.SO.Block;
 
 namespace Magnet.Core.Events
@@ -48,15 +49,11 @@ namespace Magnet.Core.Events
     
     public sealed class BlockCandidatesUpdatedEvent : GameEvent
     {
-        public IReadOnlyList<BlockShapeSO> Candidates { get; private set; }
-        public IReadOnlyList<int> CandidateDegreesClockwise { get; private set; }
+        public IReadOnlyList<ShapeBlockData> Candidates { get; set; }
 
-        public BlockCandidatesUpdatedEvent Init(
-            IReadOnlyList<BlockShapeSO> candidates,
-            IReadOnlyList<int> candidateDegreesClockwise)
+        public BlockCandidatesUpdatedEvent Init(IReadOnlyList<ShapeBlockData> candidates)
         {
             Candidates = candidates;
-            CandidateDegreesClockwise = candidateDegreesClockwise;
             return this;
         }
     }
@@ -68,7 +65,6 @@ namespace Magnet.Core.Events
         public BlockSelectedOnUIEvent Init(int index)
         {
             Index = index;
-            
             return this;
         }
     }

@@ -25,7 +25,7 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
 
         _myIdx = idx;
         
-        iew.ViewModel.SkinNameTxt = skin.SkinName;
+        View.ViewModel.SkinNameTxt = skin.SkinName;
         View.ViewModel.Pattern = skin.Sprites[0];
     }
 

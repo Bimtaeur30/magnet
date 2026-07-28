@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 
@@ -54,11 +55,11 @@ namespace JTH.Scripts.Events
     
     public sealed class BlockPlacedEvent : GameEvent
     {
-        public IReadOnlyList<ShapeBlockData> Candidates { get; private set; }
+        public PlacementResult PlacementResult { get; private set; }
         
-        public BlockPlacedEvent Init(IReadOnlyList<ShapeBlockData> candidates)
+        public BlockPlacedEvent Init(PlacementResult placementResult)
         {
-            Candidates = candidates;
+            PlacementResult = placementResult;
 
             return this;
         }

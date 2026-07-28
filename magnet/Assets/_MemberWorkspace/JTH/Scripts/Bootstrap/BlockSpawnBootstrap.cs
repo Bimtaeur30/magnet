@@ -36,13 +36,13 @@ namespace JTH.Scripts.Bootstrap
             inputSO.OnSlotSelected += OnBlockSelected;
             #endif
             magnetGameChannel.AddListener<BlockSelectedOnUIEvent>(OnBlockSelected);
+            
+            _supply = new BlockSupply(new RandomDrawer(), new SkinSession(skinDataListSO));
         }
         
         private void Start()
         {
-            _supply = new BlockSupply(new RandomDrawer(), new SkinSession(skinDataListSO));
-        
-            _supply.Fill(new BlockSpawnContext(shapeSourceSO, _gameBoard.Grid, 0));
+            Fill();
         }
         
         private void OnDestroy()
@@ -78,6 +78,12 @@ namespace JTH.Scripts.Bootstrap
             }
         
             inGameChannel.RaiseEvent(InGameEvents.BlockSelectedEvent.Init(index, block));
+        }
+
+        public void Fill()
+        {
+            Supply.Fill(new BlockSpawnContext(shapeSourceSO, _gameBoard.Grid, 0));
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
     }
 }
