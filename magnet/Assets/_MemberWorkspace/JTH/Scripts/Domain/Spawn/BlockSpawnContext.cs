@@ -9,8 +9,9 @@ namespace JTH.Scripts.Domain.Spawn
         public BoardGrid Grid { get; set; }
         public int Score { get; set; }
 
-        public BlockSpawnContext(BoardGrid grid, int score)
+        public BlockSpawnContext(BlockShapeSourceSO sourceSO, BoardGrid grid, int score)
         {
+            BlockShapeSourceSO = sourceSO;
             Grid = grid;
             Score = score;
         }

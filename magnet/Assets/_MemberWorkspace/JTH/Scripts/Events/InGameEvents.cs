@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
-using UnityEngine;
 
 namespace JTH.Scripts.Events
 {
     public static class InGameEvents
     {
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
-        public static readonly ShapeBlockCreatedEvent ShapeBlockCreatedEvent = new();
+        public static readonly BlockCreatedEvent BlockCreatedEvent = new();
+        public static readonly BlockDestroyedEvent BlockDestroyedEvent = new();
+        public static readonly BlockPlacedEvent BlockPlacedEvent = new();
     }
         
     public sealed class BlockSelectedEvent : GameEvent
@@ -26,16 +26,40 @@ namespace JTH.Scripts.Events
         }
     }
     
-    public sealed class ShapeBlockCreatedEvent : GameEvent
+    public sealed class BlockCreatedEvent : GameEvent
     {
         public IReadOnlyList<Block> Blocks { get; private set; }
         public int SkinId { get; private set; }
 
-        public ShapeBlockCreatedEvent Init(IReadOnlyList<Block> blocks, int skinId)
+        public BlockCreatedEvent Init(IReadOnlyList<Block> blocks, int skinId)
         {
             Blocks = blocks;
             SkinId = skinId;
             
+            return this;
+        }
+    }
+    
+    public sealed class BlockDestroyedEvent : GameEvent
+    {
+        public Block Block { get; private set; }
+
+        public BlockDestroyedEvent Init(Block block)
+        {
+            Block = block;
+            
+            return this;
+        }
+    }
+    
+    public sealed class BlockPlacedEvent : GameEvent
+    {
+        public IReadOnlyList<ShapeBlockData> Candidates { get; private set; }
+        
+        public BlockPlacedEvent Init(IReadOnlyList<ShapeBlockData> candidates)
+        {
+            Candidates = candidates;
+
             return this;
         }
     }

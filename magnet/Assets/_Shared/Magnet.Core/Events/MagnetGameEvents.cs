@@ -1,33 +1,16 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using Magnet.Core.SO.Block;
-using UnityEngine;
 
 namespace Magnet.Core.Events
 {
     public static class MagnetGameEvents
     {
-        public static readonly BlockPlacedEvent BlockPlacedEvent = new();
         public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly ComboChangedEvent ComboChangedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
-    }
-
-    public sealed class BlockPlacedEvent : GameEvent
-    {
-        public Vector2Int Pivot { get; private set; }
-        public IReadOnlyList<Vector2Int> CellPositions { get; private set; }
-
-        public BlockPlacedEvent Init(
-            Vector2Int pivot,
-            IReadOnlyList<Vector2Int> cellPositions)
-        {
-            Pivot = pivot;
-            CellPositions = cellPositions;
-            return this;
-        }
     }
     
     public sealed class ScoreChangedEvent : GameEvent

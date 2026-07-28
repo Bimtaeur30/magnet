@@ -8,7 +8,6 @@ namespace JTH.Scripts.Data
         [field: SerializeField] public int CellCount { get; private set; } = 8;
         [field: SerializeField] public float CellSize { get; private set; } = 1f;
         [field: SerializeField] public Color CellColor { get; private set; } = new(0.2f, 0.22f, 0.28f, 1f);
-        [field: SerializeField] public Color MagnetAxisColor { get; private set; } = new(0.95f, 0.75f, 0.2f, 1f);
 
         private void OnValidate()
         {

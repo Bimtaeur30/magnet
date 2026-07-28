@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Clear;
-using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Score;
 using JTH.Scripts.Domain.Spawn;
+using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using Magnet.Core.Events;
@@ -16,6 +16,7 @@ namespace JTH.Scripts.Bootstrap
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
@@ -42,7 +43,7 @@ namespace JTH.Scripts.Bootstrap
         /// <summary>
         /// Place → line clear → ScoreSession 반영.
         /// </summary>
-        public PlacementResult PlaceBlock(
+        public void PlaceBlock(
             IReadOnlyList<Block> detached,
             Vector2Int finalPivot,
             IReadOnlyList<Vector2Int> cellOffsets,
@@ -57,13 +58,8 @@ namespace JTH.Scripts.Bootstrap
             _blockSpawnBootstrap.Consume(slotIndex);
             _gameBoard.AddBlock(detached, finalPivot, cellOffsets);
 
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockPlacedEvent.Init(
-                finalPivot,
-                cellOffsets));
-
             ClearedLineResult clearResult = LineClearService.DetectAndApply(
-                _gameBoard,
-                GetChangedPositions(cellOffsets, finalPivot));
+                _gameBoard);
 
             PlacementScoreResult scoreResult = ApplyPlacementScore(
                 cellsPlaced,
@@ -73,8 +69,8 @@ namespace JTH.Scripts.Bootstrap
 
             magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
             RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
-
-            return new PlacementResult(gameOver: false);
+            
+            inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(_blockSpawnBootstrap.Supply.Candidates));
         }
 
         private int CountFilledSlots()
@@ -92,20 +88,7 @@ namespace JTH.Scripts.Bootstrap
 
             return filled;
         }
-
-        private IReadOnlyList<Vector2Int> GetChangedPositions(
-            IReadOnlyList<Vector2Int> cellOffsets,
-            Vector2Int finalPivot)
-        {
-            var changed = new List<Vector2Int>(cellOffsets.Count);
-            for (int i = 0; i < cellOffsets.Count; i++)
-            {
-                changed.Add(cellOffsets[i] + finalPivot);
-            }
-
-            return changed;
-        }
-
+        
         private void RaiseComboChangedIfNeeded(int comboBefore, int comboAfter)
         {
             if (comboAfter == comboBefore)

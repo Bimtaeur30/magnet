@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace JTH.Scripts.Domain.Placement
 {
-    // TODO 고치기
-    internal static class PlacementHelper
+    public static class PlacementService
     {
         public static bool CanPlace(IReadOnlyList<Vector2Int> cellOffsets, Vector2Int pivot, BoardGrid grid)
             => !GetOverlap(cellOffsets, pivot, grid) && !GetOutOfBoard(cellOffsets, pivot, grid);
