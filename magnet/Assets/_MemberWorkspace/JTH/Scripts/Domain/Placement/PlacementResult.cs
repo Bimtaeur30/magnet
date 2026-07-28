@@ -1,25 +1,29 @@
-﻿// namespace JTH.Scripts.Domain.Placement
-// {
-//     public class PlacementResult
-//     {
-//         public bool Success { get; private set; }
-//         public bool GameOver { get; private set; }
-//
-//         private PlacementResult(bool success, bool gameOver)
-//         {
-//             Success = success;
-//             GameOver = gameOver;
-//         }
-//
-//         public PlacementResult(bool gameOver)
-//         {
-//             Success = true;
-//             GameOver = gameOver;
-//         }
-//
-//         public static PlacementResult Failed()
-//         {
-//             return new PlacementResult(false, false);
-//         }
-//     }
-// }
+﻿using System.Collections.Generic;
+using JTH.Scripts.Domain.Clear;
+using Magnet.Contracts;
+
+namespace JTH.Scripts.Domain.Placement
+{
+    public sealed class PlacementResult
+    {
+        public PlacementResult(
+            IReadOnlyList<ShapeBlockData> candidates,
+            int cellsPlaced,
+            ClearedLineResult clearedLineResult,
+            bool firstDrop,
+            bool lastDrop)
+        {
+            Candidates = candidates;
+            CellsPlaced = cellsPlaced;
+            ClearedLineResult = clearedLineResult;
+            FirstDrop = firstDrop;
+            LastDrop = lastDrop;
+        }
+
+        public IReadOnlyList<ShapeBlockData> Candidates { get; }
+        public int CellsPlaced { get; }
+        public ClearedLineResult ClearedLineResult { get; }
+        public bool FirstDrop { get; }
+        public bool LastDrop { get; }
+    }
+}
