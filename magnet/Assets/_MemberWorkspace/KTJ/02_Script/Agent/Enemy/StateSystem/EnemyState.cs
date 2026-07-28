@@ -35,6 +35,13 @@ public abstract class EnemyState : IState<EnemyAgent>
     }
 
     protected virtual void OnEnter() { }
-    protected virtual void OnUpdate() { }
+    protected virtual void OnUpdate()
+    {
+        if (!Definition.HasNextState || Definition.Animation == null)
+            return;
+
+        if (Renderer.IsAnimationFinished(Definition.Animation))
+            Agent.GetModule<EnemyStateMachineModule>().ChangeState(Definition.NextState);
+    }
     protected virtual void OnExit() { }
 }

@@ -82,6 +82,6 @@ public sealed class EnemyStateMachineModule : MonoBehaviour, IModule, IStateMach
             return;
         }
 
-        _stateMachine.ChangeState(state);
+        _stateMachine.ChangeState(state, allowReenter: true);
     }
 }

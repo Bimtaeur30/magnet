@@ -6,15 +6,18 @@ using UnityEngine;
 public class AgentRenderer : MonoBehaviour, IModule, IAgentRenderer
 {
     private Animator animator;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
     public void Initialize(ModuleOwner owner) { }
+
     public void PlayAnimation(AnimationParamSO param)
     {
-        animator.Play(param.Hash);
+        animator.Play(param.Hash, 0, 0f);
+        animator.Update(0f);
     }
 
     public bool IsAnimationFinished(AnimationParamSO param)

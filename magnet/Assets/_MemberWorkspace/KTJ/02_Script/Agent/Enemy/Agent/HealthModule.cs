@@ -13,7 +13,13 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
     {
         public int MaxHealth { get; private set; }
         public int CurrentHealth { get; private set; }
-        public void Initialize(ModuleOwner owner) { }
+
+        private IStateMachineModule _stateMachineModule;
+
+        public void Initialize(ModuleOwner owner)
+        {
+            _stateMachineModule = owner.GetModule<IStateMachineModule>();
+        }
 
         public void InitializeData(EnemyDataSO enemyDataSO)
         {
@@ -23,10 +29,16 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
 
         public void Damage(int damage)
         {
+            if (CurrentHealth <= 0)
+                return;
+
             CurrentHealth -= damage;
 
-            if (CurrentHealth < 0)
+            if (CurrentHealth <= 0)
+            {
                 CurrentHealth = 0;
+                _stateMachineModule.ChangeState(EnemyStateId.Dead);
+            }
         }
 
         public void Heal(int amount)

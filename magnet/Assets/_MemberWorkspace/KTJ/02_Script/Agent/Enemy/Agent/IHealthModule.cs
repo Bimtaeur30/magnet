@@ -2,6 +2,9 @@
 {
     public interface IHealthModule
     {
+        int CurrentHealth { get; }
+
+        void InitializeData(EnemyDataSO enemyDataSO);
         void Damage(int damage);
         void Heal(int amount);
     }

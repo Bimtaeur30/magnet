@@ -13,12 +13,12 @@ namespace GGMLib.FSM
             _context = context;
         }
 
-        public void ChangeState(IState<TContext> nextState)
+        public void ChangeState(IState<TContext> nextState, bool allowReenter = false)
         {
             if (nextState == null)
                 throw new ArgumentNullException(nameof(nextState));
 
-            if (ReferenceEquals(CurrentState, nextState))
+            if (!allowReenter && ReferenceEquals(CurrentState, nextState))
                 return;
 
             CurrentState?.Exit(_context);

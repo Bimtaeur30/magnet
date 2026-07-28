@@ -1082,4 +1082,11 @@ AnimationClip:
     flags: 0
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1
+    functionName: IsAnimationFinished
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: aa47012985ea89540bc8420112856001, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
