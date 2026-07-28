@@ -26,7 +26,6 @@ namespace JTH.Scripts.Bootstrap
         {
             inGameChannel.AddListener<BlockPlacedEvent>(BlockPlacedHandler);
             
-            _scoreSession = new ScoreSession();
         }
 
         private void OnDestroy()
