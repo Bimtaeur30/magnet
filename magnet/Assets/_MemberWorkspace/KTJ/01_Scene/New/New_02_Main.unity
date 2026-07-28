@@ -2133,17 +2133,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098376598}
   m_CullTransparentMesh: 1
---- !u!114 &1127953152 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8820894275675584637, guid: 8f67ded4bb5b43a4bbaa2f1dceed218b, type: 3}
-  m_PrefabInstance: {fileID: 6811974458102712532}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f6789012345678abcdef01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.PlacedBlocksView
 --- !u!1 &1176095704
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,6 +5124,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5777031043167799692, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5963909218403489331, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6710601027194802740, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5638,7 +5635,7 @@ PrefabInstance:
     - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
       propertyPath: placedBlocksView
       value: 
-      objectReference: {fileID: 1127953152}
+      objectReference: {fileID: 0}
     - target: {fileID: 1841149453730029387, guid: 25e7a9419199afc41aec192a321184eb, type: 3}
       propertyPath: blockSpawnBootstrap
       value: 
