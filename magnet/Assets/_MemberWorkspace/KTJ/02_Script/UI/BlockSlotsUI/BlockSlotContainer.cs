@@ -31,8 +31,8 @@ public class BlockSlotContainer : MonoBehaviour
             }
 
             Slots[i].SetSlot(
-                shape,
-                evt.CandidateDegreesClockwise[i],
+                shape.CellOffsets,
+                shape.SkinId,
                 i);
         }
     }
