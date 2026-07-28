@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using UnityEngine;

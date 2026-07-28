@@ -3,7 +3,6 @@ using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Events;
 using Magnet.Contracts;
 using UnityEngine;
@@ -55,7 +54,7 @@ namespace JTH.Scripts.Presentation
                 _blocks.Add(instance);
             }
             
-            inGameChannel.RaiseEvent(InGameEvents.ShapeBlockCreatedEvent.Init(_blocks, _skinId));
+            inGameChannel.RaiseEvent(InGameEvents.BlockCreatedEvent.Init(_blocks, _skinId));
             
             float cellSize = boardConfig.CellSize;
             float fill = placementConfig.Visual.CellFill;
@@ -66,7 +65,7 @@ namespace JTH.Scripts.Presentation
                 _blocks[i].SetLocalScale(new Vector3(cellSize * fill, cellSize * fill, 1f));
             }
             
-            _centerOffset = PlacementHelper.GetShapeCenterOffset(CellOffsets);
+            _centerOffset = PlacementService.GetShapeCenterOffset(CellOffsets);
         }
 
         public void ShowAtWorldCenter(Vector2 position)

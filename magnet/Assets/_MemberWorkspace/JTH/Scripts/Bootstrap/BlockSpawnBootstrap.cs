@@ -6,6 +6,7 @@ using JTH.Scripts.Input;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Block;
 using Magnet.Core.SO.Skin;
 using Reflex.Attributes;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private MagnetInputSO inputSO;
         [SerializeField] private SkinDataListSO skinDataListSO;
+        [SerializeField] private BlockShapeSourceSO shapeSourceSO;
         
         [Inject] private GameBoard _gameBoard;
         
@@ -40,7 +42,7 @@ namespace JTH.Scripts.Bootstrap
         {
             _supply = new BlockSupply(new RandomDrawer(), new SkinSession(skinDataListSO));
         
-            _supply.Fill(new BlockSpawnContext(_gameBoard.Grid, 0));
+            _supply.Fill(new BlockSpawnContext(shapeSourceSO, _gameBoard.Grid, 0));
         }
         
         private void OnDestroy()

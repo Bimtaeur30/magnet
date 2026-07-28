@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Shared.Magnet.Core.Events;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
+using JTH.Scripts.Events;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
@@ -9,6 +10,7 @@ namespace JTH.Scripts.Presentation
     public sealed class PlacedBlocksView : MonoBehaviour
     {
         [SerializeField] private EventChannelSO presentationChannel;
+        [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private PoolItemSO blockBlastEffect;
         [SerializeField] private PoolManagerSO poolManagerSO;
         
@@ -20,7 +22,7 @@ namespace JTH.Scripts.Presentation
             Debug.Assert(blockBlastEffect != null, "[PlacedBlocksView] blockBlastEffect is not assigned.", this);
             
             _cellsDict = new Dictionary<Vector2Int, Block>();
-        }
+        } //풀링을 SO로 만들면 싱글톤 방식의 문제는 단일 책임, 오픈 클로즈?, 의존관계 역전 
         
         /// <summary>
         /// 스테이징 ShapeBlock을 Y 스냅한 뒤 칸 View로 분해·등록한다.
@@ -69,6 +71,8 @@ namespace JTH.Scripts.Presentation
                         block.Skin));
         
                 poolManagerSO.Push(block);
+                
+                inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));
             }
         }
     }

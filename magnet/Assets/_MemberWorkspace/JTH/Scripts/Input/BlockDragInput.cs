@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
@@ -139,7 +137,7 @@ namespace JTH.Scripts.Input
 
             float threshold = placementConfig.Drag.LastPivotSnapThreshold * boardConfig.CellSize;
             Vector2 boardLocal = _gameBoard.WorldToBoardLocal(_blockWorldCenter - _halfSize);
-            if (!PlacementHelper.TryGetBoardPivot(boardLocal, _selectedBlockData.CellOffsets,
+            if (!PlacementService.TryGetBoardPivot(boardLocal, _selectedBlockData.CellOffsets,
                     _gameBoard.Grid, _lastBoardPivot, threshold,
                     out Vector2Int boardPivot))
             {

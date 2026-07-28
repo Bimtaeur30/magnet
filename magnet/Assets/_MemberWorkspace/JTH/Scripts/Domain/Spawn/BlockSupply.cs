@@ -15,7 +15,7 @@ namespace JTH.Scripts.Domain.Spawn
         private readonly AbstractDrawer _drawer;
         private readonly SkinSession _skinSession;
         
-        private List<ShapeBlockData> _slots;
+        private readonly List<ShapeBlockData> _slots;
         
         public IReadOnlyList<ShapeBlockData> Candidates => _slots;
         
@@ -55,18 +55,6 @@ namespace JTH.Scripts.Domain.Spawn
             }
         
             _slots[slotIndex] = null;
-        }
-        
-        public List<ShapeBlockData> CreateSnapshot()
-        {
-            List<ShapeBlockData> snapshot = new List<ShapeBlockData>();
-            
-            for (var i = 0; i < SlotCount; i++)
-            {
-                snapshot[i] = _slots[i];
-            }
-        
-            return snapshot;
         }
     }
 }

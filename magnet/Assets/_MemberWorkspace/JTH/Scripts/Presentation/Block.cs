@@ -1,17 +1,15 @@
+using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
 {
-    /// <summary>
-    /// 블록 칸 1개. SpriteRenderer에 색·스프라이트를 적용한다.
-    /// SpriteMask Custom Range로 인접 칸 마스크와 격리한다.
-    /// </summary>
     public sealed class Block : AbstractMonoPoolable
     {
         [SerializeField] private SpriteRenderer skinRenderer;
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]
         [SerializeField] private SpriteMask spriteMask;
+        [SerializeField] private EventChannelSO inGameChannel;
 
         private Vector2Int _offset;
         

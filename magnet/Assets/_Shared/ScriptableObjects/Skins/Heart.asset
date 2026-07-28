@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.Core::PMS.Scripts.Skin.SkinDataSO
   <SkinName>k__BackingField: "\uC794\uC794\uD55C\uD558\uD2B8"
   <SkinId>k__BackingField: Heart
-  sprites: {fileID: 21300000, guid: 2643acebbc056e34da5de027a854a827, type: 3}
+  <Sprites>k__BackingField:
+  - {fileID: 21300000, guid: 2643acebbc056e34da5de027a854a827, type: 3}
   icon: {fileID: 21300000, guid: 2643acebbc056e34da5de027a854a827, type: 3}
   unlockType: 1
   unlockValue: 50

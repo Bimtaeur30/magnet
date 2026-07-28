@@ -3,34 +3,36 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Core.Events;
-using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Skin
 {
     public class InGameSkinManager : MonoBehaviour
     {
-        [SerializeField] private SkinDataListSO skinDataListSO;
         [SerializeField] private EventChannelSO inGameChannel;
-        [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO skinChannel;
 
         private Dictionary<Block, int> _blockDict;
 
         private void Awake()
         {
             _blockDict = new Dictionary<Block, int>();
-            
-            inGameChannel.AddListener<ShapeBlockCreatedEvent>(BlockCreatedHandler);
-            magnetGameChannel.AddListener<SkinChangedEvent>(SkinChangedHandler);
+
+            inGameChannel.AddListener<BlockCreatedEvent>(BlockCreatedHandler);
+            inGameChannel.AddListener<BlockDestroyedEvent>(BlockDestroyedHandler);
+            skinChannel.AddListener<SkinChangedEvent>(SkinChangedHandler);
+            skinChannel.AddListener<SkinInitializedEvent>(SkinInitializedHandler);
         }
 
         private void OnDestroy()
         {
-            inGameChannel.RemoveListener<ShapeBlockCreatedEvent>(BlockCreatedHandler);
-            magnetGameChannel.RemoveListener<SkinChangedEvent>(SkinChangedHandler);
+            inGameChannel.RemoveListener<BlockCreatedEvent>(BlockCreatedHandler);
+            inGameChannel.RemoveListener<BlockDestroyedEvent>(BlockDestroyedHandler);
+            skinChannel.RemoveListener<SkinChangedEvent>(SkinChangedHandler);
+            skinChannel.RemoveListener<SkinInitializedEvent>(SkinInitializedHandler);
         }
 
-        private void BlockCreatedHandler(ShapeBlockCreatedEvent evt)
+        private void BlockCreatedHandler(BlockCreatedEvent evt)
         {
             foreach (Block block in evt.Blocks)
             {
@@ -38,11 +40,23 @@ namespace JTH.Scripts.Domain.Skin
             }
         }
 
+        private void BlockDestroyedHandler(BlockDestroyedEvent evt) { _blockDict.Remove(evt.Block); }
+
         private void SkinChangedHandler(SkinChangedEvent evt)
+        {
+            ApplySkin(evt.CurrentSkin.Sprites);
+        }
+
+        private void SkinInitializedHandler(SkinInitializedEvent evt)
+        {
+            ApplySkin(evt.Skin.Sprites);
+        }
+
+        private void ApplySkin(Sprite[] sprites)
         {
             foreach (Block block in _blockDict.Keys)
             {
-                block.ApplySkin(evt.CurrentSkin.Sprites[_blockDict[block]]);
+                block.ApplySkin(sprites[_blockDict[block]]);
             }
         }
     }

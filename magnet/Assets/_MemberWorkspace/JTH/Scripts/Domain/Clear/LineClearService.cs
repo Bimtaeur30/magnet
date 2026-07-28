@@ -12,5 +12,19 @@ namespace JTH.Scripts.Domain.Clear
             gameBoard.RemoveCellsAt(result.CollectClearedCells(gameBoard.Grid.BoardSize));
             return result;
         }
+        
+        public static ClearedLineResult DetectAndApply(GameBoard gameBoard)
+        {
+            List<Vector2Int> changedPositions = new List<Vector2Int>();
+            for (int i = 0; i < gameBoard.Grid.BoardSize; ++i)
+            {
+                for (int j = 0; j < gameBoard.Grid.BoardSize; ++j)
+                {
+                    changedPositions.Add(new Vector2Int(i, j));
+                }
+            }
+            
+            return DetectAndApply(gameBoard, changedPositions);
+        }
     }
 }
