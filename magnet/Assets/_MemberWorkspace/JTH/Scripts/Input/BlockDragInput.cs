@@ -1,3 +1,4 @@
+using System;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
@@ -7,6 +8,8 @@ using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using Reflex.Attributes;
 using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
 namespace JTH.Scripts.Input
 {
@@ -25,8 +28,7 @@ namespace JTH.Scripts.Input
         
         private ShapeBlockData _selectedBlockData;
         private int _selectedSlotIndex;
-        private Vector2 _blockWorldCenter;
-        private Vector2 _halfSize;
+        private Vector2 _currentPivot;
         private Vector2Int? _lastBoardPivot;
 
         private void Awake()
@@ -38,8 +40,7 @@ namespace JTH.Scripts.Input
         
             _drawer = GetComponent<BlockDragDrawer>();
             _sensitivityRamp = new DragSensitivityRamp(
-                placementConfig.Drag.SensitivityRampPerUnit,
-                placementConfig.Drag.SensitivityMaxMultiplier);
+                placementConfig.Drag.SensitivityRampPerUnit);
         }
         
         private void OnEnable()
@@ -74,19 +75,7 @@ namespace JTH.Scripts.Input
             Vector2 startPosition = new Vector2(startXPosition, _gameBoard.GetStartStagingY());
             
             _sensitivityRamp.Begin(worldPointerPos);
-            _blockWorldCenter = startPosition;
-            
-            int maxX = int.MinValue, maxY = int.MinValue;
-
-            foreach (Vector2Int offset in _selectedBlockData.CellOffsets)
-            {
-                if (maxX < offset.x)
-                    maxX = offset.x;
-                if (maxY < offset.y)
-                    maxY = offset.y;
-            }
-            
-            _halfSize = new Vector2(maxX / 2f, maxY / 2f);
+            _currentPivot = startPosition;
             
             UpdateViews();
         }
@@ -99,20 +88,16 @@ namespace JTH.Scripts.Input
             }
         
             Vector2 delta = _sensitivityRamp.UpdateDelta(inputSO.GetWorldPointerPosition());
-            _blockWorldCenter += delta;
+            _currentPivot += delta;
         
             UpdateViews();
         }
         
         private void OnPointerReleased()
         {
+            if (_selectedBlockData == null || _lastBoardPivot == null) return;
+            
             _sensitivityRamp.Reset();
-        
-            if (_lastBoardPivot == null)
-            {
-                DisconnectSelection();
-                return;
-            }
         
             _placementBootstrap.PlaceBlock(
                 _drawer.GetStagingBlocks(),
@@ -132,27 +117,39 @@ namespace JTH.Scripts.Input
         
         private void UpdateViews()
         {
-            _drawer.MoveStaging(_blockWorldCenter);
+            _drawer.MoveStaging(_currentPivot);
             bool hadPreview = _lastBoardPivot != null;
 
-            float threshold = placementConfig.Drag.LastPivotSnapThreshold * boardConfig.CellSize;
-            Vector2 boardLocal = _gameBoard.WorldToBoardLocal(_blockWorldCenter - _halfSize);
-            if (!PlacementService.TryGetBoardPivot(boardLocal, _selectedBlockData.CellOffsets,
+            float threshold = placementConfig.Drag.LastPivotSnapThreshold;
+            Vector2 boardLocal = _gameBoard.WorldToBoardLocal(_currentPivot);
+            if (PlacementService.TryGetBoardPivot(boardLocal, _selectedBlockData.CellOffsets,
                     _gameBoard.Grid, _lastBoardPivot, threshold,
                     out Vector2Int boardPivot))
             {
-                _lastBoardPivot = null;
-                _drawer.ClearPreview();
+                _lastBoardPivot = boardPivot;
+
+                if (!hadPreview)
+                {
+                    _drawer.ShowPreview(_selectedBlockData);
+                }
+                _drawer.MovePreview(_gameBoard.BoardLocalToWorld(boardPivot));
                 return;
             }
             
-            _lastBoardPivot = boardPivot;
+            _lastBoardPivot = null;
+            _drawer.ClearPreview();
+        }
 
-            if (!hadPreview)
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_currentPivot, 0.1f);
+
+            if (_lastBoardPivot.HasValue)
             {
-                _drawer.ShowPreview(_selectedBlockData);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(_gameBoard.BoardLocalToWorld(_lastBoardPivot.Value), 0.1f);
             }
-            _drawer.MovePreview(_gameBoard.BoardLocalToWorld(boardPivot));
         }
     }
 }

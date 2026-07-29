@@ -5,15 +5,13 @@ namespace JTH.Scripts.Domain.Placement
     public sealed class DragSensitivityRamp
     {
         private readonly float _rampPerWorldUnit;
-        private readonly float _maxMultiplier;
         private Vector2 _pressOriginPos;
         private Vector2 _lastPointerPos;
         private bool _hasOrigin;
         
-        public DragSensitivityRamp(float rampPerWorldUnit, float maxMultiplier)
+        public DragSensitivityRamp(float rampPerWorldUnit)
         {
             _rampPerWorldUnit = rampPerWorldUnit;
-            _maxMultiplier = maxMultiplier;
         }
         
         public void Begin(Vector2 pressOriginPos)
@@ -44,7 +42,6 @@ namespace JTH.Scripts.Domain.Placement
                 ? (_pressOriginPos - currentPointerWorld).magnitude
                 : 0;
             float multiplier = 1f + distanceFromOrigin * _rampPerWorldUnit;
-            multiplier = Mathf.Min(multiplier, _maxMultiplier);
             return pointerDelta * multiplier;
         }
     }

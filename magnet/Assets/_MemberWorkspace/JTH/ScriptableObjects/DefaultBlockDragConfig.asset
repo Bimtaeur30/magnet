@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a10002000200020002000200000002, type: 3}
   m_Name: DefaultBlockDragConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BlockDragConfigSO
-  <SensitivityRampPerUnit>k__BackingField: 0.35
-  <SensitivityMaxMultiplier>k__BackingField: 3
+  <SensitivityRampPerUnit>k__BackingField: 0.12
+  <StagingBlockStartXPositions>k__BackingField:
+  - -3
+  - 0
+  - 3
+  <LastPivotSnapThreshold>k__BackingField: 1.5

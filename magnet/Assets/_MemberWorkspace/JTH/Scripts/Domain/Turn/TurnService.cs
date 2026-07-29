@@ -10,9 +10,12 @@ namespace JTH.Scripts.Domain.Turn
     {
         public static bool IsGameOver(BoardGrid grid, IReadOnlyList<ShapeBlockData> candidates)
         {
+            if (candidates.Count == 0)
+                return false;
+            
             foreach (ShapeBlockData shapeBlock in candidates)
             {
-                if (shapeBlock.CellOffsets == null)
+                if (shapeBlock == null)
                     continue;
                 
                 Vector2Int pivot = Vector2Int.zero;

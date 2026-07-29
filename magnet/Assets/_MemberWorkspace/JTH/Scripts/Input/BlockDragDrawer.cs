@@ -26,14 +26,14 @@ namespace JTH.Scripts.Input
         public void ShowStaging(ShapeBlockData data) => _stagingBlock.Show(data);
         public void ShowPreview(ShapeBlockData data) => _previewBlock.ShowPreview(data);
         
-        public void MoveStaging(Vector2 worldCenter)
+        public void MoveStaging(Vector2 position)
         {
-            _stagingBlock.ShowAtWorldCenter(worldCenter);
+            _stagingBlock.transform.position = position;
         }
 
-        public void MovePreview(Vector2 worldCenter)
+        public void MovePreview(Vector2 position)
         {
-            _previewBlock.ShowAtWorldCenter(worldCenter);
+            _previewBlock.transform.position = position;
         }
         
         public void ClearPreview() => _previewBlock.Clear();

@@ -604,6 +604,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fcf63e0c6dce724ba041e47ae388a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.BoardPlacementBootstrap
+--- !u!4 &211503170 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6710601027194802740, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+  m_PrefabInstance: {fileID: 3372746625780628174}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &224038381
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,6 +2385,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217980453}
   m_CullTransparentMesh: 1
+--- !u!1 &1237669773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1237669774}
+  - component: {fileID: 1237669775}
+  m_Layer: 0
+  m_Name: TurnBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1237669774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237669773}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 211503170}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1237669775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237669773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32def7bff48a4eccbd057bcf7900b9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.TurnBootstrap
+  inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  scoreConfig: {fileID: 11400000, guid: a7c4e2f19b3048d6a1e5c8d0f2b6a947, type: 2}
 --- !u!1 &1262389644
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,6 +4470,68 @@ MonoBehaviour:
   messageInput: {fileID: 1633201756}
   submitButton: {fileID: 821519772}
   resultText: {fileID: 2078838821}
+--- !u!1 &1987390797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1987390799}
+  - component: {fileID: 1987390798}
+  - component: {fileID: 1987390800}
+  m_Layer: 0
+  m_Name: InputDrag
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1987390798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987390797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e8f1a23b5d6e7094c8a1f2e3d4b5c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Input.BlockDragInput
+  inputSO: {fileID: 11400000, guid: 4e8b7c6d5a4f3e2d1c0b9a8f7e6d5c4b, type: 2}
+  boardConfig: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
+  placementConfig: {fileID: 11400000, guid: dec55d4c748f9ac4b8ede15c29f0ea6f, type: 2}
+  inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+--- !u!4 &1987390799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987390797}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1987390800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987390797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f9e2a34b6c7d8091e2f3a4b5c6d7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Input.BlockDragDrawer
+  shapeBlockPrefab: {fileID: 5012345678901234569, guid: b8c4e1f2938475620a1d3e5f67890123, type: 3}
 --- !u!1001 &2075425245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4956,10 +5070,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1729194047042930696, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      propertyPath: inGameChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
     - target: {fileID: 6327740150609354083, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
       propertyPath: inGameChannel
       value: 
       objectReference: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+    - target: {fileID: 6327740150609354083, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      propertyPath: shapeSourceSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e8f4a2b1c3d54e6f9a0b1c2d3e4f5a6b, type: 2}
     - target: {fileID: 6327740150609354083, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
       propertyPath: skinDataListSO
       value: 
@@ -5010,7 +5132,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6710601027194802740, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1237669774}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
 --- !u!1001 &4554043018491184240
@@ -6330,3 +6455,4 @@ SceneRoots:
   - {fileID: 1015081903}
   - {fileID: 1894922965}
   - {fileID: 1349675570}
+  - {fileID: 1987390799}

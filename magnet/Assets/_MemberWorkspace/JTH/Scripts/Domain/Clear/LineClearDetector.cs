@@ -50,6 +50,7 @@ namespace JTH.Scripts.Domain.Clear
                 {
                     if (!grid.IsOccupied(new Vector2Int(x, line.Index)))
                     {
+                        Debug.Log(x);
                         return false;
                     }
                 }
