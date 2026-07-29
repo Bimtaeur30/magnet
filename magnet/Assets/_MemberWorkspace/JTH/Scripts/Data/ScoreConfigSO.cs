@@ -10,5 +10,8 @@ namespace JTH.Scripts.Data
 
         [Tooltip("세션 base 랜덤 상한(포함). ScoreSession 시작 시 한 번 추출")]
         [field: SerializeField] public int BaseMax { get; private set; } = 55;
+
+        [Tooltip("블럭을 설치했을 때 셀 하나당 점수")]
+        [field: SerializeField] public int CellScore { get; private set; } = 1;
     }
 }

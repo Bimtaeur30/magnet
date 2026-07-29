@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
@@ -74,6 +74,19 @@ namespace JTH.Scripts.Input
             float startXPosition = placementConfig.Drag.StagingBlockStartXPositions[_selectedSlotIndex];
             Vector2 startPosition = new Vector2(startXPosition, _gameBoard.GetStartStagingY());
             
+            int maxX = int.MinValue, maxY = int.MinValue;
+
+            foreach (Vector2Int offset in _selectedBlockData.CellOffsets)
+            {
+                if (maxX < offset.x)
+                    maxX = offset.x;
+                if (maxY < offset.y)
+                    maxY = offset.y;
+            }
+            
+            Vector2 shapeBlockOffset = new Vector2(maxX / 2f, maxY / 2f);
+            startPosition -= shapeBlockOffset;
+            
             _sensitivityRamp.Begin(worldPointerPos);
             _currentPivot = startPosition;
             
@@ -95,14 +108,23 @@ namespace JTH.Scripts.Input
         
         private void OnPointerReleased()
         {
-            if (_selectedBlockData == null || _lastBoardPivot == null) return;
-            
             _sensitivityRamp.Reset();
-        
+            
+            if (_selectedBlockData == null) return;
+
+            if (_lastBoardPivot == null)
+            {
+                DisconnectSelection();
+                return;
+            }
+
+            List<Vector2Int> gridOffsets = new List<Vector2Int>();
+            foreach (Vector2Int cellOffset in _selectedBlockData.CellOffsets)
+                gridOffsets.Add(cellOffset + _lastBoardPivot.Value);
+
             _placementBootstrap.PlaceBlock(
                 _drawer.GetStagingBlocks(),
-                _lastBoardPivot.Value,
-                _selectedBlockData.CellOffsets,
+                gridOffsets,
                 _selectedSlotIndex);
             
             DisconnectSelection();
@@ -132,7 +154,7 @@ namespace JTH.Scripts.Input
                 {
                     _drawer.ShowPreview(_selectedBlockData);
                 }
-                _drawer.MovePreview(_gameBoard.BoardLocalToWorld(boardPivot));
+                _drawer.MovePreview(_gameBoard.GridToWorld(boardPivot));
                 return;
             }
             
@@ -148,7 +170,7 @@ namespace JTH.Scripts.Input
             if (_lastBoardPivot.HasValue)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(_gameBoard.BoardLocalToWorld(_lastBoardPivot.Value), 0.1f);
+                Gizmos.DrawWireSphere(_gameBoard.GridToWorld(_lastBoardPivot.Value), 0.1f);
             }
         }
     }

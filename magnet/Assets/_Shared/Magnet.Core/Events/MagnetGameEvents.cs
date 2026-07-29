@@ -6,24 +6,12 @@ namespace Magnet.Core.Events
 {
     public static class MagnetGameEvents
     {
-        public static readonly ScoreChangedEvent ScoreChangedEvent = new();
         public static readonly ComboChangedEvent ComboChangedEvent = new();
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
     }
     
-    public sealed class ScoreChangedEvent : GameEvent
-    {
-        public int TotalScore { get; private set; }
-
-        public ScoreChangedEvent Init(int totalScore)
-        {
-            TotalScore = totalScore;
-            return this;
-        }
-    }
-
     public sealed class ComboChangedEvent : GameEvent
     {
         public int Combo { get; private set; }

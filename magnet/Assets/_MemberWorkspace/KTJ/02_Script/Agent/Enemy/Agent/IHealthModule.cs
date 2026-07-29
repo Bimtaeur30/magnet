@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
 {
@@ -6,10 +6,10 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
     {
         event Action HealthDepleted;
 
-        int CurrentHealth { get; }
+        float CurrentHealth { get; }
 
         void InitializeData(EnemyDataSO enemyDataSO);
-        void Damage(int damage);
-        void Heal(int amount);
+        void Damage(float damage);
+        void Heal(float amount);
     }
 }

@@ -22,14 +22,14 @@ public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
         {
             base.OnEnable();
 
-            MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
+            // MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
             UIChannel.AddListener<UIShowGameOverEvent>(HandleUIShowGameOverEvent);
         }
 
         protected override void OnDisable()
         {
-            MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
+            // MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.RemoveListener<GameOverEvent>(HandleGameOverEvent);
             UIChannel.RemoveListener<UIShowGameOverEvent>(HandleUIShowGameOverEvent);
 
@@ -47,9 +47,9 @@ public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
             Container.SetActive(true);
         }
 
-        private void HandleScoreChangedEvent(ScoreChangedEvent @event)
-        {
-            ViewModel.ScoreTxt = @event.TotalScore.ToString();
-        }
+        // private void HandleScoreChangedEvent(ScoreChangedEvent @event)
+        // {
+        //     ViewModel.ScoreTxt = @event.TotalScore.ToString();
+        // }
     }
 }

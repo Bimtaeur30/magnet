@@ -27,24 +27,22 @@ namespace JTH.Scripts.Bootstrap
 
         public void PlaceBlock(
             IReadOnlyList<Block> detached,
-            Vector2Int finalPivot,
-            IReadOnlyList<Vector2Int> cellOffsets,
+            IReadOnlyList<Vector2Int> gridOffsets,
             int slotIndex)
         {
             int filledBefore = CountFilledSlots();
             bool firstDrop = filledBefore == BlockSupply.SlotCount;
             bool lastDrop = filledBefore == 1;
-            int cellsPlaced = cellOffsets.Count;
 
             _blockSpawnBootstrap.Consume(slotIndex);
-            _gameBoard.AddBlock(detached, finalPivot, cellOffsets);
+            _gameBoard.AddBlock(detached, gridOffsets);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(
                 _gameBoard);
-
+            
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
-                cellsPlaced,
+                gridOffsets,
                 clearedLineResult,
                 firstDrop,
                 lastDrop);

@@ -13,13 +13,13 @@ public sealed class AttackBall : AbstractMonoPoolable
     private EventChannelSO _enemyEventChannel;
     private Vector3 _attackStartWorldPosition;
     private Vector3 _attackEndWorldPosition;
-    private int _damage;
+    private float _damage;
 
     public void Initialize(
         EventChannelSO enemyEventChannel,
         Vector3 attackStartWorldPosition,
         Vector3 attackEndWorldPosition,
-        int damage)
+        float damage)
     {
         _enemyEventChannel = enemyEventChannel;
         _attackStartWorldPosition = attackStartWorldPosition;

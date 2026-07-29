@@ -57,7 +57,7 @@ namespace JTH.Scripts.Domain.Score
                 _clearedThisTurn = true;
             }
 
-            int delta = cellsPlaced;
+            int delta = cellsPlaced * _config.CellScore;
 
             if (clearedLineCount > 0)
             {

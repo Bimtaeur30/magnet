@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using _Shared.Magnet.Core.Events;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Events;
@@ -9,7 +8,6 @@ namespace JTH.Scripts.Presentation
 {
     public sealed class PlacedBlocksView : MonoBehaviour
     {
-        [SerializeField] private EventChannelSO presentationChannel;
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private PoolItemSO blockBlastEffect;
         [SerializeField] private PoolManagerSO poolManagerSO;
@@ -18,7 +16,6 @@ namespace JTH.Scripts.Presentation
         
         private void Awake()
         {
-            Debug.Assert(presentationChannel != null, "[PlacedBlocksView] presentationChannel is not assigned.", this);
             Debug.Assert(blockBlastEffect != null, "[PlacedBlocksView] blockBlastEffect is not assigned.", this);
             
             _cellsDict = new Dictionary<Vector2Int, Block>();
@@ -28,32 +25,18 @@ namespace JTH.Scripts.Presentation
         /// 스테이징 ShapeBlock을 Y 스냅한 뒤 칸 View로 분해·등록한다.
         /// </summary>
         public void PlaceStagingBlock(IReadOnlyList<Block> detached
-            , Vector2Int finalPivot, IReadOnlyList<Vector2Int> cellOffsets)
-        {
-            IReadOnlyList<Vector2Int> positions = cellOffsets;
-        
-            List<Vector2Int> gridPositions = new List<Vector2Int>(positions.Count);
-            foreach (var position in positions)
-            {
-                gridPositions.Add(position + finalPivot);
-            }
-        
-            SplitStagingIntoCells(detached, gridPositions);
-        }
-        
-        private void SplitStagingIntoCells(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> gridPositions)
+            , IReadOnlyList<Vector2Int> gridOffsets)
         {
             for (int i = 0; i < detached.Count; i++)
             {
                 Block block = detached[i];
                 
                 block.transform.SetParent(transform);
-                block.Offset = gridPositions[i];
+                block.Offset = gridOffsets[i];
                 
-                _cellsDict.Add(gridPositions[i], block);
+                _cellsDict.Add(gridOffsets[i], block);
             }
         }
-        
         public void DestroyCellViews(IReadOnlyList<Vector2Int> positions)
         {
             foreach (Vector2Int position in positions)
@@ -62,14 +45,7 @@ namespace JTH.Scripts.Presentation
                 {
                     continue;
                 }
-                //
-                // presentationChannel.RaiseEvent(
-                //     PresentationEvents.PlayParticleEffectEvent.Init(
-                //         blockBlastEffect,
-                //         block.transform.position,
-                //         Quaternion.identity,
-                //         block.Skin));
-        
+
                 poolManagerSO.Push(block);
                 
                 inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));

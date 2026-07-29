@@ -6,14 +6,10 @@ namespace JTH.Scripts.Domain.Skin
 {
     public class SkinSession
     {
-        private readonly SkinDataListSO _skinDataList;
-        
         private readonly int _maxVariant;
 
         public SkinSession(SkinDataListSO skinDataList)
         {
-            _skinDataList = skinDataList;
-
             foreach (SkinDataSO data in skinDataList.Skins)
             {
                 if (data.Sprites.Length == 0)

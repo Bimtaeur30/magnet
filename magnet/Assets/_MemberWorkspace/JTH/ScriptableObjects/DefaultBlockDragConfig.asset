@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BlockDragConfigSO
   <SensitivityRampPerUnit>k__BackingField: 0.12
   <StagingBlockStartXPositions>k__BackingField:
-  - -3
+  - -2.1
   - 0
-  - 3
+  - 2.1
   <LastPivotSnapThreshold>k__BackingField: 1.5

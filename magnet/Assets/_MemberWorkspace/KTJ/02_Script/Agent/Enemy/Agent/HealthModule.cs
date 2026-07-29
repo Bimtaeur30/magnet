@@ -8,8 +8,8 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
     {
         public event Action HealthDepleted;
 
-        public int MaxHealth { get; private set; }
-        public int CurrentHealth { get; private set; }
+        public float MaxHealth { get; private set; }
+        public float CurrentHealth { get; private set; }
 
         public void Initialize(ModuleOwner owner) { }
 
@@ -18,8 +18,8 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
             MaxHealth = enemyDataSO.MaxHealth;
             CurrentHealth = enemyDataSO.MaxHealth;
         }
-
-        public void Damage(int damage)
+        
+        public void Damage(float damage)
         {
             if (CurrentHealth <= 0)
                 return;
@@ -33,7 +33,7 @@ namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
             }
         }
 
-        public void Heal(int amount)
+        public void Heal(float amount)
         {
             CurrentHealth += amount;
 

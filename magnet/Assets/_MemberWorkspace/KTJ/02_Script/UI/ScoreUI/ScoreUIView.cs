@@ -34,14 +34,14 @@ namespace Game.UI
         {
             base.OnEnable();
 
-            MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
+            // MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.AddListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
             MagnetGameChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
         }
 
         protected override void OnDisable()
         {
-            MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
+            // MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.RemoveListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
             MagnetGameChannel.RemoveListener<GameOverEvent>(HandleGameOverEvent);
 
@@ -49,17 +49,17 @@ namespace Game.UI
             base.OnDisable();
         }
 
-        private void HandleScoreChangedEvent(ScoreChangedEvent @event)
-        {
-            ViewModel.PlayCurrentScoreScaleAnimation();
-
-            if (_currentScoreAnimation != null)
-            {
-                StopCoroutine(_currentScoreAnimation);
-            }
-
-            _currentScoreAnimation = StartCoroutine(AnimateCurrentScore(@event.TotalScore));
-        }
+        // private void HandleScoreChangedEvent(ScoreChangedEvent @event)
+        // {
+        //     ViewModel.PlayCurrentScoreScaleAnimation();
+        //
+        //     if (_currentScoreAnimation != null)
+        //     {
+        //         StopCoroutine(_currentScoreAnimation);
+        //     }
+        //
+        //     _currentScoreAnimation = StartCoroutine(AnimateCurrentScore(@event.TotalScore));
+        // }
 
         private void OnBestScoreUpdated(BestScoreUpdatedEvent evt)
         {

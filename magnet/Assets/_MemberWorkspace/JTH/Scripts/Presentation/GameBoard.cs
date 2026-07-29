@@ -27,13 +27,13 @@ namespace JTH.Scripts.Presentation
         }
         
         public void AddBlock(IReadOnlyList<Block> detached
-            , Vector2Int finalPivot, IReadOnlyList<Vector2Int> cellOffsets)
+            , IReadOnlyList<Vector2Int> gridOffsets)
         {
-            foreach (Vector2Int cellPos in cellOffsets)
+            foreach (Vector2Int grid in gridOffsets)
             {
-                Grid.SetOccupied(cellPos + finalPivot, true);
+                Grid.SetOccupied(grid, true);
             }
-            _blocksView.PlaceStagingBlock(detached, finalPivot, cellOffsets);
+            _blocksView.PlaceStagingBlock(detached, gridOffsets);
         }
         
         public void RemoveCellsAt(IReadOnlyCollection<Vector2Int> gridPositions)
@@ -50,9 +50,9 @@ namespace JTH.Scripts.Presentation
             return _blocksView.transform.InverseTransformPoint(world) / boardConfigSO.CellSize;
         }
         
-        public Vector2 BoardLocalToWorld(Vector2Int boardPivot)
+        public Vector2 GridToWorld(Vector2Int grid)
         {
-            Vector2 boardLocal = (Vector2)boardPivot * boardConfigSO.CellSize;
+            Vector2 boardLocal = (Vector2)grid * boardConfigSO.CellSize;
             return _blocksView.transform.TransformPoint(boardLocal);
         }
         

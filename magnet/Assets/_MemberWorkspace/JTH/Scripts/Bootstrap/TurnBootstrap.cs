@@ -1,5 +1,7 @@
-﻿using GameLib.EventChannelSystem;
+﻿using System.Collections.Generic;
+using GameLib.EventChannelSystem;
 using JTH.Scripts.Data;
+using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Score;
 using JTH.Scripts.Domain.Turn;
@@ -13,6 +15,7 @@ namespace JTH.Scripts.Bootstrap
 {
     public sealed class TurnBootstrap : MonoBehaviour
     {
+        [SerializeField] private EventChannelSO enemyChannel;
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private ScoreConfigSO scoreConfig;
@@ -49,11 +52,11 @@ namespace JTH.Scripts.Bootstrap
 
             PlacementScoreResult scoreResult = _scoreSession.ApplyPlacement(
                 placementResult.ClearedLineResult.ClearedLineCount,
-                placementResult.CellsPlaced,
+                placementResult.PlacedGridPositions.Count,
                 placementResult.FirstDrop,
                 placementResult.LastDrop);
 
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
+            RaiseAttackEvent(evt, scoreResult);
             RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
 
             if (evt.PlacementResult.LastDrop)
@@ -64,6 +67,37 @@ namespace JTH.Scripts.Bootstrap
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
             {
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(scoreResult.TotalScore));
+            }
+        }
+
+        private void RaiseAttackEvent(BlockPlacedEvent evt, PlacementScoreResult scoreResult)
+        {
+            Dictionary<Vector3, float> scoreDict = new Dictionary<Vector3, float>();
+            foreach (Vector2Int grid in evt.PlacementResult.PlacedGridPositions)
+            {
+                scoreDict.Add(_gameBoard.GridToWorld(grid), scoreConfig.CellScore);
+            }
+            
+            HashSet<Vector2Int> destroyedCells = new HashSet<Vector2Int>();
+            foreach (Line line in evt.PlacementResult.ClearedLineResult.ClearedLines)
+            {
+                foreach (Vector2Int grid in line.GetCells(_gameBoard.Grid.BoardSize))
+                {
+                    destroyedCells.Add(grid);
+                }
+            }
+            
+            int breakScore = scoreResult.ScoreDelta - scoreDict.Count * scoreConfig.CellScore;
+            foreach (Vector2Int grid in destroyedCells)
+            {
+                Vector3 worldPos = _gameBoard.GridToWorld(grid);
+                if (scoreDict.TryAdd(worldPos, (float)breakScore / destroyedCells.Count))
+                    scoreDict[worldPos] += breakScore;
+            }
+
+            foreach (Vector3 worldPos in scoreDict.Keys)
+            {
+                enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, scoreDict[worldPos]));
             }
         }
 
