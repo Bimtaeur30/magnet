@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts;
-using Magnet.Core.SO.Block;
 
 namespace Magnet.Core.Events
 {

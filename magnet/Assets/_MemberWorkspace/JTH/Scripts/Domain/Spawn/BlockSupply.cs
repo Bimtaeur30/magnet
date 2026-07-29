@@ -33,7 +33,7 @@ namespace JTH.Scripts.Domain.Spawn
             IReadOnlyList<int> skinVariationList = _skinSession.DrawSkinIds(SlotCount);
 
             Debug.Assert(cellOffsetsList.Count == SlotCount && skinVariationList.Count == SlotCount
-                , "배열의 수가 맞지 않습니다.");
+                , $"배열의 수가 맞지 않습니다. cellOffsets={cellOffsetsList.Count}, skinVariationList={skinVariationList.Count}");
             
             _slots.Clear();
             for (int i = 0; i < SlotCount; i++)

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Data;
-using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Events;
 using Magnet.Contracts;
 using UnityEngine;
@@ -14,19 +13,16 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private PoolManagerSO poolManagerSO;
         [SerializeField] private PoolItemSO blockItemSO;
-        [SerializeField] private BoardConfigSO boardConfig;
         [SerializeField] private PlacementConfigSO placementConfig;
         [SerializeField] private Block blockPrefab;
 
         public IReadOnlyList<Vector2Int> CellOffsets { get; private set; }
 
         private readonly List<Block> _blocks = new();
-        private Vector2 _centerOffset;
         private int _skinId;
 
         private void Awake()
         {
-            Debug.Assert(boardConfig != null, "[ShapeBlock] boardConfig is not assigned.", this);
             Debug.Assert(placementConfig != null, "[ShapeBlock] placementConfig is not assigned.", this);
             Debug.Assert(blockPrefab != null, "[ShapeBlock] blockPrefab is not assigned.", this);
         }
@@ -49,28 +45,18 @@ namespace JTH.Scripts.Presentation
             Clear();
             while (_blocks.Count < CellOffsets.Count)
             {
-                Block instance = poolManagerSO.Pop<Block>(blockItemSO);
-                instance.name = $"Block_{_blocks.Count}";
-                _blocks.Add(instance);
+                Block block = poolManagerSO.Pop<Block>(blockItemSO);
+                block.transform.SetParent(transform);
+                block.name = $"Block_{_blocks.Count}";
+                _blocks.Add(block);
             }
             
             inGameChannel.RaiseEvent(InGameEvents.BlockCreatedEvent.Init(_blocks, _skinId));
             
-            float cellSize = boardConfig.CellSize;
-            float fill = placementConfig.Visual.CellFill;
-
             for (int i = 0; i < CellOffsets.Count; i++)
             {
                 _blocks[i].Offset = CellOffsets[i];
-                _blocks[i].SetLocalScale(new Vector3(cellSize * fill, cellSize * fill, 1f));
             }
-            
-            _centerOffset = PlacementService.GetShapeCenterOffset(CellOffsets);
-        }
-
-        public void ShowAtWorldCenter(Vector2 position)
-        {
-            transform.position = _centerOffset + position;
         }
 
         public void Clear()

@@ -1,5 +1,5 @@
-using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
+using JTH.Scripts.Data;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
@@ -9,17 +9,17 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private SpriteRenderer skinRenderer;
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]
         [SerializeField] private SpriteMask spriteMask;
-        [SerializeField] private EventChannelSO inGameChannel;
+        [SerializeField] private BoardConfigSO boardConfigSO;
 
         private Vector2Int _offset;
-        
+
         public Vector2Int Offset
         {
             get => _offset;
             set
             {
                 _offset = value;
-                transform.localPosition = new Vector3(_offset.x, _offset.y, 0);
+                transform.localPosition = new Vector3(value.x, value.y, 1) * boardConfigSO.CellSize;
             }
         }
         
@@ -29,7 +29,17 @@ namespace JTH.Scripts.Presentation
         private bool _dimmed;
         private float _dimMultiply = 1f;
         private float _alpha = 1f;
-        
+
+        private void Awake()
+        {
+            float cellSize = boardConfigSO.CellSize;
+            float fillAmount = boardConfigSO.CellFill;
+            spriteMask.transform.localScale = new Vector3(cellSize * fillAmount, cellSize * fillAmount, 1);
+            
+            Vector3 visualOffset = Vector2.one * cellSize / 2;
+            spriteMask.transform.localPosition = visualOffset;
+        }
+
         public override void ResetItem()
         {
             base.ResetItem();
@@ -90,11 +100,6 @@ namespace JTH.Scripts.Presentation
             skinRenderer.color = color;
         }
         
-        public void SetLocalScale(Vector3 localScale)
-        {
-            transform.localScale = localScale;
-        }
-
         private void SetSortingOrder(int sortingOrder)
         {
             int order = sortingOrder + _nextMaskSlot++;
@@ -111,7 +116,8 @@ namespace JTH.Scripts.Presentation
 
             spriteMask.isCustomRangeActive = true;
             spriteMask.backSortingLayerID = spriteMask.frontSortingLayerID = skinRenderer.sortingLayerID;
-            spriteMask.backSortingOrder = spriteMask.frontSortingOrder= order;
+            spriteMask.frontSortingOrder = order;
+            spriteMask.backSortingOrder = order - 1;
         }
     }
 }

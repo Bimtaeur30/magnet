@@ -19,6 +19,7 @@ namespace JTH.Scripts.Presentation
             Grid = new BoardGrid(boardConfigSO.CellCount);
 
             float offset = boardConfigSO.CellCount * boardConfigSO.CellSize / 2;
+            
             _blocksView = Instantiate(blocksViewPrefab, -Vector3.one * offset, Quaternion.identity, transform);
             Instantiate(boardViewPrefab, -Vector3.one * offset, Quaternion.identity, transform);
         }
@@ -28,14 +29,11 @@ namespace JTH.Scripts.Presentation
         {
             foreach (Vector2Int cellPos in cellOffsets)
             {
-                Grid.SetOccupied(cellPos, true);
+                Grid.SetOccupied(cellPos + finalPivot, true);
             }
             _blocksView.PlaceStagingBlock(detached, finalPivot, cellOffsets);
         }
         
-        /// <summary>
-        /// 좌표 집합에 해당하는 칸을 제거하고, 삭제된 cellId 목록을 반환한다.
-        /// </summary>
         public void RemoveCellsAt(IReadOnlyCollection<Vector2Int> gridPositions)
         {
             foreach (Vector2Int cellPos in gridPositions)

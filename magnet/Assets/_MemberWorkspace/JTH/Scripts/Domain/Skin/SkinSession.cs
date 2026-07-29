@@ -26,25 +26,29 @@ namespace JTH.Scripts.Domain.Skin
         public IReadOnlyList<int> DrawSkinIds(int drawCount)
         {
             List<int> variants = new List<int>();
-            Fill(variants);
-            
-            while (variants.Count > drawCount)
+            Fill(variants, drawCount);
+            for (int i = variants.Count - 1; i > 0; --i)
             {
-                if (variants.Count <= 0)
-                    Fill(variants);
-                int idx = Random.Range(0, variants.Count);
-                variants.RemoveAt(idx);
+                int j = Random.Range(0, i + 1);
+                (variants[i], variants[j]) = (variants[j], variants[i]);
             }
             
-            return variants;
+            return variants.GetRange(0, drawCount);
         }
 
-        private void Fill(List<int> variants)
+
+        private void Fill(List<int> variants, int drawCount)
         {
             variants.Clear();
-            for (int i = 0; i < _maxVariant; i++)
+            while (true)
             {
-                variants.Add(i);
+                for (int i = 0; i < _maxVariant; i++)
+                {
+                    variants.Add(i);
+                    
+                    if (variants.Count >= drawCount)
+                        return;
+                }
             }
         }
     }

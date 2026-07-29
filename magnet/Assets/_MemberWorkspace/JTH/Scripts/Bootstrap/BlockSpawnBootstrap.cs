@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using JTH.Scripts.Domain.Skin;
 using JTH.Scripts.Domain.Spawn;
@@ -24,8 +25,7 @@ namespace JTH.Scripts.Bootstrap
         [Inject] private GameBoard _gameBoard;
         
         private BlockSupply _supply;
-        
-        public BlockSupply Supply => _supply;
+        public IReadOnlyList<ShapeBlockData> Candidates => _supply.Candidates;
 
         private void Awake()
         {
@@ -82,7 +82,7 @@ namespace JTH.Scripts.Bootstrap
 
         public void Fill()
         {
-            Supply.Fill(new BlockSpawnContext(shapeSourceSO, _gameBoard.Grid, 0));
+            _supply.Fill(new BlockSpawnContext(shapeSourceSO, _gameBoard.Grid, 0));
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
     }
