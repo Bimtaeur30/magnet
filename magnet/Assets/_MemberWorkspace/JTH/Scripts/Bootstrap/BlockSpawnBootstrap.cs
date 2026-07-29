@@ -54,7 +54,11 @@ namespace JTH.Scripts.Bootstrap
         }
 
         public void Consume(int slotIndex)
-            => _supply.Consume(slotIndex);
+        {
+            _supply.Consume(slotIndex);
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
+        }
         
         private void OnBlockSelected(BlockSelectedOnUIEvent data)
             => OnBlockSelected(data.Index);

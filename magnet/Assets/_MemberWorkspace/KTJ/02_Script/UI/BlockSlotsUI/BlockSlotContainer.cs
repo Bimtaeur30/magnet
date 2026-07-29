@@ -9,7 +9,7 @@ public class BlockSlotContainer : MonoBehaviour
     [SerializeField] private EventChannelSO MagnetGameChannel;
     [SerializeField] private BlockSlot_UI[] Slots;
 
-    private void Awake()
+    private void OnEnable()
     {
         MagnetGameChannel.AddListener<BlockCandidatesUpdatedEvent>(HandleBlockCandidatesUpdatedEvent);
     }
@@ -20,8 +20,17 @@ public class BlockSlotContainer : MonoBehaviour
     }
     private void HandleBlockCandidatesUpdatedEvent(BlockCandidatesUpdatedEvent evt)
     {
-        for (int i = 0; i < evt.Candidates.Count; i++)
+        for (int i = 0; i < Slots.Length; i++)
         {
+            if (Slots[i] == null)
+                continue;
+
+            if (i >= evt.Candidates.Count)
+            {
+                Slots[i].EmptySlot();
+                continue;
+            }
+
             var shape = evt.Candidates[i];
 
             if (shape == null)
