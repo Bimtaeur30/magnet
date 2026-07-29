@@ -21,6 +21,7 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
 
     private IHealthModule _healthModule;
     private IStateMachineModule _stateMachineModule;
+    private IAgentRenderer _agentRenderer;
     private EnemyProfileUIViewModel _profileViewModel;
     private bool _isDead;
     private bool _deathCompleted;
@@ -38,6 +39,7 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
         base.InitializeModules();
         _healthModule = GetModule<IHealthModule>();
         _stateMachineModule = GetModule<IStateMachineModule>();
+        _agentRenderer = GetModule<IAgentRenderer>();
         _healthModule.HealthDepleted += OnHealthDepleted;
     }
 
@@ -71,7 +73,11 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
 
     private void OnEnemyAttack(EnemyAttackEvent attackEvent)
     {
+        int healthBeforeDamage = _healthModule.CurrentHealth;
         _healthModule.Damage(attackEvent.Damage);
+
+        if (_healthModule.CurrentHealth < healthBeforeDamage)
+            _agentRenderer.PlayBlink();
 
         if (_profileViewModel != null)
             _profileViewModel.Health = _healthModule.CurrentHealth;

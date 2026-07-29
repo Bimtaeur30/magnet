@@ -1636,6 +1636,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9646040023ae9614c87fe809c6679b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::AgentRenderer
+  blinkMaterial: {fileID: 2100000, guid: a8fb0df3bd2f49af897b98a10f66031e, type: 2}
+  blinkDuration: 0.12
+  blinkCount: 2
 --- !u!1001 &7418672712113739113
 PrefabInstance:
   m_ObjectHideFlags: 0
