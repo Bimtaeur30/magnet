@@ -17,11 +17,13 @@ namespace JTH.Scripts.Presentation
         public void Awake()
         {
             Grid = new BoardGrid(boardConfigSO.CellCount);
-
-            float offset = boardConfigSO.CellCount * boardConfigSO.CellSize / 2;
             
-            _blocksView = Instantiate(blocksViewPrefab, -Vector3.one * offset, Quaternion.identity, transform);
-            Instantiate(boardViewPrefab, -Vector3.one * offset, Quaternion.identity, transform);
+            _blocksView = Instantiate(blocksViewPrefab, transform);
+            BoardView boardView = Instantiate(boardViewPrefab, transform);
+            
+            float offset = boardConfigSO.CellCount * boardConfigSO.CellSize / 2;
+            _blocksView.transform.localPosition = -Vector3.one * offset;
+            boardView.transform.localPosition = -Vector3.one * offset;
         }
         
         public void AddBlock(IReadOnlyList<Block> detached
