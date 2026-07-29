@@ -12,6 +12,7 @@ public class EnemyAgent : ModuleOwner
     [SerializeField] private EnemyProfileUIView EnemyProfileUIView;
     [SerializeField] private EventChannelSO enemyEventChannel;
 #if UNITY_EDITOR
+    [SerializeField] private Transform testAttackStartPoint;
     [SerializeField, Min(0)] private int testAttackDamage = 10;
 #endif
 
@@ -70,8 +71,15 @@ public class EnemyAgent : ModuleOwner
     {
         if (Keyboard.current?.tKey.wasPressedThisFrame == true)
         {
+            Vector3 attackStartWorldPosition = testAttackStartPoint != null
+                ? testAttackStartPoint.position
+                : transform.position + Vector3.left * 5f;
+
             enemyEventChannel.RaiseEvent(
-                EnemyEvents.EnemyAttackEvent.Init(transform.position, testAttackDamage));
+                EnemyEvents.EnemyAttackRequestEvent.Init(
+                    attackStartWorldPosition,
+                    transform.position,
+                    testAttackDamage));
         }
     }
 #endif

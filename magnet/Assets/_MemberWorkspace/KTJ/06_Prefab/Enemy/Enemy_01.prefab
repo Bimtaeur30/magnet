@@ -278,6 +278,7 @@ Transform:
   - {fileID: 2195173491151750714}
   - {fileID: 7882876264974112818}
   - {fileID: 2535587889649070314}
+  - {fileID: 717421153250173622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &431711886638171047
@@ -294,6 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::EnemyAgent
   EnemyProfileUIView: {fileID: 4724815014600597843}
   enemyEventChannel: {fileID: 11400000, guid: 70e33f7876334f145ae5fa994898115b, type: 2}
+  testAttackStartPoint: {fileID: 717421153250173622}
   testAttackDamage: 10
 --- !u!1 &1629096102386013110
 GameObject:
@@ -1380,6 +1382,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &8931940523913990953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 717421153250173622}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &717421153250173622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8931940523913990953}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.2083333, z: 0}
+  m_LocalScale: {x: 0.83333325, y: 0.83333325, z: 0.83333325}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7251003069326195041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8938480936684561991
 GameObject:
   m_ObjectHideFlags: 0
