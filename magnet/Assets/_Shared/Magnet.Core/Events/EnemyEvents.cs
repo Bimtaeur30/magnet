@@ -10,16 +10,13 @@ public static class EnemyEvents
 public sealed class EnemyAttackRequestEvent : GameEvent
 {
     public Vector3 AttackStartWorldPosition { get; private set; }
-    public Vector3 AttackEndWorldPosition { get; private set; }
     public int Damage { get; private set; }
 
     public EnemyAttackRequestEvent Init(
         Vector3 attackStartWorldPosition,
-        Vector3 attackEndWorldPosition,
         int damage)
     {
         AttackStartWorldPosition = attackStartWorldPosition;
-        AttackEndWorldPosition = attackEndWorldPosition;
         Damage = damage;
         return this;
     }

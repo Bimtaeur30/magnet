@@ -78,7 +78,6 @@ public class EnemyAgent : ModuleOwner
             enemyEventChannel.RaiseEvent(
                 EnemyEvents.EnemyAttackRequestEvent.Init(
                     attackStartWorldPosition,
-                    transform.position,
                     testAttackDamage));
         }
     }

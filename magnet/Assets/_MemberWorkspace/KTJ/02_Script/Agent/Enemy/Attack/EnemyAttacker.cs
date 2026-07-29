@@ -5,6 +5,7 @@ public sealed class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] private EventChannelSO enemyEventChannel;
     [SerializeField] private AttackBall attackBallPrefab;
+    [SerializeField] private Transform enemyPosition;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public sealed class EnemyAttacker : MonoBehaviour
         attackBall.Initialize(
             enemyEventChannel,
             attackRequest.AttackStartWorldPosition,
-            attackRequest.AttackEndWorldPosition,
+            enemyPosition.position,
             attackRequest.Damage);
     }
 }
