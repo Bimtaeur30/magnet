@@ -36,8 +36,8 @@ namespace JTH.Scripts.Presentation
 
         public void ShowPreview(ShapeBlockData data)
         {
-            SetAlpha(placementConfig.Visual.PreviewAlpha);
             Show(data);
+            SetAlpha(placementConfig.Visual.PreviewAlpha);
         }
 
         private void ShowCells()
