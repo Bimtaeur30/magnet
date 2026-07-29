@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::EnemyAttacker
   enemyEventChannel: {fileID: 11400000, guid: 70e33f7876334f145ae5fa994898115b, type: 2}
   poolManagerSO: {fileID: 11400000, guid: 216d7df7e62c8cd4bbf1f480547d8199, type: 2}
-  attackBallItemSO: {fileID: 11400000, guid: 87610cf01e03a4d479ca31c0683c83a0, type: 2}
+  attackBallItemSO: {fileID: 11400000, guid: f445d13949a9ba041aa2e5c7215b244d, type: 2}
   attackBallPrefab: {fileID: 1466428353131123681, guid: 7bbe825d0c22eab48b28eefd31054edb, type: 3}
   enemyPosition: {fileID: 612737959}
 --- !u!1 &1499433799
