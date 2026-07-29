@@ -56,15 +56,14 @@ namespace JTH.Scripts.Bootstrap
             magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
             RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
 
-            if (TurnService.IsGameOver(_gameBoard.Grid, placementResult.Candidates))
-            {
-                magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(scoreResult.TotalScore));
-                return;
-            }
-
             if (evt.PlacementResult.LastDrop)
             {
                 _blockSpawnBootstrap.Fill();
+            }
+
+            if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
+            {
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(scoreResult.TotalScore));
             }
         }
 

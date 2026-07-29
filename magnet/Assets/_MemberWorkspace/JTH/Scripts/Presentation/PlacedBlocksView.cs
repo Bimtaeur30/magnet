@@ -32,25 +32,25 @@ namespace JTH.Scripts.Presentation
         {
             IReadOnlyList<Vector2Int> positions = cellOffsets;
         
-            var offsets = new List<Vector2Int>(positions.Count);
-            for (int i = 0; i < positions.Count; i++)
+            List<Vector2Int> gridPositions = new List<Vector2Int>(positions.Count);
+            foreach (var position in positions)
             {
-                offsets.Add(positions[i] - finalPivot);
+                gridPositions.Add(position + finalPivot);
             }
         
-            SplitStagingIntoCells(detached, offsets);
+            SplitStagingIntoCells(detached, gridPositions);
         }
         
-        private void SplitStagingIntoCells(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> offsets)
+        private void SplitStagingIntoCells(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> gridPositions)
         {
             for (int i = 0; i < detached.Count; i++)
             {
                 Block block = detached[i];
                 
-                block.Offset = offsets[i];
-                block.transform.SetParent(transform, worldPositionStays: false);
+                block.transform.SetParent(transform);
+                block.Offset = gridPositions[i];
                 
-                _cellsDict.Add(offsets[i], block);
+                _cellsDict.Add(gridPositions[i], block);
             }
         }
         
@@ -62,13 +62,13 @@ namespace JTH.Scripts.Presentation
                 {
                     continue;
                 }
-        
-                presentationChannel.RaiseEvent(
-                    PresentationEvents.PlayParticleEffectEvent.Init(
-                        blockBlastEffect,
-                        block.transform.position,
-                        Quaternion.identity,
-                        block.Skin));
+                //
+                // presentationChannel.RaiseEvent(
+                //     PresentationEvents.PlayParticleEffectEvent.Init(
+                //         blockBlastEffect,
+                //         block.transform.position,
+                //         Quaternion.identity,
+                //         block.Skin));
         
                 poolManagerSO.Push(block);
                 

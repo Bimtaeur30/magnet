@@ -43,7 +43,7 @@ namespace JTH.Scripts.Bootstrap
                 _gameBoard);
 
             PlacementResult placementResult = new PlacementResult(
-                _blockSpawnBootstrap.Supply.Candidates,
+                _blockSpawnBootstrap.Candidates,
                 cellsPlaced,
                 clearedLineResult,
                 firstDrop,
@@ -54,7 +54,7 @@ namespace JTH.Scripts.Bootstrap
 
         private int CountFilledSlots()
         {
-            IReadOnlyList<ShapeBlockData> candidates = _blockSpawnBootstrap.Supply.Candidates;
+            IReadOnlyList<ShapeBlockData> candidates = _blockSpawnBootstrap.Candidates;
             
             int filled = 0;
             foreach (var block in candidates)

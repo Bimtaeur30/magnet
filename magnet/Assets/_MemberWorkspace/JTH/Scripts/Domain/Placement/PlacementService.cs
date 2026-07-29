@@ -84,13 +84,18 @@ namespace JTH.Scripts.Domain.Placement
                 boardPivot = best;
                 return true;
             }
-            
+
             //마지막까지 안되면 예전 피벗과 일정 거리 이상 떨어지지 않았다는 가정 하에 예전 피벗 선택
-            if (lastBoardPivot is { } last
-                && Vector2.Distance(last, pivot) <= lastPivotSnapThreshold)
+            if (lastBoardPivot is { } last)
             {
-                boardPivot = last;
-                return true;
+                float xDistance = Mathf.Abs(last.x - pivot.x);
+                float yDistance = Mathf.Abs(last.y - pivot.y);
+                
+                if (xDistance < lastPivotSnapThreshold && yDistance < lastPivotSnapThreshold)
+                {
+                    boardPivot = last;
+                    return true;
+                }
             }
             
             //다 안되면 false

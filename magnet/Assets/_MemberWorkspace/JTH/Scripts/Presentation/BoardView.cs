@@ -25,22 +25,37 @@ namespace JTH.Scripts.Presentation
             int cellCount = config.CellCount;
             float cellSize = config.CellSize;
 
-            for (int i = 0; i <= cellCount; i++)
+            const string widthStr = "width";
+            const string lengthStr = "length";
+            
+            for (int i = 1; i < cellCount; i++)
             {
-                LineRenderer width = Instantiate(linePrefab, transform);
-                width.positionCount = 2;
+                LineRenderer width = InstantiateLine(widthStr, 2);
                 width.SetPosition(0, new Vector3(0, cellSize * i, 0));
                 width.SetPosition(1, new Vector3(lineLength, cellSize * i, 0));
-                width.startWidth = lineWidth;
-                width.endWidth = lineWidth;
                 
-                LineRenderer length = Instantiate(linePrefab, transform);
-                length.positionCount = 2;
+                LineRenderer length = InstantiateLine(lengthStr, 2);
                 length.SetPosition(0, new Vector3(cellSize * i, 0, 0));
                 length.SetPosition(1, new Vector3(cellSize * i, lineLength, 0));
-                length.startWidth = lineWidth;
-                length.endWidth = lineWidth;
             }
+            
+            LineRenderer square = InstantiateLine("square", 4);
+            square.loop = true;
+            square.SetPosition(0, new Vector3(0, 0, 0));
+            square.SetPosition(1, new Vector3(lineLength, 0, 0));
+            square.SetPosition(2, new Vector3(lineLength, lineLength, 0));
+            square.SetPosition(3, new Vector3(0, lineLength, 0));
+        }
+
+        private LineRenderer InstantiateLine(string lineName, int positionCount)
+        {
+            LineRenderer line = Instantiate(linePrefab, transform);
+            line.gameObject.name = lineName;
+            line.positionCount = positionCount;
+            line.startWidth = lineWidth;
+            line.endWidth = lineWidth;
+
+            return line;
         }
     }
 }
