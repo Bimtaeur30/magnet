@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DefaultBoardConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BoardConfigSO
   <CellCount>k__BackingField: 8
-  <CellSize>k__BackingField: 0.82
+  <CellSize>k__BackingField: 0.72
   <LineColor>k__BackingField: {r: 0.2, g: 0.22, b: 0.28, a: 1}
   <CellFill>k__BackingField: 0.9
