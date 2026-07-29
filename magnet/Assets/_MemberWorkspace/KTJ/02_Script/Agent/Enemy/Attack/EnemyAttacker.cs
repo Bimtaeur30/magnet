@@ -1,9 +1,12 @@
 using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 
 public sealed class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] private EventChannelSO enemyEventChannel;
+    [SerializeField] private PoolManagerSO poolManagerSO;
+    [SerializeField] private PoolItemSO attackBallItemSO;
     [SerializeField] private AttackBall attackBallPrefab;
     [SerializeField] private Transform enemyPosition;
 
@@ -25,11 +28,8 @@ public sealed class EnemyAttacker : MonoBehaviour
         if (attackBallPrefab == null)
             return;
 
-        AttackBall attackBall = Instantiate(
-            attackBallPrefab,
-            attackRequest.AttackStartWorldPosition,
-            Quaternion.identity);
-
+        AttackBall attackBall = poolManagerSO.Pop<AttackBall>(attackBallItemSO);
+        attackBall.transform.position = attackRequest.AttackStartWorldPosition;
         attackBall.Initialize(
             enemyEventChannel,
             attackRequest.AttackStartWorldPosition,

@@ -138,8 +138,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1d1f912c248d049bbb45fad0b18c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::AttackBall
+  <Item>k__BackingField: {fileID: 11400000, guid: 87610cf01e03a4d479ca31c0683c83a0, type: 2}
+  poolManagerSO: {fileID: 11400000, guid: 216d7df7e62c8cd4bbf1f480547d8199, type: 2}
   moveDuration: 0.4
   curveHeight: 4
+  trailRenderer: {fileID: 285199279201930545}
 --- !u!212 &484113099479010748
 SpriteRenderer:
   serializedVersion: 2

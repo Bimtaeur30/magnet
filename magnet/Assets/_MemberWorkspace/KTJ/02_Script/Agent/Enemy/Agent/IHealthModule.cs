@@ -1,7 +1,11 @@
-﻿namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
+using System;
+
+namespace Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy
 {
     public interface IHealthModule
     {
+        event Action HealthDepleted;
+
         int CurrentHealth { get; }
 
         void InitializeData(EnemyDataSO enemyDataSO);

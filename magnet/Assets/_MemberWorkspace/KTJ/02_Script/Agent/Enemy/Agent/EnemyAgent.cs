@@ -1,4 +1,5 @@
 ﻿using Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy;
+using System;
 using Game.UI;
 using GameLib.EventChannelSystem;
 using GGMLib.ModuleSystem;
@@ -7,8 +8,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-public class EnemyAgent : ModuleOwner
+public class EnemyAgent : ModuleOwner, IEnemyLifetime
 {
+    public event Action Died;
+
     [SerializeField] private EnemyProfileUIView EnemyProfileUIView;
     [SerializeField] private EventChannelSO enemyEventChannel;
 #if UNITY_EDITOR
@@ -19,6 +22,8 @@ public class EnemyAgent : ModuleOwner
     private IHealthModule _healthModule;
     private IStateMachineModule _stateMachineModule;
     private EnemyProfileUIViewModel _profileViewModel;
+    private bool _isDead;
+    private bool _deathCompleted;
 
     protected override void Awake()
     {
@@ -33,10 +38,14 @@ public class EnemyAgent : ModuleOwner
         base.InitializeModules();
         _healthModule = GetModule<IHealthModule>();
         _stateMachineModule = GetModule<IStateMachineModule>();
+        _healthModule.HealthDepleted += OnHealthDepleted;
     }
 
     public void InitializeEnemyData(EnemyDataSO enemyDataSO)
     {
+        _isDead = false;
+        _deathCompleted = false;
+
         Debug.Assert(EnemyProfileUIView != null, "에너미 에이전트 인스펙터에서 EnemyProfileUIView를 추가하세요.");
         _profileViewModel = EnemyProfileUIView.ViewModel;
 
@@ -53,6 +62,11 @@ public class EnemyAgent : ModuleOwner
     private void OnDestroy()
     {
         enemyEventChannel?.RemoveListener<EnemyAttackEvent>(OnEnemyAttack);
+
+        if (_healthModule != null)
+            _healthModule.HealthDepleted -= OnHealthDepleted;
+
+        Died = null;
     }
 
     private void OnEnemyAttack(EnemyAttackEvent attackEvent)
@@ -64,6 +78,29 @@ public class EnemyAgent : ModuleOwner
 
         if (_healthModule.CurrentHealth > 0)
             _stateMachineModule.ChangeState(EnemyStateId.Damage);
+    }
+
+    private void OnHealthDepleted()
+    {
+        Die();
+    }
+
+    private void Die()
+    {
+        if (_isDead)
+            return;
+
+        _isDead = true;
+        _stateMachineModule.ChangeState(EnemyStateId.Dead);
+    }
+
+    public void NotifyDeathCompleted()
+    {
+        if (!_isDead || _deathCompleted)
+            return;
+
+        _deathCompleted = true;
+        Died?.Invoke();
     }
 
 #if UNITY_EDITOR
@@ -86,7 +123,7 @@ public class EnemyAgent : ModuleOwner
     [ContextMenu("테스트 죽음")]
     private void TestDead()
     {
-        _stateMachineModule.ChangeState(EnemyStateId.Dead);
+        Die();
     }
 }
 

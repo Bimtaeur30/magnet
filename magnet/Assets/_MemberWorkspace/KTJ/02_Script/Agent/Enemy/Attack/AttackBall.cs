@@ -1,11 +1,14 @@
 using System.Collections;
 using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
 using UnityEngine;
 
-public sealed class AttackBall : MonoBehaviour
+public sealed class AttackBall : AbstractMonoPoolable
 {
+    [SerializeField] private PoolManagerSO poolManagerSO;
     [SerializeField, Min(0.01f)] private float moveDuration = 0.5f;
     [SerializeField] private float curveHeight = 2f;
+    [SerializeField] private TrailRenderer trailRenderer;
 
     private EventChannelSO _enemyEventChannel;
     private Vector3 _attackStartWorldPosition;
@@ -52,7 +55,8 @@ public sealed class AttackBall : MonoBehaviour
         _enemyEventChannel.RaiseEvent(
             EnemyEvents.EnemyAttackEvent.Init(_attackEndWorldPosition, _damage));
 
-        Destroy(gameObject);
+        trailRenderer.Clear();
+        poolManagerSO.Push(this);
     }
 
     private static Vector3 EvaluateQuadraticBezier(
