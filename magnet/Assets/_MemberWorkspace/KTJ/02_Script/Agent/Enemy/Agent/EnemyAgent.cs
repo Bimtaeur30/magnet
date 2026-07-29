@@ -73,7 +73,7 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
 
     private void OnEnemyAttack(EnemyAttackEvent attackEvent)
     {
-        int healthBeforeDamage = _healthModule.CurrentHealth;
+        float healthBeforeDamage = _healthModule.CurrentHealth;
         _healthModule.Damage(attackEvent.Damage);
 
         if (_healthModule.CurrentHealth < healthBeforeDamage)
