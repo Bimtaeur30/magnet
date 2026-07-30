@@ -74,18 +74,24 @@ namespace JTH.Scripts.Bootstrap
         {
             Dictionary<Vector3, float> lineClearScoreDict = new Dictionary<Vector3, float>();
 
-            Vector2Int maxGrid = Vector2Int.zero;
+            Vector2Int minGrid = new Vector2Int(int.MaxValue, int.MaxValue);
+            Vector2Int maxGrid = new Vector2Int(int.MinValue, int.MinValue);
             foreach (Vector2Int grid in evt.PlacementResult.PlacedGridPositions)
             {
-                if (maxGrid.x < grid.x)
+                if (grid.x < minGrid.x)
+                    minGrid.x = grid.x;
+                if (grid.y < minGrid.y)
+                    minGrid.y = grid.y;
+                if (grid.x > maxGrid.x)
                     maxGrid.x = grid.x;
-                if (maxGrid.y < grid.y)
+                if (grid.y > maxGrid.y)
                     maxGrid.y = grid.y;
             }
 
-            float cutOffX = maxGrid.x % 2 == 0 ? 0 : 1;
-            float cutOffY = maxGrid.y % 2 == 0 ? 0 : 1;
-            Vector2 middleGrid = _gameBoard.GridToWorld(maxGrid / 2) + new Vector2(cutOffX, cutOffY) / 2;
+            Vector2 minWorld = _gameBoard.GridToWorld(minGrid);
+            Vector2 maxWorld = _gameBoard.GridToWorld(maxGrid);
+            Vector2 cellWorldSize = _gameBoard.GridToWorld(Vector2Int.right) - _gameBoard.GridToWorld(Vector2Int.zero);
+            Vector2 blockCenter = (minWorld + maxWorld + cellWorldSize) * 0.5f;
             int placedCellScore = evt.PlacementResult.PlacedGridPositions.Count * scoreConfig.CellScore;
             
             HashSet<Vector2Int> destroyedCells = new HashSet<Vector2Int>();
@@ -104,7 +110,7 @@ namespace JTH.Scripts.Bootstrap
                 lineClearScoreDict.TryAdd(worldPos, (float)breakScore / destroyedCells.Count);
             }
 
-            enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(middleGrid, placedCellScore));
+            enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(blockCenter, placedCellScore));
             foreach (Vector3 worldPos in lineClearScoreDict.Keys)
             {
                 enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, lineClearScoreDict[worldPos]));
