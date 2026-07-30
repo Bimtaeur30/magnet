@@ -30,6 +30,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlinkAmount: 0
+    - _PetrifyAmount: 0
+    - _ShatterAmount: 0
+    - _ShatterCellCount: 24
+    - _DustAmount: 0
+    - _DustRise: 0.35
     m_Colors:
     - _BlinkColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

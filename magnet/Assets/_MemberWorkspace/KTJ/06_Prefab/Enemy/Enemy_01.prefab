@@ -1639,6 +1639,14 @@ MonoBehaviour:
   blinkMaterial: {fileID: 2100000, guid: a8fb0df3bd2f49af897b98a10f66031e, type: 2}
   blinkDuration: 0.12
   blinkCount: 2
+  petrifyDuration: 0.5
+  fragmentPixelSize: 96
+  fragmentDuration: 1.8
+  burstForce: 1.87
+  upwardForce: 1.47
+  fragmentGravity: 2.5
+  rotationSpeed: 360
+  fragmentStartScale: 3
 --- !u!1001 &7418672712113739113
 PrefabInstance:
   m_ObjectHideFlags: 0
