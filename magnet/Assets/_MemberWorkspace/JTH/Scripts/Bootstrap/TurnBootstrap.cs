@@ -72,11 +72,21 @@ namespace JTH.Scripts.Bootstrap
 
         private void RaiseAttackEvent(BlockPlacedEvent evt, PlacementScoreResult scoreResult)
         {
-            Dictionary<Vector3, float> scoreDict = new Dictionary<Vector3, float>();
+            Dictionary<Vector3, float> lineClearScoreDict = new Dictionary<Vector3, float>();
+
+            Vector2Int maxGrid = Vector2Int.zero;
             foreach (Vector2Int grid in evt.PlacementResult.PlacedGridPositions)
             {
-                scoreDict.Add(_gameBoard.GridToWorld(grid), scoreConfig.CellScore);
+                if (maxGrid.x < grid.x)
+                    maxGrid.x = grid.x;
+                if (maxGrid.y < grid.y)
+                    maxGrid.y = grid.y;
             }
+
+            float cutOffX = maxGrid.x % 2 == 0 ? 0 : 1;
+            float cutOffY = maxGrid.y % 2 == 0 ? 0 : 1;
+            Vector2 middleGrid = _gameBoard.GridToWorld(maxGrid / 2) + new Vector2(cutOffX, cutOffY) / 2;
+            int placedCellScore = evt.PlacementResult.PlacedGridPositions.Count * scoreConfig.CellScore;
             
             HashSet<Vector2Int> destroyedCells = new HashSet<Vector2Int>();
             foreach (Line line in evt.PlacementResult.ClearedLineResult.ClearedLines)
@@ -87,17 +97,17 @@ namespace JTH.Scripts.Bootstrap
                 }
             }
             
-            int breakScore = scoreResult.ScoreDelta - scoreDict.Count * scoreConfig.CellScore;
+            int breakScore = scoreResult.ScoreDelta - placedCellScore;
             foreach (Vector2Int grid in destroyedCells)
             {
                 Vector3 worldPos = _gameBoard.GridToWorld(grid);
-                if (scoreDict.TryAdd(worldPos, (float)breakScore / destroyedCells.Count))
-                    scoreDict[worldPos] += breakScore;
+                lineClearScoreDict.TryAdd(worldPos, (float)breakScore / destroyedCells.Count);
             }
 
-            foreach (Vector3 worldPos in scoreDict.Keys)
+            enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(middleGrid, placedCellScore));
+            foreach (Vector3 worldPos in lineClearScoreDict.Keys)
             {
-                enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, scoreDict[worldPos]));
+                enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, lineClearScoreDict[worldPos]));
             }
         }
 
