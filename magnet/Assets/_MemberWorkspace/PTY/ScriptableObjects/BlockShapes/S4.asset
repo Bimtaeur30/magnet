@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdccdfc06aaba2f43a7b430acdbe8f7e, type: 3}
-  m_Name: L_-Shape
-  m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Data.BlockShapeSO
-  shapeId: L_-Shape
+  m_Name: S4
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Block.BlockShapeSO
+  shapeId: S4
   cellOffsets:
-  - {x: 0, y: 0}
   - {x: 1, y: 0}
   - {x: 2, y: 0}
   - {x: 0, y: 1}
-  - {x: 0, y: 2}
-  icon: {fileID: 2800000, guid: e866b5ec010ba3140aa25243bfc5209c, type: 3}
+  - {x: 1, y: 1}
+  icon: {fileID: 0}

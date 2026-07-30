@@ -10,17 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdccdfc06aaba2f43a7b430acdbe8f7e, type: 3}
-  m_Name: 3x3-Shape
-  m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Data.BlockShapeSO
-  shapeId: 3x3-Shape
+  m_Name: Diag3
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Block.BlockShapeSO
+  shapeId: Diag3
   cellOffsets:
   - {x: 0, y: 0}
-  - {x: 1, y: 0}
-  - {x: 2, y: 0}
-  - {x: 0, y: 1}
   - {x: 1, y: 1}
-  - {x: 2, y: 1}
-  - {x: 0, y: 2}
-  - {x: 1, y: 2}
   - {x: 2, y: 2}
-  icon: {fileID: 2800000, guid: b4b5d8d926be79f4a9f934c60461a8e2, type: 3}
+  icon: {fileID: 0}
