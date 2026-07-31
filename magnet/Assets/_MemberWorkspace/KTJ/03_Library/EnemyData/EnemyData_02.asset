@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3ac4a04733bb7479e2438347b8c012, type: 3}
   m_Name: EnemyData_02
   m_EditorClassIdentifier: Magent.KTJ::Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy.EnemyDataSO
-  <EnemyPrefab>k__BackingField: {fileID: 431711886638171047, guid: 82715c11c14449f49a674923b46eda28, type: 3}
+  <EnemyPrefab>k__BackingField: {fileID: 431711886638171047, guid: c01e5d051cc612744a8317ffde53bf30, type: 3}
   <EnemyName>k__BackingField: "\uBF55\uC9DD\uACE8\uB818"
   <MaxHealth>k__BackingField: 100
-  <NoNumber>k__BackingField: 1
+  <NoNumber>k__BackingField: 2
