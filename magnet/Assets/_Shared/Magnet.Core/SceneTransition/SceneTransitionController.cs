@@ -36,8 +36,12 @@ namespace Magnet.Core.SceneTransition
 
             DontDestroyOnLoad(gameObject);
             inputBlockerCanvasGroup.blocksRaycasts = false;
-            ResetPanelBelowScreen();
             magnetGameChannel.AddListener<LoadSceneEvent>(HandleLoadScene);
+        }
+
+        private void Start()
+        {
+            ResetPanelBelowScreen();
         }
 
         private void OnDestroy()
