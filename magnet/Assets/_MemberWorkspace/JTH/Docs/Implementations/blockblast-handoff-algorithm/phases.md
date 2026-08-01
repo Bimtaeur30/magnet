@@ -1,5 +1,8 @@
 # BlockBlast 핸드오프 알고리즘 — Phase 인덱스
 
+> **2026-08-02 계승:** 본 구현은 [hybrid-spawn-algorithm](../hybrid-spawn-algorithm/phases.md)의 **기본 공급기(BaseChain)** 로 계승됐다.
+> `BlockBlastAlgorithm`은 그대로 내부 부품으로 사용 중이며(외부 히스토리 기록용 `RecordExternalRound`만 추가), `BlockBlastDrawer` 단독 배선은 롤백용 보존.
+
 > **구현:** `blockblast-handoff-algorithm` · **Jira:** — · **대체 대상:** `block-selection-algorithm` (9-티어 스택)  
 > **근거 자료:** BlockBlast! 1.3.71 역공학 인계본 (외부 폴더 `BlockBlast_AI_Handoff_5files` — PDF 보고서 + 검증 500건 + restored_profile.json)  
 > **핵심 한계:** 주력 알고리즘 1370(all-combination fill, native 14009)은 C++ 미복원 → **근사 구현** (grill로 사용자 확정).

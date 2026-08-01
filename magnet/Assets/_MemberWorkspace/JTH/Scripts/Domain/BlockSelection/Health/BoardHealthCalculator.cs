@@ -38,7 +38,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
         public static BoardHealthResult Compute(
             BoardGrid board,
             IReadOnlyList<IReadOnlyList<Vector2Int>> freedomProbePieces,
-            BlockSelectionTuningSO tuning)
+            IBoardHealthTuning tuning)
         {
             float fillRate = ComputeFillRate(board);
             int deadZoneCount = CountDeadZones(board);
@@ -274,7 +274,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
             int clusterCount,
             int largestClusterSize,
             int occupiedCount,
-            BlockSelectionTuningSO tuning)
+            IBoardHealthTuning tuning)
         {
             float fillComponent = FillComponent(fillRate, tuning);
             float deadZoneComponent = 1f - Mathf.Clamp01(deadZoneCount / (float)tuning.DeadZoneNormalizeMax);
@@ -294,7 +294,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
         /// 최대 덩어리 크기(클수록 좋음)를 ClusterCohesionShare 비율로 합산.
         /// </summary>
         private static float ClusterComponent(
-            int clusterCount, int largestClusterSize, int occupiedCount, BlockSelectionTuningSO tuning)
+            int clusterCount, int largestClusterSize, int occupiedCount, IBoardHealthTuning tuning)
         {
             if (occupiedCount == 0)
             {
@@ -310,7 +310,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
                 + (1f - tuning.ClusterCohesionShare) * sizeFactor;
         }
 
-        private static float FillComponent(float fillRate, BlockSelectionTuningSO tuning)
+        private static float FillComponent(float fillRate, IBoardHealthTuning tuning)
         {
             if (fillRate < tuning.TooEmptyFillMax)
             {
@@ -325,7 +325,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
             return 1f;
         }
 
-        private static HealthZone ResolveZone(float fillRate, float score, BlockSelectionTuningSO tuning)
+        private static HealthZone ResolveZone(float fillRate, float score, IBoardHealthTuning tuning)
         {
             if (fillRate < tuning.TooEmptyFillMax)
             {

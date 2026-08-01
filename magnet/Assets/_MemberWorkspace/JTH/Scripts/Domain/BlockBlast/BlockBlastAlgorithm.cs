@@ -334,6 +334,17 @@ namespace JTH.Scripts.Domain.BlockBlast
             return candidates.Count == 0 ? 1 : candidates[_random.Next(candidates.Count)];
         }
 
+        /// <summary>
+        /// 외부(하이브리드 특수 티어)가 확정한 트리플을 히스토리에 반영한다.
+        /// 반복 억제 트레이트는 우회하되(솔버 보장 보호) 기록은 남겨 다음 base 선택이
+        /// 같은 조합을 반복하지 않게 하고, 라운드 카운터도 진행시켜 FillSortEdge 게이트를 유지한다.
+        /// </summary>
+        public void RecordExternalRound(int[] triple)
+        {
+            ++_round;
+            RecordHistory(triple);
+        }
+
         private void RecordHistory(int[] triple)
         {
             _recentTriples.Add((int[])triple.Clone());

@@ -118,6 +118,26 @@
 | `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `selectionTuningSO` | 블록 선택 알고리즘 수치 튜닝 SO |
 | `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `bundlePoolSO` | 티어별 번들 모음 SO |
 
+#### JTH — HybridTuningSO (hybrid-spawn-algorithm, 2026-08-02)
+
+Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공통 필드는 위 `BlockSelectionTuningSO` 항목과 **동일 문구** (인터페이스 추출로 같은 계산기를 공유). 아래는 신규·변경 필드만.
+
+| 파일 | 필드 | Tooltip |
+|------|------|---------|
+| `Scripts/Data/HybridTuningSO.cs` | `RelifeTurnCount` | Relife(재시작 접대) 티어가 적용되는 재시작 세션 첫 턴 수 (권장 1~2). IsRetrySession 배선 전까지 미발동 |
+| `Scripts/Data/HybridTuningSO.cs` | `RelifeSampleTries` | Relife 트리플 샘플 시도 횟수 (검증 실패분 포함) |
+| `Scripts/Data/HybridTuningSO.cs` | `TrapSampleTries` | Trap 트리플 샘플 시도 횟수. Trap 검증(완주 불가 증명)은 비싸므로 보수적으로 (권장 6~10) |
+| `Scripts/Data/HybridTuningSO.cs` | `ComboBreakSampleTries` | ComboBreak 트리플 샘플 시도 횟수. 콤보 불가 증명은 비싸므로 보수적으로 (권장 6~10) |
+| `Scripts/Data/HybridTuningSO.cs` | `HospitalitySampleCount` | Hospitality 후보 트리플 샘플 횟수 (권장 50~200) |
+| `Scripts/Data/HybridTuningSO.cs` | `PressureSampleCount` | Pressure 후보 트리플 샘플 횟수 (유일수 판정은 비싸므로 보수적으로) |
+| `Scripts/Data/HybridTuningSO.cs` | `relifeWeights` | Relife 풀 가중치 — 1x1 포함 소형 위주 접대. 1x1(칸 1)은 이 풀에서만 나옴 |
+| `Scripts/Data/HybridTuningSO.cs` | `trapWeights` | Trap 풀 가중치 — 대형 위주 (순서 함정 유도) |
+| `Scripts/Data/HybridTuningSO.cs` | `comboBreakWeights` | ComboBreak 풀 가중치 — 소·중형 위주 (넣을 순 있으나 클리어 어려움) |
+| `Scripts/Data/HybridTuningSO.cs` | `hospitalityWeights` | Hospitality 풀 가중치 — 큰·긴 블록 우선 (강한 기회를 시원하게) |
+| `Scripts/Data/HybridTuningSO.cs` | `pressureWeights` | Pressure 풀 가중치 — 큰 마무리 블록 선호 (유일수 난이도 확보) |
+| `Scripts/Data/CellCountWeightTable.cs` | `weightByCellCount` | 인덱스 = 블록 칸 수 (0은 미사용). 0이면 그 칸 수 블록은 이 티어에서 안 나옴 |
+| `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `hybridTuningSO` | 하이브리드 스폰(핸드오프 체인 + 특수 티어) 수치 튜닝 SO |
+
 ### JTH — `Assets/_MemberWorkspace/JTH/` (v0.6 · 일부 deprecated)
 
 | 파일 | 필드 | Tooltip |
@@ -191,3 +211,4 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-07-16 | JTH Block.spriteMask Tooltip 추가 (SpriteMask Custom Range 격리) |
 | 2026-07-21 | v0.7 Block Blast 피벗 — deprecated 안내, BlockBlastPoolSO·boardSize 예정 |
 | 2026-07-24 | JTH ScoreConfigSO — BaseMin/BaseMax (구 kTiers·SoftCap 제거) |
+| 2026-08-02 | JTH HybridTuningSO·CellCountWeightTable — hybrid-spawn-algorithm 신규 필드 |

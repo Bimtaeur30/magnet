@@ -11,7 +11,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Generation
     /// </summary>
     public static class OpportunityScorer
     {
-        public static float Score(BoardGrid board, BoardHealthResult health, BlockSelectionTuningSO tuning)
+        public static float Score(BoardGrid board, BoardHealthResult health, IOpportunityTuning tuning)
         {
             float score = 0f;
 

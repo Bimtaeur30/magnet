@@ -22,7 +22,7 @@
 
 **Jira:** [SCRUM Backlog](https://bimtaeur30.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog) · `hwanji203@gmail.com`  
 
-**기획:** v0.7 Block Blast 피벗 (2026-07-21 grill-me). 스폰 알고리즘은 **별도 설계 TBD**.
+**기획:** v0.7 Block Blast 피벗 (2026-07-21 grill-me). 스폰 알고리즘은 **`hybrid-spawn-algorithm`** (핸드오프 체인 + 특수 티어 병합, 2026-08-02 grill-me).
 
 
 

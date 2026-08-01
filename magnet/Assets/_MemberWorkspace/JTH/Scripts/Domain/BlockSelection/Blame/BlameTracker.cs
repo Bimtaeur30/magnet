@@ -7,12 +7,12 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
 {
     public sealed class BlameTracker
     {
-        private readonly BlockSelectionTuningSO _tuning;
+        private readonly IBlameTuning _tuning;
 
         public float Total { get; private set; }
         public float LastTurnDelta { get; private set; }
 
-        public BlameTracker(BlockSelectionTuningSO tuning)
+        public BlameTracker(IBlameTuning tuning)
         {
             _tuning = tuning;
         }
