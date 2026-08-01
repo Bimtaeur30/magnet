@@ -38,7 +38,9 @@
 
 | [score-logic](./Implementations/score-logic/phases.md) | 점수·콤보 | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase5 완료 (λ·base·tier) | **구현됨** |
 
-| [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | **phase9 완료** (실게임 사진 분석 반영 — `Docs/BLOCKBLAST_ANALYSIS.md`) | **구현됨** |
+| [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | phase9 완료 (실게임 사진 분석 반영 — `Docs/BLOCKBLAST_ANALYSIS.md`) | **Deprecated** (blockblast-handoff-algorithm으로 교체 · 코드 보존) |
+
+| [blockblast-handoff-algorithm](./Implementations/blockblast-handoff-algorithm/phases.md) | BlockBlast 역공학 핸드오프 알고리즘 (42-ID · 7→1370→2100 체인) | — | **phase1 완료** | **구현됨** |
 
 
 

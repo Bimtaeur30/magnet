@@ -1,0 +1,188 @@
+# sequence1 — Phase 1 변경 기록
+
+## 2 — 2026-08-01 · 1370 근사 분포 보정 (대형 블록 실종 피드백)
+
+플레이 피드백: "원작 대비 길고 큰 블록이 안 나오고 작은 블록만 나옴". 원인 두 가지 — (1) 검증 500건 미관측을 근거로 대형 블록을 풀에서 제외했으나 그 데이터는 합성 랜덤 보드의 왜곡, (2) 순서 조합 스캔의 "첫 통과 조합 채택"이 완주 검증을 쉽게 통과하는 소형 블록으로 쏠림 + 중복 블록 불가.
+
+- 파일: `Scripts/Domain/BlockBlast/BlockBlastCatalog.cs`
+  - 심볼: `BlockBlastCatalog.FillPoolExcluded` — private static HashSet (수정)
+    - 설명: 제외 목록을 [11,12,13,21,22,23,24,39,40,41] → [39,40,41](대각 3칸)로 축소. 대형·장블록 재포함.
+    - 이유: 원작 실플레이에서 1x5·3x3 등 대형 블록이 등장 — 500건 미관측은 합성 보드에서 완주 검증을 통과 못 한 표본 왜곡으로 재판단.
+  - 심볼: `BlockBlastCatalog.BuildFillPool()` — 메서드 (삭제)
+    - 설명: 균등 풀 배열 생성 제거.
+    - 이유: 가중치 샘플링으로 대체 — 아래 FillPoolIds/FillPoolWeights.
+  - 심볼: `BlockBlastCatalog.FillPoolIds` — public static readonly int[] (추가)
+    - 설명: 1370 근사 풀 ID 배열 (2~42 − 대각 3칸). FillPoolWeights와 인덱스 대응.
+    - 이유: 매 샘플마다 풀을 재생성하지 않도록 정적 캐시.
+    - 영향: `BlockBlastAlgorithm.SampleWeightedId`.
+  - 심볼: `BlockBlastCatalog.FillPoolWeights / FillPoolWeightTotal` — public static readonly float[] · 프로퍼티 (추가)
+    - 설명: 셀 수 기반 추첨 가중치와 합계 (2칸 0.6 / 3칸 0.8 / 4칸 1.0 / 5~6칸 0.5 / 9칸 0.35).
+    - 이유: 완주 검증이 소형에 유리한 만큼 4칸을 기준으로 분포를 원작 체감에 맞춤 — 밸런싱 조정 지점.
+  - 심볼: `BlockBlastCatalog.BuildFillPoolIds() / BuildFillPoolWeights() / WeightByCellCount(int)` — private static 메서드 (추가)
+    - 설명: 정적 초기화용 풀·가중치 생성 (선언 순서: Offsets → FillPoolIds → FillPoolWeights 의존).
+    - 이유: 초기화 1회 수행.
+
+- 파일: `Scripts/Domain/BlockBlast/BlockBlastAlgorithm.cs`
+  - 심볼: `BlockBlastAlgorithm.FillSampleCount` — private 상수 120 (추가)
+    - 설명: 1370 근사의 가중치 샘플링 시도 상한.
+    - 이유: 100ms 시간 예산과 병행하는 개수 안전장치.
+  - 심볼: `BlockBlastAlgorithm.TrySelectAllCombinationFill(BoardGrid, List<string>)` — private 메서드 (수정)
+    - 설명: 순서 조합 스캔 → 가중치 샘플링 루프로 교체. 클리어 가능 완주 우선, 완주만 가능은 fallback 보관은 동일.
+    - 이유: 소형 쏠림 제거 + 중복 블록 허용(원작은 같은 블록 2개 등장) — 분포를 가중치로 직접 제어.
+  - 심볼: `BlockBlastAlgorithm.SampleWeightedTriple()` — private 메서드 (추가)
+    - 설명: 가중치 독립 추첨 3회 (중복 허용, 3개 전부 동일만 재추첨).
+    - 이유: 원작 핸드에 동일 블록 2개가 관측됨(실게임 round 1 [5,5,2]) — 조합 스캔은 중복 표현 불가였음.
+  - 심볼: `BlockBlastAlgorithm.SampleWeightedId()` — private 메서드 (추가)
+    - 설명: FillPoolWeights 누적 룰렛으로 ID 1개 추첨.
+    - 이유: 가중치 샘플링의 기본 연산.
+  - 심볼: `BlockBlastAlgorithm.ScanCombos(BoardGrid, int[])` — private static 메서드 (수정: preferClear·out 파라미터 제거)
+    - 설명: 완주 가능 첫 조합만 반환하는 단순 스캔으로 축소.
+    - 이유: 클리어 선호 경로가 1370 샘플링으로 이동해 randomNoDie 전용이 됨.
+
+## 1 — 2026-08-01 · 핵심 체인 이식 + Drawer 교체
+
+- 파일: `Scripts/Domain/BlockBlast/BlockBlastCatalog.cs`
+  - 심볼: `BlockBlastCatalog.MinId / MaxId / RandomPoolMin / RandomPoolMax` — 상수 (추가)
+    - 설명: 카탈로그 ID 범위(1~42)와 produceRandomId 풀 범위(2~42)를 정의한다.
+    - 이유: 핸드오프 §7·§11의 ID 범위 규칙을 매직 넘버 없이 한곳에 고정.
+  - 심볼: `BlockBlastCatalog.NoDiePoolMin / NoDiePoolMax` — private 상수 (추가)
+    - 설명: randomNoDie 풀 범위(2~30).
+    - 이유: 핸드오프 §11 "ID 2..30을 shuffle" 그대로.
+  - 심볼: `BlockBlastCatalog.FillPoolExcluded` — private static HashSet (추가)
+    - 설명: 1370 근사 풀에서 제외할 ID 집합 [11,12,13,21,22,23,24,39,40,41].
+    - 이유: 500건 검증 데이터에서 한 번도 추천되지 않은 대형·대각 계열(§8.1) — 근사 분포를 관측에 맞춤.
+  - 심볼: `BlockBlastCatalog.RowMasks` — private static int[][] (추가)
+    - 설명: ID(1-based) → 행별 비트마스크 42종. 핸드오프 §7 표 그대로.
+    - 이유: 원본 런타임 BlockShapeMap의 유일한 신뢰 소스.
+  - 심볼: `BlockBlastCatalog.Offsets` — private static IReadOnlyList\<Vector2Int\>[] (추가)
+    - 설명: RowMasks를 cell offset(x=col, y=row)으로 변환해 캐시.
+    - 이유: 파이프라인 전체가 offset 리스트로 흐르므로(기존 규약) 매 호출 변환을 피함.
+  - 심볼: `BlockBlastCatalog.GetOffsets(int)` — 메서드 (추가)
+    - 설명: ID의 offset 리스트를 반환.
+    - 이유: 알고리즘·Drawer의 유일한 모양 조회 창구.
+    - 영향: `BlockBlastAlgorithm.BuildPieces / ProduceRandomId`.
+  - 심볼: `BlockBlastCatalog.BuildNoDiePool()` — 메서드 (추가)
+    - 설명: 2~30 배열을 새로 만들어 반환 (호출자가 셔플).
+    - 이유: randomNoDie·반복 방지 재추첨이 각자 독립 셔플하므로 공유 배열 오염 방지.
+  - 심볼: `BlockBlastCatalog.BuildFillPool()` — 메서드 (추가)
+    - 설명: 2~42에서 FillPoolExcluded를 뺀 배열 반환.
+    - 이유: 1370 근사 전용 풀.
+  - 심볼: `BlockBlastCatalog.BuildOffsets()` — private 메서드 (추가)
+    - 설명: 비트마스크 → offset 변환 (bit 0 = 왼쪽).
+    - 이유: 정적 초기화 1회 수행.
+
+- 파일: `Scripts/Domain/BlockBlast/BlockBlastSelection.cs`
+  - 심볼: `BlockBlastSelection.Round / BaseAlgoId / ActualAlgoId / BlockIds / Pieces / Reason` — 프로퍼티 (추가)
+    - 설명: 1회 선택의 라운드 번호, 기본/실제 공개 알고리즘 ID, 블록 ID 3개, offset 피스, 선택 사유 문자열.
+    - 이유: 핸드오프 출력 스키마(§4)의 blockIds·algoActualId에 대응하는 진단 데이터 — 로그·향후 UI 훅 소비.
+    - 영향: `BlockBlastDrawer.LastSelection`, `BlockSpawnBootstrap.LogSelection`.
+  - 심볼: `BlockBlastSelection(int, int, int, IReadOnlyList<int>, List<IReadOnlyList<Vector2Int>>, string)` — 생성자 (추가)
+    - 설명: 전 필드 주입 불변 생성.
+    - 이유: 선택 결과는 생성 후 변경될 일이 없음.
+
+- 파일: `Scripts/Domain/BlockBlast/BlockBlastAlgorithm.cs`
+  - 심볼: `BlockBlastAlgorithm.AlgoRandomNoDeath / AlgoAllCombinationFill / AlgoRoundLimitReplace` — 상수 (추가)
+    - 설명: 공개 알고리즘 ID 7 / 1370 / 2100.
+    - 이유: 핸드오프 §6 공개 ID 체계를 코드에서 그대로 사용 — 로그를 원본 데이터와 직접 비교 가능.
+  - 심볼: `BlockBlastAlgorithm.FillSortEdgeReplaceProbability` — private 상수 0.9 (추가)
+    - 설명: 7 → 1370 교체 확률.
+    - 이유: AlgoFillSortEdgeTrait 설정값(§5.1, restored_profile.json replace_probability).
+  - 심볼: `BlockBlastAlgorithm.RoundLimitOverlapThreshold / HistoryRounds / RoundLimitRetryCount` — private 상수 (추가)
+    - 설명: 반복 방지 판정 기준(2개 중복·최근 2라운드)과 교체 재시도 횟수(8).
+    - 이유: ContinueSameMoreRoundLimitTrait 규칙(§5.2). 재시도 8은 완주 가능 조합을 찾기 위한 근사 예산.
+  - 심볼: `BlockBlastAlgorithm.SearchBudgetMs / ComboScanCap / TripleSize` — private 상수 (추가)
+    - 설명: 조합 탐색 시간 예산 100ms(원본 randomNoDie 제한)과 조합 수 상한 150.
+    - 이유: 원본은 100ms 제한만 있으나, 솔버 1회가 느린 최악 케이스의 프레임 스파이크를 막기 위해 개수 상한을 병행.
+  - 심볼: `BlockBlastAlgorithm._random` — 필드 (추가)
+    - 설명: 셔플·확률 분기용 난수 공급자.
+    - 이유: Bootstrap에서 주입 — 필요 시 시드 고정 재현 가능.
+  - 심볼: `BlockBlastAlgorithm._recentTriples` — 필드 List\<int[]\> (추가)
+    - 설명: 최근 최대 2라운드의 추천 트리플 이력 (최신이 마지막).
+    - 이유: 반복 방지(§5.2)·delCurrentSameBlock(§11)의 비교 대상.
+  - 심볼: `BlockBlastAlgorithm._round` — 필드 (추가)
+    - 설명: 리필 횟수 = classRoundNum 대응.
+    - 이유: AlgoFillSortEdge가 round 1에서는 관여하지 않음(§5.1) — 관측 case 0(빈 보드, actualId=7)과 일치.
+  - 심볼: `BlockBlastAlgorithm(System.Random)` — 생성자 (추가)
+    - 설명: 난수 공급자 주입.
+    - 이유: Domain 순수 클래스 — Bootstrap에서 `new` (DI 규칙 허용 범위).
+  - 심볼: `BlockBlastAlgorithm.Select(BoardGrid)` — 메서드 (추가)
+    - 설명: 파이프라인 1회 실행: base 7 → (round>1, p=0.9) 1370 근사 → 실패 시 randomNoDie → 반복 방지 2100 → delCurrentSameBlock → 이력 기록 → `BlockBlastSelection` 반환.
+    - 이유: 핸드오프 §3 처리 순서(전략 → 후처리)를 한 진입점으로 이식.
+    - 영향: `BlockBlastDrawer.Draw`.
+  - 심볼: `BlockBlastAlgorithm.TrySelectAllCombinationFill(BoardGrid, List<string>)` — private 메서드 (추가)
+    - 설명: 셔플한 1370 풀에서 "클리어 포함 완주 조합" 우선, 없으면 "완주 조합", 없으면 null.
+    - 이유: 1370(all-combination fill) 네이티브 미복원 — 이름 의미(조합 채움-제거)와 완주 보장 관측을 근사 (grill 확정 a).
+  - 심볼: `BlockBlastAlgorithm.SelectRandomNoDie(BoardGrid, List<string>)` — private 메서드 (추가)
+    - 설명: no-die 풀(2~30) 셔플 → 완주 조합 탐색, 실패 시 [1, random-placeable, 1] fallback. null을 반환하지 않음.
+    - 이유: PuzzleUtil.randomNoDie 복원 명세(§11) 그대로 — 파이프라인의 최종 안전망.
+  - 심볼: `BlockBlastAlgorithm.ScanCombos(BoardGrid, int[], bool, out int[])` — private static 메서드 (추가)
+    - 설명: 셔플된 풀의 3-조합을 순회하며 `PlacementSolver.FullSequenceExists` 통과 조합을 찾는다. preferClear면 `ComboMaintainable` 통과를 우선하고 클리어 없는 완주 조합은 out으로 보관. 100ms/150조합 예산.
+    - 이유: randomNoDie와 1370 근사가 같은 탐색 뼈대를 공유 — 차이는 풀과 클리어 선호 여부뿐.
+  - 심볼: `BlockBlastAlgorithm.TryGetRoundLimitOverlap(int[], out int[])` — private 메서드 (추가)
+    - 설명: 최근 이력 트리플과 다중집합 교집합이 2 이상인 첫 트리플을 찾는다.
+    - 이유: §5.2 pseudo(`intersection(current, prev).count >= 2`)의 판정부.
+  - 심볼: `BlockBlastAlgorithm.ReplaceRepeatedBlocks(BoardGrid, int[], int[])` — private 메서드 (추가)
+    - 설명: 겹친 슬롯만 no-die 풀 재추첨으로 교체, 완주 가능 조합을 8회까지 시도, 실패 시 마지막 후보 채택.
+    - 이유: §5.2 "중복 블록 필터링 + random-no-death fallback"의 근사 — 원본의 정확한 재추첨 절차는 미복원.
+  - 심볼: `BlockBlastAlgorithm.ProduceRandomId(BoardGrid, int[])` — private 메서드 (추가)
+    - 설명: 현재 트리플에 없는 배치 가능 ID(2~42) 균등 추첨, 후보 없으면 1.
+    - 이유: AlgorithmStrategyLogic.produceRandomId 복원 명세(§11) 그대로.
+  - 심볼: `BlockBlastAlgorithm.RecordHistory(int[])` — private 메서드 (추가)
+    - 설명: 트리플 복사본을 이력에 넣고 2개 초과분을 오래된 것부터 제거.
+    - 이유: 반복 방지 비교 범위가 "최대 직전 2라운드"(§5.2).
+  - 심볼: `BlockBlastAlgorithm.BuildPieces(int[])` — private static 메서드 (추가)
+    - 설명: ID 트리플 → 카탈로그 offset 피스 리스트.
+    - 이유: 솔버·Drawer 출력 규약이 offset 리스트.
+  - 심볼: `BlockBlastAlgorithm.CountMultisetIntersection(int[], int[]) / SameMultiset(int[], int[]) / Contains(int[], int)` — private static 메서드 (추가)
+    - 설명: 다중집합 교집합 크기·동일성·포함 판정.
+    - 이유: 중복 블록이 허용되는 트리플 비교는 집합이 아닌 다중집합 기준(§11 delCurrentSameBlock 해석).
+  - 심볼: `BlockBlastAlgorithm.Shuffle(int[])` — private 메서드 (추가)
+    - 설명: Fisher-Yates 셔플.
+    - 이유: randomNoDie·1370 근사의 "shuffle 후 순차 탐색" 절차 재현.
+
+- 파일: `Scripts/Domain/Spawn/BlockBlastDrawer.cs`
+  - 심볼: `BlockBlastDrawer._algorithm` — 필드 (추가)
+    - 설명: 파이프라인 본체 보관.
+    - 이유: Drawer는 어댑터일 뿐 — 알고리즘 상태(이력·라운드)는 본체가 소유.
+  - 심볼: `BlockBlastDrawer.LastSelection` — 프로퍼티 (추가)
+    - 설명: 직전 Draw의 `BlockBlastSelection` 노출.
+    - 이유: 로그·UI 훅이 진단 데이터를 읽는 창구 (기존 `BlockSelectionDrawer.LastResult` 패턴 유지).
+    - 영향: `BlockSpawnBootstrap.LogSelection / LastSelection`.
+  - 심볼: `BlockBlastDrawer(BlockBlastAlgorithm)` — 생성자 (추가)
+    - 설명: 알고리즘 주입.
+    - 이유: Bootstrap 조립 지점 단일화.
+  - 심볼: `BlockBlastDrawer.Draw(BlockSpawnContext, int)` — 메서드 (추가)
+    - 설명: `context.Grid`로 `Select`를 실행하고 피스 리스트를 반환.
+    - 이유: `AbstractDrawer` 계약 구현 — `BlockSupply`가 소비.
+
+- 파일: `Scripts/Bootstrap/BlockSpawnBootstrap.cs`
+  - 심볼: `BlockSpawnBootstrap.selectionTuningSO / bundlePoolSO` — SerializeField (삭제)
+    - 설명: 구 티어 스택 전용 SO 참조 제거.
+    - 이유: 새 알고리즘은 튜닝 SO·번들 SO를 읽지 않음. 씬의 잔여 직렬화 데이터는 무해.
+  - 심볼: `BlockSpawnBootstrap._blameTracker / _probePieces / _turnStartBoard / _turnStartHealth / _isRetrySession` — 필드 (삭제)
+    - 설명: BoardHealth·Blame 턴 정산 상태 제거.
+    - 이유: 구 알고리즘 입력 준비였음 — 새 파이프라인 입력은 보드 그리드뿐.
+  - 심볼: `BlockSpawnBootstrap._drawer` — 필드 (수정: `BlockSelectionDrawer` → `BlockBlastDrawer`)
+    - 설명: Drawer 구현 교체.
+    - 이유: 본 구현의 핵심 배선 — 구 코드는 보존되므로 이 필드와 Awake 조립부만 되돌리면 롤백.
+  - 심볼: `BlockSpawnBootstrap.LastSelection` — 프로퍼티 (수정: 반환 타입 `BlockSelectionResult` → `BlockBlastSelection`)
+    - 설명: 직전 리필 진단 데이터 노출 대상 교체.
+    - 이유: 소비자(코드 내 UI 훅)가 아직 없어 타입 교체 영향 없음 — grep으로 확인.
+  - 심볼: `BlockSpawnBootstrap.LastTurnFeedback` — 프로퍼티 (삭제)
+    - 설명: GoodTurn 등 blame 턴 판정 노출 제거.
+    - 이유: BlameTracker와 함께 구 시스템 전용. 소비자 없음.
+  - 심볼: `BlockSpawnBootstrap.Awake()` — 메서드 (수정)
+    - 설명: 구 SO Assert·프로브 피스·BlameTracker·Orchestrator 조립을 제거하고 `new BlockBlastDrawer(new BlockBlastAlgorithm(new System.Random()))`로 교체.
+    - 이유: 새 파이프라인 조립 지점.
+  - 심볼: `BlockSpawnBootstrap.Fill()` — 메서드 (수정)
+    - 설명: BoardHealth 계산·blame 턴 정산·클리어 칸 추적을 제거하고 컨텍스트 생성 → 공급 → 로그 → 이벤트만 남김.
+    - 이유: 새 알고리즘 입력은 그리드뿐 — 매 리필 불필요한 시뮬레이션 비용 제거.
+  - 심볼: `BlockSpawnBootstrap.LogSelection()` — 메서드 (수정)
+    - 설명: 티어 로그 대신 라운드·공개 알고리즘 ID·블록 ID·선택 사유를 색상 로그로 출력.
+    - 이유: 핸드오프 공개 ID 체계로 로그를 남겨 원본 관측 데이터와 직접 대조 가능.
+  - 심볼: `BlockSpawnBootstrap.AlgoStyle(int)` — private static 메서드 (추가, `TierStyle` 대체)
+    - 설명: 공개 ID(1370/2100/7) → 로그 라벨·색상.
+    - 이유: 리필 로그 가독성 유지 (기존 티어 색상 로그 관례 계승).
+  - 심볼: `BlockSpawnBootstrap.ComputeLastTurnClearedCells / CountOccupied / LogBlameChange / LogHealthChange / TierStyle / BuildProbePieces` — 메서드 (삭제)
+    - 설명: 구 시스템 진단·입력 준비 메서드 일괄 제거.
+    - 이유: 전부 BoardHealth·Blame·Momentum 게이트 전용 — 새 파이프라인에서 미사용.
