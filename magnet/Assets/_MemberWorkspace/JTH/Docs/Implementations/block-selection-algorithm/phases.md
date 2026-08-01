@@ -13,8 +13,10 @@
 | 5 | Hospitality 실시간 생성 | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) | **완료** |
 | 6 | Pressure(유일수) + Orchestrator + UniqueSolution 보관 | [phase6.md](phase6.md) | [sequence6.md](sequence6.md) | **완료** |
 | 7 | Drawer 연동·GoodTurn/정답 매칭 데이터·로그 | [phase7.md](phase7.md) | [sequence7.md](sequence7.md) | **완료** |
+| 8 | 플레이테스트 피드백 밸런싱 1차 (클러스터 Health·Normal Health 선택·빈도) | [phase8.md](phase8.md) | [sequence8.md](sequence8.md) | **완료** |
+| 9 | Block Blast 사진 분석 반영 (대각선 제거·중복 번들·Momentum·밀도 바이어스) | [phase9.md](phase9.md) | [sequence9.md](sequence9.md) | **완료** |
 
-**의존:** 1 → 2 → 3 → 4 → 5 → 6 → 7 (직렬)
+**의존:** 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 (직렬)
 
 **UI 데이터 계약 (SPEC §4.5):** GoodTurn(턴 Blame delta) → Phase 2·7 / 유일수 정답 배치(엄지척) → Phase 6·7.
 

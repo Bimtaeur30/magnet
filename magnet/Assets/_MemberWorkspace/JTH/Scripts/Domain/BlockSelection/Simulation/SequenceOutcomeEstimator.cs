@@ -23,11 +23,15 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
             /// <summary>최선 경로 종료 시 보드가 완전히 비는가 (올클리어).</summary>
             public bool BoardEmptied { get; }
 
-            public SequenceOutcome(bool sequenceFound, int totalClears, bool boardEmptied)
+            /// <summary>최선 경로 종료 시 보드 상태. SequenceFound가 false면 null.</summary>
+            public BoardGrid FinalBoard { get; }
+
+            public SequenceOutcome(bool sequenceFound, int totalClears, bool boardEmptied, BoardGrid finalBoard)
             {
                 SequenceFound = sequenceFound;
                 TotalClears = totalClears;
                 BoardEmptied = boardEmptied;
+                FinalBoard = finalBoard;
             }
         }
 
@@ -68,7 +72,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
 
                 if (nextFrontier.Count == 0)
                 {
-                    return new SequenceOutcome(sequenceFound: false, totalClears: 0, boardEmptied: false);
+                    return new SequenceOutcome(sequenceFound: false, totalClears: 0, boardEmptied: false, finalBoard: null);
                 }
 
                 // 클리어 많은 순, 동률이면 점유 칸 적은 순으로 상위 beamWidth 유지
@@ -88,7 +92,8 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
             return new SequenceOutcome(
                 sequenceFound: true,
                 totalClears: best.TotalClears,
-                boardEmptied: best.OccupiedCount == 0);
+                boardEmptied: best.OccupiedCount == 0,
+                finalBoard: best.Board);
         }
 
         private static void ExpandState(

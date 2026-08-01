@@ -52,13 +52,17 @@
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `DeadZoneWeight` | healthScore에서 dead zone(고립 빈칸 1~3) 성분 가중치 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BigSlotWeight` | healthScore에서 큰 블록(3x3·1x5) 슬롯 성분 가중치 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `FreedomWeight` | healthScore에서 배치 자유도(테스트 피스 평균 합법 배치 수) 성분 가중치 |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `ClusterWeight` | healthScore에서 클러스터(점유 칸 직교 연결 응집도·최대 덩어리 크기) 성분 가중치 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `DeadZoneNormalizeMax` | dead zone 개수를 0~1로 정규화할 상한. 이 개수 이상이면 성분 0 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BigSlotNormalizeMax` | 큰 블록 슬롯 수 정규화 상한. 빈 8×8 보드 = 100 (3x3 36 + 1x5 가로·세로 64) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `FreedomNormalizeMax` | 배치 자유도(피스당 평균 합법 배치 수, 회전 포함) 정규화 상한. 빈 보드 기준 ≈100 |
-| `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerDeadZone` | 턴 종료 시 새 dead zone 1개당 blame 증가량 (권장 15~25) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `ClusterCohesionShare` | 클러스터 성분에서 응집도(한 덩어리로 모임) 비중. 나머지는 최대 덩어리 크기 비중 (권장 0.5) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `ClusterSizeNormalizeMax` | 최대 덩어리 크기를 0~1로 정규화할 상한 칸 수. 이 이상 모여 있으면 크기 성분 만점 (권장 20) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerDeadZone` | 턴 종료 시 새 dead zone 1개당 blame 증가량. 1~3칸 포켓은 흔한 플레이라 과하면 응징 남발 (권장 5~12) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerCenterCell` | 중앙 2×2 영역 새 점유 칸 1개당 blame 증가량 (권장 3~5) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerBigSlotLost` | 큰 블록(3x3·1x5) 슬롯 수가 줄어든 턴에 1회 가산되는 blame (권장 8~12) |
-| `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerFreedomDrop` | 배치 자유도 감소량 1당 blame 증가량 (감소분 × 이 값) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePerFreedomDrop` | 배치 자유도 감소량 1당 blame 증가량. 클리어 없는 턴은 자유도가 자연 하락(10~30)하므로 높으면 평범한 플레이도 벌점 (권장 0.1~0.2) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `BlameHealthGainRelief` | healthScore 증가 1.0당 blame 차감량. 판을 개선한 턴은 실수 벌점을 상쇄 — +0.1 개선이면 -6 (권장 40~80, 0이면 끔) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BlameDecayRate` | 매 턴 종료 시 누적 blame에 곱하는 감쇠율 (권장 0.65~0.75) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BlameComboBreakThreshold` | ComboBreak 티어 게이트: blame이 이 값 이상 (권장 25) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BlamePressureThreshold` | Pressure 가중 게이트: blame이 이 값 이상 (권장 35) |
@@ -71,6 +75,18 @@
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `ComboBreakProbability` | ComboBreak 티어 발동 확률 (게이트 통과 후, 권장 0.03~0.05) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `EasyHealthThreshold` | Easy 티어 게이트: healthScore가 이 값 미만이면 판이 험함으로 판정 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `BundleProbeCount` | 티어 하나가 번들 검증(솔버)을 시도할 최대 번들 수. 초과 시 fallthrough |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `NormalHealthCandidateCount` | Normal 티어에서 결과 BoardHealth를 비교할 통과 후보 핸드 수. 1이면 단순 가중 랜덤과 동일 (권장 3~5) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `NormalSampleTries` | Normal·Easy 티어 독립 추첨 핸드의 최대 샘플 시도 횟수. 검증 실패분 포함 (권장 10~16) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `MomentumProbability` | Momentum(큼직한 기분 좋은 패) 티어 시도 확률. 높으면 클리어→큰 사각→또 클리어 양성 루프로 점수가 쉬워짐 (권장 0.3~0.5, 0이면 끔) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `MomentumMinClearedCells` | Momentum 발동에 필요한 직전 턴 최소 클리어 칸 수. 한 줄 = 8칸이므로 10이면 멀티라인급 턴에서만 발동 (권장 9~16) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `DenseFillMin` | fillRate가 이 값 초과(빽빽)면 얇은 블록 부스트 + 큰 블록 감점 적용 (권장 0.38~0.45) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `DenseSlimBoost` | 빽빽한 보드에서 얇은 블록 포함 번들에 곱하는 배수 (권장 1.5~2.5, 1이면 끔) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `DenseBigPenalty` | 빽빽한 보드에서 큰 블록(6칸+)에 곱하는 배수 (0~1). 꽉 찬 판에 3x3·3x2가 쏟아지는 것 방지 (권장 0.3~0.6, 1이면 끔) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `SparseFillMax` | fillRate가 이 값 미만(널널)이면 큰 블록(6칸 이상) 포함 번들의 추첨 가중 배수 적용 (권장 0.25) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `SparseBigBoost` | 널널한 보드에서 큰 블록 포함 번들에 곱하는 배수 (권장 1.3~2, 1이면 끔) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `SnugEnclosureMin` | 쏙 판정 최소 둘레 막힘 비율. 위만 뚫린 포켓 ≈ 0.75, 사방 밀폐 = 1.0. 이 미만이면 보너스 없음. 낮으면 작은 조각이 상시 부스트돼 노골적 (권장 0.8) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `SnugWeightBoost` | 쏙 맞는 모양의 추첨 가중 증가폭. 사방 밀폐 시 가중 ×(1+이 값). 크면 노골적 (권장 0.5~1, 0이면 끔) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `SnugNormalRankBonus` | Normal 후보 랭킹에 더하는 쏙 보너스 상한 (healthScore 스케일). 예측 Health가 비슷할 때만 갈리는 수준 권장 (권장 0.05~0.1) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `HospitalityProbability` | opportunity 게이트 통과 후 Hospitality를 실제로 시도할 확률 (변덕, 권장 0.7~0.85) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityHighThreshold` | opportunityScore가 이 값 이상이어야 Hospitality 시도 (권장 0.65~0.75) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `HospitalitySampleCount` | Hospitality 후보 3피스 조합 샘플 횟수 (권장 50~200) |
@@ -80,7 +96,7 @@
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityAllClearWeight` | 올클리어 잠재 가산: fillRate가 하한 이하 + dead zone 0일 때 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityAllClearFillMax` | 올클리어 잠재로 판정하는 fillRate 상한 (권장 0.2) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityBigSlotWeight` | 큰 블록 슬롯 성분 가중치: 정규화된 bigPieceSlots × 이 값 가산 |
-| `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityDeadZonePenalty` | dead zone 1개당 opportunityScore 감점 (억지 패널티) |
+| `Scripts/Data/BlockSelectionTuningSO.cs` | `OpportunityDeadZonePenalty` | dead zone 1개당 opportunityScore 감점 (억지 패널티). 과하면 포켓 있을 때 접대가 안 나옴 (권장 0.05~0.1) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `OutcomeBeamWidth` | 최선 결과 추정(빔 서치) 폭. 클수록 정확하지만 느림 (권장 4~8) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `PressureProbability` | Pressure 게이트 통과 후 실제로 시도할 확률 (100% 아님) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `PressureHealthThreshold` | TooDirty가 아니어도 healthScore가 이 값 미만이면 Pressure 게이트 통과 |

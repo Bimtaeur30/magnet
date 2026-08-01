@@ -26,7 +26,8 @@ namespace JTH.Scripts.Domain.Spawn
                 context.Health,
                 context.BlameTotal,
                 context.IsRetrySession,
-                context.TurnIndex);
+                context.TurnIndex,
+                context.LastTurnClearedCells);
 
             return LastResult.Pieces;
         }

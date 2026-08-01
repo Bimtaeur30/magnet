@@ -7,13 +7,18 @@ namespace JTH.Scripts.Domain.BlockSelection.Bundles
 {
     /// <summary>
     /// 가중 랜덤으로 피스 3개를 뽑는 샘플러. 가중치 0(1x1·1x2 등 억지 블록)은 애초에 안 뽑힌다.
+    /// 같은 모양 2개(페어)는 허용하되 3개(트리플)는 금지.
     /// </summary>
     public static class ShapeSampler
     {
         public const int PieceCount = 3;
 
+        /// <summary>트리플 회피 재추첨 상한. 초과하면 (풀이 사실상 1종) 트리플 허용.</summary>
+        private const int TripleRejectRetries = 8;
+
         /// <summary>
         /// 중복 허용 가중 추첨으로 canonical 3개를 고른 뒤 각각 랜덤 회전을 적용해 반환.
+        /// 단 같은 모양 3개는 금지 — 마지막 슬롯이 트리플을 만들면 재추첨.
         /// 유효 가중치 항목이 하나도 없으면 null.
         /// </summary>
         public static List<IReadOnlyList<Vector2Int>> Sample3Rotated(IReadOnlyList<WeightedShape> pool, Random rng)
@@ -32,10 +37,26 @@ namespace JTH.Scripts.Domain.BlockSelection.Bundles
                 return null;
             }
 
+            List<IReadOnlyList<Vector2Int>> canonicals = new(PieceCount);
             List<IReadOnlyList<Vector2Int>> pieces = new(PieceCount);
+
             for (int i = 0; i < PieceCount; ++i)
             {
                 IReadOnlyList<Vector2Int> canonical = PickWeighted(pool, totalWeight, rng);
+
+                bool wouldBeTriple = i == PieceCount - 1
+                    && ReferenceEquals(canonicals[0], canonicals[1]);
+                if (wouldBeTriple)
+                {
+                    for (int retry = 0;
+                        retry < TripleRejectRetries && ReferenceEquals(canonical, canonicals[0]);
+                        ++retry)
+                    {
+                        canonical = PickWeighted(pool, totalWeight, rng);
+                    }
+                }
+
+                canonicals.Add(canonical);
                 pieces.Add(ShapeRotator.Rotate(canonical, rng.Next(4)));
             }
 

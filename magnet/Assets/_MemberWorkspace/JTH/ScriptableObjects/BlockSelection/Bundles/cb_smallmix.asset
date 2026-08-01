@@ -17,5 +17,5 @@ MonoBehaviour:
   shapes:
   - {fileID: 11400000, guid: f61e06f0d287d1d4c88c6e52a9b10466, type: 2}
   - {fileID: 11400000, guid: 0836ec9d5c0707a458ef490bdb8b66cb, type: 2}
-  - {fileID: 11400000, guid: 68001ebd21eb42c41a8f22d5aafbd0b0, type: 2}
+  - {fileID: 11400000, guid: 0836ec9d5c0707a458ef490bdb8b66cb, type: 2}
   weight: 1

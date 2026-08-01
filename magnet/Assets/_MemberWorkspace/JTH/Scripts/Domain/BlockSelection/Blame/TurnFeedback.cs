@@ -12,6 +12,9 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
         /// <summary>이번 턴 새로 점유된 중앙 2×2 칸 수.</summary>
         public int CenterCellsGained { get; }
 
+        /// <summary>healthScore 개선으로 차감된 blame (0 이상). 판을 좋게 만든 턴의 보상.</summary>
+        public float HealthGainRelief { get; }
+
         /// <summary>큰 블록 슬롯 수가 줄어들어 1회 가산이 발생했는지.</summary>
         public bool BigSlotLost { get; }
 
@@ -29,7 +32,8 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
             int centerCellsGained,
             bool bigSlotLost,
             float freedomDrop,
-            float decayLoss)
+            float decayLoss,
+            float healthGainRelief)
         {
             IsGoodTurn = isGoodTurn;
             LastTurnDelta = lastTurnDelta;
@@ -39,6 +43,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
             BigSlotLost = bigSlotLost;
             FreedomDrop = freedomDrop;
             DecayLoss = decayLoss;
+            HealthGainRelief = healthGainRelief;
         }
     }
 }

@@ -55,14 +55,21 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
                 freedomDrop = 0f;
             }
 
+            // 판을 개선한 턴은 blame을 능동 차감 — 감쇠만으로는 "잘한 플레이" 보상이 없음
+            float healthGain = healthAfter.Score - healthBefore.Score;
+            float healthGainRelief = healthGain > 0f
+                ? healthGain * _tuning.BlameHealthGainRelief
+                : 0f;
+
             float decayLoss = Total * (1f - _tuning.BlameDecayRate);
 
             LastTurnDelta = delta;
-            Total = Total * _tuning.BlameDecayRate + delta;
+            Total = Mathf.Max(0f, Total * _tuning.BlameDecayRate + delta - healthGainRelief);
 
             bool isGoodTurn = allPiecesPlaced && delta <= _tuning.GoodTurnBlameDeltaMax;
             return new TurnFeedback(
-                isGoodTurn, delta, Total, newDeadZones, centerCellsGained, bigSlotLost, freedomDrop, decayLoss);
+                isGoodTurn, delta, Total, newDeadZones, centerCellsGained, bigSlotLost, freedomDrop, decayLoss,
+                healthGainRelief);
         }
 
         public void Reset()

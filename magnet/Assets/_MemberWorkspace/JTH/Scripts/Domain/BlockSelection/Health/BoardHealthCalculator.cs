@@ -44,10 +44,15 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
             int deadZoneCount = CountDeadZones(board);
             int bigPieceSlots = CountBigPieceSlots(board);
             float placementFreedom = ComputePlacementFreedom(board, freedomProbePieces);
-            float score = ComputeScore(fillRate, deadZoneCount, bigPieceSlots, placementFreedom, tuning);
+            (int clusterCount, int largestClusterSize, int occupiedCount) = AnalyzeClusters(board);
+            float score = ComputeScore(
+                fillRate, deadZoneCount, bigPieceSlots, placementFreedom,
+                clusterCount, largestClusterSize, occupiedCount, tuning);
             HealthZone zone = ResolveZone(fillRate, score, tuning);
 
-            return new BoardHealthResult(fillRate, deadZoneCount, bigPieceSlots, placementFreedom, score, zone);
+            return new BoardHealthResult(
+                fillRate, deadZoneCount, bigPieceSlots, placementFreedom,
+                clusterCount, largestClusterSize, score, zone);
         }
 
         private static float ComputeFillRate(BoardGrid board)
@@ -116,6 +121,65 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
                 {
                     Vector2Int next = cell + direction;
                     if (!board.IsInBounds(next) || visited[next.x, next.y] || board.IsOccupied(next))
+                    {
+                        continue;
+                    }
+
+                    visited[next.x, next.y] = true;
+                    queue.Enqueue(next);
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// 점유 칸을 직교(상하좌우) 연결 기준으로 덩어리 분석. 대각선 연결은 같은 덩어리로 치지 않는다.
+        /// </summary>
+        private static (int clusterCount, int largestClusterSize, int occupiedCount) AnalyzeClusters(BoardGrid board)
+        {
+            int size = board.BoardSize;
+            bool[,] visited = new bool[size, size];
+            Queue<Vector2Int> queue = new();
+            int clusterCount = 0;
+            int largestClusterSize = 0;
+            int occupiedCount = 0;
+
+            for (int x = 0; x < size; ++x)
+            {
+                for (int y = 0; y < size; ++y)
+                {
+                    Vector2Int start = new(x, y);
+                    if (visited[x, y] || !board.IsOccupied(start))
+                    {
+                        continue;
+                    }
+
+                    int clusterSize = FloodFillOccupiedRegion(board, visited, start, queue);
+                    ++clusterCount;
+                    occupiedCount += clusterSize;
+                    largestClusterSize = Mathf.Max(largestClusterSize, clusterSize);
+                }
+            }
+
+            return (clusterCount, largestClusterSize, occupiedCount);
+        }
+
+        private static int FloodFillOccupiedRegion(BoardGrid board, bool[,] visited, Vector2Int start, Queue<Vector2Int> queue)
+        {
+            visited[start.x, start.y] = true;
+            queue.Enqueue(start);
+            int count = 0;
+
+            while (queue.Count > 0)
+            {
+                Vector2Int cell = queue.Dequeue();
+                ++count;
+
+                foreach (Vector2Int direction in Directions)
+                {
+                    Vector2Int next = cell + direction;
+                    if (!board.IsInBounds(next) || visited[next.x, next.y] || !board.IsOccupied(next))
                     {
                         continue;
                     }
@@ -207,17 +271,43 @@ namespace JTH.Scripts.Domain.BlockSelection.Health
             int deadZoneCount,
             int bigPieceSlots,
             float placementFreedom,
+            int clusterCount,
+            int largestClusterSize,
+            int occupiedCount,
             BlockSelectionTuningSO tuning)
         {
             float fillComponent = FillComponent(fillRate, tuning);
             float deadZoneComponent = 1f - Mathf.Clamp01(deadZoneCount / (float)tuning.DeadZoneNormalizeMax);
             float bigSlotComponent = Mathf.Clamp01(bigPieceSlots / (float)tuning.BigSlotNormalizeMax);
             float freedomComponent = Mathf.Clamp01(placementFreedom / tuning.FreedomNormalizeMax);
+            float clusterComponent = ClusterComponent(clusterCount, largestClusterSize, occupiedCount, tuning);
 
             return tuning.FillWeight * fillComponent
                 + tuning.DeadZoneWeight * deadZoneComponent
                 + tuning.BigSlotWeight * bigSlotComponent
-                + tuning.FreedomWeight * freedomComponent;
+                + tuning.FreedomWeight * freedomComponent
+                + tuning.ClusterWeight * clusterComponent;
+        }
+
+        /// <summary>
+        /// 클러스터 성분: 응집도(전부 한 덩어리면 1, 전부 흩어지면 0)와
+        /// 최대 덩어리 크기(클수록 좋음)를 ClusterCohesionShare 비율로 합산.
+        /// </summary>
+        private static float ClusterComponent(
+            int clusterCount, int largestClusterSize, int occupiedCount, BlockSelectionTuningSO tuning)
+        {
+            if (occupiedCount == 0)
+            {
+                return 1f;
+            }
+
+            float cohesion = occupiedCount <= 1
+                ? 1f
+                : 1f - (clusterCount - 1) / (float)(occupiedCount - 1);
+            float sizeFactor = Mathf.Clamp01(largestClusterSize / (float)tuning.ClusterSizeNormalizeMax);
+
+            return tuning.ClusterCohesionShare * cohesion
+                + (1f - tuning.ClusterCohesionShare) * sizeFactor;
         }
 
         private static float FillComponent(float fillRate, BlockSelectionTuningSO tuning)

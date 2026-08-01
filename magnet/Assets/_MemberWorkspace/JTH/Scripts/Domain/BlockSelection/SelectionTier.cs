@@ -9,6 +9,7 @@ namespace JTH.Scripts.Domain.BlockSelection
         Trap,
         ComboBreak,
         Hospitality,
+        Momentum,
         Easy,
         Pressure,
         Normal,

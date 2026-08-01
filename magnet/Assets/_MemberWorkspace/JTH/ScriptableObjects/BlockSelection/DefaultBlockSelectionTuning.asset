@@ -17,17 +17,21 @@ MonoBehaviour:
   <TooEmptyScoreMax>k__BackingField: 0.35
   <TooDirtyScoreMax>k__BackingField: 0.4
   <FillDirtyFalloff>k__BackingField: 0.35
-  <FillWeight>k__BackingField: 0.4
-  <DeadZoneWeight>k__BackingField: 0.2
-  <BigSlotWeight>k__BackingField: 0.2
-  <FreedomWeight>k__BackingField: 0.2
+  <FillWeight>k__BackingField: 0.35
+  <DeadZoneWeight>k__BackingField: 0.15
+  <BigSlotWeight>k__BackingField: 0.15
+  <FreedomWeight>k__BackingField: 0.15
+  <ClusterWeight>k__BackingField: 0.2
   <DeadZoneNormalizeMax>k__BackingField: 6
   <BigSlotNormalizeMax>k__BackingField: 100
   <FreedomNormalizeMax>k__BackingField: 100
-  <BlamePerDeadZone>k__BackingField: 20
+  <ClusterCohesionShare>k__BackingField: 0.5
+  <ClusterSizeNormalizeMax>k__BackingField: 20
+  <BlamePerDeadZone>k__BackingField: 8
   <BlamePerCenterCell>k__BackingField: 4
   <BlamePerBigSlotLost>k__BackingField: 10
-  <BlamePerFreedomDrop>k__BackingField: 0.5
+  <BlamePerFreedomDrop>k__BackingField: 0.15
+  <BlameHealthGainRelief>k__BackingField: 60
   <BlameDecayRate>k__BackingField: 0.7
   <BlameComboBreakThreshold>k__BackingField: 25
   <BlamePressureThreshold>k__BackingField: 35
@@ -44,9 +48,9 @@ MonoBehaviour:
     hospitalityWeight: 0
     pressureWeight: 0
   - shape: {fileID: 11400000, guid: 0836ec9d5c0707a458ef490bdb8b66cb, type: 2}
-    normalWeight: 10
-    hospitalityWeight: 8
-    pressureWeight: 12
+    normalWeight: 5
+    hospitalityWeight: 5
+    pressureWeight: 8
   - shape: {fileID: 11400000, guid: 0012a97e3411156479514dacef9aaff4, type: 2}
     normalWeight: 12
     hospitalityWeight: 15
@@ -56,7 +60,7 @@ MonoBehaviour:
     hospitalityWeight: 20
     pressureWeight: 10
   - shape: {fileID: 11400000, guid: 267201230a5f51a418764cbad1bc6023, type: 2}
-    normalWeight: 15
+    normalWeight: 12
     hospitalityWeight: 12
     pressureWeight: 15
   - shape: {fileID: 11400000, guid: 57b71eebee86676458767ab673007aba, type: 2}
@@ -64,12 +68,12 @@ MonoBehaviour:
     hospitalityWeight: 18
     pressureWeight: 12
   - shape: {fileID: 11400000, guid: 594c9f16be14b8a46881d689b20bbd45, type: 2}
-    normalWeight: 6
+    normalWeight: 12
     hospitalityWeight: 15
     pressureWeight: 18
   - shape: {fileID: 11400000, guid: f61e06f0d287d1d4c88c6e52a9b10466, type: 2}
-    normalWeight: 10
-    hospitalityWeight: 12
+    normalWeight: 6
+    hospitalityWeight: 10
     pressureWeight: 12
   - shape: {fileID: 11400000, guid: e2eeda48229064c4c99d0a7086acff65, type: 2}
     normalWeight: 10
@@ -96,18 +100,30 @@ MonoBehaviour:
     hospitalityWeight: 12
     pressureWeight: 12
   - shape: {fileID: 11400000, guid: 68001ebd21eb42c41a8f22d5aafbd0b0, type: 2}
-    normalWeight: 8
-    hospitalityWeight: 6
-    pressureWeight: 10
+    normalWeight: 0
+    hospitalityWeight: 0
+    pressureWeight: 0
   - shape: {fileID: 11400000, guid: b84e7d6d21ffbbd4092d180e599ca054, type: 2}
-    normalWeight: 8
-    hospitalityWeight: 6
-    pressureWeight: 10
+    normalWeight: 0
+    hospitalityWeight: 0
+    pressureWeight: 0
   <RelifeTurnCount>k__BackingField: 2
   <TrapProbability>k__BackingField: 0.008
   <ComboBreakProbability>k__BackingField: 0.04
   <EasyHealthThreshold>k__BackingField: 0.45
   <BundleProbeCount>k__BackingField: 8
+  <NormalHealthCandidateCount>k__BackingField: 4
+  <NormalSampleTries>k__BackingField: 12
+  <MomentumProbability>k__BackingField: 0.4
+  <MomentumMinClearedCells>k__BackingField: 10
+  <DenseFillMin>k__BackingField: 0.38
+  <DenseSlimBoost>k__BackingField: 2
+  <DenseBigPenalty>k__BackingField: 0.45
+  <SparseFillMax>k__BackingField: 0.25
+  <SparseBigBoost>k__BackingField: 1.3
+  <SnugEnclosureMin>k__BackingField: 0.8
+  <SnugWeightBoost>k__BackingField: 0.6
+  <SnugNormalRankBonus>k__BackingField: 0.06
   <HospitalityProbability>k__BackingField: 0.75
   <OpportunityHighThreshold>k__BackingField: 0.7
   <HospitalitySampleCount>k__BackingField: 60
@@ -117,7 +133,7 @@ MonoBehaviour:
   <OpportunityAllClearWeight>k__BackingField: 0.2
   <OpportunityAllClearFillMax>k__BackingField: 0.2
   <OpportunityBigSlotWeight>k__BackingField: 0.15
-  <OpportunityDeadZonePenalty>k__BackingField: 0.15
+  <OpportunityDeadZonePenalty>k__BackingField: 0.08
   <OutcomeBeamWidth>k__BackingField: 4
   <PressureProbability>k__BackingField: 0.5
   <PressureHealthThreshold>k__BackingField: 0.45

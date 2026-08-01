@@ -19,7 +19,8 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
             IReadOnlyList<BlockBundleSO> bundles,
             BundleValidation validation,
             Random rng,
-            int probeCount)
+            int probeCount,
+            Func<BlockBundleSO, float> weightMultiplier = null)
         {
             if (bundles == null || bundles.Count == 0)
             {
@@ -31,7 +32,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
 
             for (int attempt = 0; attempt < probes; ++attempt)
             {
-                BlockBundleSO bundle = TakeWeighted(remaining, rng);
+                BlockBundleSO bundle = TakeWeighted(remaining, rng, weightMultiplier);
                 if (bundle == null)
                 {
                     return null;
@@ -77,6 +78,12 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
             return pieces;
         }
 
+        /// <summary>핸드(3피스) 단위 검증 — 번들 없이 샘플한 핸드에도 쓴다 (Normal·Easy 독립 추첨, phase9).</summary>
+        public static bool IsValid(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces, BundleValidation validation)
+        {
+            return Validate(board, pieces, validation);
+        }
+
         private static bool Validate(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces, BundleValidation validation)
         {
             if (!PlacementSolver.HasAnyPlacement(board, pieces))
@@ -109,13 +116,15 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
 
         /// <summary>
         /// 가중 랜덤으로 1개 뽑고 목록에서 제거 (재추첨 시 중복 방지).
+        /// weightMultiplier가 있으면 번들별 유효 가중 = weight × 배수 (쏙 맞춤 부스트 등).
         /// </summary>
-        private static BlockBundleSO TakeWeighted(List<BlockBundleSO> remaining, Random rng)
+        private static BlockBundleSO TakeWeighted(
+            List<BlockBundleSO> remaining, Random rng, Func<BlockBundleSO, float> weightMultiplier)
         {
             int totalWeight = 0;
             foreach (BlockBundleSO bundle in remaining)
             {
-                totalWeight += Mathf.Max(1, bundle.Weight);
+                totalWeight += EffectiveWeight(bundle, weightMultiplier);
             }
 
             if (totalWeight <= 0)
@@ -128,7 +137,7 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
 
             for (int i = 0; i < remaining.Count; ++i)
             {
-                accumulated += Mathf.Max(1, remaining[i].Weight);
+                accumulated += EffectiveWeight(remaining[i], weightMultiplier);
                 if (roll < accumulated)
                 {
                     BlockBundleSO picked = remaining[i];
@@ -140,6 +149,17 @@ namespace JTH.Scripts.Domain.BlockSelection.Tiers
             BlockBundleSO last = remaining[^1];
             remaining.RemoveAt(remaining.Count - 1);
             return last;
+        }
+
+        private static int EffectiveWeight(BlockBundleSO bundle, Func<BlockBundleSO, float> weightMultiplier)
+        {
+            int baseWeight = Mathf.Max(1, bundle.Weight);
+            if (weightMultiplier == null)
+            {
+                return baseWeight;
+            }
+
+            return Mathf.Max(1, Mathf.RoundToInt(baseWeight * weightMultiplier(bundle)));
         }
     }
 }

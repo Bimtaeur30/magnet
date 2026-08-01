@@ -9,5 +9,8 @@ namespace JTH.Scripts.Domain.BlockSelection.Bundles
         Trap,
         ComboBreak,
         Relife,
+
+        /// <summary>직전 턴 클리어 직후 "기분 좋은 패" — 큼직한 사각 위주 (사진 분석 근거, phase9).</summary>
+        Momentum,
     }
 }

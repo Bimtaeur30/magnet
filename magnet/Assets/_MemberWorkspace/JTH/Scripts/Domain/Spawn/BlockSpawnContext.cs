@@ -16,6 +16,9 @@ namespace JTH.Scripts.Domain.Spawn
         public bool IsRetrySession { get; set; }
         public int TurnIndex { get; set; }
 
+        /// <summary>직전 턴(3피스)에서 클리어로 사라진 칸 수. 0이면 클리어 없음 — Momentum 게이트 입력.</summary>
+        public int LastTurnClearedCells { get; set; }
+
         public BlockSpawnContext(BlockShapeSourceSO sourceSO, BoardGrid grid, int score)
         {
             BlockShapeSourceSO = sourceSO;

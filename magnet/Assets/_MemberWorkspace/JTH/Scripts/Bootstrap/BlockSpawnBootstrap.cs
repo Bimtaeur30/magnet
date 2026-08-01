@@ -71,7 +71,7 @@ namespace JTH.Scripts.Bootstrap
             _probePieces = BuildProbePieces();
             _blameTracker = new BlameTracker(selectionTuningSO);
             _drawer = new BlockSelectionDrawer(
-                new BlockSelectionOrchestrator(selectionTuningSO, bundlePoolSO, new System.Random()));
+                new BlockSelectionOrchestrator(selectionTuningSO, bundlePoolSO, _probePieces, new System.Random()));
             _supply = new BlockSupply(_drawer, new SkinSession(skinDataListSO));
         }
         
@@ -123,10 +123,13 @@ namespace JTH.Scripts.Bootstrap
         {
             BoardGrid grid = _gameBoard.Grid;
             BoardHealthResult health = BoardHealthCalculator.Compute(grid, _probePieces, selectionTuningSO);
+            int lastTurnClearedCells = 0;
 
             // 첫 리필이 아니면 직전 턴(3피스 라운드)의 blame 정산 — Fill은 lastDrop 시점에만 불리므로 전부 배치됨
             if (_turnStartBoard != null)
             {
+                lastTurnClearedCells = ComputeLastTurnClearedCells(grid);
+
                 float blameBefore = _blameTracker.Total;
                 LastTurnFeedback = _blameTracker.OnTurnEnded(
                     _turnStartBoard, grid, _turnStartHealth, health, allPiecesPlaced: true);
@@ -144,6 +147,7 @@ namespace JTH.Scripts.Bootstrap
                 BlameTotal = _blameTracker.Total,
                 IsRetrySession = _isRetrySession,
                 TurnIndex = _turnIndex,
+                LastTurnClearedCells = lastTurnClearedCells,
             };
 
             _supply.Fill(context);
@@ -174,6 +178,7 @@ namespace JTH.Scripts.Bootstrap
             SelectionTier.Trap => ("죽음(함정)", "#FF5252"),
             SelectionTier.ComboBreak => ("콤보 브레이크", "#FFD54F"),
             SelectionTier.Hospitality => ("접대", "#69F0AE"),
+            SelectionTier.Momentum => ("모멘텀(흐름 유지)", "#FFD700"),
             SelectionTier.Easy => ("이지", "#40C4FF"),
             SelectionTier.Pressure => ("유일수", "#FFAB40"),
             SelectionTier.Normal => ("노말", "#FFFFFF"),
@@ -210,6 +215,11 @@ namespace JTH.Scripts.Bootstrap
             {
                 reasons.Add($"배치 자유도 {feedback.FreedomDrop:F1} 하락"
                     + $" → +{feedback.FreedomDrop * selectionTuningSO.BlamePerFreedomDrop:F1}");
+            }
+
+            if (feedback.HealthGainRelief > 0.05f)
+            {
+                reasons.Add($"Health 개선 보상 → -{feedback.HealthGainRelief:F1}");
             }
 
             if (feedback.DecayLoss > 0.05f)
@@ -256,6 +266,16 @@ namespace JTH.Scripts.Bootstrap
                 reasons.Add($"배치 자유도 {before.PlacementFreedom:F1} → {after.PlacementFreedom:F1}");
             }
 
+            if (before.ClusterCount != after.ClusterCount)
+            {
+                reasons.Add($"덩어리 수 {before.ClusterCount} → {after.ClusterCount}개");
+            }
+
+            if (before.LargestClusterSize != after.LargestClusterSize)
+            {
+                reasons.Add($"최대 덩어리 {before.LargestClusterSize} → {after.LargestClusterSize}칸");
+            }
+
             if (reasons.Count == 0)
             {
                 reasons.Add("변동 없음");
@@ -264,6 +284,51 @@ namespace JTH.Scripts.Bootstrap
             Debug.Log($"<color={color}><b>[BoardHp] {before.Score:F2} → {after.Score:F2}"
                 + $" ({scoreChange:+0.00;-0.00;+0.00})</b> zone {before.Zone} → {after.Zone}</color>\n"
                 + string.Join(" · ", reasons));
+        }
+
+        /// <summary>
+        /// 직전 턴에 클리어로 사라진 칸 수 = 턴 시작 점유 + 배치한 피스 칸 - 현재 점유.
+        /// Fill은 3피스 전부 배치 후에만 불리므로 배치 칸 수는 직전 선택 결과에서 얻는다.
+        /// </summary>
+        private int ComputeLastTurnClearedCells(BoardGrid current)
+        {
+            BlockSelectionResult lastSelection = _drawer.LastResult;
+            if (lastSelection?.Pieces == null)
+            {
+                return 0;
+            }
+
+            int placedCells = 0;
+            foreach (IReadOnlyList<Vector2Int> piece in lastSelection.Pieces)
+            {
+                placedCells += piece.Count;
+            }
+
+            int cleared = CountOccupied(_turnStartBoard) + placedCells - CountOccupied(current);
+            return Mathf.Max(0, cleared);
+        }
+
+        private static int CountOccupied(BoardGrid board)
+        {
+            int size = board.BoardSize;
+            int occupied = 0;
+            Vector2Int cell = Vector2Int.zero;
+
+            for (int x = 0; x < size; ++x)
+            {
+                for (int y = 0; y < size; ++y)
+                {
+                    cell.x = x;
+                    cell.y = y;
+
+                    if (board.IsOccupied(cell))
+                    {
+                        ++occupied;
+                    }
+                }
+            }
+
+            return occupied;
         }
 
         /// <summary>
