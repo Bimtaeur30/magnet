@@ -68,7 +68,7 @@ Block Blast 스타일 **8×8 보드**에서, 매 턴 하단 **3슬롯**에 나�
 
 | 용어 | 의미 |
 |------|------|
-| **피스(Piece)** | 스폰될 블록 1개 = `shapeId` + 고정 `cellOffsets` + 고정 `rotation` |
+| **피스(Piece)** | 스폰될 블록 1개. 코드에서는 회전 적용이 끝난 `IReadOnlyList<Vector2Int>`(cellOffsets)로 표현 — 별도 클래스 없음 (기존 Drawer 파이프라인과 동일) |
 | **번들(Bundle)** | 피스 3개의 고정 조합 (순서는 슬롯 0,1,2에 대응) |
 | **라운드(Round)** | 이번에 준 3피스를 **모두 소진할 때까지**의 구간 (= 1턴) |
 | **full sequence** | 3피스를 어떤 **순서**로, 어떤 **위치·회전**으로든 **전부** 놓는 방법 1가지 |
@@ -124,7 +124,7 @@ PTY `BlockShapeSource` 기준 canonical ID. 스폰 시 **회전 4방향** 적용
 
 | shapeId | 칸 수 | Normal 풀 | 비고 |
 |---------|------:|:---------:|------|
-| `1x1` | 1 | ❌ | Hospitality(재시작 직후) 전용 |
+| `1x1` | 1 | ❌ | **Relife 번들 전용** — 다른 티어에선 안 나옴 |
 | `1x2` | 2 | ❌ | 억지 블록 — 특수 티어에서 fallthrough |
 | `1x3` | 3 | ✅ | |
 | `1x4` | 4 | ✅ | |
@@ -142,7 +142,7 @@ PTY `BlockShapeSource` 기준 canonical ID. 스폰 시 **회전 4방향** 적용
 | `Diag2` | 2 | ✅ | 코너 대각 2칸 |
 | `Diag3` | 3 | ✅ | 코너 대각 3칸 |
 
-**Normal / Trap / ComboBreak 번들**에는 `1x1`을 넣지 않는다.
+`1x1`은 **Relife 번들에만** 넣는다. Normal / Trap / ComboBreak 번들과 Hospitality / Pressure / Easy / Fallback 생성에서는 사용 금지.
 
 ---
 
@@ -184,60 +184,44 @@ for rotation in {0, 90, 180, 270}:
 ```csharp
 // Domain/BlockSelection/Simulation/
 
-bool HasAnyPlacement(BoardSnapshot board, PieceSet pieces);
+bool HasAnyPlacement(BoardGrid board, PieceSet pieces);
 
-bool FullSequenceExists(BoardSnapshot board, PieceSet pieces);
+bool FullSequenceExists(BoardGrid board, PieceSet pieces);
 
-bool ComboMaintainable(BoardSnapshot board, PieceSet pieces, ComboContext combo);
+bool ComboMaintainable(BoardGrid board, PieceSet pieces, ComboContext combo);
 
-int CountFullSequences(BoardSnapshot board, PieceSet pieces, int cap = 3);
+int CountFullSequences(BoardGrid board, PieceSet pieces, int cap = 3);
 // cap: 2 이상이면 조기 종료 (unique 판정은 1인지만 확인하면 됨)
 
-SimulationResult SimulatePlace(BoardSnapshot board, Piece piece, Vector2Int pivot);
-// 내부: 배치 → LineClearDetector 동일 로직 → 연쇄 클리어 until stable
+int PlaceAndClear(BoardGrid board, offsets, Vector2Int pivot);
+// PlacementSimulator — 배치 → LineClearDetector 재사용 → 클리어된 칸 해제, 지운 라인 수 반환
 ```
 
-`PieceSet` = 길이 3인 `Piece[]` (null 슬롯 없음, 스폰 직후 기준).
+`PieceSet` = 길이 3인 `IReadOnlyList<IReadOnlyList<Vector2Int>>` (null 슬롯 없음, 스폰 직후 기준).
 
-### 8.2 BoardSnapshot
+### 8.2 보드 클론
 
-실제 `BoardGrid`를 오염시키지 않기 위해 **복사본** 사용.
+실제 보드를 오염시키지 않기 위해 **복사본** 사용.
 
-```text
-BoardSnapshot:
-  int BoardSize
-  bool IsOccupied(x, y)
-  Clone() → BoardSnapshot
-  ApplyPlacement(offsets, pivot) → new snapshot + clearedLineCount
-```
-
-`BoardGrid`에 `Clone()` 또는 `BoardSnapshot.From(BoardGrid)` 추가를 권장.
+`BoardGrid`는 내부 `bool[,]` 단일 표현이며, 시뮬레이션은 `board.Clone()` 후
+`PlacementSimulator.PlaceAndClear`로 진행한다. (초기 설계의 `BoardSnapshot`은
+보드 표현 통합으로 제거 — sequence1 #2)
 
 ### 8.3 배치 1수 시뮬 (의사코드)
 
 ```text
-function SimulatePlace(board, piece, pivot):
-  if not CanPlace(piece.offsets, pivot, board):
-    return INVALID
+function PlaceAndClear(board, offsets, pivot):   // board는 미리 Clone된 것
+  for cell in offsets at pivot:
+    board.SetOccupied(cell, true)
 
-  newBoard = board.Clone()
-  for cell in piece.offsets at pivot:
-    newBoard.SetOccupied(cell, true)
+  result = LineClearDetector.Detect(board, placed cells)
+  for each cell in result.CollectClearedCells:
+    board.SetOccupied(cell, false)
 
-  changedCells = placed cells
-  totalClears = 0
-
-  loop:
-    result = LineClearDetector.Detect(newBoard, changedCells)
-    if result.clearedLines is empty:
-      break
-    for each line in result.clearedLines:
-      remove all cells on that line from newBoard
-      totalClears += 1
-    changedCells = removed cells  // 연쇄 검사용
-
-  return { board: newBoard, clearCount: totalClears }
+  return result.ClearedLineCount
 ```
+
+제거는 칸을 비울 뿐이라 연쇄 클리어는 수학적으로 불가 — 1패스로 충분.
 
 ### 8.4 Full sequence 백트래킹
 
@@ -319,6 +303,7 @@ ComboBreak는 “이번 3피스 라운드에서 클리어 가능 여부”만 �
 
 | 순서 | 티어 | 조건 (요약) | 생성 방식 |
 |:----:|------|-------------|-----------|
+| 0 | **Relife** | 재시작(다시 하기) 직후 첫 N턴 | 번들 |
 | 1 | **Trap** | TooDirty + Blame 매우 높음 + `p_trap` | 번들 + 검증 |
 | 2 | **ComboBreak** | TooEmpty + Blame 중간 이상 + `p_comboBreak` | 번들 + 검증 |
 | 3 | **Hospitality** | opportunity 높음 + `p_hospitality` | 실시간 |
@@ -326,6 +311,29 @@ ComboBreak는 “이번 3피스 라운드에서 클리어 가능 여부”만 �
 | 5 | **Pressure** | TooDirty (Trap 구간 제외) + `p_pressure` | 실시간 |
 | 6 | **Normal** | 항상 | 번들 가중 랜덤 |
 | 7 | **Fallback** | 6까지 실패 | 실시간 느슨한 조합 → 그래도 실패 시 Normal 번들 강제 |
+
+### 9.0 Relife (순서 0)
+
+**목표:** "다시 하기" 직후의 접대. **1×1은 오직 Relife 번들에서만 나온다.**
+
+**게이트:**
+
+```text
+isRetrySession == true            // 게임오버 후 다시 하기로 시작한 세션
+AND turnIndex < relifeTurnCount   // 권장 시작값: 1~2턴
+```
+
+**번들 후보:**
+
+```text
+tag == Relife
+AND HasAnyPlacement == true
+AND FullSequenceExists == true    // 접대이므로 반드시 통과 가능
+```
+
+- Relife 번들은 `1x1` 등 작은 블록 포함 가능 — 빈틈 메우기·콤보 스타트용 접대.
+- 억지 블록 금지 규칙(§3-3)은 Relife에 **적용 안 함** (여기서만 1×1 허용).
+- 재시작 여부(`isRetrySession`)는 컨텍스트로 전달받는다 (Bootstrap에서 판단).
 
 ### 9.1 Trap (순서 1)
 
@@ -465,7 +473,7 @@ function TryGenerateHospitality(board, weights, tuning):
 
   candidates = empty list
   repeat sampleCount times:  // 권장 50~200
-    combo = Sample3Shapes(allowedPool, weights)  // 1x1 제외 (재시작 직후 예외 §12)
+    combo = Sample3Shapes(allowedPool, weights)  // 1x1 항상 제외 (1x1은 Relife 전용, §9.0)
     if UsesForcedAwkwardBlock(combo): continue   // 1x2 등 억지 규칙
 
     pieces = AssignRotations(combo)
@@ -483,9 +491,9 @@ function TryGenerateHospitality(board, weights, tuning):
 
 `SimulateBestOutcome`: 6순열 × 배치 중 **가장 많이 클리어**되는 시나리오 점수 (완벽 플레이 가정).
 
-### 10.4 1×1 예외
+### 10.4 1×1
 
-**재시작 직후 / SessionEase 높음** (§12, 보류)일 때만 `1x1`을 allowedPool에 추가.
+Hospitality에서도 `1x1`은 **사용하지 않는다.** 재시작 직후 접대는 **Relife 번들**(§9.0)이 담당한다.
 
 ---
 
@@ -538,6 +546,30 @@ function TryGeneratePressure(board, weights, tuning):
 - **트리거:** 플레이어가 **Pressure에서 준 3피스**로 라운드를 **무사히 완료**했을 때.
 - Hospitality가 우연히 unique였을 때도 UI 문구는 띄울 **수** 있으나, **의도된 성취는 Pressure만** 카운트.
 - 구현: `BlockSelectionResult.Intent == Pressure && turnCompleted` → 이벤트 또는 bool 훅 (UI는 범위 밖).
+
+### 11.5 유일해 보관 + 정답 배치 판정 (UI 데이터, 필수)
+
+**목적:** Pressure 턴에서 유저가 **맞는 조각을 맞는 위치**에 놓을 때마다, 그 블록 칸 위에 엄지척 UI가 잠깐 뜬다. UI는 범위 밖이지만 **판정 데이터는 여기서 만든다.**
+
+- `PressureGenerator`가 `CountFullSequences == 1` 확인 시 찾은 **유일해를 버리지 말고 결과에 보관**:
+
+```text
+UniqueSolution:
+  steps[3]:               // 배치 순서대로
+    int slotIndex          // 어느 슬롯의 피스인지
+    Vector2Int pivot
+    IReadOnlyList<Vector2Int> cellOffsets  // 회전 적용 후
+```
+
+- 배치마다 판정할 수 있는 API:
+
+```text
+MatchesSolutionStep(solution, currentStepIndex, placedSlotIndex, placedPivot)
+  → bool matched, IReadOnlyList<Vector2Int> placedCells  // 엄지척 띄울 칸들
+```
+
+- **주의:** 라인 클리어로 보드가 변하므로 "스텝 순서"까지 일치해야 정답. 순서가 틀리면 (유일해 기준) 이후 스텝은 어차피 불가능해진다.
+- 유일해는 Pressure 턴에만 존재. Normal/번들 턴에서는 `UniqueSolution == null`.
 
 ---
 
@@ -619,6 +651,23 @@ else:
 | Pressure 가중 | `blamePressureThreshold` | 35 |
 | Trap | `blameTrapThreshold` | 55 |
 | Easy (낮아야 함) | `easyBlameMax` | 15 |
+| GoodTurn (§13.4) | `goodTurnBlameDeltaMax` | 5 |
+
+### 13.4 GoodTurn 판정 (UI 데이터, 필수)
+
+**목적:** 3블록을 다 놓았는데 이번 턴 Blame이 낮으면 → 유저에게 긍정 피드백. UI는 범위 밖, **판정 데이터만 노출.**
+
+```text
+BlameTracker:
+  float Total              // 감쇠 포함 누적
+  float LastTurnDelta      // 이번 턴에 새로 쌓인 blame (감쇠 전 원값)
+
+턴 종료 시:
+  isGoodTurn = (3피스 전부 배치 완료) && (LastTurnDelta <= goodTurnBlameDeltaMax)
+```
+
+- 게임오버·중도 종료 턴은 GoodTurn 아님.
+- `TurnFeedback` 결과(예: `IsGoodTurn`, `LastTurnDelta`)를 턴 종료 이벤트에 실을 수 있게 Domain에서 반환.
 
 ---
 
@@ -634,7 +683,7 @@ else:
 
 | shapeId | Normal | Hospitality | Pressure |
 |---------|-------:|------------:|---------:|
-| 1x1 | 0 | 0* | 0 |
+| 1x1 | 0 | 0 | 0 |
 | 1x2 | 0 | 0 | 0 |
 | 1x3 | 10 | 8 | 12 |
 | 1x4 | 12 | 15 | 14 |
@@ -645,7 +694,7 @@ else:
 | L3~Z4, L3x3 | 10 each | 12 each | 12 each |
 | Diag2, Diag3 | 8 | 6 | 10 |
 
-\* 재시작 직후 Hospitality만 1x1 허용 시 가중 > 0
+`1x1`은 모든 티어 가중 0 — **Relife 번들에 직접 명시**되어야만 나온다.
 
 ### 14.3 억지 블록 판정
 
@@ -665,7 +714,7 @@ UsesForcedAwkwardBlock(combo):
 ```text
 BlockBundleSO:
   string bundleId
-  BundleTag tag          // Normal | Trap | ComboBreak
+  BundleTag tag          // Normal | Trap | ComboBreak | Relife
   string[] shapeIds[3]   // 슬롯 순서
   int weight             // Normal 가중치 (Trap/ComboBreak는 1이어도 됨)
 ```
@@ -700,6 +749,13 @@ BlockBundlePoolSO:
 |----------|--------|------|
 | `cb_noclear` | 1x3, 1x3, 2x2 | 넣을 순 있으나 클리어 어려움 |
 
+**Relife (재시작 접대, 예시):**
+
+| bundleId | shapes | 의도 |
+|----------|--------|------|
+| `relife_gentle` | 1x1, 1x3, 2x2 | 빈틈 메우기 + 부담 없는 시작 |
+| `relife_combo` | 1x1, 1x1, 1x4 | 콤보 스타트 유도 |
+
 번들은 **에디터에서 수십 개** 늘리면서 플레이테스트로 조정.
 
 ### 15.4 Draw 시 번들 → 피스 변환
@@ -732,6 +788,7 @@ for i in 0..2:
    - `BlameTracker Blame`
    - `BlockSelectionTuningSO Tuning`
    - `BlockBundlePoolSO Bundles`
+   - `bool IsRetrySession` + `int TurnIndex` (Relife 게이트용, §9.0)
    - `Score`는 **알고리즘에서 읽지 않음** (필드 유지해도 됨).
 3. `BlockSpawnBootstrap`: `RandomDrawer` → `BlockSelectionDrawer`.
 4. `BoardPlacementBootstrap` 또는 `TurnBootstrap`: 턴 종료 시 `BlameTracker.OnTurnEnded`.
@@ -747,7 +804,17 @@ BlockSelectionResult:
   HealthZone zone
   float blame
   bool isBrilliantEscapeCandidate  // Pressure intent
+  UniqueSolution uniqueSolution?   // Pressure만 non-null (§11.5, 엄지척 UI 판정용)
 ```
+
+### 16.4 턴 피드백 데이터 (UI 소비용)
+
+| 데이터 | 출처 | 시점 |
+|--------|------|------|
+| `IsGoodTurn` / `LastTurnDelta` | `BlameTracker` (§13.4) | 턴 종료 |
+| 정답 배치 매칭 + 배치 칸 목록 | `UniqueSolution` (§11.5) | 매 배치 직후 |
+
+이벤트 발행은 Bootstrap 몫 (Domain은 판정·데이터만).
 
 ---
 
@@ -808,7 +875,7 @@ BlockSelectionResult:
 | 항목 | 설명 |
 |------|------|
 | **SessionEase** | 빠른 게임오버 후 다음 세션 쉬움 — grill에서 미확정 |
-| **1×1 재시작 접대** | Hospitality에서 `SessionEase` 연동 시 구현 |
+| ~~1×1 재시작 접대~~ | → **Relife 번들**(§9.0)로 확정, 보류 아님 |
 | **Brilliant escape UI** | 이벤트 훅만. 문구·연출은 UI 담당 |
 | **점수 기반 난이도** | 본 알고리즘 입력 아님 |
 | **BlockBlastPoolSO** | `random-block-spawn` Phase 6. 없으면 `BlockShapeSourceSO` 직접 사용 |
@@ -824,6 +891,8 @@ BlockSelectionResult:
 - [ ] Pressure만 의도적 unique다
 - [ ] `Score` / 콤보가 선택기 입력에 쓰이지 않는다
 - [ ] `read_console`로 턴마다 tier·health·blame을 확인할 수 있다
+- [ ] `BlameTracker`가 턴별 delta를 노출하고 GoodTurn 판정이 나온다 (§13.4)
+- [ ] Pressure 결과에 유일해가 보관되고 배치별 정답 매칭 API가 있다 (§11.5)
 
 ---
 
@@ -831,9 +900,14 @@ BlockSelectionResult:
 
 ```text
 function SelectPieces(board, blame, tuning, bundles, rng):
-  snapshot = BoardSnapshot.From(board)
+  snapshot = board.Clone()
   health = BoardHealthCalculator.Compute(snapshot)
   zone = health.zone
+
+  // 0 Relife (1x1은 여기서만)
+  if context.isRetrySession and context.turnIndex < tuning.relifeTurnCount:
+    b = PickRelifeBundle(snapshot, bundles, rng)   // hasAny + fullSequence 필수
+    if b != null: return Result(Relife, b)
 
   // 1 Trap
   if zone == TooDirty and blame >= tuning.blameTrapThreshold:
