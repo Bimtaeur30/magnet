@@ -10,6 +10,27 @@ namespace JTH.Scripts.Domain.Placement
         public static bool CanPlace(IReadOnlyList<Vector2Int> cellOffsets, Vector2Int pivot, BoardGrid grid)
             => !GetOverlap(cellOffsets, pivot, grid) && !GetOutOfBoard(cellOffsets, pivot, grid);
 
+        public static bool CanPlaceAnywhere(IReadOnlyList<Vector2Int> cellOffsets, BoardGrid grid)
+        {
+            Vector2Int pivot = Vector2Int.zero;
+
+            for (int x = 0; x < grid.BoardSize; ++x)
+            {
+                for (int y = 0; y < grid.BoardSize; ++y)
+                {
+                    pivot.x = x;
+                    pivot.y = y;
+
+                    if (CanPlace(cellOffsets, pivot, grid))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public static bool GetOverlap(IReadOnlyList<Vector2Int> cellOffsets, Vector2Int pivot, BoardGrid grid)
             => AnyMatch(cellOffsets, pivot, grid.IsOccupied);
 

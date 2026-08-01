@@ -38,9 +38,11 @@
 
 | [score-logic](./Implementations/score-logic/phases.md) | 점수·콤보 | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase5 완료 (λ·base·tier) | **구현됨** |
 
+| [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | **phase7 완료** (전 Phase 완료 — Drawer 연동·씬 적용) | **구현됨** |
 
 
-**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 TBD — 본 인덱스 **미등록**.
+
+**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → `block-selection-algorithm`으로 **등록됨** (위 표 참고).
 
 
 
