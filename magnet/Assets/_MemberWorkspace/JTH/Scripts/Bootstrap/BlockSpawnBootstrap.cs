@@ -127,8 +127,12 @@ namespace JTH.Scripts.Bootstrap
             // 첫 리필이 아니면 직전 턴(3피스 라운드)의 blame 정산 — Fill은 lastDrop 시점에만 불리므로 전부 배치됨
             if (_turnStartBoard != null)
             {
+                float blameBefore = _blameTracker.Total;
                 LastTurnFeedback = _blameTracker.OnTurnEnded(
                     _turnStartBoard, grid, _turnStartHealth, health, allPiecesPlaced: true);
+
+                LogBlameChange(blameBefore, LastTurnFeedback);
+                LogHealthChange(_turnStartHealth, health);
             }
 
             _turnStartBoard = grid.Clone();
@@ -150,7 +154,7 @@ namespace JTH.Scripts.Bootstrap
         }
 
         /// <summary>
-        /// 매 리필 1줄 진단 로그 (SPEC §20).
+        /// 매 리필 1줄 진단 로그 (SPEC §20) + 티어 강조 로그(선택 이유 포함).
         /// </summary>
         private void LogSelection()
         {
@@ -158,6 +162,108 @@ namespace JTH.Scripts.Bootstrap
             string source = result.WasGenerated ? "generated" : result.BundleId;
             Debug.Log($"[BlockSelect] turn={_turnIndex} zone={result.Zone} health={result.HealthScore:F2}"
                 + $" blame={result.Blame:F1} tier={result.Tier} bundle={source}");
+
+            (string label, string color) = TierStyle(result.Tier);
+            Debug.Log($"<color={color}><b>[뽑기] {label} ({result.Tier})</b> bundle={source}</color>\n"
+                + result.SelectionReason);
+        }
+
+        private static (string label, string color) TierStyle(SelectionTier tier) => tier switch
+        {
+            SelectionTier.Relife => ("부활 접대", "#C792EA"),
+            SelectionTier.Trap => ("죽음(함정)", "#FF5252"),
+            SelectionTier.ComboBreak => ("콤보 브레이크", "#FFD54F"),
+            SelectionTier.Hospitality => ("접대", "#69F0AE"),
+            SelectionTier.Easy => ("이지", "#40C4FF"),
+            SelectionTier.Pressure => ("유일수", "#FFAB40"),
+            SelectionTier.Normal => ("노말", "#FFFFFF"),
+            _ => ("폴백", "#B0BEC5"),
+        };
+
+        /// <summary>
+        /// 턴 정산 시 Blame 증감 강조 로그 — 아랫줄에 증감 사유.
+        /// </summary>
+        private void LogBlameChange(float blameBefore, TurnFeedback feedback)
+        {
+            float netChange = feedback.TotalBlame - blameBefore;
+            string color = netChange > 0f ? "#FF6E6E" : "#7DFF9E";
+
+            List<string> reasons = new();
+            if (feedback.NewDeadZones > 0)
+            {
+                reasons.Add($"새 dead zone {feedback.NewDeadZones}개"
+                    + $" → +{feedback.NewDeadZones * selectionTuningSO.BlamePerDeadZone:F1}");
+            }
+
+            if (feedback.CenterCellsGained > 0)
+            {
+                reasons.Add($"중앙 2×2 점유 {feedback.CenterCellsGained}칸"
+                    + $" → +{feedback.CenterCellsGained * selectionTuningSO.BlamePerCenterCell:F1}");
+            }
+
+            if (feedback.BigSlotLost)
+            {
+                reasons.Add($"큰 블록 슬롯 감소 → +{selectionTuningSO.BlamePerBigSlotLost:F1}");
+            }
+
+            if (feedback.FreedomDrop > 0f)
+            {
+                reasons.Add($"배치 자유도 {feedback.FreedomDrop:F1} 하락"
+                    + $" → +{feedback.FreedomDrop * selectionTuningSO.BlamePerFreedomDrop:F1}");
+            }
+
+            if (feedback.DecayLoss > 0.05f)
+            {
+                reasons.Add($"감쇠 ×{selectionTuningSO.BlameDecayRate:F2} → -{feedback.DecayLoss:F1}");
+            }
+
+            if (reasons.Count == 0)
+            {
+                reasons.Add("변동 요인 없음");
+            }
+
+            Debug.Log($"<color={color}><b>[Blame] {blameBefore:F1} → {feedback.TotalBlame:F1}"
+                + $" ({netChange:+0.0;-0.0;+0.0})</b> 이번 턴 획득 +{feedback.LastTurnDelta:F1}</color>\n"
+                + string.Join(" · ", reasons));
+        }
+
+        /// <summary>
+        /// 턴 정산 시 BoardHp(health) 증감 강조 로그 — 아랫줄에 증감 사유.
+        /// </summary>
+        private static void LogHealthChange(BoardHealthResult before, BoardHealthResult after)
+        {
+            float scoreChange = after.Score - before.Score;
+            string color = scoreChange < 0f ? "#FF6E6E" : "#7DFF9E";
+
+            List<string> reasons = new();
+            if (!Mathf.Approximately(before.FillRate, after.FillRate))
+            {
+                reasons.Add($"채움률 {before.FillRate:P0} → {after.FillRate:P0}");
+            }
+
+            if (before.DeadZoneCount != after.DeadZoneCount)
+            {
+                reasons.Add($"dead zone {before.DeadZoneCount} → {after.DeadZoneCount}개");
+            }
+
+            if (before.BigPieceSlots != after.BigPieceSlots)
+            {
+                reasons.Add($"큰 블록 슬롯 {before.BigPieceSlots} → {after.BigPieceSlots}");
+            }
+
+            if (!Mathf.Approximately(before.PlacementFreedom, after.PlacementFreedom))
+            {
+                reasons.Add($"배치 자유도 {before.PlacementFreedom:F1} → {after.PlacementFreedom:F1}");
+            }
+
+            if (reasons.Count == 0)
+            {
+                reasons.Add("변동 없음");
+            }
+
+            Debug.Log($"<color={color}><b>[BoardHp] {before.Score:F2} → {after.Score:F2}"
+                + $" ({scoreChange:+0.00;-0.00;+0.00})</b> zone {before.Zone} → {after.Zone}</color>\n"
+                + string.Join(" · ", reasons));
         }
 
         /// <summary>

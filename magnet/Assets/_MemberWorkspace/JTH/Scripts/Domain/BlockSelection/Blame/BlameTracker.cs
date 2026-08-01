@@ -31,10 +31,16 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
             {
                 delta += newDeadZones * _tuning.BlamePerDeadZone;
             }
+            else
+            {
+                newDeadZones = 0;
+            }
 
-            delta += CountCenterCellsGained(boardBefore, boardAfter) * _tuning.BlamePerCenterCell;
+            int centerCellsGained = CountCenterCellsGained(boardBefore, boardAfter);
+            delta += centerCellsGained * _tuning.BlamePerCenterCell;
 
-            if (healthAfter.BigPieceSlots < healthBefore.BigPieceSlots)
+            bool bigSlotLost = healthAfter.BigPieceSlots < healthBefore.BigPieceSlots;
+            if (bigSlotLost)
             {
                 delta += _tuning.BlamePerBigSlotLost;
             }
@@ -44,12 +50,19 @@ namespace JTH.Scripts.Domain.BlockSelection.Blame
             {
                 delta += freedomDrop * _tuning.BlamePerFreedomDrop;
             }
+            else
+            {
+                freedomDrop = 0f;
+            }
+
+            float decayLoss = Total * (1f - _tuning.BlameDecayRate);
 
             LastTurnDelta = delta;
             Total = Total * _tuning.BlameDecayRate + delta;
 
             bool isGoodTurn = allPiecesPlaced && delta <= _tuning.GoodTurnBlameDeltaMax;
-            return new TurnFeedback(isGoodTurn, delta, Total);
+            return new TurnFeedback(
+                isGoodTurn, delta, Total, newDeadZones, centerCellsGained, bigSlotLost, freedomDrop, decayLoss);
         }
 
         public void Reset()

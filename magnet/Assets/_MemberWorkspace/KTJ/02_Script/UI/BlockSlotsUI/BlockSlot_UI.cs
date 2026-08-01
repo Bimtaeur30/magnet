@@ -99,7 +99,6 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         if (!_isOccupied)
             return;
 
-        Debug.Log($"BlockSlot clicked, index: {_index}", this);
         MagnetChannel.RaiseEvent(
             MagnetGameEvents.BlockSelectedOnUIEvent.Init(_index));
     }

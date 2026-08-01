@@ -28,6 +28,9 @@ namespace JTH.Scripts.Domain.BlockSelection
         /// <summary>Pressure만 non-null (SPEC §11.5, 엄지척 UI 판정용).</summary>
         public UniqueSolution UniqueSolution { get; }
 
+        /// <summary>이 티어가 선택된 이유 + 상위 티어 스킵 경과 (진단 로그용, 여러 줄).</summary>
+        public string SelectionReason { get; }
+
         public List<IReadOnlyList<Vector2Int>> Pieces { get; }
 
         public BlockSelectionResult(
@@ -37,7 +40,8 @@ namespace JTH.Scripts.Domain.BlockSelection
             UniqueSolution uniqueSolution,
             float healthScore,
             HealthZone zone,
-            float blame)
+            float blame,
+            string selectionReason)
         {
             Tier = tier;
             BundleId = bundleId;
@@ -46,6 +50,7 @@ namespace JTH.Scripts.Domain.BlockSelection
             HealthScore = healthScore;
             Zone = zone;
             Blame = blame;
+            SelectionReason = selectionReason;
         }
     }
 }
