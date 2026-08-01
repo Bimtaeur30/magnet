@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Board
@@ -7,48 +6,40 @@ namespace JTH.Scripts.Domain.Board
     {
         public int BoardSize { get; private set; }
 
-        private readonly HashSet<Vector2Int> _occupied;
-        
+        private readonly bool[,] _cells;
+
         public BoardGrid(int boardSize)
         {
             BoardSize = boardSize;
-            
-            _occupied = new HashSet<Vector2Int>();
+
+            _cells = new bool[boardSize, boardSize];
+        }
+
+        private BoardGrid(int boardSize, bool[,] cells)
+        {
+            BoardSize = boardSize;
+
+            _cells = cells;
+        }
+
+        public BoardGrid Clone()
+        {
+            return new BoardGrid(BoardSize, (bool[,])_cells.Clone());
         }
 
         public bool IsOccupied(Vector2Int grid)
         {
-            return _occupied.Contains(grid);
+            return IsInBounds(grid) && _cells[grid.x, grid.y];
         }
 
         public void SetOccupied(Vector2Int grid, bool occupied)
         {
-            if (occupied)
-            {
-                _occupied.Add(grid);
-            }
-            else
-            {
-                _occupied.Remove(grid);
-            }
+            _cells[grid.x, grid.y] = occupied;
         }
 
         public bool IsInBounds(Vector2Int grid)
         {
             return grid.x >= 0 && grid.x < BoardSize && grid.y >= 0 && grid.y < BoardSize;
-        }
-
-        public bool HasOccupiedCellOutsideBounds()
-        {
-            foreach (Vector2Int grid in _occupied)
-            {
-                if (!IsInBounds(grid))
-                {
-                    return true;
-                }
-            }
-            
-            return false;
         }
     }
 }

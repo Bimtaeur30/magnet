@@ -17,21 +17,10 @@ namespace JTH.Scripts.Domain.Turn
             {
                 if (shapeBlock == null)
                     continue;
-                
-                Vector2Int pivot = Vector2Int.zero;
 
-                for (int x = 0; x < grid.BoardSize; ++x)
+                if (PlacementService.CanPlaceAnywhere(shapeBlock.CellOffsets, grid))
                 {
-                    for (int y = 0; y < grid.BoardSize; ++y)
-                    {
-                        pivot.x = x;
-                        pivot.y = y;
-
-                        if (PlacementService.CanPlace(shapeBlock.CellOffsets, pivot, grid))
-                        {
-                            return false;
-                        }
-                    }   
+                    return false;
                 }
             }
 
