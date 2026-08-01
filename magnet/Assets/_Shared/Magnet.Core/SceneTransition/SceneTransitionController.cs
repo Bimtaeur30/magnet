@@ -14,6 +14,8 @@ namespace Magnet.Core.SceneTransition
     /// </summary>
     public class SceneTransitionController : MonoBehaviour
     {
+        private const float HiddenPadding = 2f;
+
         [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private CanvasGroup inputBlockerCanvasGroup;
         [SerializeField] private RectTransform transitionPanel;
@@ -57,7 +59,7 @@ namespace Magnet.Core.SceneTransition
             TransitionPresetSO preset = evt.Preset != null ? evt.Preset : defaultPreset;
             float duration = preset != null ? preset.duration : 0.5f;
             Ease ease = preset != null ? preset.ease : Ease.OutQuad;
-            float travelDistance = transitionPanel.rect.height;
+            float travelDistance = transitionPanel.rect.height + HiddenPadding;
 
             ResetPanelBelowScreen();
 
@@ -93,7 +95,7 @@ namespace Magnet.Core.SceneTransition
         private void ResetPanelBelowScreen()
         {
             Vector2 position = transitionPanel.anchoredPosition;
-            position.y = -transitionPanel.rect.height;
+            position.y = -(transitionPanel.rect.height + HiddenPadding);
             transitionPanel.anchoredPosition = position;
         }
 
