@@ -2548,6 +2548,10 @@ PrefabInstance:
       propertyPath: ScoreUIView
       value: 
       objectReference: {fileID: 1545155279}
+    - target: {fileID: 721006199328311920, guid: 8b9c4e848f4494a4e80e2029b7b306ee, type: 3}
+      propertyPath: EnemyChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 70e33f7876334f145ae5fa994898115b, type: 2}
     - target: {fileID: 2990899264233945153, guid: 8b9c4e848f4494a4e80e2029b7b306ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

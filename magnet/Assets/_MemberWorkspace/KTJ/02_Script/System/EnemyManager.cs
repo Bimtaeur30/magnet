@@ -1,5 +1,6 @@
 using Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy;
 using Game.UI;
+using GameLib.EventChannelSystem;
 using UnityEngine;
 
 public sealed class EnemyManager : MonoBehaviour
@@ -7,6 +8,7 @@ public sealed class EnemyManager : MonoBehaviour
     [SerializeField] private EnemyDataContainerSO EnemyDataContainer;
     [SerializeField] private Transform EnemySpawnPos;
     [SerializeField] private ScoreUIView ScoreUIView;
+    [SerializeField] private EventChannelSO EnemyChannel;
 
     private int _currentStageIdx;
     private EnemyAgent _currentEnemy;
@@ -53,6 +55,7 @@ public sealed class EnemyManager : MonoBehaviour
         _currentEnemy.InitializeEnemyData(data);
 
         ScoreUIView.ViewModel.CurrentScoreTxt = _currentStageIdx.ToString();
+        EnemyChannel.RaiseEvent(EnemyEvents.StageClearEvent.Init(_currentStageIdx));
     }
 
     private void OnCurrentEnemyDied()
