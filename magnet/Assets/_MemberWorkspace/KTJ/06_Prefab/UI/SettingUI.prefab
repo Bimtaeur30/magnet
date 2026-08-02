@@ -594,7 +594,7 @@ MonoBehaviour:
   SceneTransitionChannel: {fileID: 11400000, guid: d24454ac257e4b34282b5bf56ed334f7, type: 2}
   MainTItleScene: {fileID: 11400000, guid: 51386f8fc0381184bb5e0430e17e25e8, type: 2}
   InGameScene: {fileID: 11400000, guid: a1ebdaddc9d963244b4e395ec45a3543, type: 2}
-  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
   titleSceneName: TitleScene
 --- !u!1 &2961959720109671714
 GameObject:
@@ -4064,6 +4064,26 @@ PrefabInstance:
     - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
       propertyPath: isOn
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6199891143709726747}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSoundEnabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PMS.Scripts.Manager.SettingsFuncManager, Magent.PMS
       objectReference: {fileID: 0}
     - target: {fileID: 7653727260320108748, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
       propertyPath: m_Pivot.x
