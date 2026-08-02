@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Text;
+using JTH.Scripts.Data;
 using JTH.Scripts.Domain.BlockBlast;
 using JTH.Scripts.Domain.BlockSelection.Simulation;
 using JTH.Scripts.Domain.Board;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Data;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.AreaBundleSpawn

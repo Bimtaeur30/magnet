@@ -11,6 +11,8 @@
 | 4 | Drawer·Bootstrap 배선 | [phase4.md](phase4.md) | [sequence4.md](sequence4.md) | **완료** |
 | 5 | Unique→Normal→Easy cascade + Easy 리스트 | — | [sequence5.md](sequence5.md) | **완료** |
 | 6 | Unique 동적 Unlock (번들 폐기) | — | [sequence6.md](sequence6.md) | **완료** |
+| 7 | 직사각 greedy Area 점수 | [phase7.md](phase7.md) | [sequence7.md](sequence7.md) | **완료** |
+| 8 | size/변 + 직사각 개수 합산 | [phase8.md](phase8.md) | [sequence8.md](sequence8.md) | **완료** |
 
 ## grill 확정 요약
 
@@ -21,3 +23,4 @@
 - **Unique:** 동적 `UniqueUnlockGenerator` (1 불가 + 2 클리어 언락). 번들 폐기. 실패 시 Normal→Easy.
 - **Normal:** 500건 빈도≥2 비유일·1x1 제외 (59).
 - **Easy:** 보장 1x1 패 + 관측 소형/1x1 + 구 Early (26).
+- **Area (Phase 8):** `base(size·변) − k×직사각수`. Rect Stage 튜닝 중 — 표는 `TUNING_STAGES.md`.

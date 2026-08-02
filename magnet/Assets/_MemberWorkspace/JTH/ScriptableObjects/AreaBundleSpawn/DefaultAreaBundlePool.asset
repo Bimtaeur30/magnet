@@ -441,16 +441,17 @@ MonoBehaviour:
     weight: 1
   areaScore:
     emptyTinyMaxSize: 3
-    emptyTinyPenalty: -35
+    emptyTinyPenalty: -50
     emptyFullScore: 107
     filledTinyMaxSize: 2
-    filledTinyPenalty: -18
+    filledTinyPenalty: -25
     filledFullScore: 67
     sideBonusIdealMax: 4
     sideBonusAtIdeal: 14
     sideBonusPerTwoSides: 5
+    rectCountPenalty: 3
   uniqueAreaThreshold: -5
-  uniqueProbability: 0.65
+  uniqueProbability: 0.5
   relifeEasyTurnCount: 1
   uniqueSampleCount: 120
   maxCandidatesToScore: 16

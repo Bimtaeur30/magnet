@@ -3,18 +3,32 @@ using System.Collections.Generic;
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     /// <summary>
-    /// 보드 Area 점수 합산 결과. 게이트·번들 선택 타이브레이크에 쓴다.
+    /// 보드 Area 점수. Total = BaseArea − RectPenalty.
     /// </summary>
     public readonly struct AreaScoreResult
     {
-        public AreaScoreResult(float total, IReadOnlyList<AreaComponentScore> components)
+        public AreaScoreResult(
+            float total,
+            IReadOnlyList<AreaComponentScore> components,
+            int rectCount,
+            float baseArea,
+            float rectPenalty)
         {
             Total = total;
             Components = components;
+            RectCount = rectCount;
+            BaseArea = baseArea;
+            RectPenalty = rectPenalty;
         }
 
         public float Total { get; }
         public IReadOnlyList<AreaComponentScore> Components { get; }
+        /// <summary>찬+빈 최대면적 greedy 직사각 총개수.</summary>
+        public int RectCount { get; }
+        /// <summary>4-연결 size·변 합.</summary>
+        public float BaseArea { get; }
+        /// <summary>rectCountPenalty × RectCount.</summary>
+        public float RectPenalty { get; }
     }
 
     public readonly struct AreaComponentScore

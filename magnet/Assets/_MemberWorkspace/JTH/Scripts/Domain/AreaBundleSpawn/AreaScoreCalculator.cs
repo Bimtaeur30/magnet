@@ -6,8 +6,8 @@ using UnityEngine;
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     /// <summary>
-    /// 찬/빈 4-연결 Area 점수 + (점수≥0 찬 Area) 변 보너스.
-    /// 수치는 <see cref="AreaScoreTuning"/> (SO)로 조정.
+    /// 4-연결 찬/빈 Area(size·변) + 최대면적 직사각 greedy 개수 패널티.
+    /// 최종 = baseArea − rectCountPenalty × rectCount.
     /// </summary>
     public static class AreaScoreCalculator
     {
@@ -25,7 +25,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             int cellCount = n * n;
             bool[,] visited = new bool[n, n];
             List<AreaComponentScore> components = new();
-            float total = 0f;
+            float baseTotal = 0f;
 
             for (int x = 0; x < n; ++x)
             {
@@ -40,15 +40,36 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                     List<Vector2Int> cells = Flood(board, visited, x, y, occupied);
                     AreaComponentScore component = ScoreComponent(cells, occupied, cellCount, tuning);
                     components.Add(component);
-                    total += component.Total;
+                    baseTotal += component.Total;
                 }
             }
 
-            return new AreaScoreResult(total, components);
+            int rectCount = CountRectangles(board);
+            float rectPenalty = tuning.rectCountPenalty * rectCount;
+            return new AreaScoreResult(baseTotal - rectPenalty, components, rectCount, baseTotal, rectPenalty);
         }
 
         public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning = null) =>
             Score(board, tuning).Total;
+
+        public static int CountRectangles(BoardGrid board)
+        {
+            int n = board.BoardSize;
+            bool[,] occupiedMask = new bool[n, n];
+            bool[,] emptyMask = new bool[n, n];
+
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    bool occupied = board.IsOccupied(new Vector2Int(x, y));
+                    occupiedMask[x, y] = occupied;
+                    emptyMask[x, y] = !occupied;
+                }
+            }
+
+            return PartitionCount(occupiedMask) + PartitionCount(emptyMask);
+        }
 
         private static AreaComponentScore ScoreComponent(
             List<Vector2Int> cells,
@@ -118,6 +139,145 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 - tuning.sideBonusPerTwoSides * (sideCount - tuning.sideBonusIdealMax) / 2f;
         }
 
+        private static int PartitionCount(bool[,] mask)
+        {
+            int n = mask.GetLength(0);
+            int[,] prefix = new int[n + 1, n + 1];
+            int count = 0;
+
+            while (TryFindBestRectangle(mask, prefix, n, out int x0, out int y0, out int width, out int height))
+            {
+                Carve(mask, x0, y0, width, height);
+                ++count;
+            }
+
+            return count;
+        }
+
+        private static bool TryFindBestRectangle(
+            bool[,] mask,
+            int[,] prefix,
+            int n,
+            out int bestX,
+            out int bestY,
+            out int bestW,
+            out int bestH)
+        {
+            RebuildPrefix(mask, prefix, n);
+
+            bestX = 0;
+            bestY = 0;
+            bestW = 0;
+            bestH = 0;
+            int bestArea = 0;
+            bool found = false;
+
+            for (int y0 = 0; y0 < n; ++y0)
+            {
+                for (int x0 = 0; x0 < n; ++x0)
+                {
+                    if (!mask[x0, y0])
+                    {
+                        continue;
+                    }
+
+                    for (int y1 = y0; y1 < n; ++y1)
+                    {
+                        for (int x1 = x0; x1 < n; ++x1)
+                        {
+                            int width = x1 - x0 + 1;
+                            int height = y1 - y0 + 1;
+                            int area = width * height;
+                            if (area < bestArea)
+                            {
+                                continue;
+                            }
+
+                            if (RectSum(prefix, x0, y0, x1, y1) != area)
+                            {
+                                continue;
+                            }
+
+                            if (!found || IsBetter(area, y0, x0, width, bestArea, bestY, bestX, bestW))
+                            {
+                                found = true;
+                                bestArea = area;
+                                bestX = x0;
+                                bestY = y0;
+                                bestW = width;
+                                bestH = height;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return found;
+        }
+
+        private static bool IsBetter(
+            int area, int y, int x, int width,
+            int bestArea, int bestY, int bestX, int bestWidth)
+        {
+            if (area != bestArea)
+            {
+                return area > bestArea;
+            }
+
+            if (y != bestY)
+            {
+                return y < bestY;
+            }
+
+            if (x != bestX)
+            {
+                return x < bestX;
+            }
+
+            return width > bestWidth;
+        }
+
+        private static void RebuildPrefix(bool[,] mask, int[,] prefix, int n)
+        {
+            for (int x = 0; x <= n; ++x)
+            {
+                prefix[x, 0] = 0;
+            }
+
+            for (int y = 0; y <= n; ++y)
+            {
+                prefix[0, y] = 0;
+            }
+
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    prefix[x + 1, y + 1] = (mask[x, y] ? 1 : 0)
+                        + prefix[x, y + 1]
+                        + prefix[x + 1, y]
+                        - prefix[x, y];
+                }
+            }
+        }
+
+        private static int RectSum(int[,] prefix, int x0, int y0, int x1, int y1) =>
+            prefix[x1 + 1, y1 + 1]
+            - prefix[x0, y1 + 1]
+            - prefix[x1 + 1, y0]
+            + prefix[x0, y0];
+
+        private static void Carve(bool[,] mask, int x0, int y0, int width, int height)
+        {
+            for (int x = x0; x < x0 + width; ++x)
+            {
+                for (int y = y0; y < y0 + height; ++y)
+                {
+                    mask[x, y] = false;
+                }
+            }
+        }
+
         private static List<Vector2Int> Flood(BoardGrid board, bool[,] visited, int startX, int startY, bool occupied)
         {
             int n = board.BoardSize;
@@ -156,42 +316,35 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
         /// <summary>
         /// 직교 다각형의 직선 변 개수 — 경계 단위 변을 같은 방향·연속이면 하나로 합친 개수.
-        /// 직·정사각형은 크기와 무관하게 4.
         /// </summary>
         public static int CountOrthogonalSides(IReadOnlyList<Vector2Int> cells)
         {
             HashSet<Vector2Int> set = new(cells);
-            // 단위 경계 변: (ax, ay, orient) — orient 0=가로(점 y=ay, x=ax..ax+1), 1=세로(점 x=ax, y=ay..ay+1)
             HashSet<long> boundary = new();
 
             foreach (Vector2Int c in cells)
             {
-                // 남 (y-1 쪽): 가로 변 (c.x, c.y, H)
                 if (!set.Contains(new Vector2Int(c.x, c.y - 1)))
                 {
                     boundary.Add(PackEdge(c.x, c.y, 0));
                 }
 
-                // 북: 가로 변 (c.x, c.y+1, H)
                 if (!set.Contains(new Vector2Int(c.x, c.y + 1)))
                 {
                     boundary.Add(PackEdge(c.x, c.y + 1, 0));
                 }
 
-                // 서: 세로 변 (c.x, c.y, V)
                 if (!set.Contains(new Vector2Int(c.x - 1, c.y)))
                 {
                     boundary.Add(PackEdge(c.x, c.y, 1));
                 }
 
-                // 동: 세로 변 (c.x+1, c.y, V)
                 if (!set.Contains(new Vector2Int(c.x + 1, c.y)))
                 {
                     boundary.Add(PackEdge(c.x + 1, c.y, 1));
                 }
             }
 
-            // 동일 직선·인접 단위 변을 Union-Find로 합쳐 변 개수 = 집합 수
             Dictionary<long, long> parent = new();
             foreach (long e in boundary)
             {
@@ -203,7 +356,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 UnpackEdge(e, out int ax, out int ay, out int orient);
                 if (orient == 0)
                 {
-                    // 가로: 왼쪽/오른쪽으로 한 칸 이어진 가로 변
                     TryUnion(parent, boundary, e, PackEdge(ax - 1, ay, 0));
                     TryUnion(parent, boundary, e, PackEdge(ax + 1, ay, 0));
                 }
@@ -249,7 +401,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return parent[x];
         }
 
-        private static long PackEdge(int a, int b, int orient) => ((long)(a + 512) << 22) | ((long)(b + 512) << 11) | (uint)orient;
+        private static long PackEdge(int a, int b, int orient) =>
+            ((long)(a + 512) << 22) | ((long)(b + 512) << 11) | (uint)orient;
 
         private static void UnpackEdge(long packed, out int a, out int b, out int orient)
         {

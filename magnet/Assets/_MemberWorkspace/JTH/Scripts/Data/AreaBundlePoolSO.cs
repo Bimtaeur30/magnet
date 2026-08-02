@@ -6,6 +6,7 @@ namespace JTH.Scripts.Data
     /// <summary>
     /// Area-번들 풀 + cascade 게이트.
     /// Unique는 동적 UniqueUnlockGenerator (번들 리스트 미사용).
+    /// Area = size/변 base − k×직사각수.
     /// </summary>
     [CreateAssetMenu(fileName = "AreaBundlePool", menuName = "Magnet/Area Bundle Pool")]
     public sealed class AreaBundlePoolSO : ScriptableObject
@@ -18,12 +19,12 @@ namespace JTH.Scripts.Data
         private List<AreaBundleEntry> easyBundles = new();
 
         [Header("Area Score")]
-        [SerializeField, Tooltip("빈/찬 Area·변 보너스 점수식")]
+        [SerializeField, Tooltip("빈/찬 Area·변 보너스 + 직사각 개수 패널티")]
         private AreaScoreTuning areaScore = new();
 
         [Header("Gate")]
         [SerializeField, Tooltip("현재 보드 Area ≤ 이면 dirty — pUnique로 Unique 시도")]
-        private float uniqueAreaThreshold = -20f;
+        private float uniqueAreaThreshold = -5f;
 
         [SerializeField, Tooltip("dirty일 때 Unique를 고를 확률 (0~1)")]
         [Range(0f, 1f)]

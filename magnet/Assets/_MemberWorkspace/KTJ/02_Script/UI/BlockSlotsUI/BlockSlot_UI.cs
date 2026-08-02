@@ -121,10 +121,10 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
         if (_currentSkin != null &&
             _currentSkin.Sprites != null &&
-            _skinId >= 0 &&
-            _skinId < _currentSkin.Sprites.Length)
+            _skinId >= 0)
         {
-            sprite = _currentSkin.Sprites[_skinId];
+            int id = _skinId % _currentSkin.Sprites.Length;
+            sprite = _currentSkin.Sprites[id];
         }
 
         foreach (Image blockCell in _blockCells)

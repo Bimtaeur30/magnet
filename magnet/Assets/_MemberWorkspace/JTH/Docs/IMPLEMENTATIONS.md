@@ -42,11 +42,13 @@
 
 | [blockblast-handoff-algorithm](./Implementations/blockblast-handoff-algorithm/phases.md) | BlockBlast 역공학 핸드오프 알고리즘 (42-ID · 7→1370→2100 체인) | — | phase1 완료 | **hybrid-spawn-algorithm으로 계승** (체인은 그 안의 기본 공급기로 사용 중) |
 
-| [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | **phase2 완료** | **구현됨 (현재 배선)** |
+| [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | **phase2 완료** | **Deprecated** (area-bundle-spawn으로 교체 · 코드 보존) |
+
+| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (size/변 + 직사각 패널티 · Unique/Normal/Easy) | — | **phase8 완료** | **구현됨 (현재 배선)** |
 
 
 
-**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → `block-selection-algorithm` → `blockblast-handoff-algorithm` → 현재 **`hybrid-spawn-algorithm`** (두 알고리즘 병합, 위 표 참고).
+**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → `hybrid-spawn-algorithm` → 현재 **`area-bundle-spawn`** (`Area = base − k×rectCount`).
 
 
 

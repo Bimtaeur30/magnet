@@ -39,7 +39,8 @@ namespace JTH.Scripts.Domain.Skin
             foreach (Block block in evt.Blocks)
             {
                 _blockDict.Add(block, evt.SkinId);
-                block.ApplySkin(_currentSkin[evt.SkinId]);
+                int id = _blockDict[block] % _currentSkin.Length;
+                block.ApplySkin(_currentSkin[id]);
             }
         }
 
@@ -61,7 +62,8 @@ namespace JTH.Scripts.Domain.Skin
         {
             foreach (Block block in _blockDict.Keys)
             {
-                block.ApplySkin(_currentSkin[_blockDict[block]]);
+                int id = _blockDict[block] % _currentSkin.Length;
+                block.ApplySkin(_currentSkin[id]);
             }
         }
     }
