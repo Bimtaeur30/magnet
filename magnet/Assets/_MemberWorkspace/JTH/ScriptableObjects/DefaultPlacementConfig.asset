@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.PlacementConfigSO
   <Visual>k__BackingField: {fileID: 11400000, guid: d1a10001000100010001000100000001, type: 2}
   <Drag>k__BackingField: {fileID: 11400000, guid: d1a10002000200020002000200000002, type: 2}
+  <LineClearPreview>k__BackingField: {fileID: 11400000, guid: e0119f30626ff6441b34edc2b66aa7b4, type: 2}

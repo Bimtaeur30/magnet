@@ -49,6 +49,7 @@ MonoBehaviour:
   boardConfig: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
   placementConfig: {fileID: 11400000, guid: dec55d4c748f9ac4b8ede15c29f0ea6f, type: 2}
   inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  presentationChannel: {fileID: 11400000, guid: 80cb95b89e6afca4d9a49d956b300dbd, type: 2}
 --- !u!114 &73864076358663992
 MonoBehaviour:
   m_ObjectHideFlags: 0

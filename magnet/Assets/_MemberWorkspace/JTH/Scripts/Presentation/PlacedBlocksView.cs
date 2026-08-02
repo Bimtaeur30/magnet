@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
+using JTH.Scripts.Data;
 using JTH.Scripts.Events;
 using UnityEngine;
 
@@ -11,34 +12,65 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private PoolItemSO blockBlastEffect;
         [SerializeField] private PoolManagerSO poolManagerSO;
-        
+        [SerializeField] private LineClearHintEffector lineClearHintEffector;
+
         private Dictionary<Vector2Int, Block> _cellsDict;
-        
+
         private void Awake()
         {
             Debug.Assert(blockBlastEffect != null, "[PlacedBlocksView] blockBlastEffect is not assigned.", this);
-            
-            _cellsDict = new Dictionary<Vector2Int, Block>();
-        } //풀링을 SO로 만들면 싱글톤 방식의 문제는 단일 책임, 오픈 클로즈?, 의존관계 역전 
-        
-        /// <summary>
-        /// 스테이징 ShapeBlock을 Y 스냅한 뒤 칸 View로 분해·등록한다.
-        /// </summary>
-        public void PlaceStagingBlock(IReadOnlyList<Block> detached
-            , IReadOnlyList<Vector2Int> gridOffsets)
-        {
-            for (int i = 0; i < detached.Count; i++)
+
+            if (lineClearHintEffector == null)
             {
-                Block block = detached[i];
-                
-                block.transform.SetParent(transform);
-                block.Offset = gridOffsets[i];
-                
-                _cellsDict.Add(gridOffsets[i], block);
+                lineClearHintEffector = GetComponent<LineClearHintEffector>();
+            }
+
+            if (lineClearHintEffector == null)
+            {
+                lineClearHintEffector = gameObject.AddComponent<LineClearHintEffector>();
+            }
+
+            _cellsDict = new Dictionary<Vector2Int, Block>();
+        }
+
+        public bool TryGetBlock(Vector2Int cell, out Block block)
+        {
+            return _cellsDict.TryGetValue(cell, out block);
+        }
+
+        public void SetLineClearHints(
+            IReadOnlyCollection<Vector2Int> clearedCells,
+            LineClearPreviewConfigSO config)
+        {
+            lineClearHintEffector.SetHints(clearedCells, config);
+        }
+
+        public void ClearLineClearHints()
+        {
+            lineClearHintEffector.ClearHints();
+        }
+
+        /// <summary>
+        /// 스테이징 ShapeBlock을 칸 View로 분해·등록한다.
+        /// 같은 칸에 잔상이 있으면 풀로 되돌린 뒤 교체한다 (Grid↔뷰 불일치 방어).
+        /// </summary>
+        public void PlaceStagingBlock(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> gridOffsets)
+        {
+            int count = Mathf.Min(detached.Count, gridOffsets.Count);
+            for (int i = 0; i < count; i++)
+            {
+                Vector2Int cell = gridOffsets[i];
+                ReplaceCell(cell, detached[i]);
             }
         }
-        public void DestroyCellViews(IReadOnlyList<Vector2Int> positions)
+
+        public void DestroyCellViews(IEnumerable<Vector2Int> positions)
         {
+            if (positions == null)
+            {
+                return;
+            }
+
             foreach (Vector2Int position in positions)
             {
                 if (!_cellsDict.Remove(position, out Block block))
@@ -46,10 +78,45 @@ namespace JTH.Scripts.Presentation
                     continue;
                 }
 
-                poolManagerSO.Push(block);
-                
-                inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));
+                PushBlock(block);
             }
+        }
+
+        /// <summary>보드에 올리지 못한 스테이징 칸을 풀로 되돌린다.</summary>
+        public void ReturnBlocks(IReadOnlyList<Block> blocks)
+        {
+            if (blocks == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < blocks.Count; ++i)
+            {
+                Block block = blocks[i];
+                if (block != null)
+                {
+                    PushBlock(block);
+                }
+            }
+        }
+
+        private void ReplaceCell(Vector2Int cell, Block block)
+        {
+            if (_cellsDict.Remove(cell, out Block previous))
+            {
+                PushBlock(previous);
+            }
+
+            block.transform.SetParent(transform);
+            block.Offset = cell;
+            block.ApplySortingBand(Block.SortingBandPlaced);
+            _cellsDict[cell] = block;
+        }
+
+        private void PushBlock(Block block)
+        {
+            poolManagerSO.Push(block);
+            inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));
         }
     }
 }

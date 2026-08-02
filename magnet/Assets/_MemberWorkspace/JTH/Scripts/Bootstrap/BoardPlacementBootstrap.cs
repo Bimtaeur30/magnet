@@ -30,16 +30,21 @@ namespace JTH.Scripts.Bootstrap
             IReadOnlyList<Vector2Int> gridOffsets,
             int slotIndex)
         {
+            if (!IsPlacementFree(gridOffsets))
+            {
+                _gameBoard.ReturnUnplacedBlocks(detached);
+                return;
+            }
+
             int filledBefore = CountFilledSlots();
             bool firstDrop = filledBefore == BlockSupply.SlotCount;
             bool lastDrop = filledBefore == 1;
 
-            _blockSpawnBootstrap.Consume(slotIndex);
             _gameBoard.AddBlock(detached, gridOffsets);
+            _blockSpawnBootstrap.Consume(slotIndex);
 
-            ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(
-                _gameBoard);
-            
+            ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
+
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
                 gridOffsets,
@@ -50,10 +55,24 @@ namespace JTH.Scripts.Bootstrap
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
         }
 
+        private bool IsPlacementFree(IReadOnlyList<Vector2Int> gridOffsets)
+        {
+            for (int i = 0; i < gridOffsets.Count; ++i)
+            {
+                Vector2Int cell = gridOffsets[i];
+                if (!_gameBoard.Grid.IsInBounds(cell) || _gameBoard.Grid.IsOccupied(cell))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private int CountFilledSlots()
         {
             IReadOnlyList<ShapeBlockData> candidates = _blockSpawnBootstrap.Candidates;
-            
+
             int filled = 0;
             foreach (var block in candidates)
             {

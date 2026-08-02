@@ -5,8 +5,8 @@ using UnityEngine;
 namespace _Shared.Magnet.Core.Events
 {
     /// <summary>
-    /// SCRUM-26 연출 이벤트 구조 첫 항목. JTH 소유 MagnetGameEvents.cs는 수정하지 않고 별도 파일로 둔다
-    /// (EventChannelSO는 Type 기준 라우팅이라 같은 magnetGameChannel에 raise 가능).
+    /// SCRUM-26 연출 이벤트 구조. JTH 소유 MagnetGameEvents.cs는 수정하지 않고 별도 파일로 둔다
+    /// (EventChannelSO는 Type 기준 라우팅이라 PresentationChannel에 raise 가능).
     /// </summary>
     public static class PresentationEvents
     {
