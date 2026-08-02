@@ -2,6 +2,7 @@
 using GameLib.SoundSystem;
 using Magnet.Core.SceneTransition;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 
 namespace PMS.Scripts.Manager
@@ -13,7 +14,8 @@ namespace PMS.Scripts.Manager
         [SerializeField] private SceneDefSO MainTItleScene;
         [SerializeField] private SceneDefSO InGameScene;
         [Header("Sound")]
-        [SerializeField] private EventChannelSO magnetGameChannel;
+        [FormerlySerializedAs("magnetGameChannel")]
+        [SerializeField] private EventChannelSO soundChannel;
 
         [Header("Scene")]
         [SerializeField] private string titleSceneName = "TitleScene";
@@ -42,24 +44,32 @@ namespace PMS.Scripts.Manager
             SetSfxVolume(isSfxOn ? 1f : 0f);
         }
 
+        // 전체 사운드 토글의 OnToggleChanged(bool)에 연결.
+        public void SetSoundEnabled(bool isOn)
+        {
+            isBgmOn = isOn;
+            isSfxOn = isOn;
+            SetMasterVolume(isOn ? 1f : 0f);
+        }
+
         // Master 볼륨 슬라이더 (UI에 연결할. 0~1)
         public void SetMasterVolume(float volume01)
         {
-            magnetGameChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Master, volume01));
+            soundChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Master, volume01));
         }
 
         // BGM 볼륨 슬라이더 (UI에 연결할. 0~1)
         public void SetBgmVolume(float volume01)
         {
             isBgmOn = volume01 > 0f;
-            magnetGameChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Bgm, volume01));
+            soundChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Bgm, volume01));
         }
 
         // Sfx 볼륨 슬라이더 (UI에 연결할. 0~1)
         public void SetSfxVolume(float volume01)
         {
             isSfxOn = volume01 > 0f;
-            magnetGameChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Sfx, volume01));
+            soundChannel.RaiseEvent(SoundSystemEvents.SetVolumeEvent.Init(AudioBus.Sfx, volume01));
         }
 
         // 휴대폰을 진동 시켜줌
