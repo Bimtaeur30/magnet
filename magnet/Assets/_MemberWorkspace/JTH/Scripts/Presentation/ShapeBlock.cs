@@ -64,6 +64,8 @@ namespace JTH.Scripts.Presentation
             foreach (Block block in _blocks)
             {
                 poolManagerSO.Push(block);
+                
+                inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));
             }
             _blocks.Clear();
         }

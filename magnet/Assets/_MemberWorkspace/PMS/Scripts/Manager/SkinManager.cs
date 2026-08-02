@@ -16,7 +16,7 @@ namespace PMS.Scripts.Manager
         [SerializeField] private EventChannelSO eventChannel;
 
         [Header("전체 스킨 목록")]
-        [SerializeField] private List<SkinDataSO> skinList;
+        [SerializeField] private SkinDataListSO skinList;
 
         private readonly List<SkinDataSO> _unlockedSkins = new();
 
@@ -94,7 +94,7 @@ namespace PMS.Scripts.Manager
         {
             if (skinList == null) return;
 
-            List<string> validSkinIds = skinList
+            List<string> validSkinIds = skinList.Skins
                 .Where(skin => skin != null)
                 .Select(skin => skin.SkinId)
                 .ToList();
@@ -150,7 +150,7 @@ namespace PMS.Scripts.Manager
         {
             if (skinList == null) return;
 
-            foreach (SkinDataSO skinData in skinList)
+            foreach (SkinDataSO skinData in skinList.Skins)
             {
                 if (skinData == null) continue;
                 if (skinData.unlockType != SkinUnlockTypeEnum.Default) continue;
@@ -188,7 +188,7 @@ namespace PMS.Scripts.Manager
         {
             if (skinList == null) return;
 
-            foreach (SkinDataSO skinData in skinList)
+            foreach (SkinDataSO skinData in skinList.Skins)
             {
                 if (skinData == null) continue;
                 if (IsUnlocked(skinData)) continue;
@@ -244,7 +244,7 @@ namespace PMS.Scripts.Manager
             if (string.IsNullOrEmpty(skinId)) return null;
             if (skinList == null) return null;
 
-            return skinList.FirstOrDefault(skin =>
+            return skinList.Skins.FirstOrDefault(skin =>
                 skin != null &&
                 skin.SkinId == skinId
             );
