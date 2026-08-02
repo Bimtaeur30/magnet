@@ -1,18 +1,16 @@
 ﻿using GameLib.EventChannelSystem;
 using Mvvm;
-using PTY.Scripts.Events;
-using System;
-using _Shared.Magnet.Core.Events;
 using Magnet.Core.Events;
 using UnityEngine;
 
 namespace Game.UI
 {
-public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
+    public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
     {
         [SerializeField] private GameObject Container;
         [SerializeField] private EventChannelSO MagnetGameChannel;
         [SerializeField] private EventChannelSO UIChannel;
+
         protected override void Awake()
         {
             base.Awake();
@@ -22,14 +20,12 @@ public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
         {
             base.OnEnable();
 
-            // MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
             UIChannel.AddListener<UIShowGameOverEvent>(HandleUIShowGameOverEvent);
         }
 
         protected override void OnDisable()
         {
-            // MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
             MagnetGameChannel.RemoveListener<GameOverEvent>(HandleGameOverEvent);
             UIChannel.RemoveListener<UIShowGameOverEvent>(HandleUIShowGameOverEvent);
 
@@ -38,7 +34,7 @@ public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
 
         private void HandleGameOverEvent(GameOverEvent @event)
         {
-            ViewModel.ScoreTxt = @event.FinalScore.ToString();
+            ViewModel.StageTxt = @event.FinalStage.ToString();
             UIChannel.RaiseEvent(UIEvents.UIPlayNewSkinEvent);
         }
 
@@ -46,10 +42,5 @@ public sealed partial class GameOverUIView : MvvmView<GameOverUIViewModel>
         {
             Container.SetActive(true);
         }
-
-        // private void HandleScoreChangedEvent(ScoreChangedEvent @event)
-        // {
-        //     ViewModel.ScoreTxt = @event.TotalScore.ToString();
-        // }
     }
 }

@@ -9,20 +9,20 @@ namespace PTY.Scripts.Events
     /// </summary>
     public static class SaveEvents
     {
-        public static readonly BestScoreUpdatedEvent BestScoreUpdatedEvent = new();
+        public static readonly BestStageUpdatedEvent BestStageUpdatedEvent = new();
         public static readonly SaveSyncCompletedEvent SaveSyncCompletedEvent = new();
         public static readonly SaveDataLoadedEvent SaveDataLoadedEvent = new();
     }
 
-    public sealed class BestScoreUpdatedEvent : GameEvent
+    public sealed class BestStageUpdatedEvent : GameEvent
     {
-        public int NewBestScore { get; private set; }
-        public int PreviousBestScore { get; private set; }
+        public int NewBestStage { get; private set; }
+        public int PreviousBestStage { get; private set; }
 
-        public BestScoreUpdatedEvent Init(int newBestScore, int previousBestScore)
+        public BestStageUpdatedEvent Init(int newBestStage, int previousBestStage)
         {
-            NewBestScore = newBestScore;
-            PreviousBestScore = previousBestScore;
+            NewBestStage = newBestStage;
+            PreviousBestStage = previousBestStage;
             return this;
         }
     }
@@ -32,12 +32,12 @@ namespace PTY.Scripts.Events
     }
 
     /// <summary>
-    /// 저장 데이터 로드 완료 시점의 스냅샷. 스킨/점수 등 다른 워크스페이스 소비자가
+    /// 저장 데이터 로드 완료 시점의 스냅샷. 스킨/스테이지 등 다른 워크스페이스 소비자가
     /// 각자 필요할 때 이 이벤트를 구독해 자기 상태를 복원하는 용도.
     /// </summary>
     public sealed class SaveDataLoadedEvent : GameEvent
     {
-        public int BestScore { get; private set; }
+        public int BestStage { get; private set; }
         public IReadOnlyList<string> UnlockedSkinIds { get; private set; }
         public string EquippedSkinId { get; private set; }
         public float TotalPlayTime { get; private set; }
@@ -45,14 +45,14 @@ namespace PTY.Scripts.Events
         public int GameOverCount { get; private set; }
 
         public SaveDataLoadedEvent Init(
-            int bestScore,
+            int bestStage,
             IReadOnlyList<string> unlockedSkinIds,
             string equippedSkinId,
             float totalPlayTime,
             int maxExplosionCombo,
             int gameOverCount)
         {
-            BestScore = bestScore;
+            BestStage = bestStage;
             UnlockedSkinIds = unlockedSkinIds;
             EquippedSkinId = equippedSkinId;
             TotalPlayTime = totalPlayTime;

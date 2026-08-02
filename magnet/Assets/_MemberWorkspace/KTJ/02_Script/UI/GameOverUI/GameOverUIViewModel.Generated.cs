@@ -6,12 +6,12 @@ namespace Game.UI
 {
 public sealed partial class GameOverUIViewModel : ObservableObject
 {
-    private string scoreTxt;
+    private string stageTxt;
 
-    public string ScoreTxt
+    public string StageTxt
     {
-        get => scoreTxt;
-        set => SetProperty(ref scoreTxt, value);
+        get => stageTxt;
+        set => SetProperty(ref stageTxt, value);
     }
 }
 }

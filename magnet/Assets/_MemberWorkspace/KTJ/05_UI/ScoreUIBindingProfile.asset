@@ -103,7 +103,7 @@ MonoBehaviour:
     componentType: TMPro.TextMeshProUGUI
     targetProperty: text
     mode: 0
-    viewModelMember: CurrentScoreTxt
+    viewModelMember: CurrentStageTxt
     valueType: string
     fieldName: scoreUICurrentScoreTxtText
   - enabled: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
     componentType: TMPro.TextMeshProUGUI
     targetProperty: text
     mode: 0
-    viewModelMember: BestScoreTxt
+    viewModelMember: BestStageTxt
     valueType: string
     fieldName: scoreUIBestScoreTxtText
   - enabled: 0

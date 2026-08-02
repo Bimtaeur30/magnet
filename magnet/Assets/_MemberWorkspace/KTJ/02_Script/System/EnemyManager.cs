@@ -54,7 +54,7 @@ public sealed class EnemyManager : MonoBehaviour
 
         _currentEnemy.InitializeEnemyData(data);
 
-        ScoreUIView.ViewModel.CurrentScoreTxt = _currentStageIdx.ToString();
+        ScoreUIView.ViewModel.CurrentStageTxt = _currentStageIdx.ToString();
         EnemyChannel.RaiseEvent(EnemyEvents.StageClearEvent.Init(_currentStageIdx));
     }
 

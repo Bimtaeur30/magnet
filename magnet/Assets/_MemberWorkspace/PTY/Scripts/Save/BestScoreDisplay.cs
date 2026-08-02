@@ -10,7 +10,6 @@ namespace PTY.Scripts.Save
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class BestScoreDisplay : MonoBehaviour
     {
-
         [SerializeField] private EventChannelSO magnetGameChannel;
         [Inject] private ISaveService _saveService;
 
@@ -19,24 +18,24 @@ namespace PTY.Scripts.Save
         private void Awake()
         {
             _text = GetComponent<TextMeshProUGUI>();
-            magnetGameChannel.AddListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
+            magnetGameChannel.AddListener<BestStageUpdatedEvent>(OnBestStageUpdated);
 
-            UpdateText(_saveService.BestScore);
+            UpdateText(_saveService.BestStage);
         }
 
         private void OnDisable()
         {
-            magnetGameChannel.RemoveListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
+            magnetGameChannel.RemoveListener<BestStageUpdatedEvent>(OnBestStageUpdated);
         }
 
-        private void OnBestScoreUpdated(BestScoreUpdatedEvent evt)
+        private void OnBestStageUpdated(BestStageUpdatedEvent evt)
         {
-            UpdateText(evt.NewBestScore);
+            UpdateText(evt.NewBestStage);
         }
 
-        private void UpdateText(int bestScore)
+        private void UpdateText(int bestStage)
         {
-            _text.text = bestScore.ToString();
+            _text.text = bestStage.ToString();
         }
     }
 }

@@ -24,9 +24,11 @@ namespace JTH.Scripts.Bootstrap
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         
         private ScoreSession _scoreSession;
-        
+        private int _currentStage;
+
         private void Awake()
         {
+            Debug.Assert(enemyChannel != null, "[TurnBootstrap] enemyChannel is not assigned.", this);
             Debug.Assert(inGameChannel != null, "[TurnBootstrap] inGameChannel is not assigned.", this);
             Debug.Assert(magnetGameChannel != null, "[TurnBootstrap] magnetGameChannel is not assigned.", this);
             Debug.Assert(scoreConfig != null, "[TurnBootstrap] scoreConfig is not assigned.", this);
@@ -38,11 +40,18 @@ namespace JTH.Scripts.Bootstrap
         private void OnEnable()
         {
             inGameChannel.AddListener<BlockPlacedEvent>(BlockPlacedHandler);
+            enemyChannel.AddListener<StageClearEvent>(StageClearHandler);
         }
 
         private void OnDisable()
         {
             inGameChannel?.RemoveListener<BlockPlacedEvent>(BlockPlacedHandler);
+            enemyChannel?.RemoveListener<StageClearEvent>(StageClearHandler);
+        }
+
+        private void StageClearHandler(StageClearEvent evt)
+        {
+            _currentStage = evt.ClearStageIdx;
         }
 
         private void BlockPlacedHandler(BlockPlacedEvent evt)
@@ -66,7 +75,7 @@ namespace JTH.Scripts.Bootstrap
 
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
             {
-                magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(scoreResult.TotalScore));
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_currentStage));
             }
         }
 
