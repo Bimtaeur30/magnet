@@ -34,12 +34,20 @@ namespace JTH.Scripts.Bootstrap
             IReadOnlyList<Vector2Int> gridOffsets,
             int slotIndex)
         {
+            if (!IsPlacementFree(gridOffsets))
+            {
+                _gameBoard.ReturnUnplacedBlocks(detached);
+                return;
+            }
+
             int filledBefore = CountFilledSlots();
             bool firstDrop = filledBefore == BlockSupply.SlotCount;
             bool lastDrop = filledBefore == 1;
 
-            _blockSpawnBootstrap.Consume(slotIndex);
             _gameBoard.AddBlock(detached, gridOffsets);
+            _blockSpawnBootstrap.Consume(slotIndex);
+
+            ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(
                 _gameBoard);
@@ -69,7 +77,7 @@ namespace JTH.Scripts.Bootstrap
         private int CountFilledSlots()
         {
             IReadOnlyList<ShapeBlockData> candidates = _blockSpawnBootstrap.Candidates;
-            
+
             int filled = 0;
             foreach (var block in candidates)
             {

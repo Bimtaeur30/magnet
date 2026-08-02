@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JTH.Scripts.Data;
+using JTH.Scripts.Domain.BlockSelection.Simulation;
 using JTH.Scripts.Domain.Board;
 using UnityEngine;
 using Random = System.Random;
@@ -8,12 +9,40 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     /// <summary>
     /// cascade: Relife1턴 Easy / dirty·pUnique Unique(동적) → Normal → Easy.
+    /// Normal: 올클(75%·쿨다운1·빈보드 스킵) → 멀티(5줄+만) → Area 최대.
     /// Unique는 번들이 아니라 UniqueUnlockGenerator.
     /// </summary>
     public sealed class AreaBundleOrchestrator
     {
+        private readonly struct ScoredCandidate
+        {
+            public AreaBundleEntry Entry { get; }
+            public List<IReadOnlyList<Vector2Int>> Pieces { get; }
+            public int TotalClears { get; }
+            public bool BoardEmptied { get; }
+            public float PredictedArea { get; }
+            public int SequenceCount { get; }
+
+            public ScoredCandidate(
+                AreaBundleEntry entry,
+                List<IReadOnlyList<Vector2Int>> pieces,
+                int totalClears,
+                bool boardEmptied,
+                float predictedArea,
+                int sequenceCount)
+            {
+                Entry = entry;
+                Pieces = pieces;
+                TotalClears = totalClears;
+                BoardEmptied = boardEmptied;
+                PredictedArea = predictedArea;
+                SequenceCount = sequenceCount;
+            }
+        }
+
         private readonly AreaBundlePoolSO _pool;
         private readonly Random _rng;
+        private int _allClearCooldownRemaining;
 
         public AreaBundleOrchestrator(AreaBundlePoolSO pool, Random rng = null)
         {
@@ -75,7 +104,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         private AreaBundleSelectionResult SelectNormalOrEasy(BoardGrid board, float boardArea, string reasonPrefix)
         {
             IReadOnlyList<AreaBundleEntry> normal = ResolveList(_pool.NormalBundles, AreaBundleStarterData.CreateNormal());
-            AreaBundleSelectionResult picked = TrySelectByMaxArea(board, boardArea, normal, AreaBundleTier.Normal, reasonPrefix);
+            AreaBundleSelectionResult picked = TrySelectNormalPriority(board, boardArea, normal, reasonPrefix);
             if (picked != null)
             {
                 return picked;
@@ -106,6 +135,107 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 deathCount: 0,
                 isKillHand: true,
                 reason: $"{reasonPrefix} · Easy 완주 없음 → 가중랜덤 {forced.BundleId}");
+        }
+
+        /// <summary>
+        /// Normal: 올클(빈보드·쿨다운 제외, 75%) → 멀티클리어(5줄+만 100%) → Area 최대.
+        /// 올클 낙첨 시 올클 후보는 이번 턴 풀에서 제외. 4줄 이하 클리어는 Clear Priority 무시.
+        /// </summary>
+        private AreaBundleSelectionResult TrySelectNormalPriority(
+            BoardGrid board,
+            float boardArea,
+            IReadOnlyList<AreaBundleEntry> list,
+            string reasonPrefix)
+        {
+            bool onCooldown = _allClearCooldownRemaining > 0;
+            if (_allClearCooldownRemaining > 0)
+            {
+                --_allClearCooldownRemaining;
+            }
+
+            List<ScoredCandidate> scored = ScoreSurvivors(board, list);
+            if (scored.Count == 0)
+            {
+                return null;
+            }
+
+            bool boardEmpty = CountOccupied(board) == 0;
+            bool canTryAllClear = !boardEmpty && !onCooldown;
+
+            if (canTryAllClear)
+            {
+                List<ScoredCandidate> allClear = FilterBoardEmptied(scored);
+                if (allClear.Count > 0)
+                {
+                    if (_rng.NextDouble() < _pool.AllClearProbability)
+                    {
+                        ScoredCandidate pick = PickMaxClears(allClear);
+                        _allClearCooldownRemaining = _pool.AllClearCooldownTurns;
+                        return ToResult(
+                            pick,
+                            AreaBundleTier.AllClear,
+                            boardArea,
+                            $"{reasonPrefix} · AllClear p={_pool.AllClearProbability:P0} bundle={pick.Entry.BundleId}"
+                            + $" clears={pick.TotalClears}");
+                    }
+
+                    scored = ExcludeBoardEmptied(scored);
+                    if (scored.Count == 0)
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            int hardMin = _pool.MultiClearHardMinLines;
+            List<ScoredCandidate> multi = FilterMinClears(scored, hardMin);
+            if (multi.Count > 0)
+            {
+                ScoredCandidate pick = PickMaxClears(multi);
+                return ToResult(
+                    pick,
+                    AreaBundleTier.MultiClear,
+                    boardArea,
+                    $"{reasonPrefix} · MultiClear clears={pick.TotalClears} (≥{hardMin})"
+                    + $" bundle={pick.Entry.BundleId}");
+            }
+
+            ScoredCandidate areaPick = PickMaxArea(scored);
+            return ToResult(
+                areaPick,
+                AreaBundleTier.Normal,
+                boardArea,
+                $"{reasonPrefix} · maxArea bundle={areaPick.Entry.BundleId} pred={areaPick.PredictedArea:F1}");
+        }
+
+        private List<ScoredCandidate> ScoreSurvivors(BoardGrid board, IReadOnlyList<AreaBundleEntry> list)
+        {
+            List<AreaBundleEntry> candidates = SampleCandidates(list);
+            List<ScoredCandidate> scored = new(candidates.Count);
+
+            foreach (AreaBundleEntry entry in candidates)
+            {
+                List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(entry);
+                SequenceOutcomeEstimator.SequenceOutcome outcome = SequenceOutcomeEstimator.Estimate(
+                    board, pieces, _pool.OutcomeBeamWidth);
+                if (!outcome.SequenceFound)
+                {
+                    continue;
+                }
+
+                float predicted = AreaBundleMetrics.MaxAreaAfterFullSequence(
+                    board, pieces, _pool.MaxSequencesPerBundle, out bool any, _pool.AreaScore);
+                if (!any)
+                {
+                    continue;
+                }
+
+                int seq = AreaBundleMetrics.CountSequences(board, pieces, _pool.MaxSequencesPerBundle);
+                scored.Add(new ScoredCandidate(
+                    entry, pieces, outcome.TotalClears, outcome.BoardEmptied, predicted, seq));
+            }
+
+            return scored;
         }
 
         private AreaBundleSelectionResult TrySelectByMaxArea(
@@ -161,6 +291,118 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 deathCount: 0,
                 isKillHand: false,
                 reason: $"{reasonPrefix} · maxArea bundle={best.BundleId} pred={bestArea:F1}");
+        }
+
+        private static AreaBundleSelectionResult ToResult(
+            ScoredCandidate pick,
+            AreaBundleTier tier,
+            float boardArea,
+            string reason)
+        {
+            return new AreaBundleSelectionResult(
+                pick.Pieces,
+                pick.Entry.Ids,
+                tier,
+                pick.Entry.BundleId,
+                boardArea,
+                pick.PredictedArea,
+                pick.SequenceCount,
+                deathCount: 0,
+                isKillHand: false,
+                reason: reason);
+        }
+
+        private static List<ScoredCandidate> FilterBoardEmptied(List<ScoredCandidate> scored)
+        {
+            List<ScoredCandidate> list = new();
+            foreach (ScoredCandidate c in scored)
+            {
+                if (c.BoardEmptied)
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list;
+        }
+
+        private static List<ScoredCandidate> ExcludeBoardEmptied(List<ScoredCandidate> scored)
+        {
+            List<ScoredCandidate> list = new();
+            foreach (ScoredCandidate c in scored)
+            {
+                if (!c.BoardEmptied)
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list;
+        }
+
+        private static List<ScoredCandidate> FilterMinClears(List<ScoredCandidate> scored, int minLines)
+        {
+            List<ScoredCandidate> list = new();
+            foreach (ScoredCandidate c in scored)
+            {
+                if (c.TotalClears >= minLines)
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list;
+        }
+
+        private static ScoredCandidate PickMaxClears(List<ScoredCandidate> list)
+        {
+            ScoredCandidate best = list[0];
+            for (int i = 1; i < list.Count; ++i)
+            {
+                ScoredCandidate c = list[i];
+                if (c.TotalClears > best.TotalClears
+                    || (c.TotalClears == best.TotalClears && c.PredictedArea > best.PredictedArea))
+                {
+                    best = c;
+                }
+            }
+
+            return best;
+        }
+
+        private static ScoredCandidate PickMaxArea(List<ScoredCandidate> list)
+        {
+            ScoredCandidate best = list[0];
+            for (int i = 1; i < list.Count; ++i)
+            {
+                if (list[i].PredictedArea > best.PredictedArea)
+                {
+                    best = list[i];
+                }
+            }
+
+            return best;
+        }
+
+        private static int CountOccupied(BoardGrid board)
+        {
+            int size = board.BoardSize;
+            int occupied = 0;
+            Vector2Int cell = Vector2Int.zero;
+            for (int x = 0; x < size; ++x)
+            {
+                for (int y = 0; y < size; ++y)
+                {
+                    cell.x = x;
+                    cell.y = y;
+                    if (board.IsOccupied(cell))
+                    {
+                        ++occupied;
+                    }
+                }
+            }
+
+            return occupied;
         }
 
         private List<AreaBundleEntry> SampleCandidates(IReadOnlyList<AreaBundleEntry> list)

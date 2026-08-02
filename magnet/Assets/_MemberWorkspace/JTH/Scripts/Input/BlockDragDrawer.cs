@@ -38,6 +38,8 @@ namespace JTH.Scripts.Input
         
         public void ClearPreview() => _previewBlock.Clear();
 
+        public IReadOnlyList<Block> GetPreviewBlocks() => _previewBlock.Blocks;
+
         public void ClearAll()
         {
             _stagingBlock.Clear();

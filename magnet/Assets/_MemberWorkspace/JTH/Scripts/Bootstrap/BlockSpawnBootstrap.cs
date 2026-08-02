@@ -122,14 +122,17 @@ namespace JTH.Scripts.Bootstrap
                 + $" seq={result.SequenceCount} death={result.DeathCount}"
                 + $" kill={result.IsKillHand}"
                 + $" bundle={result.BundleId}"
-                + $" blocks=[{string.Join(",", result.BlockIds)}]</color>\n"
-                + result.Reason);
+                + $" blocks=[{string.Join(",", result.BlockIds)}]\n"
+                + result.Reason
+                + "</color>");
         }
 
         private static (string label, string color) TierStyle(AreaBundleTier tier, bool kill) =>
             (tier, kill) switch
             {
                 (AreaBundleTier.Unique, _) => ("유일수", "#B388FF"),
+                (AreaBundleTier.AllClear, _) => ("올클리어", "#FFD54F"),
+                (AreaBundleTier.MultiClear, _) => ("멀티클리어", "#FF1744"),
                 (AreaBundleTier.Easy, true) => ("Easy-랜덤", "#4FC3F7"),
                 (AreaBundleTier.Easy, false) => ("Easy", "#4FC3F7"),
                 (AreaBundleTier.Normal, true) => ("Normal-폴백중", "#FFAB40"),

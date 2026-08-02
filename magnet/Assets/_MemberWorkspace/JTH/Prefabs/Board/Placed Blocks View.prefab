@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1918182736176545034}
   - component: {fileID: 4037078885226351211}
+  - component: {fileID: 3258992457057210996}
   m_Layer: 0
   m_Name: Placed Blocks View
   m_TagString: Untagged
@@ -44,8 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b2c3d4e5f6789012345678abcdef01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.PlacedBlocksView
-  presentationChannel: {fileID: 11400000, guid: 80cb95b89e6afca4d9a49d956b300dbd, type: 2}
   inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
   blockBlastEffect: {fileID: 11400000, guid: 1b5776490b718304e81b069ee5fd4ed5, type: 2}
   poolManagerSO: {fileID: 11400000, guid: 216d7df7e62c8cd4bbf1f480547d8199, type: 2}
-  boardConfigSO: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
+  lineClearHintEffector: {fileID: 3258992457057210996}
+--- !u!114 &3258992457057210996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210728784953611379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd340c1cf4683940bf5ff9276409ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.LineClearHintEffector
+  placedBlocksView: {fileID: 4037078885226351211}

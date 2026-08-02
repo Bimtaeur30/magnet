@@ -138,6 +138,17 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/CellCountWeightTable.cs` | `weightByCellCount` | 인덱스 = 블록 칸 수 (0은 미사용). 0이면 그 칸 수 블록은 이 티어에서 안 나옴 |
 | `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `hybridTuningSO` | 하이브리드 스폰(핸드오프 체인 + 특수 티어) 수치 튜닝 SO |
 
+#### JTH — AreaBundlePoolSO (area-bundle-spawn, 2026-08-02)
+
+| 파일 | 필드 | Tooltip |
+|------|------|---------|
+| `Scripts/Data/AreaBundlePoolSO.cs` | `normalBundles` | 기본(Normal) 번들 — Blocks2 스크린샷 전수. 필터 없음, weight=관측횟수만 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `outcomeBeamWidth` | 완주 클리어·올클 추정 빔 폭 (권장 4~8) |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearProbability` | 올클 가능 후보가 있을 때 그 패를 줄 확률 (권장 0.75). 낙첨 시 올클 후보는 이번 턴 제외 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearCooldownTurns` | 올클 패 지급 후 올클 최우선을 쉬는 턴 수 (권장 1). 빈 보드는 별도로 올클 검사 스킵 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `multiClearHardMinLines` | 멀티클리어 문턱: 완주 클리어가 이 줄 수 이상일 때만 Clear Priority (권장 6). 미만은 Area 최대로 넘김 |
+| `Scripts/Data/AreaScoreTuning.cs` | `areaCountPenalty` | 4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐 |
+
 ### JTH — `Assets/_MemberWorkspace/JTH/` (v0.6 · 일부 deprecated)
 
 | 파일 | 필드 | Tooltip |
@@ -146,6 +157,9 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/BlockVisualConfigSO.cs` | `stagingYExtraBelow` | 보드 하단에서 스테이징 영역까지 추가로 내릴 칸 수. stagingY = -(CellsPerSide + 이 값) |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMinAlpha` | 클리어될 Place된 칸 알파 숨쉬기 최소 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMaxAlpha` | (예비) 알파 숨쉬기 최대. Place된 칸은 최대 1 고정 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulsePeriod` | 숨쉬기 한 주기(초) |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityRampPerUnit` | Press 시작 포인터 X와의 거리(월드 유닛) 1당 블록 이동 배율 증가량. Block Blast식 감도 램프 |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
 | `Scripts/Data/BlockSnapConfigSO.cs` | `duration` | 손 놓은 뒤 Y축 자석 스냅: 칸 1칸 이동에 걸리는 시간(초). 이동 칸 수에 비례 |
@@ -180,6 +194,8 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/ExplosionBorderConfigSO.cs` | `shakeDuration` | 클리어 시 카메라 쉐이크 지속 시간(초). 짧게 유지 |
 | `Scripts/Data/ScoreConfigSO.cs` | `BaseMin` | 세션 base 랜덤 하한(포함). ScoreSession 시작·Reset 시 한 번 추출 |
 | `Scripts/Data/ScoreConfigSO.cs` | `BaseMax` | 세션 base 랜덤 상한(포함) |
+| `Scripts/Data/ScoreConfigSO.cs` | `CellScore` | 블럭을 설치했을 때 셀 하나당 점수 |
+| `Scripts/Data/ScoreConfigSO.cs` | `EnemyDamageMultiplier` | 적에게 들어가는 데미지 전역 배수. 1=그대로, 0.5=절반. 점수 UI와 무관하게 공격 데미지만 조절 |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/BoardView.cs` | `placementConfigPreview` | 폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색 |
@@ -211,4 +227,8 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-07-16 | JTH Block.spriteMask Tooltip 추가 (SpriteMask Custom Range 격리) |
 | 2026-07-21 | v0.7 Block Blast 피벗 — deprecated 안내, BlockBlastPoolSO·boardSize 예정 |
 | 2026-07-24 | JTH ScoreConfigSO — BaseMin/BaseMax (구 kTiers·SoftCap 제거) |
+| 2026-08-02 | JTH ScoreConfigSO.EnemyDamageMultiplier — 적 데미지 전역 배수 |
 | 2026-08-02 | JTH HybridTuningSO·CellCountWeightTable — hybrid-spawn-algorithm 신규 필드 |
+| 2026-08-02 | JTH AreaBundlePoolSO — AllClear/MultiClear 우선 선택 필드 |
+| 2026-08-02 | JTH AreaScoreTuning.areaCountPenalty — Area 개수 패널티 |
+| 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |

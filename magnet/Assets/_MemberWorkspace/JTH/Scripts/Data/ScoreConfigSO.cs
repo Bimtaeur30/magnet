@@ -13,5 +13,8 @@ namespace JTH.Scripts.Data
 
         [Tooltip("블럭을 설치했을 때 셀 하나당 점수")]
         [field: SerializeField] public int CellScore { get; private set; } = 1;
+
+        [Tooltip("적에게 들어가는 데미지 전역 배수. 1=그대로, 0.5=절반. 점수 UI와 무관하게 공격 데미지만 조절")]
+        [field: SerializeField, Min(0f)] public float EnemyDamageMultiplier { get; private set; } = 1f;
     }
 }
