@@ -13,7 +13,7 @@ namespace JTH.Scripts.Data
         public int emptyTinyMaxSize = 3;
 
         [Tooltip("tiny 빈 Area 점수 (음수)")]
-        public float emptyTinyPenalty = -35f;
+        public float emptyTinyPenalty = -15f;
 
         [Tooltip("보드 전부 빈 Area일 때 점수")]
         public float emptyFullScore = 107f;
@@ -23,7 +23,7 @@ namespace JTH.Scripts.Data
         public int filledTinyMaxSize = 2;
 
         [Tooltip("tiny 찬 Area 점수 (음수)")]
-        public float filledTinyPenalty = -18f;
+        public float filledTinyPenalty = -8f;
 
         [Tooltip("보드 전부 찬 Area일 때 점수")]
         public float filledFullScore = 67f;
@@ -40,7 +40,7 @@ namespace JTH.Scripts.Data
 
         [Header("Rectangle count")]
         [Tooltip("직사각(찬+빈 greedy) 1개당 점수에서 빼는 양")]
-        public float rectCountPenalty = 5f;
+        public float rectCountPenalty = 3f;
 
         public static AreaScoreTuning GrillDefault() => new();
     }

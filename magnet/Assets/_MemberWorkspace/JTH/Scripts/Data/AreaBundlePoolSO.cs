@@ -24,11 +24,11 @@ namespace JTH.Scripts.Data
 
         [Header("Gate")]
         [SerializeField, Tooltip("현재 보드 Area ≤ 이면 dirty — pUnique로 Unique 시도")]
-        private float uniqueAreaThreshold = -5f;
+        private float uniqueAreaThreshold = -15f;
 
         [SerializeField, Tooltip("dirty일 때 Unique를 고를 확률 (0~1)")]
         [Range(0f, 1f)]
-        private float uniqueProbability = 0.35f;
+        private float uniqueProbability = 0.45f;
 
         [SerializeField, Tooltip("Relife(IsRetrySession) 직후 Easy 강제 턴 수")]
         private int relifeEasyTurnCount = 1;

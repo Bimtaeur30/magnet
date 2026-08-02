@@ -23,4 +23,4 @@
 - **Unique:** 동적 `UniqueUnlockGenerator` (1 불가 + 2 클리어 언락). 번들 폐기. 실패 시 Normal→Easy.
 - **Normal:** 500건 빈도≥2 비유일·1x1 제외 (59).
 - **Easy:** 보장 1x1 패 + 관측 소형/1x1 + 구 Early (26).
-- **Area (Phase 8):** `base(size·변) − k×직사각수`. Rect Stage 튜닝 중 — 표는 `TUNING_STAGES.md`.
+- **Area (Phase 8):** `base − 3×rectCount`, tiny 관대(−15/−8). Unique thresh=**−15**, p=**0.45**. 표: `TUNING_STAGES.md`.

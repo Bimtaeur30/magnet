@@ -1,33 +1,41 @@
 # Area 점수 튜닝 단계
 
-## Phase 8 — Rect Round 3 (플레이 중)
+## 확정 (2026-08-02 Round3)
 
-Unique **제외·고정:** `thresh=-5`, `pUnique=0.50` (Stage 5).  
-흔드는 것: **k** · **base(tiny 패널티)** 만.
+선호: **R3-4 ≫ R3-3 ≫ R3-1 > R3-2** (점수 11 / 8 / 5 / 4)
 
-**점수:** `base − k × rectCount`  
-**지금 에셋:** **R3-3**
+| 항목 | 값 | 근거 |
+|------|-----|------|
+| `rectCountPenalty` (k) | **3** | Round2 4b · Round3 k↑(5·7) 비선호 |
+| `emptyTinyPenalty` | **−15** | R3-4 구멍 관대 |
+| `filledTinyPenalty` | **−8** | R3-4 |
+| 나머지 base | 블렌드 3:2:1 | emptyFull 107 · filledFull 67 · side 14/5 … |
+| `uniqueAreaThreshold` | **−15** | −25는 Unique 부족 → 약간 완화 |
+| `uniqueProbability` | **0.45** | 0.35→조금 더 |
 
-| R3 | k | base tiny (empty/filled) | 보는 것 |
-|---:|--:|-------------------------:|---------|
-| **1** | 5 | 블렌드 (−35/−18) | k만 4b(3)→중간 |
-| **2** | 7 | 블렌드 | k 조금 더 |
-| **3** ← 지금 | **3** | **가혹 (−50/−25)** | 구멍 패널티 |
-| **4** | 3 | **관대 (−15/−8)** | 구멍 패널티 |
-
-전환: `다음`
+**점수:** `base − 3 × rectCount`
 
 ---
 
-## Round 2 (참고)
+## Round 3 기록
 
-| | k | 결과 |
-|--|--:|------|
-| 3b | 11 | 직사각 과함 |
-| **4b** | **3** | **선호** |
+| R3 | 설정 | 점수 |
+|---:|------|-----:|
+| 1 | k=5 블렌드 | 5 |
+| 2 | k=7 블렌드 | 4 |
+| 3 | k=3 구멍 가혹 (−50/−25) | 8 |
+| **4** | k=3 구멍 관대 (−15/−8) | **11** |
 
 ---
 
-## size/변 블렌드 (그 외 필드)
+## size/변 블렌드 (확정에 포함)
 
-emptyFull 107 · filledFull 67 · sideIdeal 14 · sideStep 5 · tinyMax 3/2 · sideIdealMax 4
+| 필드 | 값 |
+|------|---:|
+| emptyFullScore | 107 |
+| filledFullScore | 67 |
+| sideBonusAtIdeal | 14 |
+| sideBonusPerTwoSides | 5 |
+| emptyTinyMaxSize | 3 |
+| filledTinyMaxSize | 2 |
+| sideBonusIdealMax | 4 |
