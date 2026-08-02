@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::Assets._MemberWorkspace.KTJ._02_Script.Agent.Enemy.EnemyDataSO
   <EnemyPrefab>k__BackingField: {fileID: 431711886638171047, guid: c01e5d051cc612744a8317ffde53bf30, type: 3}
   <EnemyName>k__BackingField: "\uBF55\uC9DD\uACE8\uB818"
-  <MaxHealth>k__BackingField: 100
+  <MaxHealth>k__BackingField: 200
   <NoNumber>k__BackingField: 2
