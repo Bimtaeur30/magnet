@@ -47,6 +47,7 @@ MonoBehaviour:
   enemyChannel: {fileID: 11400000, guid: 70e33f7876334f145ae5fa994898115b, type: 2}
   inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
   magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  skinChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
   scoreConfig: {fileID: 11400000, guid: a7c4e2f19b3048d6a1e5c8d0f2b6a947, type: 2}
 --- !u!1 &5777031043167799692
 GameObject:

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using _Shared.Magnet.Core.SO.Skin;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
@@ -18,6 +19,7 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private EventChannelSO enemyChannel;
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private ScoreConfigSO scoreConfig;
         
         [Inject] private readonly GameBoard _gameBoard;
@@ -31,6 +33,7 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(enemyChannel != null, "[TurnBootstrap] enemyChannel is not assigned.", this);
             Debug.Assert(inGameChannel != null, "[TurnBootstrap] inGameChannel is not assigned.", this);
             Debug.Assert(magnetGameChannel != null, "[TurnBootstrap] magnetGameChannel is not assigned.", this);
+            Debug.Assert(skinChannel != null, "[TurnBootstrap] skinChannel is not assigned.", this);
             Debug.Assert(scoreConfig != null, "[TurnBootstrap] scoreConfig is not assigned.", this);
             Debug.Assert(_gameBoard != null, "[TurnBootstrap] GameBoard was not injected.", this);
 
@@ -75,6 +78,11 @@ namespace JTH.Scripts.Bootstrap
 
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
             {
+                skinChannel.RaiseEvent(
+                    SkinEvents.SkinUnlockCheckEvent.Init(
+                        SkinUnlockTypeEnum.Stage,
+                        _currentStage));
+
                 magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_currentStage));
             }
         }
