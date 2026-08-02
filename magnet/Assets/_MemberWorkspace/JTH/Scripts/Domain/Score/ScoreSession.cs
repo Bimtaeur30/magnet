@@ -1,89 +1,108 @@
-using System;
-using System.Collections.Generic;
 using JTH.Scripts.Data;
+using UnityEngine;
 
 namespace JTH.Scripts.Domain.Score
 {
-    /// <summary>
-    /// 인게임 세션 누적 점수·콤보·턴 클리어 여부.
-    /// Bootstrap 연동 전 Domain만 소유한다.
-    /// </summary>
     public sealed class ScoreSession
     {
-        private readonly ScoreCalculator _calculator;
+        private readonly ScoreConfigSO _config;
+
+        private int _totalScore;
+        /// <summary>체인 안 클리어 횟수(점수 배수). 첫 클리어=1. UI 콤보는 이 값 - 1.</summary>
+        private int _chainClears;
+        private int _sessionBase;
+
         private bool _clearedThisTurn;
+        private bool _clearedLastTurn;
+        private bool _clearedBeforeLastTurn;
+        private bool _clearedTwoLineFirstDrop;
+
+        private bool SaveCombo =>
+            _clearedThisTurn
+            || _clearedLastTurn
+            || (_clearedBeforeLastTurn && _clearedTwoLineFirstDrop && HasCombo);
+
+        /// <summary>UI 콤보 1 이상(체인 두 번 이상 클리어). 구조 예외는 콤보가 있을 때만.</summary>
+        private bool HasCombo => _chainClears >= 2;
 
         public ScoreSession(ScoreConfigSO config)
         {
-            if (config == null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
-
-            _calculator = new ScoreCalculator(config);
+            Debug.Assert(config != null, "[ScoreSession] ScoreConfigSO is null.");
+            _config = config;
+            Reset();
         }
 
-        public int TotalScore { get; private set; }
-        public int Combo { get; private set; }
-        public bool ClearedThisTurn => _clearedThisTurn;
+        /// <summary>표시 콤보. 첫 클리어 후 0, 그다음 클리어부터 1.</summary>
+        public int Combo => _chainClears <= 0 ? 0 : _chainClears - 1;
 
-        /// <summary>
-        /// 성공 배치 1회 반영. <paramref name="waveSquareSizes"/>가 비면 배치 칸 점수만.
-        /// </summary>
-        public PlacementScoreResult ApplyPlacement(int cellsPlaced, IReadOnlyList<int> waveSquareSizes)
+        public PlacementScoreResult ApplyPlacement(
+            int clearedLineCount,
+            int cellsPlaced,
+            bool firstDrop,
+            bool lastDrop)
         {
-            if (waveSquareSizes == null || waveSquareSizes.Count == 0)
+            if (firstDrop)
             {
-                int placed = Math.Max(0, cellsPlaced);
-                TotalScore += placed;
-                return new PlacementScoreResult(
-                    scoreDelta: placed,
-                    totalScore: TotalScore,
-                    comboAfter: Combo,
-                    waveScores: Array.Empty<int>(),
-                    hadClear: false);
+                // 구조 예외: 직전 턴 무소거여도 이번 턴 첫 수가 2줄+이면 SaveCombo에 포함
+                _clearedTwoLineFirstDrop = clearedLineCount > 1;
+
+                if (!SaveCombo)
+                {
+                    _chainClears = 0;
+                }
             }
 
-            _clearedThisTurn = true;
-            var waveScores = new int[waveSquareSizes.Count];
-            int delta = 0;
-
-            for (int i = 0; i < waveSquareSizes.Count; i++)
+            if (clearedLineCount > 0)
             {
-                Combo++;
-                int waveIndex1Based = i + 1;
-                int waveScore = _calculator.ComputeWaveScore(Combo, waveSquareSizes[i], waveIndex1Based);
-                waveScores[i] = waveScore;
-                delta += waveScore;
+                _clearedThisTurn = true;
             }
 
-            TotalScore += delta;
-            return new PlacementScoreResult(
-                scoreDelta: delta,
-                totalScore: TotalScore,
-                comboAfter: Combo,
-                waveScores: waveScores,
-                hadClear: true);
-        }
+            int delta = cellsPlaced * _config.CellScore;
 
-        /// <summary>
-        /// 핸드(턴) 종료 시 호출. 이번 턴 클리어가 없으면 콤보 리셋.
-        /// </summary>
-        public void NotifyTurnEnded()
-        {
-            if (!_clearedThisTurn)
+            if (clearedLineCount > 0)
             {
-                Combo = 0;
+                _chainClears++;
+                delta += ScoreCalculator.ClearScore(
+                    clearedLineCount,
+                    _chainClears,
+                    _sessionBase);
             }
 
-            _clearedThisTurn = false;
+            _totalScore += delta;
+
+            bool comboAlive = SaveCombo;
+
+            if (lastDrop)
+            {
+                _clearedBeforeLastTurn = _clearedLastTurn;
+                _clearedLastTurn = _clearedThisTurn;
+                _clearedThisTurn = false;
+            }
+
+            return new PlacementScoreResult(delta, _totalScore, Combo, comboAlive);
         }
 
         public void Reset()
         {
-            TotalScore = 0;
-            Combo = 0;
+            _totalScore = 0;
+            _chainClears = 0;
             _clearedThisTurn = false;
+            _clearedLastTurn = false;
+            _clearedBeforeLastTurn = false;
+            _clearedTwoLineFirstDrop = false;
+            _sessionBase = RollSessionBase();
+        }
+
+        private int RollSessionBase()
+        {
+            int min = _config.BaseMin;
+            int max = _config.BaseMax;
+            if (max < min)
+            {
+                (min, max) = (max, min);
+            }
+
+            return Random.Range(min, max + 1);
         }
     }
 }

@@ -1,7 +1,7 @@
 using LitMotion;
 using UnityEngine;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     [CreateAssetMenu(fileName = "New Transition Preset", menuName = "Magnet/Scene Transition/Transition Preset", order = 0)]
     public class TransitionPresetSO : ScriptableObject

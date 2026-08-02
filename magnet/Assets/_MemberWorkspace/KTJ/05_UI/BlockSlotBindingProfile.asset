@@ -170,7 +170,7 @@ MonoBehaviour:
     viewModelMember: BlockImage1Height
     valueType: float
     fieldName: blockSlot1BlockImage1SizeDeltaY
-  - enabled: 0
+  - enabled: 1
     objectPath: BlockSlot (1)/BlockImage_1
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z

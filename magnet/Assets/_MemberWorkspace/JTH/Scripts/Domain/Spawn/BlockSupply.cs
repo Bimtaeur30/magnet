@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-using Magnet.Contracts.BlockShapes;
+using JTH.Scripts.Domain.Skin;
+using Magnet.Contracts;
+using UnityEngine;
 
 namespace JTH.Scripts.Domain.Spawn
 {
@@ -8,58 +10,51 @@ namespace JTH.Scripts.Domain.Spawn
     /// </summary>
     public sealed class BlockSupply
     {
-        public const int SlotCount = 4;
-
-        private readonly BlockDrawer _drawer;
-        private readonly IBlockShape[] _slots = new IBlockShape[SlotCount];
-
-        public BlockSupply(BlockDrawer drawer)
+        public const int SlotCount = 3;
+        
+        private readonly AbstractDrawer _drawer;
+        private readonly SkinSession _skinSession;
+        
+        private readonly List<ShapeBlockData> _slots;
+        
+        public IReadOnlyList<ShapeBlockData> Candidates => _slots;
+        
+        public BlockSupply(AbstractDrawer drawer, SkinSession skinSession)
         {
             _drawer = drawer;
+            _skinSession = skinSession;
+            
+            _slots = new List<ShapeBlockData>(SlotCount);
         }
-
-        public IReadOnlyList<IBlockShape> Candidates => _slots;
-
-        public void Fill()
+        
+        public void Fill(BlockSpawnContext context)
         {
-            for (var i = 0; i < SlotCount; i++)
+            IReadOnlyList<IReadOnlyList<Vector2Int>> cellOffsetsList = _drawer.Draw(context, SlotCount);
+            IReadOnlyList<int> skinVariationList = _skinSession.DrawSkinIds(SlotCount);
+
+            Debug.Assert(cellOffsetsList.Count == SlotCount && skinVariationList.Count == SlotCount
+                , $"배열의 수가 맞지 않습니다. cellOffsets={cellOffsetsList.Count}, skinVariationList={skinVariationList.Count}");
+            
+            _slots.Clear();
+            for (int i = 0; i < SlotCount; i++)
             {
-                _slots[i] = _drawer.Draw();
+                ShapeBlockData data = new ShapeBlockData
+                {
+                    CellOffsets = cellOffsetsList[i],
+                    SkinId = skinVariationList[i]
+                };
+                _slots.Add(data);
             }
         }
-
+        
         public void Consume(int slotIndex)
         {
-            if (slotIndex < 0 || slotIndex >= SlotCount)
+            if (slotIndex is < 0 or >= SlotCount)
             {
                 return;
             }
-
+        
             _slots[slotIndex] = null;
-        }
-
-        public bool AreAllSlotsEmpty()
-        {
-            for (var i = 0; i < SlotCount; i++)
-            {
-                if (_slots[i] != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public IBlockShape[] CreateSnapshot()
-        {
-            var copy = new IBlockShape[SlotCount];
-            for (var i = 0; i < SlotCount; i++)
-            {
-                copy[i] = _slots[i];
-            }
-
-            return copy;
         }
     }
 }

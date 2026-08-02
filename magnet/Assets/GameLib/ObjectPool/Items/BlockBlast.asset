@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlockBlast
   m_EditorClassIdentifier: ObjectPool::GameLib.ObjectPool.Runtime.PoolItemSO
   itemName: BlockBlast
-  prefab: {fileID: 7251937715632195943, guid: 2897194e98c767e43bfe3ab89cfd1628, type: 3}
+  prefab: {fileID: 2072172887521441593, guid: 3e681f2729e4c554981e1be2d126df8b, type: 3}
   initCount: 10

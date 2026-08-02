@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27372d8df3d9334c96700cfe7bd0566, type: 3}
+  m_Name: BlockBundlePool
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.BlockBundlePoolSO
+  allBundles:
+  - {fileID: 11400000, guid: 6c3e7ec4048cf0244a7edc3c2dc39198, type: 2}
+  - {fileID: 11400000, guid: 7a81c6479958cd04fa6e4841919b62d9, type: 2}
+  - {fileID: 11400000, guid: bdd93c591080b6a4b9f0f53cfc645e4d, type: 2}
+  - {fileID: 11400000, guid: d1f092aa8e59b624e82b67a0a1dc51ab, type: 2}
+  - {fileID: 11400000, guid: 81bccc977cb0ae445bb512ef8e6adf7a, type: 2}
+  - {fileID: 11400000, guid: 6de7ea4842f2d664e94693bec8836fc3, type: 2}
+  - {fileID: 11400000, guid: f4d010e4f52b4b058ffce8a0a75511b9, type: 2}
+  - {fileID: 11400000, guid: 9be6ee24e8834db8919a34f4dd68b732, type: 2}
+  - {fileID: 11400000, guid: 6d91cb3a7af348a4b4b22e8fc7672adc, type: 2}

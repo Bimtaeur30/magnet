@@ -48,7 +48,7 @@ public class SafeArea : MonoBehaviour
         }
         else
         {
-            // ¿¡µðÅÍ¿¡¼­´Â Á÷Á¢ ÀÔ·ÂÇÑ Safe Area »ç¿ë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ Safe Area ï¿½ï¿½ï¿½
             rect.anchorMin = editorAnchorMin;
             rect.anchorMax = editorAnchorMax;
         }

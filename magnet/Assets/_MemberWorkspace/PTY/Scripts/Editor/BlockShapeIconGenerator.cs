@@ -1,6 +1,6 @@
 using System.IO;
 using JTH.Scripts.Presentation;
-using PTY.Scripts.Data;
+using Magnet.Core.SO.Block;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -103,7 +103,7 @@ namespace PTY.Scripts.Editor
 
         private static void GenerateIcon(BlockShapeSO shapeSo, ShapeBlock shapeInstance, Camera camera)
         {
-            shapeInstance.ShowCells(Vector2Int.zero, shapeSo.CellOffsets, sortingOrder: 0);
+            // shapeInstance.ShowCells(Vector2Int.zero, shapeSo.CellOffsets, sortingOrder: 0);
 
             var bounds = ComputeBounds(shapeInstance);
             if (bounds.size == Vector3.zero)

@@ -13,14 +13,20 @@ MonoBehaviour:
   m_Name: BlockShapeSource
   m_EditorClassIdentifier: Magnet.PTY::PTY.Scripts.Data.BlockShapeSourceSO
   shapes:
-  - {fileID: 11400000, guid: 03086dac4a5ce624e8f63aa278e9cdb6, type: 2}
-  - {fileID: 11400000, guid: 1dd2d57da7970bf4a82d39f6fa69001e, type: 2}
-  - {fileID: 11400000, guid: df10ef9e52a460b489f0fe136f672d96, type: 2}
-  - {fileID: 11400000, guid: e6dc121a05cd8bb4ba8b780e271dc89f, type: 2}
-  - {fileID: 11400000, guid: 4133ec50d052938499b41477cfd15fc5, type: 2}
-  - {fileID: 11400000, guid: 31bcab29c16e30d4a9c1d3933cdae5b7, type: 2}
-  - {fileID: 11400000, guid: 71a0c5b2f9ef46d47a18eaf455f39aa3, type: 2}
-  - {fileID: 11400000, guid: d09c3ffbdb9fb0744a2b620d3818d21b, type: 2}
-  - {fileID: 11400000, guid: 6400250d59b34f940a9dddc8d7e22349, type: 2}
-  - {fileID: 11400000, guid: b1b60fbbc3489e740bc233e39d334e08, type: 2}
-  - {fileID: 11400000, guid: de9684fe5fc83bc4c93c6f1909ce4843, type: 2}
+  - {fileID: 11400000, guid: faf44ceec2614c94aa5919fd002b9edc, type: 2}
+  - {fileID: 11400000, guid: 88dff464025d5f8488bccd5d407b1afa, type: 2}
+  - {fileID: 11400000, guid: 0836ec9d5c0707a458ef490bdb8b66cb, type: 2}
+  - {fileID: 11400000, guid: 0012a97e3411156479514dacef9aaff4, type: 2}
+  - {fileID: 11400000, guid: 7fedf0b13cc58694a97cd2ff172e6779, type: 2}
+  - {fileID: 11400000, guid: 267201230a5f51a418764cbad1bc6023, type: 2}
+  - {fileID: 11400000, guid: 57b71eebee86676458767ab673007aba, type: 2}
+  - {fileID: 11400000, guid: 594c9f16be14b8a46881d689b20bbd45, type: 2}
+  - {fileID: 11400000, guid: f61e06f0d287d1d4c88c6e52a9b10466, type: 2}
+  - {fileID: 11400000, guid: e2eeda48229064c4c99d0a7086acff65, type: 2}
+  - {fileID: 11400000, guid: 2ea7a3a652b1c934ca09b874582cd1ac, type: 2}
+  - {fileID: 11400000, guid: 2963a650866a98d489f17f0050631bc3, type: 2}
+  - {fileID: 11400000, guid: 3e02f0b73ffc06542a84d06fdf3b4a17, type: 2}
+  - {fileID: 11400000, guid: d569761f87456944c854a5f4e158ead2, type: 2}
+  - {fileID: 11400000, guid: 1633b736154867548a51f632f2538b1b, type: 2}
+  - {fileID: 11400000, guid: 68001ebd21eb42c41a8f22d5aafbd0b0, type: 2}
+  - {fileID: 11400000, guid: b84e7d6d21ffbbd4092d180e599ca054, type: 2}

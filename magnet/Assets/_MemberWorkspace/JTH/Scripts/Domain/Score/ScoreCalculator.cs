@@ -1,30 +1,51 @@
-using System;
-using JTH.Scripts.Data;
+using UnityEngine;
 
 namespace JTH.Scripts.Domain.Score
 {
     /// <summary>
-    /// 클리어 웨이브 1건 점수: round(k × combo × squareSize × streakMult).
+    /// Block Blast 스타일 line-clear 점수 순수 계산.
+    /// S = λ(n) × base × clearIndexInChain × tier
+    /// clearIndexInChain: 체인 안 N번째 클리어(1부터). UI 콤보(=clearIndex-1)와 다를 수 있음.
     /// </summary>
-    public sealed class ScoreCalculator
+    public static class ScoreCalculator
     {
-        private readonly ScoreConfigSO _config;
-
-        public ScoreCalculator(ScoreConfigSO config)
+        public static int LineMultiplier(int clearedLineCount)
         {
-            _config = config != null ? config : throw new ArgumentNullException(nameof(config));
+            if (clearedLineCount <= 1)
+            {
+                return 1;
+            }
+
+            return clearedLineCount * (clearedLineCount - 1);
         }
 
-        public int ComputeWaveScore(int comboAfterIncrement, int squareSize, int waveIndex1Based)
+        public static float ResolveTier(int clearIndexInChain)
         {
-            if (comboAfterIncrement < 1 || squareSize < 1 || waveIndex1Based < 1)
+            if (clearIndexInChain <= 5)
+            {
+                return 1f;
+            }
+
+            if (clearIndexInChain <= 10)
+            {
+                return 1.5f;
+            }
+
+            return 2f;
+        }
+
+        public static int ClearScore(int clearedLineCount, int clearIndexInChain, int sessionBase)
+        {
+            if (clearedLineCount <= 0 || clearIndexInChain <= 0 || sessionBase <= 0)
             {
                 return 0;
             }
 
-            float k = _config.GetK(comboAfterIncrement);
-            float streakMult = _config.GetStreakMultiplier(waveIndex1Based);
-            return (int)Math.Round(k * comboAfterIncrement * squareSize * streakMult);
+            float raw = LineMultiplier(clearedLineCount)
+                * sessionBase
+                * clearIndexInChain
+                * ResolveTier(clearIndexInChain);
+            return Mathf.RoundToInt(raw);
         }
     }
 }

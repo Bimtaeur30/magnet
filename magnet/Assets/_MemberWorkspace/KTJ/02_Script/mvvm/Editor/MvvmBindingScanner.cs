@@ -50,6 +50,8 @@ namespace Mvvm.Editor
             else if (componentType == "UnityEngine.UI.Slider")
             {
                 entries.Add(Create(path, componentType, "value", MvvmBindingMode.TwoWay, GuessPropertyName(objectName, "Slider"), "float"));
+                entries.Add(Create(path, componentType, "minValue", MvvmBindingMode.OneWay, GuessPropertyName(objectName, "Slider") + "MinValue", "float"));
+                entries.Add(Create(path, componentType, "maxValue", MvvmBindingMode.OneWay, GuessPropertyName(objectName, "Slider") + "MaxValue", "float"));
                 AddSelectableCandidates(entries, path, objectName, componentType);
             }
             else if (componentType == "UnityEngine.UI.Toggle")

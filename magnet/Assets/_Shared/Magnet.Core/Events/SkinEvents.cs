@@ -1,9 +1,9 @@
-﻿using GameLib.EventChannelSystem;
-using PMS.Scripts.Skin;
-using System.Collections.Generic;
-using Magnet.Contracts.BlockSkins;
+﻿using System.Collections.Generic;
+using _Shared.Magnet.Core.SO.Skin;
+using GameLib.EventChannelSystem;
+using Magnet.Core.SO.Skin;
 
-namespace PMS.Scripts.Events
+namespace Magnet.Core.Events
 {
     public static class SkinEvents
     {
@@ -31,9 +31,9 @@ namespace PMS.Scripts.Events
 
     public class SkinInitializedEvent : GameEvent
     {
-        public IBlockSkin Skin { get; private set; }
+        public SkinDataSO Skin { get; private set; }
         
-        public SkinInitializedEvent Init(IBlockSkin skin)
+        public SkinInitializedEvent Init(SkinDataSO skin)
         {
             Skin = skin;
             return this;

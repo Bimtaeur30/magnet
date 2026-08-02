@@ -1,10 +1,7 @@
 using GameLib.EventChannelSystem;
-using GameLib.SoundSystem;
-using System;
-using UnityEditor.Presets;
 using UnityEngine;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     /// <summary>
     /// 씬 전환 요청의 진입점. 호출부는 SceneDefSO만 알면 되고, 문자열/이벤트 발행 세부는 여기서 감춘다.

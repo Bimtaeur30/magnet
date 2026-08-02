@@ -1,51 +1,54 @@
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace Magnet.Core.Singleton
 {
-    private static T _instance;
-
-    public static T Instance
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindAnyObjectByType<T>();
+        private static T _instance;
 
+        public static T Instance
+        {
+            get
+            {
                 if (_instance == null)
                 {
-                    GameObject obj = new GameObject(typeof(T).Name);
-                    _instance = obj.AddComponent<T>();
+                    _instance = FindAnyObjectByType<T>();
+
+                    if (_instance == null)
+                    {
+                        GameObject obj = new GameObject(typeof(T).Name);
+                        _instance = obj.AddComponent<T>();
+                    }
                 }
+
+                return _instance;
+            }
+        }
+
+        [SerializeField] protected bool isDonDestroy = false;
+
+        protected virtual void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
             }
 
-            return _instance;
-        }
-    }
+            _instance = this as T;
 
-    [SerializeField] protected bool isDonDestroy = false;
-
-    protected virtual void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-            return;
+            if (isDonDestroy)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
-        _instance = this as T;
-
-        if (isDonDestroy)
+        protected virtual void OnDestroy()
         {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    protected virtual void OnDestroy()
-    {
-        if (_instance == this)
-        {
-            _instance = null;
+            if (_instance == this)
+            {
+                _instance = null;
+            }
         }
     }
 }

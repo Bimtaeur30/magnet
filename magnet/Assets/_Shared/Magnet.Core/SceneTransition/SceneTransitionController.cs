@@ -5,7 +5,7 @@ using LitMotion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     /// <summary>
     /// 부트스트랩 씬에 1개만 배치하는 씬 전환 리스너. SoundManager와 동일하게
@@ -14,6 +14,8 @@ namespace _Shared.Magnet.Core.SceneTransition
     /// </summary>
     public class SceneTransitionController : MonoBehaviour
     {
+        private const float HiddenPadding = 2f;
+
         [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private CanvasGroup inputBlockerCanvasGroup;
         [SerializeField] private RectTransform transitionPanel;
@@ -34,8 +36,12 @@ namespace _Shared.Magnet.Core.SceneTransition
 
             DontDestroyOnLoad(gameObject);
             inputBlockerCanvasGroup.blocksRaycasts = false;
-            ResetPanelBelowScreen();
             magnetGameChannel.AddListener<LoadSceneEvent>(HandleLoadScene);
+        }
+
+        private void Start()
+        {
+            ResetPanelBelowScreen();
         }
 
         private void OnDestroy()
@@ -57,7 +63,7 @@ namespace _Shared.Magnet.Core.SceneTransition
             TransitionPresetSO preset = evt.Preset != null ? evt.Preset : defaultPreset;
             float duration = preset != null ? preset.duration : 0.5f;
             Ease ease = preset != null ? preset.ease : Ease.OutQuad;
-            float travelDistance = transitionPanel.rect.height;
+            float travelDistance = transitionPanel.rect.height + HiddenPadding;
 
             ResetPanelBelowScreen();
 
@@ -93,7 +99,7 @@ namespace _Shared.Magnet.Core.SceneTransition
         private void ResetPanelBelowScreen()
         {
             Vector2 position = transitionPanel.anchoredPosition;
-            position.y = -transitionPanel.rect.height;
+            position.y = -(transitionPanel.rect.height + HiddenPadding);
             transitionPanel.anchoredPosition = position;
         }
 

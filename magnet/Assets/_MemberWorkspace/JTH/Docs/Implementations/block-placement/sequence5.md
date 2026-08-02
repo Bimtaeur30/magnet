@@ -101,4 +101,30 @@
 
 **메모** — 마스크 스프라이트(칸 실루엣)는 그대로 두고, 스킨은 자식 SpriteRenderer에만 적용한다.
 ---
+## 5 — 2026-07-16 · 배치 칸 스킨 변경은 PlacedBlocksView가 구독
+
+**바뀐 것** — 보드에 붙은 칸의 스킨 갱신을 OccupiedCellView 구독에서 부모 View 단일 구독으로 옮긴다.
+
+**변경 상세 (왜/무엇)**
+- 파일: `Scripts/Presentation/PlacedBlocksView.cs`
+  - 심볼: `OnSkinInitialized` / `OnSkinChanged` / `ApplySkinToAll` — 메서드 (추가)
+    - 설명: skinChannel을 Awake에서 한 번 구독하고, 모든 `_cellsById`에 `IBlockSkin.Sprite`를 적용한다.
+    - 이유: 칸마다 AddListener하면 리스너 수·수명 관리가 비대해진다. `BlockDragDrawer`와 같은 계층에서 구독한다.
+    - 영향: `OccupiedCellView.ApplyVisual`.
+  - 심볼: `OnDestroy` — 메서드 (추가)
+    - 설명: SkinInitialized/Changed 리스너를 RemoveListener한다.
+    - 이유: 채널 리스너 누수 방지.
+  - 심볼: `SplitStagingIntoCells` — 메서드 (수정)
+    - 설명: `Bind`에 skinChannel을 넘기지 않는다.
+    - 이유: 칸 View는 이벤트 채널을 몰라야 한다.
+- 파일: `Scripts/Presentation/OccupiedCellView.cs`
+  - 심볼: `Bind(..., EventChannelSO)` / `_skinChannel` / `SkinChangedHandler` — (삭제)
+    - 설명: 칸 단위 스킨 채널 구독을 제거한다.
+    - 이유: OnDestroy에서 AddListener 하던 버그·N중 구독을 없앤다.
+  - 심볼: `OccupiedCellView.ApplyVisual(Sprite)` — 메서드 (추가)
+    - 설명: 보유 Block에 스프라이트만 전달한다.
+    - 이유: 부모가 스킨을 밀어 넣는 경로만 남긴다.
+
+**메모** — UI용 `SkinDataSO.icon`이 아니라 블록용 `IBlockSkin.Sprite`(내부 `sprites`)를 쓴다.
+---
 

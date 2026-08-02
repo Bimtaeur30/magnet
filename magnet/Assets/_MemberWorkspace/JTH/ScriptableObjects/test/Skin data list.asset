@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 743f2864316e50642b9b173626ad72d0, type: 3}
+  m_Name: Skin data list
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Skin.SkinDataListSO
+  <Skins>k__BackingField:
+  - {fileID: 11400000, guid: d5fe95cd7ffa84141901ae483e21ec0e, type: 2}
+  - {fileID: 11400000, guid: f961d41920a38f04bb48512c9ed71229, type: 2}
+  - {fileID: 11400000, guid: befee9172b3d8424b987a2444f95f5c0, type: 2}
+  - {fileID: 11400000, guid: c6c675b85fe90ea4ca39f48ebbc6bb4e, type: 2}
+  - {fileID: 11400000, guid: 0ead2a8d29740f04ea8093833543a675, type: 2}

@@ -1,7 +1,7 @@
 using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
 
-namespace _Shared.Magnet.Core.SceneTransition
+namespace Magnet.Core.SceneTransition
 {
     public static class SceneTransitionEvents
     {

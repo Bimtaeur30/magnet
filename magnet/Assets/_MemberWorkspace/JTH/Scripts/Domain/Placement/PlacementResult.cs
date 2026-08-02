@@ -1,80 +1,30 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JTH.Scripts.Domain.Clear;
+using Magnet.Contracts;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Placement
 {
     public sealed class PlacementResult
     {
-        public bool Success { get; }
-        public PlacementFailureReason FailureReason { get; }
-        public int BlockId { get; }
-        public Vector2Int FinalPivot { get; }
-        public IReadOnlyList<Vector2Int> CellPositions { get; }
-        public IReadOnlyList<int> CellIds { get; }
-
-        private PlacementResult(
-            bool success,
-            PlacementFailureReason failureReason,
-            int blockId,
-            Vector2Int finalPivot,
-            IReadOnlyList<Vector2Int> cellPositions,
-            IReadOnlyList<int> cellIds)
+        public PlacementResult(
+            IReadOnlyList<ShapeBlockData> candidates,
+            IReadOnlyList<Vector2Int> placedGridPositions,
+            ClearedLineResult clearedLineResult,
+            bool firstDrop,
+            bool lastDrop)
         {
-            Success = success;
-            FailureReason = failureReason;
-            BlockId = blockId;
-            FinalPivot = finalPivot;
-            CellPositions = cellPositions;
-            CellIds = cellIds;
+            Candidates = candidates;
+            PlacedGridPositions = placedGridPositions;
+            ClearedLineResult = clearedLineResult;
+            FirstDrop = firstDrop;
+            LastDrop = lastDrop;
         }
 
-        public static PlacementResult Succeeded(
-            Vector2Int finalPivot,
-            IReadOnlyList<Vector2Int> cellPositions,
-            int blockId = 0,
-            IReadOnlyList<int> cellIds = null)
-        {
-            return new PlacementResult(
-                true,
-                PlacementFailureReason.None,
-                blockId,
-                finalPivot,
-                cellPositions,
-                cellIds ?? System.Array.Empty<int>());
-        }
-
-        public static PlacementResult Failed(PlacementFailureReason reason)
-        {
-            return new PlacementResult(
-                false,
-                reason,
-                0,
-                default,
-                System.Array.Empty<Vector2Int>(),
-                System.Array.Empty<int>());
-        }
-
-        public PlacementResult WithBlockId(int blockId)
-        {
-            return new PlacementResult(
-                Success,
-                FailureReason,
-                blockId,
-                FinalPivot,
-                CellPositions,
-                CellIds);
-        }
-
-        public PlacementResult WithCellIds(IReadOnlyList<int> cellIds)
-        {
-            int blockId = cellIds != null && cellIds.Count > 0 ? cellIds[0] : BlockId;
-            return new PlacementResult(
-                Success,
-                FailureReason,
-                blockId,
-                FinalPivot,
-                CellPositions,
-                cellIds ?? System.Array.Empty<int>());
-        }
+        public IReadOnlyList<ShapeBlockData> Candidates { get; }
+        public IReadOnlyList<Vector2Int> PlacedGridPositions { get; }
+        public ClearedLineResult ClearedLineResult { get; }
+        public bool FirstDrop { get; }
+        public bool LastDrop { get; }
     }
 }

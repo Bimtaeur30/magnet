@@ -44,3 +44,26 @@
 
 **메모** — 후보 전부 배치 불가 GO는 SCRUM-22. `skinChannel` 필드는 기존과 같이 미사용(Raise는 `magnetGameChannel`).
 ---
+
+## 2 — 2026-07-17 · 클리어(폭발) 점수 k ≈ 2/3
+
+**바뀐 것** — 일반 배치 대비 폭발 점수 갭이 커서 `ScoreConfigSO` 기본 k를 약 2/3(1/3 하향)로 조정. 공식·콤보·streak는 동일.
+
+- 파일: `Scripts/Data/ScoreConfigSO.cs`
+  - 심볼: `ScoreConfigSO.kTiers` — 필드 기본값 (수정)
+    - 설명: k `80/66/45/36` → `53.33/44/30/24`.
+    - 이유: 웨이브 점수 `round(k×combo×squareSize×streak)`만 약 1/3 낮춰 배치 칸 점수와의 체감 차이를 줄임.
+    - 영향: `ScoreCalculator.ComputeWaveScore` → `GetK`.
+
+- 파일: `ScriptableObjects/DefaultScoreConfig.asset`
+  - 심볼: `kTiers[].k` — 에셋 값 (수정)
+    - 설명: 런타임에 쓰는 기본 에셋 k를 위와 동일하게 맞춤.
+    - 이유: 코드 기본값만 바꾸면 기존 에셋은 이전 k를 유지함.
+
+- 파일: `Docs/Implementations/score-logic/phase1.md`
+  - 심볼: k 기본값 표 (수정)
+    - 설명: 문서상 기본 k를 신규 값으로 동기화.
+    - 이유: Phase 1 합의 상수 표가 실제 튜닝과 어긋나지 않게.
+
+**메모** — 배치 무클리어 `+cellsPlaced`는 변경 없음. 초기에 1/3로 잘못 넣었다가 2/3 유지로 정정.
+---

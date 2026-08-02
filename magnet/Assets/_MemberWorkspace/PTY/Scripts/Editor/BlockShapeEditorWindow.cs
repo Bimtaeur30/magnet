@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PTY.Scripts.Data;
+using Magnet.Core.SO.Block;
 using UnityEditor;
 using UnityEngine;
 

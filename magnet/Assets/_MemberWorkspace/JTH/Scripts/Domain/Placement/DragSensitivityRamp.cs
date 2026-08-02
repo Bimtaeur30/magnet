@@ -2,53 +2,47 @@ using UnityEngine;
 
 namespace JTH.Scripts.Domain.Placement
 {
-    /// <summary>
-    /// Press 시작 포인터 X와의 거리에 따라 블록 이동 배율을 높인다. Pointer Up 시 Reset.
-    /// </summary>
     public sealed class DragSensitivityRamp
     {
         private readonly float _rampPerWorldUnit;
-        private readonly float _maxMultiplier;
-        private float _pressOriginWorldX;
-        private float _lastPointerWorldX;
+        private Vector2 _pressOriginPos;
+        private Vector2 _lastPointerPos;
         private bool _hasOrigin;
-
-        public DragSensitivityRamp(float rampPerWorldUnit, float maxMultiplier)
+        
+        public DragSensitivityRamp(float rampPerWorldUnit)
         {
             _rampPerWorldUnit = rampPerWorldUnit;
-            _maxMultiplier = maxMultiplier;
         }
-
-        public void Begin(float pressOriginWorldX)
+        
+        public void Begin(Vector2 pressOriginPos)
         {
-            _pressOriginWorldX = pressOriginWorldX;
-            _lastPointerWorldX = pressOriginWorldX;
+            _pressOriginPos = pressOriginPos;
+            _lastPointerPos = pressOriginPos;
             _hasOrigin = true;
         }
-
+        
         public void Reset()
         {
             _hasOrigin = false;
         }
-
-        public float UpdateDelta(float pointerWorldX)
+        
+        public Vector2 UpdateDelta(Vector2 pointerWorldPos)
         {
-            float pointerDeltaX = pointerWorldX - _lastPointerWorldX;
-            float rampDelta = ApplyPointerDelta(pointerDeltaX, pointerWorldX);
-            _lastPointerWorldX = pointerWorldX;
+            Vector2 pointerDelta = pointerWorldPos - _lastPointerPos;
+            Vector2 rampDelta = ApplyPointerDelta(pointerDelta, pointerWorldPos);
+            _lastPointerPos = pointerWorldPos;
             return rampDelta;
         }
-
-        private float ApplyPointerDelta(
-            float pointerDeltaX,
-            float currentPointerWorldX)
+        
+        private Vector2 ApplyPointerDelta(
+            Vector2 pointerDelta,
+            Vector2 currentPointerWorld)
         {
             float distanceFromOrigin = _hasOrigin
-                ? Mathf.Abs(currentPointerWorldX - _pressOriginWorldX)
-                : 0f;
+                ? (_pressOriginPos - currentPointerWorld).magnitude
+                : 0;
             float multiplier = 1f + distanceFromOrigin * _rampPerWorldUnit;
-            multiplier = Mathf.Min(multiplier, _maxMultiplier);
-            return pointerDeltaX * multiplier;
+            return pointerDelta * multiplier;
         }
     }
 }

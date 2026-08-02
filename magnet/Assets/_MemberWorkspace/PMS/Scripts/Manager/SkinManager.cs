@@ -1,11 +1,12 @@
 ﻿using System;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts.Save;
-using PMS.Scripts.Events;
-using PMS.Scripts.Skin;
 using Reflex.Attributes;
 using System.Collections.Generic;
 using System.Linq;
+using _Shared.Magnet.Core.SO.Skin;
+using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace PMS.Scripts.Manager
