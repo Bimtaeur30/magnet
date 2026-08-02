@@ -13,6 +13,8 @@ namespace PTY.Scripts.Save
     /// </summary>
     public sealed class SaveService : ISaveService
     {
+        private const int CurrentSchemaVersion = 2;
+
         private readonly ILocalSaveRepository _localRepository;
         private readonly EventChannelSO _magnetGameChannel;
         private GameSaveData _data;
@@ -22,9 +24,10 @@ namespace PTY.Scripts.Save
             _localRepository = localRepository;
             _magnetGameChannel = magnetGameChannel;
             _data = _localRepository.Load() ?? new GameSaveData();
+            MigrateIfNeeded();
         }
 
-        public int BestScore => _data.BestScore;
+        public int BestStage => _data.BestStage;
         public IReadOnlyList<string> UnlockedSkinIds => _data.UnlockedSkinIds;
         public string EquippedSkinId => _data.EquippedSkinId;
         public float TotalPlayTime => _data.TotalPlayTime;
@@ -36,17 +39,17 @@ namespace PTY.Scripts.Save
             return UniTask.CompletedTask;
         }
 
-        public void SubmitScore(int score)
+        public void SubmitStage(int stage)
         {
-            if (score <= _data.BestScore)
+            if (stage <= _data.BestStage)
             {
                 return;
             }
 
-            int previousBestScore = _data.BestScore;
-            _data.BestScore = score;
+            int previousBestStage = _data.BestStage;
+            _data.BestStage = stage;
             Save();
-            _magnetGameChannel.RaiseEvent(SaveEvents.BestScoreUpdatedEvent.Init(score, previousBestScore));
+            _magnetGameChannel.RaiseEvent(SaveEvents.BestStageUpdatedEvent.Init(stage, previousBestStage));
         }
 
         public void UnlockSkin(string skinId)
@@ -103,6 +106,19 @@ namespace PTY.Scripts.Save
             {
                 Save();
             }
+        }
+
+        private void MigrateIfNeeded()
+        {
+            if (_data.SchemaVersion >= CurrentSchemaVersion)
+            {
+                return;
+            }
+
+            // v1 BestScore는 누적 점수 단위라 Stage로 이관하지 않는다.
+            _data.BestScore = 0;
+            _data.SchemaVersion = CurrentSchemaVersion;
+            Save();
         }
 
         private void Save()

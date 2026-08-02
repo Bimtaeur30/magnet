@@ -9,7 +9,7 @@ namespace Magnet.Contracts.Save
     /// </summary>
     public interface ISaveService
     {
-        int BestScore { get; }
+        int BestStage { get; }
         IReadOnlyList<string> UnlockedSkinIds { get; }
         string EquippedSkinId { get; }
         float TotalPlayTime { get; }
@@ -17,7 +17,7 @@ namespace Magnet.Contracts.Save
         int GameOverCount { get; }
 
         UniTask InitializeAsync();
-        void SubmitScore(int score);
+        void SubmitStage(int stage);
         void UnlockSkin(string skinId);
         void EquipSkin(string skinId);
         void AddPlayTime(float seconds);

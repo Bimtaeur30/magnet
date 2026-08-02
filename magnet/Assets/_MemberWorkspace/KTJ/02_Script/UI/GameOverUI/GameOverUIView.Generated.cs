@@ -42,9 +42,9 @@ public sealed partial class GameOverUIView
         }
 
 
-            if ((propertyName == null || propertyName == nameof(ViewModel.ScoreTxt)) && gameOverUIContainerScoreTxtLabelScoreTxtText != null)
+            if ((propertyName == null || propertyName == nameof(ViewModel.StageTxt)) && gameOverUIContainerScoreTxtLabelScoreTxtText != null)
             {
-                gameOverUIContainerScoreTxtLabelScoreTxtText.text = ViewModel.ScoreTxt;
+                gameOverUIContainerScoreTxtLabelScoreTxtText.text = ViewModel.StageTxt;
             }
     }
 }

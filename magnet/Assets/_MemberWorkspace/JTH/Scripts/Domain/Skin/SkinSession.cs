@@ -36,15 +36,10 @@ namespace JTH.Scripts.Domain.Skin
         private void Fill(List<int> variants, int drawCount)
         {
             variants.Clear();
-            while (true)
+            while (variants.Count < drawCount)
             {
                 for (int i = 0; i < _maxVariant; i++)
-                {
                     variants.Add(i);
-                    
-                    if (variants.Count >= drawCount)
-                        return;
-                }
             }
         }
     }

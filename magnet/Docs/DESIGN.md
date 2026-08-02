@@ -151,24 +151,18 @@
 
 > v0.6의 “경계 이탈 게임오버”“x축만 배치 불가” 규칙은 **폐기**.
 
-### 4.7 점수
+### 4.7 스테이지 · 공격력
 
-세션 시작 시 `ScoreConfigSO`의 `[BaseMin, BaseMax]`에서 **base**를 한 번 랜덤 추출해 `ScoreSession`에 고정한다.
-
-- **배치:** 안착 칸 수만큼 가산 (콤보·base 무관). 클리어가 있어도 배치 점수는 유지.
-- **클리어:** `λ(n) × base × clearIndex × tier`. `λ(1)=1`, `λ(n≥2)=n(n-1)`. 클리어 **사건당** 체인 인덱스 +1 (다줄도 +1).
-- **콤보(UI):** 체인 첫 클리어는 콤보 0(점수만, clearIndex=1). **그다음** 클리어부터 콤보 1. 즉 `Combo = max(0, clearIndex - 1)`.
-- **tier:** clearIndex 1–5 → 1.0 / 6–10 → 1.5 / 11+ → 2.0 (상한, 감쇠 없음).
-- **콤보 유지:** 턴(최대 3블록) 중 1회 이상 클리어면 유지. 무소거 턴 다음은 리셋. 예외: **이미 콤보≥1**인 상태에서 직전 턴 무소거여도 **다음 턴 첫 수 2줄+**면 유지(구조). 첫 클리어만 한 뒤(콤보 0)에는 이 예외 없음.
-- **올클리어** 별도 보너스 없음.
-- `ScoreChangedEvent` · `ComboChangedEvent` · `LineClearedEvent`. 게임오버 `GameOverEvent.FinalScore`.
-- HUD·베스트 UI는 M7 UI 담당 (SCRUM-23은 로직·이벤트만).
+- **스테이지:** 적 처치 시 `EnemyManager`가 증가. HUD·GameOver·베스트 저장의 진행도는 Stage.
+- **공격력:** 배치/라인클리어 공식(`ScoreSession` / `ScoreConfigSO`) 결과는 `EnemyAttackRequestEvent.Damage`로만 사용. UI·저장 진행도와 분리.
+- **콤보(UI):** 체인 첫 클리어는 콤보 0. **그다음** 클리어부터 콤보 1. `ComboChangedEvent`.
+- 게임오버 `GameOverEvent.FinalStage`. 베스트는 `ISaveService.SubmitStage` / `BestStage`.
 
 ### 4.8 스킨 시스템 (코스메틱)
 
 | 기능 | 설명 |
 |------|------|
-| 해금 | 세션 **누적 점수**가 스킨 `unlockValue` 이상이면 해금 |
+| 해금 | 스킨 `unlockType`/`unlockValue` 조건 충족 시 해금 (`Stage` 등) |
 | 인벤토리 | 보유·잠금 상태 목록 UI |
 | 장착 | 선택 스킨을 **Block** 칸 비주얼에 적용 |
 | 저장 | 보유 목록 + 현재 장착 스킨 **영구 저장** |
@@ -187,7 +181,7 @@
 
 ```
 ┌─────────────────────┐
-│  Score / Best       │  상단
+│  Stage / Best       │  상단
 ├─────────────────────┤
 │                     │
 │    8×8 Board        │  중앙 — 고정 격자
@@ -265,10 +259,10 @@
 | 이벤트 | 발생 시점 |
 |--------|-----------|
 | `BlockPlacedEvent` | 블록 부착 완료 |
-| `LineClearedEvent` | line clear 웨이브 (줄 수, 점수) |
-| `ScoreChangedEvent` | 점수 갱신 |
+| `StageClearEvent` | 스테이지 진행 (적 처치/스폰) |
 | `ComboChangedEvent` | 콤보 갱신 |
-| `GameOverEvent` | 게임 종료 (배치 불가) |
+| `GameOverEvent` | 게임 종료 (`FinalStage`) |
+| `BestStageUpdatedEvent` | 베스트 스테이지 갱신 |
 | `TurnStarted` / `TurnEnded` | 핸드 리필 |
 
 > **Deprecated:** `SquareClearedEvent`, `BoardRotatedEvent`, `BoundaryViolationEvent` (v0.6)

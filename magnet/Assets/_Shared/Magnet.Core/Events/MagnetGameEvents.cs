@@ -25,11 +25,11 @@ namespace Magnet.Core.Events
 
     public sealed class GameOverEvent : GameEvent
     {
-        public int FinalScore { get; private set; }
+        public int FinalStage { get; private set; }
 
-        public GameOverEvent Init(int finalScore)
+        public GameOverEvent Init(int finalStage)
         {
-            FinalScore = finalScore;
+            FinalStage = finalStage;
             return this;
         }
     }

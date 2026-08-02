@@ -4,9 +4,7 @@ using Mvvm;
 using PTY.Scripts.Events;
 using Reflex.Attributes;
 using System.Collections;
-using _Shared.Magnet.Core.Events;
 using Magnet.Core.Events;
-using TMPro;
 using UnityEngine;
 
 namespace Game.UI
@@ -17,127 +15,77 @@ namespace Game.UI
         [SerializeField, Min(0.001f)] private float secondsPerNumber = 0.02f;
         [Inject] private ISaveService _saveService;
 
-        private Coroutine _currentScoreAnimation;
-        private Coroutine _bestScoreAnimation;
-        private int _displayedCurrentScore;
-        private int _displayedBestScore;
+        private Coroutine _bestStageAnimation;
+        private int _displayedBestStage;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _displayedBestScore = _saveService?.BestScore ?? 0;
-            ViewModel.SetBestScore(_displayedBestScore);
+            _displayedBestStage = _saveService?.BestStage ?? 0;
+            ViewModel.SetBestStage(_displayedBestStage);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            // MagnetGameChannel.AddListener<ScoreChangedEvent>(HandleScoreChangedEvent);
-            MagnetGameChannel.AddListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
-            MagnetGameChannel.AddListener<GameOverEvent>(HandleGameOverEvent);
+            MagnetGameChannel.AddListener<BestStageUpdatedEvent>(OnBestStageUpdated);
         }
 
         protected override void OnDisable()
         {
-            // MagnetGameChannel.RemoveListener<ScoreChangedEvent>(HandleScoreChangedEvent);
-            MagnetGameChannel.RemoveListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
-            MagnetGameChannel.RemoveListener<GameOverEvent>(HandleGameOverEvent);
+            MagnetGameChannel.RemoveListener<BestStageUpdatedEvent>(OnBestStageUpdated);
 
-            StopScoreAnimations();
+            StopStageAnimations();
             base.OnDisable();
         }
 
-        // private void HandleScoreChangedEvent(ScoreChangedEvent @event)
-        // {
-        //     ViewModel.PlayCurrentScoreScaleAnimation();
-        //
-        //     if (_currentScoreAnimation != null)
-        //     {
-        //         StopCoroutine(_currentScoreAnimation);
-        //     }
-        //
-        //     _currentScoreAnimation = StartCoroutine(AnimateCurrentScore(@event.TotalScore));
-        // }
-
-        private void OnBestScoreUpdated(BestScoreUpdatedEvent evt)
+        private void OnBestStageUpdated(BestStageUpdatedEvent evt)
         {
-            if (_bestScoreAnimation != null)
+            if (_bestStageAnimation != null)
             {
-                StopCoroutine(_bestScoreAnimation);
+                StopCoroutine(_bestStageAnimation);
             }
 
-            _bestScoreAnimation = StartCoroutine(AnimateBestScore(evt.NewBestScore));
+            _bestStageAnimation = StartCoroutine(AnimateBestStage(evt.NewBestStage));
         }
 
-        private void HandleGameOverEvent(GameOverEvent evt)
+        private IEnumerator AnimateBestStage(int targetStage)
         {
-            _saveService?.SubmitScore(evt.FinalScore);
-        }
-
-        private IEnumerator AnimateCurrentScore(int targetScore)
-        {
-            if (targetScore <= _displayedCurrentScore)
+            if (targetStage <= _displayedBestStage)
             {
-                _displayedCurrentScore = targetScore;
-                ViewModel.SetCurrentScore(_displayedCurrentScore);
-                _currentScoreAnimation = null;
+                _displayedBestStage = targetStage;
+                ViewModel.SetBestStage(_displayedBestStage);
+                _bestStageAnimation = null;
                 yield break;
             }
 
-            while (_displayedCurrentScore < targetScore)
+            while (_displayedBestStage < targetStage)
             {
-                _displayedCurrentScore++;
-                ViewModel.SetCurrentScore(_displayedCurrentScore);
+                _displayedBestStage++;
+                ViewModel.SetBestStage(_displayedBestStage);
                 yield return new WaitForSecondsRealtime(GetSecondsPerNumber(
-                    targetScore - _displayedCurrentScore));
+                    targetStage - _displayedBestStage));
             }
 
-            _currentScoreAnimation = null;
+            _bestStageAnimation = null;
         }
 
-        private IEnumerator AnimateBestScore(int targetScore)
+        private float GetSecondsPerNumber(int stageDifference)
         {
-            if (targetScore <= _displayedBestScore)
-            {
-                _displayedBestScore = targetScore;
-                ViewModel.SetBestScore(_displayedBestScore);
-                _bestScoreAnimation = null;
-                yield break;
-            }
-
-            while (_displayedBestScore < targetScore)
-            {
-                _displayedBestScore++;
-                ViewModel.SetBestScore(_displayedBestScore);
-                yield return new WaitForSecondsRealtime(GetSecondsPerNumber(
-                    targetScore - _displayedBestScore));
-            }
-
-            _bestScoreAnimation = null;
-        }
-
-        private float GetSecondsPerNumber(int scoreDifference)
-        {
-            int difference = Mathf.Max(1, scoreDifference);
+            int difference = Mathf.Max(1, stageDifference);
             return secondsPerNumber / Mathf.Sqrt(difference);
         }
 
-        private void StopScoreAnimations()
+        private void StopStageAnimations()
         {
-            ViewModel.StopCurrentScoreScaleAnimation();
+            ViewModel.StopCurrentStageScaleAnimation();
 
-            if (_currentScoreAnimation != null)
+            if (_bestStageAnimation != null)
             {
-                StopCoroutine(_currentScoreAnimation);
-                _currentScoreAnimation = null;
-            }
-
-            if (_bestScoreAnimation != null)
-            {
-                StopCoroutine(_bestScoreAnimation);
-                _bestScoreAnimation = null;
+                StopCoroutine(_bestStageAnimation);
+                _bestStageAnimation = null;
             }
         }
     }

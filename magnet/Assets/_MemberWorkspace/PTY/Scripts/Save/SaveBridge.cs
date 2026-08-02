@@ -57,14 +57,14 @@ namespace PTY.Scripts.Save
 
         private void OnGameOver(GameOverEvent evt)
         {
-            _saveService.SubmitScore(evt.FinalScore);
+            _saveService.SubmitStage(evt.FinalStage);
             _saveService.RecordGameOver();
         }
 
         private void RaiseSaveDataLoaded()
         {
             magnetGameChannel.RaiseEvent(SaveEvents.SaveDataLoadedEvent.Init(
-                _saveService.BestScore,
+                _saveService.BestStage,
                 _saveService.UnlockedSkinIds,
                 _saveService.EquippedSkinId,
                 _saveService.TotalPlayTime,
