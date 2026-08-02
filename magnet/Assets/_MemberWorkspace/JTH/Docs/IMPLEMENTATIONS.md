@@ -22,7 +22,7 @@
 
 | [random-block-spawn](./Implementations/random-block-spawn/phases.md) | 블록 공급 (3슬롯) | [SCRUM-18](https://bimtaeur30.atlassian.net/browse/SCRUM-18) | phase5 완료 → **phase6 BlockBlastPoolSO** | v0.6 구현됨 · **풀 SO 교체 대기** |
 
-| [block-placement](./Implementations/block-placement/phases.md) | 2D 배치·BlockPool | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase5 완료 → **phase6 grid placement** | v0.6 자석 흡착 · **교체 대기** |
+| [block-placement](./Implementations/block-placement/phases.md) | 2D 배치·BlockPool | [SCRUM-19](https://bimtaeur30.atlassian.net/browse/SCRUM-19) | phase5 완료 → phase6 계획 · **phase7 동기화 수정 완료** | v0.6 자석 흡착 · **교체 대기** |
 
 | [line-clear](./Implementations/line-clear/phases.md) | Line clear (행·열) | [SCRUM-20](https://bimtaeur30.atlassian.net/browse/SCRUM-20) | phase1 계획 | **신규** (clear-reassembly 대체) |
 
@@ -38,17 +38,19 @@
 
 | [score-logic](./Implementations/score-logic/phases.md) | 점수·콤보 | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase5 완료 (λ·base·tier) | **구현됨** |
 
-| [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | phase9 완료 (실게임 사진 분석 반영 — `Docs/BLOCKBLAST_ANALYSIS.md`) | **Deprecated** (blockblast-handoff-algorithm으로 교체 · 코드 보존) |
+| [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | phase9 완료 | **Deprecated** (코드 제거 · Docs/`BLOCKBLAST_ANALYSIS`만 유지) |
 
-| [blockblast-handoff-algorithm](./Implementations/blockblast-handoff-algorithm/phases.md) | BlockBlast 역공학 핸드오프 알고리즘 (42-ID · 7→1370→2100 체인) | — | phase1 완료 | **hybrid-spawn-algorithm으로 계승** (체인은 그 안의 기본 공급기로 사용 중) |
+| [blockblast-handoff-algorithm](./Implementations/blockblast-handoff-algorithm/phases.md) | BlockBlast 역공학 핸드오프 알고리즘 (42-ID · 7→1370→2100 체인) | — | phase1 완료 | **Deprecated** (알고리즘 코드 제거 · `BlockBlastCatalog`만 AreaBundle이 재사용) |
 
-| [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | **phase2 완료** | **Deprecated** (area-bundle-spawn으로 교체 · 코드 보존) |
+| [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | phase2 완료 | **Deprecated** (코드 제거 · area-bundle-spawn으로 교체) |
 
-| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (size/변 + 직사각 패널티 · Unique/Normal/Easy) | — | **phase8 완료** | **구현됨 (현재 배선)** |
+| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (Normal 전수 평등 · MultiClear≥6 · 324) | — | **phase14 완료** | **구현됨 (현재 배선)** |
+
+| [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (림+스파크) | — | **phase1 완료** | **구현됨** |
 
 
 
-**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → `hybrid-spawn-algorithm` → 현재 **`area-bundle-spawn`** (`Area = base − k×rectCount`).
+**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → `hybrid-spawn-algorithm`(제거) → 현재 **`area-bundle-spawn`**. 구 알고리즘 코드는 phase12에서 삭제 · `BlockBlastCatalog`·배치 시뮬만 공유 유틸로 잔존.
 
 
 

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.ScoreConfigSO
   <BaseMin>k__BackingField: 30
   <BaseMax>k__BackingField: 55
+  <CellScore>k__BackingField: 1
+  <EnemyDamageMultiplier>k__BackingField: 1

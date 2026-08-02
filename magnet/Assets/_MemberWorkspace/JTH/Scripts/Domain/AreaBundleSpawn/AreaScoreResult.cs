@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     /// <summary>
-    /// 보드 Area 점수. Total = BaseArea − RectPenalty.
+    /// 보드 Area 점수. Total = BaseArea − RectPenalty − AreaCountPenalty.
     /// </summary>
     public readonly struct AreaScoreResult
     {
@@ -12,13 +12,17 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             IReadOnlyList<AreaComponentScore> components,
             int rectCount,
             float baseArea,
-            float rectPenalty)
+            float rectPenalty,
+            int areaCount,
+            float areaCountPenalty)
         {
             Total = total;
             Components = components;
             RectCount = rectCount;
             BaseArea = baseArea;
             RectPenalty = rectPenalty;
+            AreaCount = areaCount;
+            AreaCountPenalty = areaCountPenalty;
         }
 
         public float Total { get; }
@@ -29,6 +33,10 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public float BaseArea { get; }
         /// <summary>rectCountPenalty × RectCount.</summary>
         public float RectPenalty { get; }
+        /// <summary>4-연결 Area(찬+빈) 개수.</summary>
+        public int AreaCount { get; }
+        /// <summary>areaCountPenalty × AreaCount.</summary>
+        public float AreaCountPenalty { get; }
     }
 
     public readonly struct AreaComponentScore

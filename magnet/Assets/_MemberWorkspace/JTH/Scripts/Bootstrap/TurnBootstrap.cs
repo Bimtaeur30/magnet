@@ -102,6 +102,7 @@ namespace JTH.Scripts.Bootstrap
             Vector2 cellWorldSize = _gameBoard.GridToWorld(Vector2Int.right) - _gameBoard.GridToWorld(Vector2Int.zero);
             Vector2 blockCenter = (minWorld + maxWorld + cellWorldSize) * 0.5f;
             int placedCellScore = evt.PlacementResult.PlacedGridPositions.Count * scoreConfig.CellScore;
+            float damageScale = scoreConfig.EnemyDamageMultiplier;
             
             HashSet<Vector2Int> destroyedCells = new HashSet<Vector2Int>();
             foreach (Line line in evt.PlacementResult.ClearedLineResult.ClearedLines)
@@ -116,13 +117,15 @@ namespace JTH.Scripts.Bootstrap
             foreach (Vector2Int grid in destroyedCells)
             {
                 Vector3 worldPos = _gameBoard.GridToWorld(grid);
-                lineClearScoreDict.TryAdd(worldPos, (float)breakScore / destroyedCells.Count);
+                lineClearScoreDict.TryAdd(worldPos, breakScore / (float)destroyedCells.Count * damageScale);
             }
 
-            enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(blockCenter, placedCellScore));
+            enemyChannel.RaiseEvent(
+                EnemyEvents.EnemyAttackRequestEvent.Init(blockCenter, placedCellScore * damageScale));
             foreach (Vector3 worldPos in lineClearScoreDict.Keys)
             {
-                enemyChannel.RaiseEvent(EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, lineClearScoreDict[worldPos]));
+                enemyChannel.RaiseEvent(
+                    EnemyEvents.EnemyAttackRequestEvent.Init(worldPos, lineClearScoreDict[worldPos]));
             }
         }
 
