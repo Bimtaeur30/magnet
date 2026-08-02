@@ -17,6 +17,8 @@ namespace Magnet.Core.SceneTransition
         private const float HiddenPadding = 2f;
 
         [SerializeField] private EventChannelSO magnetGameChannel;
+        [SerializeField] private EventChannelSO soundChannel;
+        [SerializeField] private SoundClipSO sceneTransitionSound;
         [SerializeField] private CanvasGroup inputBlockerCanvasGroup;
         [SerializeField] private RectTransform transitionPanel;
         [SerializeField] private TransitionPresetSO defaultPreset;
@@ -52,6 +54,10 @@ namespace Magnet.Core.SceneTransition
         private void HandleLoadScene(LoadSceneEvent evt)
         {
             if (_isTransitioning) return;
+
+            if (soundChannel != null && sceneTransitionSound != null)
+                soundChannel.RaiseEvent(SoundSystemEvents.PlaySoundEvent.Init(sceneTransitionSound));
+
             RunTransitionAsync(evt).Forget();
         }
 

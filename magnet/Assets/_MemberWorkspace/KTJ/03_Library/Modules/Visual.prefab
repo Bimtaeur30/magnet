@@ -191,6 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7374259889551746862}
+  - component: {fileID: 5298620665556513066}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -216,6 +217,26 @@ Transform:
   - {fileID: 5868006960256717651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5298620665556513066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953020713518618906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f6c9c54ee8797449f0d6aa99053dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::AnimationSoundPlayer
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  sounds:
+  - key: Hold
+    clip: {fileID: 11400000, guid: 5189fe4564c807547b3f9d8d706d97c2, type: 2}
+    playAtTransformPosition: 0
+  - key: Up
+    clip: {fileID: 11400000, guid: c8d3853931b99dc42b839dfb79592dff, type: 2}
+    playAtTransformPosition: 0
 --- !u!1 &3883507967237167820
 GameObject:
   m_ObjectHideFlags: 0

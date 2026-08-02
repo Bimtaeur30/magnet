@@ -1,4 +1,5 @@
 ﻿using GameLib.EventChannelSystem;
+using GameLib.SoundSystem;
 using Mvvm;
 using Magnet.Core.Events;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Game.UI
         [SerializeField] private GameObject Container;
         [SerializeField] private EventChannelSO MagnetGameChannel;
         [SerializeField] private EventChannelSO UIChannel;
+        [SerializeField] private EventChannelSO soundChannel;
+        [SerializeField] private SoundClipSO gameOverSound;
 
         protected override void Awake()
         {
@@ -34,6 +37,9 @@ namespace Game.UI
 
         private void HandleGameOverEvent(GameOverEvent @event)
         {
+            if (soundChannel != null && gameOverSound != null)
+                soundChannel.RaiseEvent(SoundSystemEvents.PlaySoundEvent.Init(gameOverSound));
+
             ViewModel.StageTxt = @event.FinalStage.ToString();
             UIChannel.RaiseEvent(UIEvents.UIPlayNewSkinEvent);
         }

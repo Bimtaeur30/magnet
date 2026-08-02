@@ -2,6 +2,7 @@
 using System;
 using Game.UI;
 using GameLib.EventChannelSystem;
+using GameLib.SoundSystem;
 using GGMLib.ModuleSystem;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -14,6 +15,9 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
 
     [SerializeField] private EnemyProfileUIView EnemyProfileUIView;
     [SerializeField] private EventChannelSO enemyEventChannel;
+    [SerializeField] private EventChannelSO soundChannel;
+    [SerializeField] private SoundClipSO enemyHitSound;
+    [SerializeField] private SoundClipSO enemyDieSound;
 #if UNITY_EDITOR
     [SerializeField] private Transform testAttackStartPoint;
     [SerializeField, Min(0)] private int testAttackDamage = 10;
@@ -25,6 +29,7 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
     private EnemyProfileUIViewModel _profileViewModel;
     private bool _isDead;
     private bool _deathCompleted;
+    private int _lastEnemyHitSoundFrame = -1;
 
     protected override void Awake()
     {
@@ -47,6 +52,7 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
     {
         _isDead = false;
         _deathCompleted = false;
+        _lastEnemyHitSoundFrame = -1;
 
         Debug.Assert(EnemyProfileUIView != null, "에너미 에이전트 인스펙터에서 EnemyProfileUIView를 추가하세요.");
         _profileViewModel = EnemyProfileUIView.ViewModel;
@@ -77,7 +83,14 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
         _healthModule.Damage(attackEvent.Damage);
 
         if (_healthModule.CurrentHealth < healthBeforeDamage)
+        {
             _agentRenderer.PlayBlink();
+
+            if (_healthModule.CurrentHealth <= 0)
+                PlaySound(enemyDieSound);
+            else
+                PlayEnemyHitSound();
+        }
 
         if (_profileViewModel != null)
             _profileViewModel.Health = _healthModule.CurrentHealth;
@@ -89,6 +102,24 @@ public class EnemyAgent : ModuleOwner, IEnemyLifetime
     private void OnHealthDepleted()
     {
         Die();
+    }
+
+    private void PlaySound(SoundClipSO clip)
+    {
+        if (soundChannel == null || clip == null)
+            return;
+
+        soundChannel.RaiseEvent(
+            SoundSystemEvents.PlaySoundEvent.Init(transform.position, clip));
+    }
+
+    private void PlayEnemyHitSound()
+    {
+        if (enemyHitSound == null || _lastEnemyHitSoundFrame == Time.frameCount)
+            return;
+
+        PlaySound(enemyHitSound);
+        _lastEnemyHitSoundFrame = Time.frameCount;
     }
 
     private void Die()

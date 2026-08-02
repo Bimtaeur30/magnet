@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
+using GameLib.SoundSystem;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Spawn;
@@ -14,6 +15,9 @@ namespace JTH.Scripts.Bootstrap
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO inGameChannel;
+        [SerializeField] private EventChannelSO soundChannel;
+        [SerializeField] private SoundClipSO blockPlaceSound;
+        [SerializeField] private SoundClipSO blockExplodeSound;
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         [Inject] private GameBoard _gameBoard;
@@ -39,6 +43,10 @@ namespace JTH.Scripts.Bootstrap
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(
                 _gameBoard);
+
+            PlaySound(blockPlaceSound);
+            if (clearedLineResult.ClearedLineCount > 0)
+                PlaySound(blockExplodeSound);
             
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
@@ -48,6 +56,14 @@ namespace JTH.Scripts.Bootstrap
                 lastDrop);
 
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
+        }
+
+        private void PlaySound(SoundClipSO clip)
+        {
+            if (soundChannel == null || clip == null)
+                return;
+
+            soundChannel.RaiseEvent(SoundSystemEvents.PlaySoundEvent.Init(clip));
         }
 
         private int CountFilledSlots()

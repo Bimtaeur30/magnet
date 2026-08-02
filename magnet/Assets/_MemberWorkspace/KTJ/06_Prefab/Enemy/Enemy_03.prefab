@@ -295,6 +295,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magent.KTJ::EnemyAgent
   EnemyProfileUIView: {fileID: 4724815014600597843}
   enemyEventChannel: {fileID: 11400000, guid: 70e33f7876334f145ae5fa994898115b, type: 2}
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  enemyHitSound: {fileID: 11400000, guid: 736e75619fb3dc740bf0cef9f5cdb44e, type: 2}
+  enemyDieSound: {fileID: 11400000, guid: e126fb63a27079142af407ed3142fd01, type: 2}
   testAttackStartPoint: {fileID: 717421153250173622}
   testAttackDamage: 10
 --- !u!1 &1629096102386013110

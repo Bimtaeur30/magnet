@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SceneTransition.SceneTransitionController
   magnetGameChannel: {fileID: 11400000, guid: d24454ac257e4b34282b5bf56ed334f7, type: 2}
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  sceneTransitionSound: {fileID: 11400000, guid: 3d7b914b7481e314981acbc8fbeb3965, type: 2}
   inputBlockerCanvasGroup: {fileID: 4786366306773081494}
   transitionPanel: {fileID: 7675817320210544274}
   defaultPreset: {fileID: 11400000, guid: 68739f9e74393f84fb461d1a4f9859c9, type: 2}

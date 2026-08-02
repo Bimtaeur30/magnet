@@ -491,6 +491,54 @@ Transform:
   - {fileID: 1663985942}
   m_Father: {fileID: 1973095918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &354428060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354428062}
+  - component: {fileID: 354428061}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &354428061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354428060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb5c4deaef634e4d88bb90e8bcce8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoundSystem_Assembly::GameLib.SoundSystem.SoundManager
+  poolManagerSO: {fileID: 11400000, guid: 216d7df7e62c8cd4bbf1f480547d8199, type: 2}
+  soundItemSO: {fileID: 11400000, guid: 29c4aa9b7e533f340a003eed5ff41115, type: 2}
+  audioMixer: {fileID: 24100000, guid: aaa8fb459dc9bb44c952c10ef0e536a3, type: 2}
+  <SoundEventChannel>k__BackingField: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+--- !u!4 &354428062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354428060}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.77276, y: 3.67315, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551288188
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +735,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &657846135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1 &658278017
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,6 +872,70 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2606.0352, y: 1349.6721, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &739438906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!1 &792478293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 792478295}
+  - component: {fileID: 792478294}
+  m_Layer: 0
+  m_Name: MainSceneBGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &792478294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792478293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: 08c217dc53b4c9b459b5099eabcae8a0, type: 2}
+  playOnAwake: 1
+  playAtTransformPosition: 0
+--- !u!4 &792478295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792478293}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.41763, y: 3.78167, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1132,6 +1260,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1191038522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &1340033195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1 &1348135804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +1402,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1411212619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1 &1411335860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1478,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fd40d626e213c4aa74d04ceeb32f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.ScoreUIView
+--- !u!114 &1557886960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &1630729587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1 &1644720661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1692,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1780252605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1001 &1878777659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1640,6 +1864,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1962933067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1 &1973095917
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,13 +2515,73 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 211001134763547503, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 211001134763547503, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1340033195}
+    - target: {fileID: 211001134763547503, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 211001134763547503, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 211001134763547503, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
     - target: {fileID: 230288280027318628, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 301613218722391187, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 301613218722391187, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7563549220475548903}
+    - target: {fileID: 301613218722391187, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 301613218722391187, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 301613218722391187, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
     - target: {fileID: 521851610957204573, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_Name
       value: MainUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 633079973107579456, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633079973107579456, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7563549220475548900}
+    - target: {fileID: 633079973107579456, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 633079973107579456, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 633079973107579456, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
       objectReference: {fileID: 0}
     - target: {fileID: 854250982699618421, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2291,6 +2591,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 883540963162445738, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 883540963162445738, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1630729587}
+    - target: {fileID: 883540963162445738, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 883540963162445738, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 883540963162445738, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
     - target: {fileID: 1129022787443738181, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -2298,6 +2618,26 @@ PrefabInstance:
     - target: {fileID: 1129022787443738181, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.00048828125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1962933067}
+    - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
       objectReference: {fileID: 0}
     - target: {fileID: 1894145191380008034, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: Slots.Array.size
@@ -2326,6 +2666,46 @@ PrefabInstance:
     - target: {fileID: 2235281934588828451, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235351426660138029, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235351426660138029, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 7563549220475548899}
+    - target: {fileID: 2235351426660138029, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235351426660138029, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235351426660138029, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249107820589605400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249107820589605400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7563549220475548901}
+    - target: {fileID: 2249107820589605400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249107820589605400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249107820589605400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
       objectReference: {fileID: 0}
     - target: {fileID: 2385348498582083652, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2371,6 +2751,106 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3336825884591998274, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336825884591998274, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7563549220475548902}
+    - target: {fileID: 3336825884591998274, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336825884591998274, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336825884591998274, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374781264073683651, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374781264073683651, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1191038522}
+    - target: {fileID: 3374781264073683651, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374781264073683651, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374781264073683651, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671922802875022248, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671922802875022248, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 657846135}
+    - target: {fileID: 3671922802875022248, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671922802875022248, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671922802875022248, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732178901282384081, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732178901282384081, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1557886960}
+    - target: {fileID: 3732178901282384081, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732178901282384081, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732178901282384081, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254483163757744724, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254483163757744724, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1411212619}
+    - target: {fileID: 4254483163757744724, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254483163757744724, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254483163757744724, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
     - target: {fileID: 4538527334521424888, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -2382,6 +2862,26 @@ PrefabInstance:
     - target: {fileID: 4770691427569456013, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800175159947543396, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800175159947543396, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 739438906}
+    - target: {fileID: 4800175159947543396, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800175159947543396, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800175159947543396, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
       objectReference: {fileID: 0}
     - target: {fileID: 5733384367218822514, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2447,11 +2947,223 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6786076277560728435, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786076277560728435, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1780252605}
+    - target: {fileID: 6786076277560728435, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786076277560728435, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786076277560728435, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundPlayRequester, Magent.KTJ
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1554809713443293609, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563549220475548903}
+    - targetCorrespondingSourceObject: {fileID: 915504117439753462, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563549220475548902}
+    - targetCorrespondingSourceObject: {fileID: 2746198456402229132, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563549220475548901}
+    - targetCorrespondingSourceObject: {fileID: 3594784780138508244, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563549220475548900}
+    - targetCorrespondingSourceObject: {fileID: 7555911708147874341, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563549220475548899}
+    - targetCorrespondingSourceObject: {fileID: 5615650680999443125, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780252605}
+    - targetCorrespondingSourceObject: {fileID: 9085279291446319103, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1630729587}
+    - targetCorrespondingSourceObject: {fileID: 5799829723508216057, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1411212619}
+    - targetCorrespondingSourceObject: {fileID: 7584153868258073804, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1557886960}
+    - targetCorrespondingSourceObject: {fileID: 4201870887509023978, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1962933067}
+    - targetCorrespondingSourceObject: {fileID: 3493367142536295180, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1340033195}
+    - targetCorrespondingSourceObject: {fileID: 8203040204546736400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 657846135}
+    - targetCorrespondingSourceObject: {fileID: 2112946575312958857, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1191038522}
+    - targetCorrespondingSourceObject: {fileID: 5118171043747236869, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 739438906}
   m_SourcePrefab: {fileID: 100100000, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+--- !u!1 &7563549220475548885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5118171043747236869, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548886 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2112946575312958857, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8203040204546736400, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3493367142536295180, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4201870887509023978, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7584153868258073804, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5799829723508216057, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9085279291446319103, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5615650680999443125, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548894 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7555911708147874341, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3594784780138508244, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2746198456402229132, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 915504117439753462, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7563549220475548898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1554809713443293609, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+  m_PrefabInstance: {fileID: 7563549220475548884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7563549220475548899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &7563549220475548900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &7563549220475548901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &7563549220475548902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
+--- !u!114 &7563549220475548903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563549220475548898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a81eb35c36fe43bb02850bf931fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magent.KTJ::SoundPlayRequester
+  soundEventChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  soundClip: {fileID: 11400000, guid: c4da9b9907f266b40974b3edc973d2a5, type: 2}
+  playOnAwake: 0
+  playAtTransformPosition: 0
 --- !u!1001 &7908463768498951500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2535,6 +3247,8 @@ SceneRoots:
   - {fileID: 1348135807}
   - {fileID: 1909880976}
   - {fileID: 4706993919354330600}
+  - {fileID: 354428062}
+  - {fileID: 792478295}
   - {fileID: 657026731}
   - {fileID: 1015081903}
   - {fileID: 5853029489635318912}

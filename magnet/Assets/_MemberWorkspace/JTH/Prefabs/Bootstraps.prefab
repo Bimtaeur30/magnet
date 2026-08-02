@@ -93,6 +93,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.BoardPlacementBootstrap
   inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  blockPlaceSound: {fileID: 11400000, guid: b36cdf327af362c4b959fce32c4ae4e0, type: 2}
+  blockExplodeSound: {fileID: 11400000, guid: a7c7371321832a140a184c3b8ce377f8, type: 2}
 --- !u!1 &5963909218403489331
 GameObject:
   m_ObjectHideFlags: 0
