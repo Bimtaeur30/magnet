@@ -11,3 +11,4 @@
 | 4 | 부착 확정·이벤트·공급 연동 | [phase4.md](phase4.md) | [sequence4.md](sequence4.md) | v0.6 · Bootstrap 패턴 재사용 |
 | 5 | ~~Y스냅·Draw 회전~~ | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) | v0.6 · **deprecated** |
 | 6 | **2D 배치·BlockPool·ShapeAssembler** | [phase6.md](phase6.md) | — | **계획** |
+| 7 | 배치·프리뷰·뷰 딕셔너리 동기화 | [phase7.md](phase7.md) | [sequence7.md](sequence7.md) | **완료** |

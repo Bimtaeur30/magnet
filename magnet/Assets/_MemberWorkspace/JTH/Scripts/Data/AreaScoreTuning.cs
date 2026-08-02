@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace JTH.Scripts.Data
 {
-    /// <summary>
-    /// Area 점수식 튜닝 — 4-연결 size/변 + 직사각 greedy 개수 패널티.
-    /// </summary>
+        /// <summary>
+        /// Area 점수식 튜닝 — 4-연결 size/변 + 직사각·Area 개수 패널티.
+        /// </summary>
     [System.Serializable]
     public sealed class AreaScoreTuning
     {
@@ -40,7 +40,11 @@ namespace JTH.Scripts.Data
 
         [Header("Rectangle count")]
         [Tooltip("직사각(찬+빈 greedy) 1개당 점수에서 빼는 양")]
-        public float rectCountPenalty = 3f;
+        public float rectCountPenalty = 4f;
+
+        [Header("Area count")]
+        [Tooltip("4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐")]
+        public float areaCountPenalty = 4f;
 
         public static AreaScoreTuning GrillDefault() => new();
     }

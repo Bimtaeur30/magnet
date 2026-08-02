@@ -20,6 +20,7 @@ namespace JTH.Scripts.Presentation
 
         private readonly List<Block> _blocks = new();
         private int _skinId;
+        private int _sortingBand = Block.SortingBandStaging;
 
         private void Awake()
         {
@@ -31,12 +32,16 @@ namespace JTH.Scripts.Presentation
         {
             CellOffsets = data.CellOffsets;
             _skinId = data.SkinId;
+            _sortingBand = Block.SortingBandStaging;
             ShowCells();
         }
 
         public void ShowPreview(ShapeBlockData data)
         {
-            Show(data);
+            CellOffsets = data.CellOffsets;
+            _skinId = data.SkinId;
+            _sortingBand = Block.SortingBandPreview;
+            ShowCells();
             SetAlpha(placementConfig.Visual.PreviewAlpha);
         }
 
@@ -50,12 +55,13 @@ namespace JTH.Scripts.Presentation
                 block.name = $"Block_{_blocks.Count}";
                 _blocks.Add(block);
             }
-            
+
             inGameChannel.RaiseEvent(InGameEvents.BlockCreatedEvent.Init(_blocks, _skinId));
-            
+
             for (int i = 0; i < CellOffsets.Count; i++)
             {
                 _blocks[i].Offset = CellOffsets[i];
+                _blocks[i].ApplySortingBand(_sortingBand);
             }
         }
 
@@ -64,11 +70,13 @@ namespace JTH.Scripts.Presentation
             foreach (Block block in _blocks)
             {
                 poolManagerSO.Push(block);
-                
+
                 inGameChannel.RaiseEvent(InGameEvents.BlockDestroyedEvent.Init(block));
             }
             _blocks.Clear();
         }
+
+        public IReadOnlyList<Block> Blocks => _blocks;
 
         private void SetAlpha(float alpha)
         {
@@ -84,11 +92,11 @@ namespace JTH.Scripts.Presentation
         public IReadOnlyList<Block> DetachBlocks()
         {
             List<Block> detached = new List<Block>(_blocks.Count);
-            
+
             foreach (Block block in _blocks)
                 detached.Add(block);
             _blocks.Clear();
-            
+
             return detached;
         }
     }

@@ -6,8 +6,8 @@ using UnityEngine;
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     /// <summary>
-    /// 4-연결 찬/빈 Area(size·변) + 최대면적 직사각 greedy 개수 패널티.
-    /// 최종 = baseArea − rectCountPenalty × rectCount.
+    /// 4-연결 찬/빈 Area(size·변) + 직사각 greedy 개수 패널티 + Area 개수 패널티.
+    /// 최종 = baseArea − rectCountPenalty×rectCount − areaCountPenalty×areaCount.
     /// </summary>
     public static class AreaScoreCalculator
     {
@@ -46,7 +46,16 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
             int rectCount = CountRectangles(board);
             float rectPenalty = tuning.rectCountPenalty * rectCount;
-            return new AreaScoreResult(baseTotal - rectPenalty, components, rectCount, baseTotal, rectPenalty);
+            int areaCount = components.Count;
+            float areaCountPenalty = tuning.areaCountPenalty * areaCount;
+            return new AreaScoreResult(
+                baseTotal - rectPenalty - areaCountPenalty,
+                components,
+                rectCount,
+                baseTotal,
+                rectPenalty,
+                areaCount,
+                areaCountPenalty);
         }
 
         public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning = null) =>

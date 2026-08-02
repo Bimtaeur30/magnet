@@ -12,7 +12,7 @@ namespace JTH.Scripts.Data
     public sealed class AreaBundlePoolSO : ScriptableObject
     {
         [Header("Lists")]
-        [SerializeField, Tooltip("기본(Normal) 번들 — 빈도≥2 비유일")]
+        [SerializeField, Tooltip("기본(Normal) 번들 — Blocks2 스크린샷 전수. 필터 없음, weight=관측횟수만")]
         private List<AreaBundleEntry> normalBundles = new();
 
         [SerializeField, Tooltip("Easy 폴백 — 1x1 계열·소형. Relife 1턴도 사용")]
@@ -43,6 +43,20 @@ namespace JTH.Scripts.Data
         [SerializeField, Tooltip("번들당 완주 시퀀스 탐색 상한")]
         private int maxSequencesPerBundle = 48;
 
+        [SerializeField, Tooltip("완주 클리어·올클 추정 빔 폭 (권장 4~8)")]
+        private int outcomeBeamWidth = 4;
+
+        [Header("Clear Priority (Normal)")]
+        [SerializeField, Tooltip("올클 가능 후보가 있을 때 그 패를 줄 확률 (권장 0.75). 낙첨 시 올클 후보는 이번 턴 제외")]
+        [Range(0f, 1f)]
+        private float allClearProbability = 0.75f;
+
+        [SerializeField, Tooltip("올클 패 지급 후 올클 최우선을 쉬는 턴 수 (권장 1). 빈 보드는 별도로 올클 검사 스킵")]
+        private int allClearCooldownTurns = 1;
+
+        [SerializeField, Tooltip("멀티클리어 문턱: 완주 클리어가 이 줄 수 이상일 때만 Clear Priority (권장 6). 미만은 Area 최대로 넘김")]
+        private int multiClearHardMinLines = 6;
+
         public IReadOnlyList<AreaBundleEntry> NormalBundles => normalBundles;
         public IReadOnlyList<AreaBundleEntry> EasyBundles => easyBundles;
         public AreaScoreTuning AreaScore => areaScore ??= new AreaScoreTuning();
@@ -52,6 +66,10 @@ namespace JTH.Scripts.Data
         public int UniqueSampleCount => uniqueSampleCount < 1 ? 1 : uniqueSampleCount;
         public int MaxCandidatesToScore => maxCandidatesToScore < 1 ? 1 : maxCandidatesToScore;
         public int MaxSequencesPerBundle => maxSequencesPerBundle < 1 ? 1 : maxSequencesPerBundle;
+        public int OutcomeBeamWidth => outcomeBeamWidth < 1 ? 1 : outcomeBeamWidth;
+        public float AllClearProbability => allClearProbability;
+        public int AllClearCooldownTurns => allClearCooldownTurns < 0 ? 0 : allClearCooldownTurns;
+        public int MultiClearHardMinLines => multiClearHardMinLines < 1 ? 1 : multiClearHardMinLines;
 
 #if UNITY_EDITOR
         [ContextMenu("Fill Starter Normal+Easy Bundles")]

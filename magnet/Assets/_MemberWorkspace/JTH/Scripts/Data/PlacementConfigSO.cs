@@ -10,5 +10,6 @@ namespace JTH.Scripts.Data
     {
         [field: SerializeField] public BlockVisualConfigSO Visual { get; private set; }
         [field: SerializeField] public BlockDragConfigSO Drag { get; private set; }
+        [field: SerializeField] public LineClearPreviewConfigSO LineClearPreview { get; private set; }
     }
 }
