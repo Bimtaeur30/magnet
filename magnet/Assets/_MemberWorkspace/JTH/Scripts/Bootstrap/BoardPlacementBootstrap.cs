@@ -49,13 +49,10 @@ namespace JTH.Scripts.Bootstrap
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
 
-            ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(
-                _gameBoard);
-
             PlaySound(blockPlaceSound);
             if (clearedLineResult.ClearedLineCount > 0)
                 PlaySound(blockExplodeSound);
-            
+
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
                 gridOffsets,
@@ -64,6 +61,20 @@ namespace JTH.Scripts.Bootstrap
                 lastDrop);
 
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
+        }
+
+        private bool IsPlacementFree(IReadOnlyList<Vector2Int> gridOffsets)
+        {
+            for (int i = 0; i < gridOffsets.Count; ++i)
+            {
+                Vector2Int cell = gridOffsets[i];
+                if (!_gameBoard.Grid.IsInBounds(cell) || _gameBoard.Grid.IsOccupied(cell))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void PlaySound(SoundClipSO clip)
