@@ -5,8 +5,19 @@ public static class EnemyEvents
 {
     public static readonly EnemyAttackRequestEvent EnemyAttackRequestEvent = new();
     public static readonly EnemyAttackEvent EnemyAttackEvent = new();
+    public static readonly StageClearEvent StageClearEvent = new();
 }
 
+public sealed class StageClearEvent : GameEvent
+{
+    public int ClearStageIdx;
+
+    public StageClearEvent Init(int clearStageIdx)
+    {
+        ClearStageIdx =  clearStageIdx;
+        return this;
+    }
+}
 public sealed class EnemyAttackRequestEvent : GameEvent
 {
     public Vector3 AttackStartWorldPosition { get; private set; }
