@@ -60,8 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.MagnetSceneInstaller
   blockSpawnBootstrap: {fileID: 0}
   boardPlacementBootstrap: {fileID: 0}
-  placedBlocksView: {fileID: 0}
-  boardView: {fileID: 0}
+  gameBoard: {fileID: 0}
 --- !u!114 &5051756840942085837
 MonoBehaviour:
   m_ObjectHideFlags: 0

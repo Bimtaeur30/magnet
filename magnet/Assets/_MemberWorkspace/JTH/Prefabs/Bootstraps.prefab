@@ -142,6 +142,7 @@ MonoBehaviour:
   inputSO: {fileID: 11400000, guid: 4e8b7c6d5a4f3e2d1c0b9a8f7e6d5c4b, type: 2}
   skinDataListSO: {fileID: 11400000, guid: 8dc032c6a56ac8a44b45aee807d4141b, type: 2}
   shapeSourceSO: {fileID: 11400000, guid: e8f4a2b1c3d54e6f9a0b1c2d3e4f5a6b, type: 2}
+  areaBundlePoolSO: {fileID: 11400000, guid: b462cde478a45d741885748eaff84a56, type: 2}
 --- !u!1 &9001353613134143541
 GameObject:
   m_ObjectHideFlags: 0

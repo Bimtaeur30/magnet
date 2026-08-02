@@ -1,0 +1,457 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fc1261afd34ea499affbb64b52ea9a, type: 3}
+  m_Name: DefaultAreaBundlePool
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.AreaBundlePoolSO
+  normalBundles:
+  - bundleId: n01
+    id0: 8
+    id1: 8
+    id2: 16
+    weight: 3
+  - bundleId: n02
+    id0: 8
+    id1: 29
+    id2: 25
+    weight: 3
+  - bundleId: n03
+    id0: 10
+    id1: 9
+    id2: 10
+    weight: 3
+  - bundleId: n04
+    id0: 10
+    id1: 18
+    id2: 8
+    weight: 3
+  - bundleId: n05
+    id0: 14
+    id1: 25
+    id2: 10
+    weight: 3
+  - bundleId: n06
+    id0: 14
+    id1: 32
+    id2: 19
+    weight: 3
+  - bundleId: n07
+    id0: 19
+    id1: 25
+    id2: 8
+    weight: 3
+  - bundleId: n08
+    id0: 25
+    id1: 10
+    id2: 18
+    weight: 3
+  - bundleId: n09
+    id0: 25
+    id1: 26
+    id2: 7
+    weight: 3
+  - bundleId: n10
+    id0: 26
+    id1: 33
+    id2: 18
+    weight: 3
+  - bundleId: n11
+    id0: 4
+    id1: 5
+    id2: 7
+    weight: 2
+  - bundleId: n12
+    id0: 7
+    id1: 8
+    id2: 17
+    weight: 2
+  - bundleId: n13
+    id0: 8
+    id1: 9
+    id2: 18
+    weight: 2
+  - bundleId: n14
+    id0: 8
+    id1: 17
+    id2: 16
+    weight: 2
+  - bundleId: n15
+    id0: 9
+    id1: 17
+    id2: 14
+    weight: 2
+  - bundleId: n16
+    id0: 9
+    id1: 32
+    id2: 17
+    weight: 2
+  - bundleId: n17
+    id0: 9
+    id1: 32
+    id2: 25
+    weight: 2
+  - bundleId: n18
+    id0: 10
+    id1: 14
+    id2: 9
+    weight: 2
+  - bundleId: n19
+    id0: 10
+    id1: 16
+    id2: 9
+    weight: 2
+  - bundleId: n20
+    id0: 10
+    id1: 17
+    id2: 18
+    weight: 2
+  - bundleId: n21
+    id0: 10
+    id1: 30
+    id2: 8
+    weight: 2
+  - bundleId: n22
+    id0: 14
+    id1: 10
+    id2: 20
+    weight: 2
+  - bundleId: n23
+    id0: 14
+    id1: 14
+    id2: 7
+    weight: 2
+  - bundleId: n24
+    id0: 14
+    id1: 25
+    id2: 7
+    weight: 2
+  - bundleId: n25
+    id0: 14
+    id1: 25
+    id2: 8
+    weight: 2
+  - bundleId: n26
+    id0: 16
+    id1: 7
+    id2: 7
+    weight: 2
+  - bundleId: n27
+    id0: 16
+    id1: 7
+    id2: 25
+    weight: 2
+  - bundleId: n28
+    id0: 16
+    id1: 18
+    id2: 18
+    weight: 2
+  - bundleId: n29
+    id0: 16
+    id1: 25
+    id2: 14
+    weight: 2
+  - bundleId: n30
+    id0: 16
+    id1: 29
+    id2: 7
+    weight: 2
+  - bundleId: n31
+    id0: 16
+    id1: 34
+    id2: 30
+    weight: 2
+  - bundleId: n32
+    id0: 17
+    id1: 18
+    id2: 29
+    weight: 2
+  - bundleId: n33
+    id0: 17
+    id1: 30
+    id2: 14
+    weight: 2
+  - bundleId: n34
+    id0: 17
+    id1: 31
+    id2: 25
+    weight: 2
+  - bundleId: n35
+    id0: 18
+    id1: 9
+    id2: 29
+    weight: 2
+  - bundleId: n36
+    id0: 18
+    id1: 10
+    id2: 16
+    weight: 2
+  - bundleId: n37
+    id0: 18
+    id1: 14
+    id2: 9
+    weight: 2
+  - bundleId: n38
+    id0: 18
+    id1: 18
+    id2: 20
+    weight: 2
+  - bundleId: n39
+    id0: 19
+    id1: 9
+    id2: 9
+    weight: 2
+  - bundleId: n40
+    id0: 19
+    id1: 9
+    id2: 26
+    weight: 2
+  - bundleId: n41
+    id0: 19
+    id1: 20
+    id2: 33
+    weight: 2
+  - bundleId: n42
+    id0: 20
+    id1: 17
+    id2: 25
+    weight: 2
+  - bundleId: n43
+    id0: 20
+    id1: 30
+    id2: 30
+    weight: 2
+  - bundleId: n44
+    id0: 25
+    id1: 7
+    id2: 7
+    weight: 2
+  - bundleId: n45
+    id0: 25
+    id1: 9
+    id2: 7
+    weight: 2
+  - bundleId: n46
+    id0: 25
+    id1: 31
+    id2: 9
+    weight: 2
+  - bundleId: n47
+    id0: 25
+    id1: 33
+    id2: 16
+    weight: 2
+  - bundleId: n48
+    id0: 25
+    id1: 35
+    id2: 9
+    weight: 2
+  - bundleId: n49
+    id0: 26
+    id1: 10
+    id2: 8
+    weight: 2
+  - bundleId: n50
+    id0: 26
+    id1: 14
+    id2: 34
+    weight: 2
+  - bundleId: n51
+    id0: 26
+    id1: 42
+    id2: 26
+    weight: 2
+  - bundleId: n52
+    id0: 30
+    id1: 20
+    id2: 7
+    weight: 2
+  - bundleId: n53
+    id0: 30
+    id1: 25
+    id2: 25
+    weight: 2
+  - bundleId: n54
+    id0: 31
+    id1: 16
+    id2: 18
+    weight: 2
+  - bundleId: n55
+    id0: 31
+    id1: 18
+    id2: 26
+    weight: 2
+  - bundleId: n56
+    id0: 32
+    id1: 14
+    id2: 33
+    weight: 2
+  - bundleId: n57
+    id0: 33
+    id1: 33
+    id2: 14
+    weight: 2
+  - bundleId: n58
+    id0: 34
+    id1: 25
+    id2: 25
+    weight: 2
+  - bundleId: n59
+    id0: 42
+    id1: 9
+    id2: 26
+    weight: 2
+  easyBundles:
+  - bundleId: ez01
+    id0: 1
+    id1: 1
+    id2: 2
+    weight: 5
+  - bundleId: ez02
+    id0: 1
+    id1: 1
+    id2: 3
+    weight: 5
+  - bundleId: ez03
+    id0: 1
+    id1: 1
+    id2: 5
+    weight: 5
+  - bundleId: ez04
+    id0: 1
+    id1: 2
+    id2: 2
+    weight: 5
+  - bundleId: ez05
+    id0: 1
+    id1: 2
+    id2: 3
+    weight: 5
+  - bundleId: ez06
+    id0: 1
+    id1: 38
+    id2: 1
+    weight: 3
+  - bundleId: ez07
+    id0: 1
+    id1: 37
+    id2: 1
+    weight: 2
+  - bundleId: ez08
+    id0: 5
+    id1: 5
+    id2: 9
+    weight: 1
+  - bundleId: ez09
+    id0: 3
+    id1: 5
+    id2: 9
+    weight: 1
+  - bundleId: ez10
+    id0: 2
+    id1: 3
+    id2: 5
+    weight: 1
+  - bundleId: ez11
+    id0: 4
+    id1: 5
+    id2: 9
+    weight: 1
+  - bundleId: ez12
+    id0: 5
+    id1: 9
+    id2: 9
+    weight: 1
+  - bundleId: ez13
+    id0: 3
+    id1: 3
+    id2: 9
+    weight: 1
+  - bundleId: ez14
+    id0: 2
+    id1: 5
+    id2: 9
+    weight: 1
+  - bundleId: ez15
+    id0: 5
+    id1: 17
+    id2: 9
+    weight: 1
+  - bundleId: ez16
+    id0: 3
+    id1: 9
+    id2: 35
+    weight: 1
+  - bundleId: ez17
+    id0: 5
+    id1: 5
+    id2: 5
+    weight: 1
+  - bundleId: ez18
+    id0: 2
+    id1: 3
+    id2: 9
+    weight: 1
+  - bundleId: ez19
+    id0: 4
+    id1: 3
+    id2: 5
+    weight: 1
+  - bundleId: ez20
+    id0: 5
+    id1: 27
+    id2: 9
+    weight: 1
+  - bundleId: ez21
+    id0: 3
+    id1: 5
+    id2: 17
+    weight: 1
+  - bundleId: ez22
+    id0: 2
+    id1: 2
+    id2: 5
+    weight: 1
+  - bundleId: ez23
+    id0: 5
+    id1: 6
+    id2: 9
+    weight: 1
+  - bundleId: ez24
+    id0: 3
+    id1: 15
+    id2: 9
+    weight: 1
+  - bundleId: ez25
+    id0: 9
+    id1: 35
+    id2: 5
+    weight: 1
+  - bundleId: ez26
+    id0: 4
+    id1: 5
+    id2: 5
+    weight: 1
+  areaScore:
+    emptyTinyMaxSize: 3
+    emptyTinyPenalty: -35
+    emptyFullScore: 107
+    filledTinyMaxSize: 2
+    filledTinyPenalty: -18
+    filledFullScore: 67
+    sideBonusIdealMax: 4
+    sideBonusAtIdeal: 14
+    sideBonusPerTwoSides: 5
+  uniqueAreaThreshold: -5
+  uniqueProbability: 0.65
+  relifeEasyTurnCount: 1
+  uniqueSampleCount: 120
+  maxCandidatesToScore: 16
+  maxSequencesPerBundle: 48

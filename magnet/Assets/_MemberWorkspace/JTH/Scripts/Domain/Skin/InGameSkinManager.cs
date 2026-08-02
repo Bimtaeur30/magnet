@@ -13,6 +13,8 @@ namespace JTH.Scripts.Domain.Skin
         [SerializeField] private EventChannelSO skinChannel;
 
         private Dictionary<Block, int> _blockDict;
+        
+        private Sprite[] _currentSkin;
 
         private void Awake()
         {
@@ -37,6 +39,7 @@ namespace JTH.Scripts.Domain.Skin
             foreach (Block block in evt.Blocks)
             {
                 _blockDict.Add(block, evt.SkinId);
+                block.ApplySkin(_currentSkin[evt.SkinId]);
             }
         }
 
@@ -44,19 +47,21 @@ namespace JTH.Scripts.Domain.Skin
 
         private void SkinChangedHandler(SkinChangedEvent evt)
         {
-            ApplySkin(evt.CurrentSkin.Sprites);
+            _currentSkin = evt.CurrentSkin.Sprites;
+            ApplySkin();
         }
 
         private void SkinInitializedHandler(SkinInitializedEvent evt)
         {
-            ApplySkin(evt.Skin.Sprites);
+            _currentSkin = evt.Skin.Sprites;
+            ApplySkin();
         }
 
-        private void ApplySkin(Sprite[] sprites)
+        private void ApplySkin()
         {
             foreach (Block block in _blockDict.Keys)
             {
-                block.ApplySkin(sprites[_blockDict[block]]);
+                block.ApplySkin(_currentSkin[_blockDict[block]]);
             }
         }
     }
