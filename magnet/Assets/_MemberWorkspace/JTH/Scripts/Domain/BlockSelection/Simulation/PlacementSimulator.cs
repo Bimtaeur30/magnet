@@ -7,6 +7,9 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
 {
     public static class PlacementSimulator
     {
+        /// <summary>
+        /// grid와 cellOffsets, pivot을 받아 피스를 올리고, 완성된 라인을 지운다. 지운 라인 개수를 반환한다.
+        /// </summary>
         public static int PlaceAndClear(BoardGrid grid, IReadOnlyList<Vector2Int> cellOffsets, Vector2Int pivot)
         {
             List<Vector2Int> placedCells = new(cellOffsets.Count);

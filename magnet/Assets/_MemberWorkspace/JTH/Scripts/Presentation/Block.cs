@@ -105,9 +105,6 @@ namespace JTH.Scripts.Presentation
             RefreshColor();
         }
 
-        /// <summary>
-        /// 라인클리어 프리뷰 힌트. 밝기·알파를 숨쉬게 한다 (스프라이트 틴트, HDR Emission 아님).
-        /// </summary>
         public void SetClearHint(
             bool enabled,
             float brightnessMin = 1f,
@@ -161,9 +158,6 @@ namespace JTH.Scripts.Presentation
             skinRenderer.color = color;
         }
 
-        /// <summary>
-        /// Preview &lt; Placed &lt; Staging 그리기 순서. 밴드 내에서 마스크 격리용 슬롯을 부여한다.
-        /// </summary>
         public void ApplySortingBand(int bandBase)
         {
             SetSortingOrder(bandBase);

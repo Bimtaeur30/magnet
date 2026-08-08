@@ -34,7 +34,6 @@ namespace JTH.Scripts.Bootstrap
 
         public IReadOnlyList<ShapeBlockData> Candidates => _supply.Candidates;
 
-        /// <summary>직전 리필의 선택 결과 (티어·번들·Area). UI 훅 소비용.</summary>
         public AreaBundleSelectionResult LastSelection => _drawer.LastResult;
 
         private void Awake()
@@ -102,7 +101,7 @@ namespace JTH.Scripts.Bootstrap
             BlockSpawnContext context = new(shapeSourceSO, grid, 0)
             {
                 TurnIndex = _turnIndex,
-                IsRetrySession = false, // stub — game-over/다시 하기 배선 후 Relife Easy 1턴 개방
+                IsRetrySession = false,
             };
             ++_turnIndex;
 

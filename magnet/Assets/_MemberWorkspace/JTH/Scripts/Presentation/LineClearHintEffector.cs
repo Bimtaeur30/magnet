@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Presentation
 {
-    /// <summary>
-    /// 클리어 예정 줄의 Place된 칸만 알파로 깜빡인다. 프리뷰는 건드리지 않는다.
-    /// </summary>
     public sealed class LineClearHintEffector : MonoBehaviour
     {
         [SerializeField] private PlacedBlocksView placedBlocksView;

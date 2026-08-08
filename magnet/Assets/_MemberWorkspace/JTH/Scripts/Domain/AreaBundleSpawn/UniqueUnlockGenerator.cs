@@ -8,11 +8,6 @@ using Random = System.Random;
 
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
-    /// <summary>
-    /// Unique 동적 생성: 1개는 당장 배치 불가, 나머지 2개는 배치 가능하며
-    /// 라인 클리어를 통해 막힌 1개를 열 수 있는 트리플.
-    /// 슬롯 순서 = [막힌 피스, 언락1, 언락2].
-    /// </summary>
     public static class UniqueUnlockGenerator
     {
         public sealed class Result
@@ -29,7 +24,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             public string Reason { get; }
         }
 
-        /// <summary>1x1 제외한 42-ID 샘플 풀.</summary>
         private static readonly int[] PoolIds = BuildUniquePoolIds();
 
         public static Result TryGenerate(BoardGrid board, Random rng, int sampleCount)
@@ -89,10 +83,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return null;
         }
 
-        /// <summary>
-        /// unlock 두 피스를 어떤 순서·위치로든 두어(최소 1회 라인 클리어 포함)
-        /// blocked가 배치 가능해지는지.
-        /// </summary>
         private static bool CanUnlockWithLineClear(
             BoardGrid board,
             IReadOnlyList<Vector2Int> unlockA,

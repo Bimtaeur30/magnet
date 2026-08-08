@@ -44,13 +44,13 @@
 
 | [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | phase2 완료 | **Deprecated** (코드 제거 · area-bundle-spawn으로 교체) |
 
-| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (Normal 전수 평등 · MultiClear≥6 · 324) | — | **phase14 완료** | **구현됨 (현재 배선)** |
+| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (Normal 전수 평등 · MultiClear≥6 · 324) | — | **phase15 완료** | **구현됨 (현재 배선)** |
 
 | [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (림+스파크) | — | **phase1 완료** | **구현됨** |
 
 
 
-**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → `hybrid-spawn-algorithm`(제거) → 현재 **`area-bundle-spawn`**. 구 알고리즘 코드는 phase12에서 삭제 · `BlockBlastCatalog`·배치 시뮬만 공유 유틸로 잔존.
+**스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → `hybrid-spawn-algorithm`(제거) → 현재 **`area-bundle-spawn`**. 구 알고리즘 코드는 phase12·15에서 삭제 · `BlockBlastCatalog`·`PlacementSolver`(완주 카운트)·시뮬·Estimator만 공유 유틸로 잔존.
 
 
 

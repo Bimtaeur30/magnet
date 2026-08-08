@@ -7,11 +7,6 @@ using Random = System.Random;
 
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
-    /// <summary>
-    /// cascade: Relife1턴 Easy / dirty·pUnique Unique(동적) → Normal → Easy.
-    /// Normal: 올클(75%·쿨다운1·빈보드 스킵) → 멀티(5줄+만) → Area 최대.
-    /// Unique는 번들이 아니라 UniqueUnlockGenerator.
-    /// </summary>
     public sealed class AreaBundleOrchestrator
     {
         private readonly struct ScoredCandidate
@@ -137,10 +132,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 reason: $"{reasonPrefix} · Easy 완주 없음 → 가중랜덤 {forced.BundleId}");
         }
 
-        /// <summary>
-        /// Normal: 올클(빈보드·쿨다운 제외, 75%) → 멀티클리어(5줄+만 100%) → Area 최대.
-        /// 올클 낙첨 시 올클 후보는 이번 턴 풀에서 제외. 4줄 이하 클리어는 Clear Priority 무시.
-        /// </summary>
         private AreaBundleSelectionResult TrySelectNormalPriority(
             BoardGrid board,
             float boardArea,

@@ -19,6 +19,7 @@
 | 12 | 구 스폰 알고리즘 dead code 제거 | [phase12.md](phase12.md) | [sequence12.md](sequence12.md) | **완료** |
 | 13 | Normal freq≥2 · MultiClear 5줄만 | [phase13.md](phase13.md) | [sequence13.md](sequence13.md) | **완료** |
 | 14 | MultiClear 6 · Normal 전수 평등 집계 | [phase14.md](phase14.md) | [sequence14.md](sequence14.md) | **완료** |
+| 15 | PlacementSolver dead API·유일해 타입 제거 | [phase15.md](phase15.md) | [sequence15.md](sequence15.md) | **완료** |
 
 ## grill 확정 요약
 

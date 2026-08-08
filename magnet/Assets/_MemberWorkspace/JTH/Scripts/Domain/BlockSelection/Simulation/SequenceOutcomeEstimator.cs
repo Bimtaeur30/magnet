@@ -5,25 +5,31 @@ using UnityEngine;
 
 namespace JTH.Scripts.Domain.BlockSelection.Simulation
 {
-    /// <summary>
-    /// 3피스를 전부 놓는 시나리오 중 "가장 많이 클리어되는" 결과를 빔 서치로 추정 (SPEC §10.3 SimulateBestOutcome).
-    /// 전수 탐색은 빈 보드에서 조합 폭발이라 beamWidth개의 유망 상태만 유지한다.
-    /// 빔이 유지한 경로에서 완주가 나오면 full sequence 존재도 함께 증명된다.
-    /// </summary>
     public static class SequenceOutcomeEstimator
     {
+        /// <summary>
+        /// 시퀀스를 완료했을 때의 결과를 담을 구조체
+        /// </summary>
         public readonly struct SequenceOutcome
         {
-            /// <summary>빔 탐색 범위 안에서 3피스 완주 경로를 찾았는가.</summary>
+            /// <summary>
+            /// 빔이 마지막 depth까지 살아남아 완주 후보를 하나라도 남겼는지
+            /// </summary>
             public bool SequenceFound { get; }
 
-            /// <summary>찾은 경로 중 최대 총 클리어 라인 수.</summary>
+            /// <summary>
+            /// 살아남은 후보 중 추정 최선(클리어 우선)의 누적 클리어 줄 수
+            /// </summary>
             public int TotalClears { get; }
 
-            /// <summary>최선 경로 종료 시 보드가 완전히 비는가 (올클리어).</summary>
+            /// <summary>
+            /// 그 최선 후보의 최종 보드가 비었는지(올클 추정)
+            /// </summary>
             public bool BoardEmptied { get; }
 
-            /// <summary>최선 경로 종료 시 보드 상태. SequenceFound가 false면 null.</summary>
+            /// <summary>
+            /// 그 최선 후보의 최종 보드
+            /// </summary>
             public BoardGrid FinalBoard { get; }
 
             public SequenceOutcome(bool sequenceFound, int totalClears, bool boardEmptied, BoardGrid finalBoard)
@@ -37,12 +43,17 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
 
         private sealed class BeamState
         {
-            public BoardGrid Board;
-            public int UsedMask;
-            public int TotalClears;
-            public int OccupiedCount;
+            public BoardGrid Board { get; set; }
+            public int UsedMask { get; set; }
+            public int TotalClears { get; set; }
+            public int OccupiedCount { get; set; }
         }
 
+        /// <summary>
+        /// 보드와 피스 목록을 받아, 한 수씩 펼친 뒤 상위 beamWidth개만 남기는 빔 탐색으로 완주 결과를 추정한다.
+        /// 각 depth에서 미사용 피스를 모든 칸에 놓아 보고(ExpandState), 클리어 많은 순·잔여 칸 적은 순으로 잘라
+        /// 상위 beamWidth만 다음 depth로 넘긴다. 전수 탐색보다 빠르지만, 중간에 자른 가지의 올클 등은 놓칠 수 있다.
+        /// </summary>
         public static SequenceOutcome Estimate(
             BoardGrid board,
             IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
@@ -75,7 +86,6 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
                     return new SequenceOutcome(sequenceFound: false, totalClears: 0, boardEmptied: false, finalBoard: null);
                 }
 
-                // 클리어 많은 순, 동률이면 점유 칸 적은 순으로 상위 beamWidth 유지
                 nextFrontier.Sort(static (a, b) => a.TotalClears != b.TotalClears
                     ? b.TotalClears.CompareTo(a.TotalClears)
                     : a.OccupiedCount.CompareTo(b.OccupiedCount));
@@ -96,6 +106,9 @@ namespace JTH.Scripts.Domain.BlockSelection.Simulation
                 finalBoard: best.Board);
         }
 
+        /// <summary>
+        /// 아직 쓰지 않은 피스마다 보드 전 칸에 놓아 보고, 가능하면 자식 BeamState를 nextFrontier에 넣는다.
+        /// </summary>
         private static void ExpandState(
             BeamState state,
             IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,

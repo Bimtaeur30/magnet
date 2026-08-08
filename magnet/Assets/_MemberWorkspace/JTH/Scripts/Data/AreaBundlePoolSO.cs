@@ -3,11 +3,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Data
 {
-    /// <summary>
-    /// Area-번들 풀 + cascade 게이트.
-    /// Unique는 동적 UniqueUnlockGenerator (번들 리스트 미사용).
-    /// Area = size/변 base − k×직사각수.
-    /// </summary>
     [CreateAssetMenu(fileName = "AreaBundlePool", menuName = "Magnet/Area Bundle Pool")]
     public sealed class AreaBundlePoolSO : ScriptableObject
     {

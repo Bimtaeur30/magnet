@@ -5,10 +5,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
-    /// <summary>
-    /// 4-연결 찬/빈 Area(size·변) + 직사각 greedy 개수 패널티 + Area 개수 패널티.
-    /// 최종 = baseArea − rectCountPenalty×rectCount − areaCountPenalty×areaCount.
-    /// </summary>
     public static class AreaScoreCalculator
     {
         private static readonly Vector2Int[] Cardinals =
@@ -16,11 +12,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             new(1, 0), new(-1, 0), new(0, 1), new(0, -1)
         };
 
-        private static readonly AreaScoreTuning Fallback = AreaScoreTuning.GrillDefault();
-
-        public static AreaScoreResult Score(BoardGrid board, AreaScoreTuning tuning = null)
+        public static AreaScoreResult Score(BoardGrid board, AreaScoreTuning tuning)
         {
-            tuning ??= Fallback;
             int n = board.BoardSize;
             int cellCount = n * n;
             bool[,] visited = new bool[n, n];
@@ -102,9 +95,11 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return new AreaComponentScore(occupied, size, sideCount, baseScore, sideBonus);
         }
 
-        public static float ScoreEmpty(int size, int boardCellCount, AreaScoreTuning tuning = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        public static float ScoreEmpty(int size, int boardCellCount, AreaScoreTuning tuning)
         {
-            tuning ??= Fallback;
             if (size <= tuning.emptyTinyMaxSize)
             {
                 return tuning.emptyTinyPenalty;
@@ -119,9 +114,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return tuning.emptyFullScore * (size - (tuning.emptyTinyMaxSize + 1)) / span;
         }
 
-        public static float ScoreFilled(int size, int boardCellCount, AreaScoreTuning tuning = null)
+        public static float ScoreFilled(int size, int boardCellCount, AreaScoreTuning tuning)
         {
-            tuning ??= Fallback;
             if (size <= tuning.filledTinyMaxSize)
             {
                 return tuning.filledTinyPenalty;
@@ -136,9 +130,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return tuning.filledFullScore * (size - (tuning.filledTinyMaxSize + 1)) / span;
         }
 
-        public static float SideBonus(int sideCount, AreaScoreTuning tuning = null)
+        public static float SideBonus(int sideCount, AreaScoreTuning tuning)
         {
-            tuning ??= Fallback;
             if (sideCount <= tuning.sideBonusIdealMax)
             {
                 return tuning.sideBonusAtIdeal;
@@ -287,6 +280,10 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             }
         }
 
+        /// <summary>
+        /// startX와 startY부터 시작해서 그 곳이 visited가 false라면 Area를 하나 만들어서 반환한다. 만약 텅 빈 보드라면 처음에
+        /// Area가 0,0에서부터 시작해서 BFS를 사용해 끝까지 하나의 Area로 묶은 후 좌표들을 반환.
+        /// </summary>
         private static List<Vector2Int> Flood(BoardGrid board, bool[,] visited, int startX, int startY, bool occupied)
         {
             int n = board.BoardSize;
@@ -323,9 +320,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return cells;
         }
 
-        /// <summary>
-        /// 직교 다각형의 직선 변 개수 — 경계 단위 변을 같은 방향·연속이면 하나로 합친 개수.
-        /// </summary>
         public static int CountOrthogonalSides(IReadOnlyList<Vector2Int> cells)
         {
             HashSet<Vector2Int> set = new(cells);

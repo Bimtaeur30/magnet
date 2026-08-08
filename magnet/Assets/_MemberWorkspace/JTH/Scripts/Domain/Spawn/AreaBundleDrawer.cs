@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Domain.Spawn
 {
-    /// <summary>Area-번들 cascade Drawer.</summary>
     public sealed class AreaBundleDrawer : AbstractDrawer
     {
         private readonly AreaBundleSpawn.AreaBundleOrchestrator _orchestrator;

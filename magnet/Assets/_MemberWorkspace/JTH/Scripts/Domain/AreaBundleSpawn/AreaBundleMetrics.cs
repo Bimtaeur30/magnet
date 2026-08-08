@@ -22,10 +22,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         }
     }
 
-    /// <summary>
-    /// 완주 시퀀스 개수·데스카운트·완주 후 최대 Area.
-    /// death: 완주 불능이 되는 (블록,위치)만 +1, 그 하위는 비탐색.
-    /// </summary>
     public static class AreaBundleMetrics
     {
         public static int CountSequences(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces, int cap) =>
@@ -107,7 +103,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
                         if (remaining == 1)
                         {
-                            // 마지막 블록을 성공적으로 둠 — 죽음 아님
                         }
                         else if (!PlacementSolver.FullSequenceExists(next, RemainingPieces(pieces, used)))
                         {
