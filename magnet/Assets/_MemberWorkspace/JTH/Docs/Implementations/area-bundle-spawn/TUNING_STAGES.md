@@ -10,22 +10,25 @@
 | `areaCountPenalty` | **4** | 4-연결 Area(찬+빈) 개수 패널티 — 영역 적을수록 Total↑ |
 | `emptyTinyPenalty` | **−15** | R3-4 구멍 관대 |
 | `filledTinyPenalty` | **−8** | R3-4 |
-| 나머지 base | 블렌드 3:2:1 | emptyFull 107 · filledFull 67 · side 14/5 … |
+| 나머지 base | 블렌드 3:2:1 | emptyFull 107 · filledFull 67 … |
 | `uniqueAreaThreshold` | **−15** | −25는 Unique 부족 → 약간 완화 |
 | `uniqueProbability` | **0.45** | 0.35→조금 더 |
 
-**점수:** `base − 4×rectCount − 4×areaCount`
+**점수:** `base − 4×rectCount − 4×areaCount`  
+~~변(side) 보너스~~ — Phase17에서 제거 (직사각 개수와 역할 중복)
 
 ## Clear Priority (Phase 9)
 
 | 항목 | 값 | 근거 |
 |------|-----|------|
-| `allClearProbability` | **0.75** | grill — 올클 가능 시 지급 변덕 |
+| `allClearProbability` | **0.75** | grill — Exact 통과 시 지급 변덕 |
 | `allClearCooldownTurns` | **1** | 무한 올클 방지 (+ 빈 보드 스킵) |
-| `multiClearHardMinLines` | **6** | 6줄 미만 Clear Priority 무시 → Area |
-| ~~`multiClearSoftMinLines`~~ | — | **삭제** (Phase 13) |
-| ~~`multiClearSoftProbability`~~ | — | **삭제** (Phase 13) |
-| `outcomeBeamWidth` | **4** | 클리어·올클 빔 추정 |
+| `allClearMaxOccupied` | **16** | 이 점유 이하에서만 올클 고정 풀 Exact |
+| `allClearBundles` | **12** | Blocks2 대형·고빈도 핸드 고정 |
+| ~~`multiClearHardMinLines`~~ | — | **삭제** (Phase 20 → Hospitality) |
+| `hospitalityContourMinFill` | **0.7** | 구멍 8이웃 윤곽 채움 하한 |
+| `hospitalityProbability` | **0.35** | 접대 후보 있을 때 지급 확률 |
+| `outcomeBeamWidth` | **4** | Normal Area용 클리어 추정 (올클·Hospitality Exact는 미사용) |
 
 ---
 
@@ -40,14 +43,13 @@
 
 ---
 
-## size/변 블렌드 (확정에 포함)
+## size 블렌드 (확정에 포함)
 
 | 필드 | 값 |
 |------|---:|
 | emptyFullScore | 107 |
 | filledFullScore | 67 |
-| sideBonusAtIdeal | 14 |
-| sideBonusPerTwoSides | 5 |
 | emptyTinyMaxSize | 3 |
 | filledTinyMaxSize | 2 |
-| sideBonusIdealMax | 4 |
+
+~~sideBonus*~~ — Phase17 제거

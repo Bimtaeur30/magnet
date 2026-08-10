@@ -44,7 +44,7 @@
 
 | [hybrid-spawn-algorithm](./Implementations/hybrid-spawn-algorithm/phases.md) | 하이브리드 스폰 (핸드오프 체인 기본 + 특수 티어 5종 게이트 · 42-ID 통일) | — | phase2 완료 | **Deprecated** (코드 제거 · area-bundle-spawn으로 교체) |
 
-| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (Normal 전수 평등 · MultiClear≥6 · 324) | — | **phase15 완료** | **구현됨 (현재 배선)** |
+| [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (구멍 접대 allowlist·올클 Exact) | — | **phase22 완료** | **구현됨 (현재 배선)** |
 
 | [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (림+스파크) | — | **phase1 완료** | **구현됨** |
 
