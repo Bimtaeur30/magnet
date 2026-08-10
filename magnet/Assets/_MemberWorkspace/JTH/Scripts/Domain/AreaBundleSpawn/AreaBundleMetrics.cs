@@ -30,6 +30,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public static bool CanSurvive(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces) =>
             PlacementSolver.FullSequenceExists(board, pieces);
 
+        public static bool CanEmptyBoard(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            int sequenceCap)
+        {
+            if (pieces == null || pieces.Count == 0)
+            {
+                return false;
+            }
+
+            string[] signatures = BuildSignatures(pieces);
+            bool[] used = new bool[pieces.Count];
+            int found = 0;
+            return SearchEmpty(board, pieces, signatures, used, 0, sequenceCap, ref found);
+        }
+
         public static float MaxAreaAfterFullSequence(
             BoardGrid board,
             IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
@@ -204,6 +220,93 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
                 used[i] = false;
             }
+        }
+
+        private static bool SearchEmpty(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            string[] signatures,
+            bool[] used,
+            int placedCount,
+            int cap,
+            ref int found)
+        {
+            if (found >= cap)
+            {
+                return false;
+            }
+
+            if (placedCount == pieces.Count)
+            {
+                ++found;
+                return CountOccupiedCells(board) == 0;
+            }
+
+            HashSet<string> tried = new();
+            int size = board.BoardSize;
+            Vector2Int pivot = Vector2Int.zero;
+
+            for (int i = 0; i < pieces.Count; ++i)
+            {
+                if (used[i] || !tried.Add(signatures[i]))
+                {
+                    continue;
+                }
+
+                used[i] = true;
+                IReadOnlyList<Vector2Int> offsets = pieces[i];
+                for (int x = 0; x < size; ++x)
+                {
+                    for (int y = 0; y < size; ++y)
+                    {
+                        pivot.x = x;
+                        pivot.y = y;
+                        if (!PlacementService.CanPlace(offsets, pivot, board))
+                        {
+                            continue;
+                        }
+
+                        BoardGrid next = board.Clone();
+                        PlacementSimulator.PlaceAndClear(next, offsets, pivot);
+                        if (SearchEmpty(next, pieces, signatures, used, placedCount + 1, cap, ref found))
+                        {
+                            used[i] = false;
+                            return true;
+                        }
+
+                        if (found >= cap)
+                        {
+                            used[i] = false;
+                            return false;
+                        }
+                    }
+                }
+
+                used[i] = false;
+            }
+
+            return false;
+        }
+
+        private static int CountOccupiedCells(BoardGrid board)
+        {
+            int n = board.BoardSize;
+            int count = 0;
+            Vector2Int cell = Vector2Int.zero;
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    cell.x = x;
+                    cell.y = y;
+                    if (board.IsOccupied(cell))
+                    {
+                        ++count;
+                    }
+                }
+            }
+
+            return count;
         }
 
         private static string[] BuildSignatures(IReadOnlyList<IReadOnlyList<Vector2Int>> pieces)

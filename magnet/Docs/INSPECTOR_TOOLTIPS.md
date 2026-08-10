@@ -146,8 +146,13 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/AreaBundlePoolSO.cs` | `outcomeBeamWidth` | 완주 클리어·올클 추정 빔 폭 (권장 4~8) |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `allClearProbability` | 올클 가능 후보가 있을 때 그 패를 줄 확률 (권장 0.75). 낙첨 시 올클 후보는 이번 턴 제외 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `allClearCooldownTurns` | 올클 패 지급 후 올클 최우선을 쉬는 턴 수 (권장 1). 빈 보드는 별도로 올클 검사 스킵 |
-| `Scripts/Data/AreaBundlePoolSO.cs` | `multiClearHardMinLines` | 멀티클리어 문턱: 완주 클리어가 이 줄 수 이상일 때만 Clear Priority (권장 6). 미만은 Area 최대로 넘김 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearBundles` | 올클 전용 고정 번들(소수). 점유 칸이 적을 때만 Exact 완주·비움 검사 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearMaxOccupied` | 점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 16). 빔 미사용 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityContourMinFill` | 접대: 4-연결 빈 구멍의 8이웃 윤곽 채움 비율 하한 (권장 0.7) |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityProbability` | 접대 후보(Exact 핏 번들)가 있을 때 지급 확률 (권장 0.35). 낙첨 시 Normal |
 | `Scripts/Data/AreaScoreTuning.cs` | `areaCountPenalty` | 4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐 |
+| `Scripts/Data/AreaScoreTuning.cs` | `rectCountPenalty` | 찬 칸 greedy 직사각 1개당 점수에서 빼는 양 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `areaScore` | 빈/찬 Area size + 찬 직사각·Area 개수 패널티 |
 
 ### JTH — `Assets/_MemberWorkspace/JTH/` (v0.6 · 일부 deprecated)
 
@@ -230,5 +235,10 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-08-02 | JTH ScoreConfigSO.EnemyDamageMultiplier — 적 데미지 전역 배수 |
 | 2026-08-02 | JTH HybridTuningSO·CellCountWeightTable — hybrid-spawn-algorithm 신규 필드 |
 | 2026-08-02 | JTH AreaBundlePoolSO — AllClear/MultiClear 우선 선택 필드 |
-| 2026-08-02 | JTH AreaScoreTuning.areaCountPenalty — Area 개수 패널티 |
+| 2026-08-05 | JTH AreaScoreTuning.areaCountPenalty — Phase16에서 제거했다가 Phase17에서 복구 |
+| 2026-08-08 | JTH AreaScoreTuning 변(side) 보너스 필드 제거 |
+| 2026-08-08 | JTH 직사각 패널티 — 찬 칸만 카운트 (빈 마스크 제외) |
+| 2026-08-10 | JTH AreaBundlePoolSO — allClearBundles·allClearMaxOccupied (고정 풀 Exact) |
+| 2026-08-10 | JTH multiClear 제거 · Hospitality(기회 피스) Clear Priority |
+| 2026-08-10 | JTH Hospitality — 구멍 윤곽≥70% Exact 핏 · p=0.75 |
 | 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |

@@ -4,7 +4,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
     {
         Unique,
         AllClear,
-        MultiClear,
+        Hospitality,
         Normal,
         Easy,
     }

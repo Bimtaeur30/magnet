@@ -33,20 +33,16 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
     public readonly struct AreaComponentScore
     {
-        public AreaComponentScore(bool occupied, int size, int sideCount, float baseScore, float sideBonus)
+        public AreaComponentScore(bool occupied, int size, float baseScore)
         {
             Occupied = occupied;
             Size = size;
-            SideCount = sideCount;
             BaseScore = baseScore;
-            SideBonus = sideBonus;
         }
 
         public bool Occupied { get; }
         public int Size { get; }
-        public int SideCount { get; }
         public float BaseScore { get; }
-        public float SideBonus { get; }
-        public float Total => BaseScore + SideBonus;
+        public float Total => BaseScore;
     }
 }

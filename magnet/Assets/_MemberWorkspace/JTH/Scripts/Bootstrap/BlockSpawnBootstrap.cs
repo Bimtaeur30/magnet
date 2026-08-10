@@ -131,7 +131,7 @@ namespace JTH.Scripts.Bootstrap
             {
                 (AreaBundleTier.Unique, _) => ("유일수", "#B388FF"),
                 (AreaBundleTier.AllClear, _) => ("올클리어", "#FFD54F"),
-                (AreaBundleTier.MultiClear, _) => ("멀티클리어", "#FF1744"),
+                (AreaBundleTier.Hospitality, _) => ("접대", "#FF1744"),
                 (AreaBundleTier.Easy, true) => ("Easy-랜덤", "#4FC3F7"),
                 (AreaBundleTier.Easy, false) => ("Easy", "#4FC3F7"),
                 (AreaBundleTier.Normal, true) => ("Normal-폴백중", "#FFAB40"),

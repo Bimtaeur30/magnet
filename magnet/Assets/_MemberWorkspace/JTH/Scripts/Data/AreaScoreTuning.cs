@@ -25,18 +25,8 @@ namespace JTH.Scripts.Data
         [Tooltip("보드 전부 찬 Area일 때 점수")]
         public float filledFullScore = 67f;
 
-        [Header("Side bonus (filled, base≥0 only)")]
-        [Tooltip("변 개수 ≤ 이 값이면 최대 보너스")]
-        public int sideBonusIdealMax = 4;
-
-        [Tooltip("이상 변 개수일 때 보너스")]
-        public float sideBonusAtIdeal = 14f;
-
-        [Tooltip("변 +2마다 깎는 양")]
-        public float sideBonusPerTwoSides = 5f;
-
         [Header("Rectangle count")]
-        [Tooltip("직사각(찬+빈 greedy) 1개당 점수에서 빼는 양")]
+        [Tooltip("찬 칸 greedy 직사각 1개당 점수에서 빼는 양")]
         public float rectCountPenalty = 4f;
 
         [Header("Area count")]

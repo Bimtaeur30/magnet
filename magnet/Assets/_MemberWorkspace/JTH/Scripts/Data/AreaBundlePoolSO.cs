@@ -13,8 +13,11 @@ namespace JTH.Scripts.Data
         [SerializeField, Tooltip("Easy 폴백 — 1x1 계열·소형. Relife 1턴도 사용")]
         private List<AreaBundleEntry> easyBundles = new();
 
+        [SerializeField, Tooltip("올클 전용 고정 번들(소수). 점유 칸이 적을 때만 Exact 완주·비움 검사")]
+        private List<AreaBundleEntry> allClearBundles = new();
+
         [Header("Area Score")]
-        [SerializeField, Tooltip("빈/찬 Area·변 보너스 + 직사각 개수 패널티")]
+        [SerializeField, Tooltip("빈/찬 Area size + 찬 직사각·Area 개수 패널티")]
         private AreaScoreTuning areaScore = new();
 
         [Header("Gate")]
@@ -42,18 +45,27 @@ namespace JTH.Scripts.Data
         private int outcomeBeamWidth = 4;
 
         [Header("Clear Priority (Normal)")]
-        [SerializeField, Tooltip("올클 가능 후보가 있을 때 그 패를 줄 확률 (권장 0.75). 낙첨 시 올클 후보는 이번 턴 제외")]
+        [SerializeField, Tooltip("점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 16). 빔 미사용")]
+        private int allClearMaxOccupied = 16;
+
+        [SerializeField, Tooltip("올클 풀 Exact 통과 후보가 있을 때 지급 확률 (권장 0.75)")]
         [Range(0f, 1f)]
         private float allClearProbability = 0.75f;
 
         [SerializeField, Tooltip("올클 패 지급 후 올클 최우선을 쉬는 턴 수 (권장 1). 빈 보드는 별도로 올클 검사 스킵")]
         private int allClearCooldownTurns = 1;
 
-        [SerializeField, Tooltip("멀티클리어 문턱: 완주 클리어가 이 줄 수 이상일 때만 Clear Priority (권장 6). 미만은 Area 최대로 넘김")]
-        private int multiClearHardMinLines = 6;
+        [SerializeField, Tooltip("접대: 구멍 8이웃 윤곽 채움 비율 하한 (권장 0.7)")]
+        [Range(0f, 1f)]
+        private float hospitalityContourMinFill = 0.7f;
+
+        [SerializeField, Tooltip("접대 후보가 있을 때 지급 확률 (권장 0.35). 낙첨 시 이번 턴 Normal")]
+        [Range(0f, 1f)]
+        private float hospitalityProbability = 0.35f;
 
         public IReadOnlyList<AreaBundleEntry> NormalBundles => normalBundles;
         public IReadOnlyList<AreaBundleEntry> EasyBundles => easyBundles;
+        public IReadOnlyList<AreaBundleEntry> AllClearBundles => allClearBundles;
         public AreaScoreTuning AreaScore => areaScore ??= new AreaScoreTuning();
         public float UniqueAreaThreshold => uniqueAreaThreshold;
         public float UniqueProbability => uniqueProbability;
@@ -62,16 +74,19 @@ namespace JTH.Scripts.Data
         public int MaxCandidatesToScore => maxCandidatesToScore < 1 ? 1 : maxCandidatesToScore;
         public int MaxSequencesPerBundle => maxSequencesPerBundle < 1 ? 1 : maxSequencesPerBundle;
         public int OutcomeBeamWidth => outcomeBeamWidth < 1 ? 1 : outcomeBeamWidth;
+        public int AllClearMaxOccupied => allClearMaxOccupied < 1 ? 1 : allClearMaxOccupied;
         public float AllClearProbability => allClearProbability;
         public int AllClearCooldownTurns => allClearCooldownTurns < 0 ? 0 : allClearCooldownTurns;
-        public int MultiClearHardMinLines => multiClearHardMinLines < 1 ? 1 : multiClearHardMinLines;
+        public float HospitalityContourMinFill => hospitalityContourMinFill;
+        public float HospitalityProbability => hospitalityProbability;
 
 #if UNITY_EDITOR
-        [ContextMenu("Fill Starter Normal+Easy Bundles")]
+        [ContextMenu("Fill Starter Normal+Easy+AllClear Bundles")]
         private void FillStarterBundles()
         {
             normalBundles = AreaBundleStarterData.CreateNormal();
             easyBundles = AreaBundleStarterData.CreateEasy();
+            allClearBundles = AreaBundleStarterData.CreateAllClear();
             UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif

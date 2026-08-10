@@ -4,6 +4,26 @@ namespace JTH.Scripts.Data
 {
     public static class AreaBundleStarterData
     {
+        public static List<AreaBundleEntry> CreateAllClear()
+        {
+            // Blocks2 관측 핸드 중: 대형(13/35/36/11/22) 포함 + 셀수·빈도 우선, Exact 검증용 12개.
+            return new List<AreaBundleEntry>
+            {
+                E("ac01", 13, 13, 9, 5),
+                E("ac02", 7, 13, 13, 2),
+                E("ac03", 35, 7, 35, 2),
+                E("ac04", 35, 13, 22, 1),
+                E("ac05", 35, 13, 12, 1),
+                E("ac06", 36, 22, 13, 1),
+                E("ac07", 13, 25, 13, 1),
+                E("ac08", 11, 30, 35, 1),
+                E("ac09", 35, 13, 36, 1),
+                E("ac10", 13, 13, 35, 1),
+                E("ac11", 22, 13, 13, 1),
+                E("ac12", 9, 17, 13, 1),
+            };
+        }
+
         public static List<AreaBundleEntry> CreateEasy()
         {
             return new List<AreaBundleEntry>

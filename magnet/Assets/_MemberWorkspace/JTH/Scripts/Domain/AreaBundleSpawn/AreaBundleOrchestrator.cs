@@ -144,51 +144,40 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 --_allClearCooldownRemaining;
             }
 
-            List<ScoredCandidate> scored = ScoreSurvivors(board, list);
-            if (scored.Count == 0)
-            {
-                return null;
-            }
-
-            bool boardEmpty = CountOccupied(board) == 0;
-            bool canTryAllClear = !boardEmpty && !onCooldown;
+            int occupied = CountOccupied(board);
+            bool boardEmpty = occupied == 0;
+            bool canTryAllClear = !boardEmpty
+                && !onCooldown
+                && occupied <= _pool.AllClearMaxOccupied
+                && _pool.AllClearBundles != null
+                && _pool.AllClearBundles.Count > 0;
 
             if (canTryAllClear)
             {
-                List<ScoredCandidate> allClear = FilterBoardEmptied(scored);
-                if (allClear.Count > 0)
+                AreaBundleSelectionResult allClear = TrySelectAllClearExact(board, boardArea, reasonPrefix);
+                if (allClear != null)
                 {
                     if (_rng.NextDouble() < _pool.AllClearProbability)
                     {
-                        ScoredCandidate pick = PickMaxClears(allClear);
                         _allClearCooldownRemaining = _pool.AllClearCooldownTurns;
-                        return ToResult(
-                            pick,
-                            AreaBundleTier.AllClear,
-                            boardArea,
-                            $"{reasonPrefix} · AllClear p={_pool.AllClearProbability:P0} bundle={pick.Entry.BundleId}"
-                            + $" clears={pick.TotalClears}");
-                    }
-
-                    scored = ExcludeBoardEmptied(scored);
-                    if (scored.Count == 0)
-                    {
-                        return null;
+                        return allClear;
                     }
                 }
             }
 
-            int hardMin = _pool.MultiClearHardMinLines;
-            List<ScoredCandidate> multi = FilterMinClears(scored, hardMin);
-            if (multi.Count > 0)
+            AreaBundleSelectionResult hospitality = TrySelectHospitality(board, boardArea, list, reasonPrefix);
+            if (hospitality != null)
             {
-                ScoredCandidate pick = PickMaxClears(multi);
-                return ToResult(
-                    pick,
-                    AreaBundleTier.MultiClear,
-                    boardArea,
-                    $"{reasonPrefix} · MultiClear clears={pick.TotalClears} (≥{hardMin})"
-                    + $" bundle={pick.Entry.BundleId}");
+                if (_rng.NextDouble() < _pool.HospitalityProbability)
+                {
+                    return hospitality;
+                }
+            }
+
+            List<ScoredCandidate> scored = ScoreSurvivors(board, list);
+            if (scored.Count == 0)
+            {
+                return null;
             }
 
             ScoredCandidate areaPick = PickMaxArea(scored);
@@ -197,6 +186,158 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 AreaBundleTier.Normal,
                 boardArea,
                 $"{reasonPrefix} · maxArea bundle={areaPick.Entry.BundleId} pred={areaPick.PredictedArea:F1}");
+        }
+
+        private AreaBundleSelectionResult TrySelectHospitality(
+            BoardGrid board,
+            float boardArea,
+            IReadOnlyList<AreaBundleEntry> list,
+            string reasonPrefix)
+        {
+            List<HospitalityHole> holes = OpportunityDetector.FindQualifyingHoles(
+                board, _pool.HospitalityContourMinFill);
+            if (holes.Count == 0)
+            {
+                return null;
+            }
+
+            List<AreaBundleEntry> matching = new();
+            foreach (AreaBundleEntry entry in list)
+            {
+                if (OpportunityDetector.SumFittingWeight(entry, holes) > 0f)
+                {
+                    matching.Add(entry);
+                }
+            }
+
+            if (matching.Count == 0)
+            {
+                return null;
+            }
+
+            List<AreaBundleEntry> candidates = SampleCandidates(matching);
+            AreaBundleEntry best = null;
+            List<IReadOnlyList<Vector2Int>> bestPieces = null;
+            int bestSeq = 0;
+            float bestPred = float.NegativeInfinity;
+            float bestFitWeight = 0f;
+
+            foreach (AreaBundleEntry entry in candidates)
+            {
+                List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(entry);
+                if (!AreaBundleMetrics.CanSurvive(board, pieces))
+                {
+                    continue;
+                }
+
+                float predicted = AreaBundleMetrics.MaxAreaAfterFullSequence(
+                    board, pieces, _pool.MaxSequencesPerBundle, out bool any, _pool.AreaScore);
+                if (!any)
+                {
+                    continue;
+                }
+
+                float fitWeight = OpportunityDetector.SumFittingWeight(entry, holes);
+                int seq = AreaBundleMetrics.CountSequences(board, pieces, _pool.MaxSequencesPerBundle);
+                int holeCmp = best == null ? 1 : OpportunityDetector.CompareHoleCoverage(entry, best, holes);
+                bool better = best == null
+                    || holeCmp > 0
+                    || (holeCmp == 0 && predicted > bestPred);
+
+                if (better)
+                {
+                    best = entry;
+                    bestPieces = pieces;
+                    bestPred = predicted;
+                    bestSeq = seq;
+                    bestFitWeight = fitWeight;
+                }
+            }
+
+            if (best == null)
+            {
+                return null;
+            }
+
+            string holeSummary = FormatHoleSummary(holes);
+            return new AreaBundleSelectionResult(
+                bestPieces,
+                best.Ids,
+                AreaBundleTier.Hospitality,
+                best.BundleId,
+                boardArea,
+                bestPred,
+                bestSeq,
+                deathCount: 0,
+                isKillHand: false,
+                reason: $"{reasonPrefix} · Hospitality holes={holeSummary} fitW={bestFitWeight:F1}"
+                    + $" p={_pool.HospitalityProbability:P0} bundle={best.BundleId} pred={bestPred:F1}");
+        }
+
+        private static string FormatHoleSummary(IReadOnlyList<HospitalityHole> holes)
+        {
+            List<string> parts = new(holes.Count);
+            for (int i = 0; i < holes.Count; ++i)
+            {
+                HospitalityHole h = holes[i];
+                parts.Add($"{h.Cells.Count}@{h.ContourFill:P0}");
+            }
+
+            return $"[{string.Join(",", parts)}]";
+        }
+
+        private AreaBundleSelectionResult TrySelectAllClearExact(
+            BoardGrid board,
+            float boardArea,
+            string reasonPrefix)
+        {
+            AreaBundleEntry best = null;
+            List<IReadOnlyList<Vector2Int>> bestPieces = null;
+            int bestSeq = 0;
+            float bestPred = float.NegativeInfinity;
+
+            foreach (AreaBundleEntry entry in _pool.AllClearBundles)
+            {
+                List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(entry);
+                if (!AreaBundleMetrics.CanEmptyBoard(board, pieces, _pool.MaxSequencesPerBundle))
+                {
+                    continue;
+                }
+
+                float predicted = AreaBundleMetrics.MaxAreaAfterFullSequence(
+                    board, pieces, _pool.MaxSequencesPerBundle, out bool any, _pool.AreaScore);
+                if (!any)
+                {
+                    continue;
+                }
+
+                int seq = AreaBundleMetrics.CountSequences(board, pieces, _pool.MaxSequencesPerBundle);
+                if (best == null || predicted > bestPred)
+                {
+                    best = entry;
+                    bestPieces = pieces;
+                    bestPred = predicted;
+                    bestSeq = seq;
+                }
+            }
+
+            if (best == null)
+            {
+                return null;
+            }
+
+            return new AreaBundleSelectionResult(
+                bestPieces,
+                best.Ids,
+                AreaBundleTier.AllClear,
+                best.BundleId,
+                boardArea,
+                bestPred,
+                bestSeq,
+                deathCount: 0,
+                isKillHand: false,
+                reason: $"{reasonPrefix} · AllClear fixed-pool Exact p={_pool.AllClearProbability:P0}"
+                    + $" occ≤{_pool.AllClearMaxOccupied} bundle={best.BundleId}");
         }
 
         private List<ScoredCandidate> ScoreSurvivors(BoardGrid board, IReadOnlyList<AreaBundleEntry> list)
@@ -301,64 +442,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 deathCount: 0,
                 isKillHand: false,
                 reason: reason);
-        }
-
-        private static List<ScoredCandidate> FilterBoardEmptied(List<ScoredCandidate> scored)
-        {
-            List<ScoredCandidate> list = new();
-            foreach (ScoredCandidate c in scored)
-            {
-                if (c.BoardEmptied)
-                {
-                    list.Add(c);
-                }
-            }
-
-            return list;
-        }
-
-        private static List<ScoredCandidate> ExcludeBoardEmptied(List<ScoredCandidate> scored)
-        {
-            List<ScoredCandidate> list = new();
-            foreach (ScoredCandidate c in scored)
-            {
-                if (!c.BoardEmptied)
-                {
-                    list.Add(c);
-                }
-            }
-
-            return list;
-        }
-
-        private static List<ScoredCandidate> FilterMinClears(List<ScoredCandidate> scored, int minLines)
-        {
-            List<ScoredCandidate> list = new();
-            foreach (ScoredCandidate c in scored)
-            {
-                if (c.TotalClears >= minLines)
-                {
-                    list.Add(c);
-                }
-            }
-
-            return list;
-        }
-
-        private static ScoredCandidate PickMaxClears(List<ScoredCandidate> list)
-        {
-            ScoredCandidate best = list[0];
-            for (int i = 1; i < list.Count; ++i)
-            {
-                ScoredCandidate c = list[i];
-                if (c.TotalClears > best.TotalClears
-                    || (c.TotalClears == best.TotalClears && c.PredictedArea > best.PredictedArea))
-                {
-                    best = c;
-                }
-            }
-
-            return best;
         }
 
         private static ScoredCandidate PickMaxArea(List<ScoredCandidate> list)

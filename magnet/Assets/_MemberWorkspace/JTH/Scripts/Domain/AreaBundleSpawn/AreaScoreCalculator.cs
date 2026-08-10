@@ -51,26 +51,23 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 areaCountPenalty);
         }
 
-        public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning = null) =>
+        public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning) =>
             Score(board, tuning).Total;
 
         public static int CountRectangles(BoardGrid board)
         {
             int n = board.BoardSize;
             bool[,] occupiedMask = new bool[n, n];
-            bool[,] emptyMask = new bool[n, n];
 
             for (int x = 0; x < n; ++x)
             {
                 for (int y = 0; y < n; ++y)
                 {
-                    bool occupied = board.IsOccupied(new Vector2Int(x, y));
-                    occupiedMask[x, y] = occupied;
-                    emptyMask[x, y] = !occupied;
+                    occupiedMask[x, y] = board.IsOccupied(new Vector2Int(x, y));
                 }
             }
 
-            return PartitionCount(occupiedMask) + PartitionCount(emptyMask);
+            return PartitionCount(occupiedMask);
         }
 
         private static AreaComponentScore ScoreComponent(
@@ -83,20 +80,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             float baseScore = occupied
                 ? ScoreFilled(size, boardCellCount, tuning)
                 : ScoreEmpty(size, boardCellCount, tuning);
-            int sideCount = 0;
-            float sideBonus = 0f;
-
-            if (occupied && baseScore >= 0f)
-            {
-                sideCount = CountOrthogonalSides(cells);
-                sideBonus = SideBonus(sideCount, tuning);
-            }
-
-            return new AreaComponentScore(occupied, size, sideCount, baseScore, sideBonus);
+            return new AreaComponentScore(occupied, size, baseScore);
         }
 
         /// <summary>
-        /// 
+        /// size ≤ emptyTinyMaxSize(tiny로 보는 최대 크기)면 고정 패널티.
+        /// 넘으면: (size − (emptyTinyMaxSize+1)) × emptyFullScore / (boardCellCount − (emptyTinyMaxSize+1)).
         /// </summary>
         public static float ScoreEmpty(int size, int boardCellCount, AreaScoreTuning tuning)
         {
@@ -114,6 +103,10 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return tuning.emptyFullScore * (size - (tuning.emptyTinyMaxSize + 1)) / span;
         }
 
+        /// <summary>
+        /// size ≤ filledTinyMaxSize(tiny로 보는 최대 크기)면 고정 패널티.
+        /// 넘으면: (size − (filledTinyMaxSize+1)) × filledFullScore / (boardCellCount − (filledTinyMaxSize+1)).
+        /// </summary>
         public static float ScoreFilled(int size, int boardCellCount, AreaScoreTuning tuning)
         {
             if (size <= tuning.filledTinyMaxSize)
@@ -128,17 +121,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             }
 
             return tuning.filledFullScore * (size - (tuning.filledTinyMaxSize + 1)) / span;
-        }
-
-        public static float SideBonus(int sideCount, AreaScoreTuning tuning)
-        {
-            if (sideCount <= tuning.sideBonusIdealMax)
-            {
-                return tuning.sideBonusAtIdeal;
-            }
-
-            return tuning.sideBonusAtIdeal
-                - tuning.sideBonusPerTwoSides * (sideCount - tuning.sideBonusIdealMax) / 2f;
         }
 
         private static int PartitionCount(bool[,] mask)
@@ -318,100 +300,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             }
 
             return cells;
-        }
-
-        public static int CountOrthogonalSides(IReadOnlyList<Vector2Int> cells)
-        {
-            HashSet<Vector2Int> set = new(cells);
-            HashSet<long> boundary = new();
-
-            foreach (Vector2Int c in cells)
-            {
-                if (!set.Contains(new Vector2Int(c.x, c.y - 1)))
-                {
-                    boundary.Add(PackEdge(c.x, c.y, 0));
-                }
-
-                if (!set.Contains(new Vector2Int(c.x, c.y + 1)))
-                {
-                    boundary.Add(PackEdge(c.x, c.y + 1, 0));
-                }
-
-                if (!set.Contains(new Vector2Int(c.x - 1, c.y)))
-                {
-                    boundary.Add(PackEdge(c.x, c.y, 1));
-                }
-
-                if (!set.Contains(new Vector2Int(c.x + 1, c.y)))
-                {
-                    boundary.Add(PackEdge(c.x + 1, c.y, 1));
-                }
-            }
-
-            Dictionary<long, long> parent = new();
-            foreach (long e in boundary)
-            {
-                parent[e] = e;
-            }
-
-            foreach (long e in boundary)
-            {
-                UnpackEdge(e, out int ax, out int ay, out int orient);
-                if (orient == 0)
-                {
-                    TryUnion(parent, boundary, e, PackEdge(ax - 1, ay, 0));
-                    TryUnion(parent, boundary, e, PackEdge(ax + 1, ay, 0));
-                }
-                else
-                {
-                    TryUnion(parent, boundary, e, PackEdge(ax, ay - 1, 1));
-                    TryUnion(parent, boundary, e, PackEdge(ax, ay + 1, 1));
-                }
-            }
-
-            HashSet<long> roots = new();
-            foreach (long e in boundary)
-            {
-                roots.Add(Find(parent, e));
-            }
-
-            return roots.Count;
-        }
-
-        private static void TryUnion(Dictionary<long, long> parent, HashSet<long> boundary, long a, long b)
-        {
-            if (!boundary.Contains(b))
-            {
-                return;
-            }
-
-            long ra = Find(parent, a);
-            long rb = Find(parent, b);
-            if (ra != rb)
-            {
-                parent[rb] = ra;
-            }
-        }
-
-        private static long Find(Dictionary<long, long> parent, long x)
-        {
-            long p = parent[x];
-            if (p != x)
-            {
-                parent[x] = Find(parent, p);
-            }
-
-            return parent[x];
-        }
-
-        private static long PackEdge(int a, int b, int orient) =>
-            ((long)(a + 512) << 22) | ((long)(b + 512) << 11) | (uint)orient;
-
-        private static void UnpackEdge(long packed, out int a, out int b, out int orient)
-        {
-            orient = (int)(packed & 1);
-            b = (int)((packed >> 11) & 0x7FF) - 512;
-            a = (int)((packed >> 22) & 0x7FF) - 512;
         }
     }
 }
