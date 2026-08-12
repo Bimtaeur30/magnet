@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using Magnet.Contracts;
+using UnityEngine;
 
 namespace Magnet.Core.Events
 {
@@ -27,10 +28,12 @@ namespace Magnet.Core.Events
     public sealed class ComboChangedEvent : GameEvent
     {
         public int Combo { get; private set; }
+        public Vector3 WorldPosition { get; private set; }
 
-        public ComboChangedEvent Init(int combo)
+        public ComboChangedEvent Init(int combo, Vector3 worldPosition)
         {
             Combo = combo;
+            WorldPosition = worldPosition;
             return this;
         }
     }

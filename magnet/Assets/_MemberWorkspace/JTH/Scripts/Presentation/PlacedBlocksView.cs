@@ -51,8 +51,7 @@ namespace JTH.Scripts.Presentation
         }
 
         /// <summary>
-        /// 스테이징 ShapeBlock을 칸 View로 분해·등록한다.
-        /// 같은 칸에 잔상이 있으면 풀로 되돌린 뒤 교체한다 (Grid↔뷰 불일치 방어).
+        /// 스테이징 ShapeBlock을 Y 스냅한 뒤 칸 View로 분해·등록한다.
         /// </summary>
         public void PlaceStagingBlock(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> gridOffsets)
         {
@@ -82,7 +81,6 @@ namespace JTH.Scripts.Presentation
             }
         }
 
-        /// <summary>보드에 올리지 못한 스테이징 칸을 풀로 되돌린다.</summary>
         public void ReturnBlocks(IReadOnlyList<Block> blocks)
         {
             if (blocks == null)

@@ -43,9 +43,6 @@ namespace JTH.Scripts.Presentation
             _blocksView.ClearLineClearHints();
         }
 
-        /// <summary>
-        /// 뷰를 먼저 등록한 뒤 Grid를 채운다. 뷰 등록 중 실패해도 Grid만 앞서 차지하지 않는다.
-        /// </summary>
         public void AddBlock(IReadOnlyList<Block> detached, IReadOnlyList<Vector2Int> gridOffsets)
         {
             _blocksView.PlaceStagingBlock(detached, gridOffsets);

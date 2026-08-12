@@ -2,9 +2,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Data
 {
-        /// <summary>
-        /// Area 점수식 튜닝 — 4-연결 size/변 + 직사각·Area 개수 패널티.
-        /// </summary>
     [System.Serializable]
     public sealed class AreaScoreTuning
     {
@@ -26,26 +23,14 @@ namespace JTH.Scripts.Data
         public float filledTinyPenalty = -8f;
 
         [Tooltip("보드 전부 찬 Area일 때 점수")]
-        public float filledFullScore = 67f;
+        public float filledFullScore = 0f;
 
-        [Header("Side bonus (filled, base≥0 only)")]
-        [Tooltip("변 개수 ≤ 이 값이면 최대 보너스")]
-        public int sideBonusIdealMax = 4;
-
-        [Tooltip("이상 변 개수일 때 보너스")]
-        public float sideBonusAtIdeal = 14f;
-
-        [Tooltip("변 +2마다 깎는 양")]
-        public float sideBonusPerTwoSides = 5f;
-
-        [Header("Rectangle count")]
-        [Tooltip("직사각(찬+빈 greedy) 1개당 점수에서 빼는 양")]
-        public float rectCountPenalty = 4f;
+        [Header("Corner cover rectangle")]
+        [Tooltip("네 모서리 기준·전 찬칸 덮개 직사각 중 최소 면적에 곱하는 패널티 계수")]
+        public float cornerRectPenalty = 0.6f;
 
         [Header("Area count")]
-        [Tooltip("4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐")]
+        [Tooltip("Area(찬=4연결+다리절단·빈=4연결) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐")]
         public float areaCountPenalty = 4f;
-
-        public static AreaScoreTuning GrillDefault() => new();
     }
 }

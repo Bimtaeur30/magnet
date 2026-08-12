@@ -1,0 +1,1247 @@
+{
+  "total_files": 46,
+  "analyzed": 46,
+  "duplicate_hands": 5,
+  "duplicate_rate": 0.109,
+  "pattern_counts": {
+    "one_blocked_two_free": 32,
+    "all_placeable": 12,
+    "multi_blocked": 2
+  },
+  "one_blocked_two_free": 32,
+  "obtf_alone_can_unlock": 10,
+  "obtf_both_unlock": 31,
+  "matches_user_rule_strong_A": 21,
+  "matches_weak_old_both_only": 31,
+  "non_match": 25,
+  "duplicate_files": [
+    "1960.jpg",
+    "1964.jpg",
+    "2022.jpg",
+    "2042.jpg",
+    "2103.jpg"
+  ],
+  "match_files": [
+    "1962.jpg",
+    "1966.jpg",
+    "1972.jpg",
+    "1980.jpg",
+    "1984.jpg",
+    "1990.jpg",
+    "1994.jpg",
+    "1998.jpg",
+    "2002.jpg",
+    "2020.jpg",
+    "2038.jpg",
+    "2040.jpg",
+    "2042.jpg",
+    "2046.jpg",
+    "2076.jpg",
+    "2078.jpg",
+    "2080.jpg",
+    "2095.jpg",
+    "2099.jpg",
+    "2101.jpg",
+    "2103.jpg"
+  ],
+  "obtf_but_alone_unlocks": [
+    "1916.jpg",
+    "1976.jpg",
+    "1978.jpg",
+    "1982.jpg",
+    "2030.jpg",
+    "2044.jpg",
+    "2084.jpg",
+    "2086.jpg",
+    "2092.jpg",
+    "2097.jpg"
+  ],
+  "hands": [
+    {
+      "ids": [
+        35,
+        33,
+        1
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        33,
+        1
+      ],
+      "alone0": true,
+      "alone1": true,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "1916.jpg",
+      "occupied": 29
+    },
+    {
+      "ids": [
+        17,
+        33,
+        33
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": true,
+      "duplicate_ids": [
+        33
+      ],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "1960.jpg",
+      "occupied": 33
+    },
+    {
+      "ids": [
+        13,
+        18,
+        5
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        18,
+        5
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1962.jpg",
+      "occupied": 23
+    },
+    {
+      "ids": [
+        17,
+        24,
+        24
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": true,
+      "duplicate_ids": [
+        24
+      ],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "1964.jpg",
+      "occupied": 32
+    },
+    {
+      "ids": [
+        36,
+        23,
+        15
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 36,
+      "unlock_ids": [
+        23,
+        15
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1966.jpg",
+      "occupied": 39
+    },
+    {
+      "ids": [
+        9,
+        17,
+        34
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 9,
+      "unlock_ids": [
+        17,
+        34
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1972.jpg",
+      "occupied": 39
+    },
+    {
+      "ids": [
+        13,
+        12,
+        2
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        12,
+        2
+      ],
+      "alone0": false,
+      "alone1": true,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "1976.jpg",
+      "occupied": 41
+    },
+    {
+      "ids": [
+        7,
+        5,
+        15
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 7,
+      "unlock_ids": [
+        5,
+        15
+      ],
+      "alone0": false,
+      "alone1": true,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "1978.jpg",
+      "occupied": 34
+    },
+    {
+      "ids": [
+        13,
+        28,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        28,
+        26
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1980.jpg",
+      "occupied": 35
+    },
+    {
+      "ids": [
+        11,
+        9,
+        2
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        9,
+        2
+      ],
+      "alone0": false,
+      "alone1": true,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "1982.jpg",
+      "occupied": 36
+    },
+    {
+      "ids": [
+        17,
+        9,
+        21
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 17,
+      "unlock_ids": [
+        9,
+        21
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1984.jpg",
+      "occupied": 41
+    },
+    {
+      "ids": [
+        12,
+        9,
+        19
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        9,
+        19
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1990.jpg",
+      "occupied": 38
+    },
+    {
+      "ids": [
+        12,
+        5,
+        23
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        5,
+        23
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1994.jpg",
+      "occupied": 38
+    },
+    {
+      "ids": [
+        18,
+        4,
+        17
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 18,
+      "unlock_ids": [
+        4,
+        17
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": false,
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "1996.jpg",
+      "occupied": 44
+    },
+    {
+      "ids": [
+        18,
+        16,
+        4
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 18,
+      "unlock_ids": [
+        16,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "1998.jpg",
+      "occupied": 40
+    },
+    {
+      "ids": [
+        12,
+        33,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        33,
+        20
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2002.jpg",
+      "occupied": 37
+    },
+    {
+      "ids": [
+        5,
+        9,
+        32
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2016.jpg",
+      "occupied": 28
+    },
+    {
+      "ids": [
+        17,
+        20,
+        32
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2018.jpg",
+      "occupied": 24
+    },
+    {
+      "ids": [
+        21,
+        5,
+        17
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        5,
+        17
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2020.jpg",
+      "occupied": 37
+    },
+    {
+      "ids": [
+        29,
+        17,
+        29
+      ],
+      "placeable": [
+        false,
+        true,
+        false
+      ],
+      "blocked_count": 2,
+      "has_duplicate": true,
+      "duplicate_ids": [
+        29
+      ],
+      "pattern": "multi_blocked",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2022.jpg",
+      "occupied": 50
+    },
+    {
+      "ids": [
+        34,
+        30,
+        13
+      ],
+      "placeable": [
+        false,
+        true,
+        false
+      ],
+      "blocked_count": 2,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "multi_blocked",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2024.jpg",
+      "occupied": 41
+    },
+    {
+      "ids": [
+        17,
+        4,
+        19
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2026.jpg",
+      "occupied": 35
+    },
+    {
+      "ids": [
+        4,
+        25,
+        32
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2028.jpg",
+      "occupied": 40
+    },
+    {
+      "ids": [
+        42,
+        19,
+        31
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 42,
+      "unlock_ids": [
+        19,
+        31
+      ],
+      "alone0": true,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2030.jpg",
+      "occupied": 44
+    },
+    {
+      "ids": [
+        4,
+        19,
+        38
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2032.jpg",
+      "occupied": 38
+    },
+    {
+      "ids": [
+        5,
+        4,
+        34
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2036.jpg",
+      "occupied": 42
+    },
+    {
+      "ids": [
+        13,
+        1,
+        34
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        1,
+        34
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2038.jpg",
+      "occupied": 32
+    },
+    {
+      "ids": [
+        12,
+        4,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        4,
+        32
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2040.jpg",
+      "occupied": 30
+    },
+    {
+      "ids": [
+        35,
+        5,
+        5
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "duplicate_ids": [
+        5
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        5,
+        5
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2042.jpg",
+      "occupied": 35
+    },
+    {
+      "ids": [
+        13,
+        5,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        5,
+        20
+      ],
+      "alone0": true,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2044.jpg",
+      "occupied": 31
+    },
+    {
+      "ids": [
+        13,
+        4,
+        19
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        4,
+        19
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2046.jpg",
+      "occupied": 33
+    },
+    {
+      "ids": [
+        12,
+        25,
+        42
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        25,
+        42
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2076.jpg",
+      "occupied": 36
+    },
+    {
+      "ids": [
+        21,
+        5,
+        24
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        5,
+        24
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2078.jpg",
+      "occupied": 37
+    },
+    {
+      "ids": [
+        21,
+        9,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        9,
+        32
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2080.jpg",
+      "occupied": 35
+    },
+    {
+      "ids": [
+        17,
+        25,
+        20
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2082.jpg",
+      "occupied": 32
+    },
+    {
+      "ids": [
+        35,
+        20,
+        12
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        20,
+        12
+      ],
+      "alone0": true,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2084.jpg",
+      "occupied": 39
+    },
+    {
+      "ids": [
+        35,
+        21,
+        4
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        21,
+        4
+      ],
+      "alone0": true,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2086.jpg",
+      "occupied": 34
+    },
+    {
+      "ids": [
+        4,
+        36,
+        13
+      ],
+      "placeable": [
+        true,
+        true,
+        false
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        4,
+        36
+      ],
+      "alone0": true,
+      "alone1": true,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2092.jpg",
+      "occupied": 34
+    },
+    {
+      "ids": [
+        13,
+        17,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        17,
+        26
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2095.jpg",
+      "occupied": 27
+    },
+    {
+      "ids": [
+        35,
+        36,
+        21
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        36,
+        21
+      ],
+      "alone0": true,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": false,
+      "matches_weak_old": true,
+      "file": "2097.jpg",
+      "occupied": 36
+    },
+    {
+      "ids": [
+        33,
+        4,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 33,
+      "unlock_ids": [
+        4,
+        26
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2099.jpg",
+      "occupied": 41
+    },
+    {
+      "ids": [
+        21,
+        9,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        9,
+        20
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2101.jpg",
+      "occupied": 30
+    },
+    {
+      "ids": [
+        33,
+        9,
+        9
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "duplicate_ids": [
+        9
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 33,
+      "unlock_ids": [
+        9,
+        9
+      ],
+      "alone0": false,
+      "alone1": false,
+      "both_unlock": true,
+      "matches_user_rule": true,
+      "matches_weak_old": true,
+      "file": "2103.jpg",
+      "occupied": 39
+    },
+    {
+      "ids": [
+        4,
+        9,
+        5
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2105.jpg",
+      "occupied": 35
+    },
+    {
+      "ids": [
+        4,
+        17,
+        14
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2107.jpg",
+      "occupied": 41
+    },
+    {
+      "ids": [
+        12,
+        30,
+        5
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "duplicate_ids": [],
+      "pattern": "all_placeable",
+      "matches_user_rule": false,
+      "matches_weak_old": false,
+      "file": "2109.jpg",
+      "occupied": 44
+    }
+  ]
+}

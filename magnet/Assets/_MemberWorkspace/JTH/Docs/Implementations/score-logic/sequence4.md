@@ -30,3 +30,26 @@
 
 **메모** — 웨이브마다 개별 Raise하지 않음. 배치 1회 반영 후 최종 콤보만 쏨 (`ScoreChanged`와 동일 단위).
 ---
+## 2 — 2026-08-12 · ComboChangedEvent에 터진 위치
+
+**바뀐 것** — 콤보 변경 이벤트에 월드 위치 벡터를 추가. 클리어 칸 중심(없으면 배치 블록 중심)을 Raise한다.
+
+**변경 상세 (왜/무엇)**  
+- 파일: `Assets/_Shared/Magnet.Core/Events/MagnetGameEvents.cs`
+  - 심볼: `ComboChangedEvent.WorldPosition` — 프로퍼티 (추가)
+    - 설명: Raise 시점의 콤보 터진 월드 좌표.
+    - 이유: 콤보 UI·연출이 숫자뿐 아니라 발생 위치에서 띄울 수 있게.
+  - 심볼: `ComboChangedEvent.Init(int combo, Vector3 worldPosition)` — 메서드 (수정)
+    - 설명: `Combo`와 `WorldPosition`을 설정하고 `this`를 반환한다.
+    - 이유: 기존 Init 패턴 유지하면서 위치 payload를 계약에 포함.
+- 파일: `Assets/_MemberWorkspace/JTH/Scripts/Bootstrap/TurnBootstrap.cs`
+  - 심볼: `TurnBootstrap.RaiseComboChangedIfNeeded` — 메서드 (수정)
+    - 설명: `PlacementResult`로 위치를 구한 뒤 `Init(comboAfter, worldPosition)`을 Raise한다.
+    - 이유: 구독자가 배치/클리어 맥락의 월드 좌표를 받게.
+  - 심볼: `TurnBootstrap.ResolveComboWorldPosition` — 메서드 (추가)
+    - 설명: 클리어 칸 AABB 월드 중심을 반환하고, 클리어가 없으면 배치 칸 중심으로 폴백한다.
+    - 이유: 「콤보 터진 위치」는 클리어 중심이 맞고, 콤보 리셋(무클리어)에도 의미 있는 좌표를 준다.
+  - 심볼: `TurnBootstrap.ExpandBounds` — 메서드 (추가)
+    - 설명: 그리드 min/max 경계를 한 칸씩 확장한다.
+    - 이유: 클리어·배치 경로에서 동일 AABB 계산을 재사용.
+---

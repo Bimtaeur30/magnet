@@ -22,10 +22,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         }
     }
 
-    /// <summary>
-    /// 완주 시퀀스 개수·데스카운트·완주 후 최대 Area.
-    /// death: 완주 불능이 되는 (블록,위치)만 +1, 그 하위는 비탐색.
-    /// </summary>
     public static class AreaBundleMetrics
     {
         public static int CountSequences(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces, int cap) =>
@@ -33,6 +29,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
         public static bool CanSurvive(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces) =>
             PlacementSolver.FullSequenceExists(board, pieces);
+
+        public static bool CanEmptyBoard(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            int sequenceCap)
+        {
+            if (pieces == null || pieces.Count == 0)
+            {
+                return false;
+            }
+
+            string[] signatures = BuildSignatures(pieces);
+            bool[] used = new bool[pieces.Count];
+            int found = 0;
+            return SearchEmpty(board, pieces, signatures, used, 0, sequenceCap, ref found);
+        }
 
         public static float MaxAreaAfterFullSequence(
             BoardGrid board,
@@ -46,23 +58,134 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             string[] signatures = BuildSignatures(pieces);
             bool[] used = new bool[pieces.Count];
             int found = 0;
-            SearchMaxArea(board, pieces, signatures, used, 0, sequenceCap, tuning, ref found, ref best, ref any);
+            BoardGrid bestBoard = null;
+            List<AreaBundleExplainStep> path = new(pieces.Count);
+            List<AreaBundleExplainStep> bestPath = null;
+            SearchMaxArea(
+                board,
+                pieces,
+                signatures,
+                used,
+                0,
+                sequenceCap,
+                tuning,
+                path,
+                ref found,
+                ref best,
+                ref any,
+                ref bestBoard,
+                ref bestPath);
             return any ? best : float.NegativeInfinity;
         }
 
-        public static int CountDeaths(BoardGrid board, IReadOnlyList<IReadOnlyList<Vector2Int>> pieces)
+        /// <summary>
+        /// MaxArea 우승 시퀀스를 적용한 보드. 없으면 false.
+        /// </summary>
+        public static bool TryGetBoardAfterBestSequence(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            int sequenceCap,
+            AreaScoreTuning tuning,
+            out BoardGrid afterBest,
+            out float bestArea)
         {
-            string[] signatures = BuildSignatures(pieces);
-            bool[] used = new bool[pieces.Count];
-            return CountDeathsRecursive(board, pieces, signatures, used);
+            return TryGetBestSequenceExplain(
+                board, pieces, sequenceCap, tuning, out afterBest, out bestArea, out _);
         }
 
-        private static int CountDeathsRecursive(
+        /// <summary>
+        /// MaxArea 우승 시퀀스 + 시뮬 배치 스텝. 없으면 false.
+        /// </summary>
+        public static bool TryGetBestSequenceExplain(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            int sequenceCap,
+            AreaScoreTuning tuning,
+            out BoardGrid afterBest,
+            out float bestArea,
+            out List<AreaBundleExplainStep> explainSteps)
+        {
+            afterBest = null;
+            bestArea = float.NegativeInfinity;
+            explainSteps = null;
+            bool any = false;
+            string[] signatures = BuildSignatures(pieces);
+            bool[] used = new bool[pieces.Count];
+            int found = 0;
+            BoardGrid bestBoard = null;
+            List<AreaBundleExplainStep> path = new(pieces.Count);
+            List<AreaBundleExplainStep> bestPath = null;
+            SearchMaxArea(
+                board,
+                pieces,
+                signatures,
+                used,
+                0,
+                sequenceCap,
+                tuning,
+                path,
+                ref found,
+                ref bestArea,
+                ref any,
+                ref bestBoard,
+                ref bestPath);
+            if (!any || bestBoard == null)
+            {
+                return false;
+            }
+
+            afterBest = bestBoard;
+            explainSteps = bestPath ?? new List<AreaBundleExplainStep>();
+            return true;
+        }
+
+        /// <summary>
+        /// Death %. <paramref name="branchBudget"/> &gt; 0 이면 분모가 예산을 넘는 순간 중단.
+        /// Normal/Easy 배제용. 로그 미사용.
+        /// </summary>
+        /// <param name="budgetExceeded">예산 초과로 조기 종료(선택 시 통과 처리).</param>
+        public static float CountDeathPercent(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            int branchBudget,
+            out int branches,
+            out bool budgetExceeded)
+        {
+            branches = 0;
+            budgetExceeded = false;
+            if (pieces == null || pieces.Count == 0)
+            {
+                return 0f;
+            }
+
+            string[] signatures = BuildSignatures(pieces);
+            bool[] used = new bool[pieces.Count];
+            int deaths = 0;
+            AccumulateDeaths(
+                board, pieces, signatures, used, branchBudget, ref deaths, ref branches, ref budgetExceeded);
+            if (branches <= 0)
+            {
+                return 0f;
+            }
+
+            return 100f * deaths / branches;
+        }
+
+        private static void AccumulateDeaths(
             BoardGrid board,
             IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
             string[] signatures,
-            bool[] used)
+            bool[] used,
+            int branchBudget,
+            ref int deaths,
+            ref int branches,
+            ref bool budgetExceeded)
         {
+            if (budgetExceeded)
+            {
+                return;
+            }
+
             int remaining = 0;
             for (int i = 0; i < used.Length; ++i)
             {
@@ -72,18 +195,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 }
             }
 
-            if (remaining == 0)
+            if (remaining <= 1)
             {
-                return 0;
+                return;
             }
 
-            int deaths = 0;
             HashSet<string> tried = new();
             int size = board.BoardSize;
             Vector2Int pivot = Vector2Int.zero;
 
             for (int i = 0; i < pieces.Count; ++i)
             {
+                if (budgetExceeded)
+                {
+                    return;
+                }
+
                 if (used[i] || !tried.Add(signatures[i]))
                 {
                     continue;
@@ -94,6 +221,11 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 {
                     for (int y = 0; y < size; ++y)
                     {
+                        if (budgetExceeded)
+                        {
+                            return;
+                        }
+
                         pivot.x = x;
                         pivot.y = y;
                         if (!PlacementService.CanPlace(offsets, pivot, board))
@@ -104,26 +236,40 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                         BoardGrid next = board.Clone();
                         PlacementSimulator.PlaceAndClear(next, offsets, pivot);
                         used[i] = true;
+                        ++branches;
 
-                        if (remaining == 1)
+                        if (branchBudget > 0 && branches > branchBudget)
                         {
-                            // 마지막 블록을 성공적으로 둠 — 죽음 아님
+                            budgetExceeded = true;
+                            used[i] = false;
+                            return;
                         }
-                        else if (!PlacementSolver.FullSequenceExists(next, RemainingPieces(pieces, used)))
+
+                        if (!PlacementSolver.FullSequenceExists(next, RemainingPieces(pieces, used)))
                         {
                             ++deaths;
                         }
                         else
                         {
-                            deaths += CountDeathsRecursive(next, pieces, signatures, used);
+                            AccumulateDeaths(
+                                next,
+                                pieces,
+                                signatures,
+                                used,
+                                branchBudget,
+                                ref deaths,
+                                ref branches,
+                                ref budgetExceeded);
                         }
 
                         used[i] = false;
+                        if (budgetExceeded)
+                        {
+                            return;
+                        }
                     }
                 }
             }
-
-            return deaths;
         }
 
         private static List<IReadOnlyList<Vector2Int>> RemainingPieces(
@@ -150,9 +296,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             int placedCount,
             int cap,
             AreaScoreTuning tuning,
+            List<AreaBundleExplainStep> path,
             ref int found,
             ref float best,
-            ref bool any)
+            ref bool any,
+            ref BoardGrid bestBoard,
+            ref List<AreaBundleExplainStep> bestPath)
         {
             if (found >= cap)
             {
@@ -167,6 +316,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 if (score > best)
                 {
                     best = score;
+                    bestBoard = board;
+                    bestPath = CopyExplainPath(path);
                 }
 
                 return;
@@ -198,7 +349,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
                         BoardGrid next = board.Clone();
                         PlacementSimulator.PlaceAndClear(next, offsets, pivot);
-                        SearchMaxArea(next, pieces, signatures, used, placedCount + 1, cap, tuning, ref found, ref best, ref any);
+                        path.Add(BuildExplainStep(i, pivot, offsets));
+                        SearchMaxArea(
+                            next,
+                            pieces,
+                            signatures,
+                            used,
+                            placedCount + 1,
+                            cap,
+                            tuning,
+                            path,
+                            ref found,
+                            ref best,
+                            ref any,
+                            ref bestBoard,
+                            ref bestPath);
+                        path.RemoveAt(path.Count - 1);
                         if (found >= cap)
                         {
                             used[i] = false;
@@ -209,6 +375,118 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
                 used[i] = false;
             }
+        }
+
+        private static AreaBundleExplainStep BuildExplainStep(
+            int pieceSlotIndex,
+            Vector2Int pivot,
+            IReadOnlyList<Vector2Int> offsets)
+        {
+            Vector2Int[] cells = new Vector2Int[offsets.Count];
+            for (int i = 0; i < offsets.Count; ++i)
+            {
+                cells[i] = pivot + offsets[i];
+            }
+
+            return new AreaBundleExplainStep(pieceSlotIndex, pivot, cells);
+        }
+
+        private static List<AreaBundleExplainStep> CopyExplainPath(List<AreaBundleExplainStep> path)
+        {
+            List<AreaBundleExplainStep> copy = new(path.Count);
+            for (int i = 0; i < path.Count; ++i)
+            {
+                copy.Add(path[i]);
+            }
+
+            return copy;
+        }
+
+        private static bool SearchEmpty(
+            BoardGrid board,
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces,
+            string[] signatures,
+            bool[] used,
+            int placedCount,
+            int cap,
+            ref int found)
+        {
+            if (found >= cap)
+            {
+                return false;
+            }
+
+            if (placedCount == pieces.Count)
+            {
+                ++found;
+                return CountOccupiedCells(board) == 0;
+            }
+
+            HashSet<string> tried = new();
+            int size = board.BoardSize;
+            Vector2Int pivot = Vector2Int.zero;
+
+            for (int i = 0; i < pieces.Count; ++i)
+            {
+                if (used[i] || !tried.Add(signatures[i]))
+                {
+                    continue;
+                }
+
+                used[i] = true;
+                IReadOnlyList<Vector2Int> offsets = pieces[i];
+                for (int x = 0; x < size; ++x)
+                {
+                    for (int y = 0; y < size; ++y)
+                    {
+                        pivot.x = x;
+                        pivot.y = y;
+                        if (!PlacementService.CanPlace(offsets, pivot, board))
+                        {
+                            continue;
+                        }
+
+                        BoardGrid next = board.Clone();
+                        PlacementSimulator.PlaceAndClear(next, offsets, pivot);
+                        if (SearchEmpty(next, pieces, signatures, used, placedCount + 1, cap, ref found))
+                        {
+                            used[i] = false;
+                            return true;
+                        }
+
+                        if (found >= cap)
+                        {
+                            used[i] = false;
+                            return false;
+                        }
+                    }
+                }
+
+                used[i] = false;
+            }
+
+            return false;
+        }
+
+        private static int CountOccupiedCells(BoardGrid board)
+        {
+            int n = board.BoardSize;
+            int count = 0;
+            Vector2Int cell = Vector2Int.zero;
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    cell.x = x;
+                    cell.y = y;
+                    if (board.IsOccupied(cell))
+                    {
+                        ++count;
+                    }
+                }
+            }
+
+            return count;
         }
 
         private static string[] BuildSignatures(IReadOnlyList<IReadOnlyList<Vector2Int>> pieces)

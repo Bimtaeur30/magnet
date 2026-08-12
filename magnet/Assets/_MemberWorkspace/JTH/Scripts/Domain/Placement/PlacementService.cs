@@ -106,7 +106,7 @@ namespace JTH.Scripts.Domain.Placement
                 return true;
             }
 
-            //마지막까지 안되면 예전 피벗과 일정 거리 안이면 유지 — 단 CanPlace일 때만
+            //마지막까지 안되면 직전 피벗이 일정 거리 이상 떨어지지 않았는 가에 직전 피벗 선택
             if (lastBoardPivot is { } last)
             {
                 float xDistance = Mathf.Abs(last.x - pivot.x);

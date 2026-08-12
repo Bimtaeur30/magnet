@@ -34,8 +34,7 @@ namespace JTH.Scripts.Bootstrap
 
         public IReadOnlyList<ShapeBlockData> Candidates => _supply.Candidates;
 
-        /// <summary>직전 리필의 선택 결과 (티어·번들·Area). UI 훅 소비용.</summary>
-        public AreaBundleSelectionResult LastSelection => _drawer.LastResult;
+        public AreaBundleSelectionResult LastSelection => _drawer?.LastResult;
 
         private void Awake()
         {
@@ -102,7 +101,7 @@ namespace JTH.Scripts.Bootstrap
             BlockSpawnContext context = new(shapeSourceSO, grid, 0)
             {
                 TurnIndex = _turnIndex,
-                IsRetrySession = false, // stub — game-over/다시 하기 배선 후 Relife Easy 1턴 개방
+                IsRetrySession = false,
             };
             ++_turnIndex;
 
@@ -114,12 +113,12 @@ namespace JTH.Scripts.Bootstrap
         private void LogSelection()
         {
             AreaBundleSelectionResult result = _drawer.LastResult;
-            (string label, string color) = TierStyle(result.Tier, result.IsKillHand);
+            (string label, string color) = TierStyle(result);
 
             Debug.Log($"<color={color}><b>[AreaBundle] {label}</b>"
                 + $" turn={_turnIndex - 1} boardArea={result.BoardAreaScore:F1}"
                 + $" predArea={result.PredictedAreaScore:F1}"
-                + $" seq={result.SequenceCount} death={result.DeathCount}"
+                + $" seq={result.SequenceCount}"
                 + $" kill={result.IsKillHand}"
                 + $" bundle={result.BundleId}"
                 + $" blocks=[{string.Join(",", result.BlockIds)}]\n"
@@ -127,15 +126,17 @@ namespace JTH.Scripts.Bootstrap
                 + "</color>");
         }
 
-        private static (string label, string color) TierStyle(AreaBundleTier tier, bool kill) =>
-            (tier, kill) switch
+        private static (string label, string color) TierStyle(AreaBundleSelectionResult result) =>
+            (result.Tier, result.IsKillHand, result.Profile) switch
             {
-                (AreaBundleTier.Unique, _) => ("유일수", "#B388FF"),
-                (AreaBundleTier.AllClear, _) => ("올클리어", "#FFD54F"),
-                (AreaBundleTier.MultiClear, _) => ("멀티클리어", "#FF1744"),
-                (AreaBundleTier.Easy, true) => ("Easy-랜덤", "#4FC3F7"),
-                (AreaBundleTier.Easy, false) => ("Easy", "#4FC3F7"),
-                (AreaBundleTier.Normal, true) => ("Normal-폴백중", "#FFAB40"),
+                (AreaBundleTier.Unique, _, _) => ("유일수", "#B388FF"),
+                (AreaBundleTier.AllClear, _, _) => ("올클리어", "#FFD54F"),
+                (AreaBundleTier.Hospitality, _, _) => ("접대", "#FF1744"),
+                (AreaBundleTier.Easy, true, _) => ("Easy-랜덤", "#FFAB40"),
+                (AreaBundleTier.Easy, false, _) => ("Easy", "#4FC3F7"),
+                (AreaBundleTier.Normal, true, _) => ("Normal-폴백중", "#FFAB40"),
+                (AreaBundleTier.Normal, false, ShapeWeightProfile.Clean) => ("Normal-Clean", "#A5D6A7"),
+                (AreaBundleTier.Normal, false, _) => ("Normal-Main", "#66BB6A"),
                 _ => ("Normal", "#A5D6A7"),
             };
     }

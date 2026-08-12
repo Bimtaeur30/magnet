@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace JTH.Scripts.Data
 {
-    /// <summary>42-ID 고정 3블록 번들 (스폰 회전 없음).</summary>
     [Serializable]
     public sealed class AreaBundleEntry
     {
