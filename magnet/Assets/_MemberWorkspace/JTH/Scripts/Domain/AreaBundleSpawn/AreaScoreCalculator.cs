@@ -7,7 +7,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     public static class AreaScoreCalculator
     {
-        private const int BridgeSplitMinPartSize = 4;
+        /// <summary>이 깊이 이하 홈/만은 절단하지 않음. 0 = 다중 run 갭이면 무조건 절단.</summary>
+        public const int MaxNotchDepth = 0;
 
         private static readonly Vector2Int[] Cardinals =
         {
@@ -16,29 +17,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
         public static AreaScoreResult Score(BoardGrid board, AreaScoreTuning tuning)
         {
-            int n = board.BoardSize;
-            int cellCount = n * n;
-            bool[,] visited = new bool[n, n];
-            List<AreaComponentScore> components = new();
+            IReadOnlyList<AreaPartition> partitions = Partition(board);
+            List<AreaComponentScore> components = new(partitions.Count);
             float baseTotal = 0f;
+            int cellCount = board.BoardSize * board.BoardSize;
 
-            for (int x = 0; x < n; ++x)
+            for (int i = 0; i < partitions.Count; ++i)
             {
-                for (int y = 0; y < n; ++y)
-                {
-                    if (visited[x, y] || board.IsOccupied(new Vector2Int(x, y)))
-                    {
-                        continue;
-                    }
-
-                    List<Vector2Int> emptyCells = Flood(board, visited, x, y, occupied: false);
-                    AreaComponentScore emptyComponent = ScoreComponent(emptyCells, occupied: false, cellCount, tuning);
-                    components.Add(emptyComponent);
-                    baseTotal += emptyComponent.Total;
-                }
+                AreaPartition part = partitions[i];
+                AreaComponentScore component = ScoreComponent(
+                    part.Size,
+                    part.Occupied,
+                    cellCount,
+                    tuning);
+                components.Add(component);
+                baseTotal += component.Total;
             }
-
-            AddOccupiedBridgeSplitComponents(board, visited, components, ref baseTotal, cellCount, tuning);
 
             int cornerRectArea = MinCornerCoverRectArea(board);
             float cornerRectPenalty = tuning.cornerRectPenalty * cornerRectArea;
@@ -56,6 +50,51 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
         public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning) =>
             Score(board, tuning).Total;
+
+        /// <summary>
+        /// 빈 칸: 4연결. 찬 칸: 4연결 후 깊은 홈(깊이 &gt; MaxNotchDepth)만 축절단.
+        /// </summary>
+        public static IReadOnlyList<AreaPartition> Partition(BoardGrid board)
+        {
+            int n = board.BoardSize;
+            bool[,] visited = new bool[n, n];
+            List<AreaPartition> result = new();
+
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    if (visited[x, y] || board.IsOccupied(new Vector2Int(x, y)))
+                    {
+                        continue;
+                    }
+
+                    List<Vector2Int> emptyCells = Flood(board, visited, x, y, occupied: false);
+                    result.Add(new AreaPartition(occupied: false, emptyCells));
+                }
+            }
+
+            for (int x = 0; x < n; ++x)
+            {
+                for (int y = 0; y < n; ++y)
+                {
+                    if (visited[x, y] || !board.IsOccupied(new Vector2Int(x, y)))
+                    {
+                        continue;
+                    }
+
+                    List<Vector2Int> raw = Flood(board, visited, x, y, occupied: true);
+                    List<List<Vector2Int>> parts = new();
+                    SplitOccupiedOrtho(raw, parts);
+                    for (int i = 0; i < parts.Count; ++i)
+                    {
+                        result.Add(new AreaPartition(occupied: true, parts[i]));
+                    }
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// 보드 네 모서리 각각을 꼭짓점으로, 모든 찬 칸을 덮는 축정렬 직사각 면적 중 최솟값.
@@ -130,12 +169,11 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         }
 
         private static AreaComponentScore ScoreComponent(
-            List<Vector2Int> cells,
+            int size,
             bool occupied,
             int boardCellCount,
             AreaScoreTuning tuning)
         {
-            int size = cells.Count;
             float baseScore = occupied
                 ? ScoreFilled(size, boardCellCount, tuning)
                 : ScoreEmpty(size, boardCellCount, tuning);
@@ -183,98 +221,328 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         }
 
         /// <summary>
-        /// 찬 칸 Area: 4연결로 묶은 뒤, 한 칸을 제거했을 때 양쪽이 각각
-        /// <see cref="BridgeSplitMinPartSize"/> 이상이면 그 칸(다리)에서 끊는다.
-        /// 짧은 돌출은 한 Area로 유지. 빈 칸은 이 경로를 쓰지 않는다.
+        /// 깊은 홈(깊이 &gt; MaxNotchDepth)이 없을 때까지 축정렬 절단.
+        /// 얕은 홈(≤ MaxNotchDepth)은 한 Area로 유지.
         /// </summary>
-        private static void AddOccupiedBridgeSplitComponents(
-            BoardGrid board,
-            bool[,] visited,
-            List<AreaComponentScore> components,
-            ref float baseTotal,
-            int cellCount,
-            AreaScoreTuning tuning)
+        private static void SplitOccupiedOrtho(List<Vector2Int> cells, List<List<Vector2Int>> sink)
         {
-            int n = board.BoardSize;
-            for (int x = 0; x < n; ++x)
+            if (cells.Count == 0)
             {
-                for (int y = 0; y < n; ++y)
-                {
-                    if (visited[x, y] || !board.IsOccupied(new Vector2Int(x, y)))
-                    {
-                        continue;
-                    }
+                return;
+            }
 
-                    List<Vector2Int> raw = Flood(board, visited, x, y, occupied: true);
-                    List<List<Vector2Int>> parts = SplitAtBridges(raw, BridgeSplitMinPartSize);
-                    for (int i = 0; i < parts.Count; ++i)
-                    {
-                        AreaComponentScore component = ScoreComponent(parts[i], occupied: true, cellCount, tuning);
-                        components.Add(component);
-                        baseTotal += component.Total;
-                    }
+            if (!TryFindDeepBalancedCut(cells, out bool splitByX, out int cutAfter))
+            {
+                sink.Add(cells);
+                return;
+            }
+
+            List<Vector2Int> left = new(cells.Count);
+            List<Vector2Int> right = new(cells.Count);
+            for (int i = 0; i < cells.Count; ++i)
+            {
+                Vector2Int cell = cells[i];
+                bool toLeft = splitByX ? cell.x <= cutAfter : cell.y <= cutAfter;
+                if (toLeft)
+                {
+                    left.Add(cell);
                 }
+                else
+                {
+                    right.Add(cell);
+                }
+            }
+
+            List<List<Vector2Int>> leftParts = FloodWithin(left);
+            for (int i = 0; i < leftParts.Count; ++i)
+            {
+                SplitOccupiedOrtho(leftParts[i], sink);
+            }
+
+            List<List<Vector2Int>> rightParts = FloodWithin(right);
+            for (int i = 0; i < rightParts.Count; ++i)
+            {
+                SplitOccupiedOrtho(rightParts[i], sink);
             }
         }
 
-        /// <summary>
-        /// 관절점(다리 칸)을 찾아, 끊으면 큰 덩어리가 둘 이상일 때만 분할을 재귀 적용한다.
-        /// </summary>
-        private static List<List<Vector2Int>> SplitAtBridges(List<Vector2Int> cells, int minPartSize)
+        /// <summary>모든 행·열에서 찬 칸이 한 구간이면 true.</summary>
+        public static bool IsOrthoConvex(IReadOnlyList<Vector2Int> cells)
         {
-            if (cells.Count < minPartSize * 2 + 1)
+            if (cells.Count <= 1)
             {
-                return new List<List<Vector2Int>>(1) { cells };
+                return true;
             }
 
-            List<Vector2Int> ordered = new(cells);
-            ordered.Sort(static (a, b) =>
-            {
-                int cx = a.x.CompareTo(b.x);
-                return cx != 0 ? cx : a.y.CompareTo(b.y);
-            });
+            BuildLineMaps(cells, out Dictionary<int, List<int>> xsByY, out Dictionary<int, List<int>> ysByX);
 
-            HashSet<Vector2Int> set = new(cells);
-            for (int i = 0; i < ordered.Count; ++i)
+            foreach (KeyValuePair<int, List<int>> pair in xsByY)
             {
-                Vector2Int cut = ordered[i];
-                List<List<Vector2Int>> parts = FloodPartsExcluding(set, cut);
-                int largeCount = 0;
-                for (int p = 0; p < parts.Count; ++p)
+                if (CountRuns(pair.Value) > 1)
                 {
-                    if (parts[p].Count >= minPartSize)
-                    {
-                        ++largeCount;
-                    }
+                    return false;
                 }
+            }
 
-                if (largeCount < 2)
+            foreach (KeyValuePair<int, List<int>> pair in ysByX)
+            {
+                if (CountRuns(pair.Value) > 1)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 깊이 &gt; MaxNotchDepth인 다중 run 갭만 후보로, 절단 후 min(left,right) 최대 cut을 고른다.
+        /// </summary>
+        private static bool TryFindDeepBalancedCut(
+            IReadOnlyList<Vector2Int> cells,
+            out bool splitByX,
+            out int cutAfter)
+        {
+            splitByX = true;
+            cutAfter = 0;
+            int bestScore = 0;
+            bool found = false;
+
+            BuildLineMaps(cells, out Dictionary<int, List<int>> xsByY, out Dictionary<int, List<int>> ysByX);
+            HashSet<Vector2Int> set = new(cells);
+
+            foreach (KeyValuePair<int, List<int>> pair in xsByY)
+            {
+                ConsiderDeepGapsAlongLine(
+                    cells,
+                    set,
+                    pair.Key,
+                    pair.Value,
+                    splitByXCandidate: true,
+                    ref bestScore,
+                    ref found,
+                    ref splitByX,
+                    ref cutAfter);
+            }
+
+            foreach (KeyValuePair<int, List<int>> pair in ysByX)
+            {
+                ConsiderDeepGapsAlongLine(
+                    cells,
+                    set,
+                    pair.Key,
+                    pair.Value,
+                    splitByXCandidate: false,
+                    ref bestScore,
+                    ref found,
+                    ref splitByX,
+                    ref cutAfter);
+            }
+
+            return found;
+        }
+
+        private static void ConsiderDeepGapsAlongLine(
+            IReadOnlyList<Vector2Int> cells,
+            HashSet<Vector2Int> set,
+            int lineCoord,
+            List<int> coords,
+            bool splitByXCandidate,
+            ref int bestScore,
+            ref bool found,
+            ref bool splitByX,
+            ref int cutAfter)
+        {
+            coords.Sort();
+            List<(int min, int max)> runs = BuildRuns(coords);
+            if (runs.Count < 2)
+            {
+                return;
+            }
+
+            for (int r = 0; r < runs.Count - 1; ++r)
+            {
+                int gapMin = runs[r].max + 1;
+                int gapMax = runs[r + 1].min - 1;
+                if (gapMin > gapMax)
                 {
                     continue;
                 }
 
-                List<List<Vector2Int>> result = new(parts.Count + 1);
-                for (int p = 0; p < parts.Count; ++p)
+                int depth = MeasureGapDepth(set, splitByXCandidate, lineCoord, gapMin, gapMax);
+                if (depth <= MaxNotchDepth)
                 {
-                    List<List<Vector2Int>> nested = SplitAtBridges(parts[p], minPartSize);
-                    result.AddRange(nested);
+                    continue;
                 }
 
-                result.Add(new List<Vector2Int>(1) { cut });
-                return result;
-            }
+                int mid = (runs[r].max + runs[r + 1].min) / 2;
+                int left = 0;
+                int right = 0;
+                for (int i = 0; i < cells.Count; ++i)
+                {
+                    Vector2Int cell = cells[i];
+                    int value = splitByXCandidate ? cell.x : cell.y;
+                    if (value <= mid)
+                    {
+                        ++left;
+                    }
+                    else
+                    {
+                        ++right;
+                    }
+                }
 
-            return new List<List<Vector2Int>>(1) { cells };
+                int score = left < right ? left : right;
+                if (score <= bestScore)
+                {
+                    continue;
+                }
+
+                bestScore = score;
+                found = true;
+                splitByX = splitByXCandidate;
+                cutAfter = mid;
+            }
         }
 
-        private static List<List<Vector2Int>> FloodPartsExcluding(HashSet<Vector2Int> set, Vector2Int exclude)
+        /// <summary>
+        /// 갭이 비어 있는 연속 줄 수(현재 줄 포함). 모양이 끝나거나 갭이 메워지면 중단.
+        /// </summary>
+        private static int MeasureGapDepth(
+            HashSet<Vector2Int> set,
+            bool gapAlongX,
+            int lineCoord,
+            int gapMin,
+            int gapMax)
         {
+            int depthNeg = CountEmptyGapExtent(set, gapAlongX, lineCoord, gapMin, gapMax, -1);
+            int depthPos = CountEmptyGapExtent(set, gapAlongX, lineCoord, gapMin, gapMax, +1);
+            return depthNeg > depthPos ? depthNeg : depthPos;
+        }
+
+        private static int CountEmptyGapExtent(
+            HashSet<Vector2Int> set,
+            bool gapAlongX,
+            int startLine,
+            int gapMin,
+            int gapMax,
+            int lineStep)
+        {
+            int depth = 0;
+            for (int line = startLine; ; line += lineStep)
+            {
+                bool anyOnLine = false;
+                bool gapOccupied = false;
+                foreach (Vector2Int cell in set)
+                {
+                    int lineValue = gapAlongX ? cell.y : cell.x;
+                    if (lineValue != line)
+                    {
+                        continue;
+                    }
+
+                    anyOnLine = true;
+                    int gapValue = gapAlongX ? cell.x : cell.y;
+                    if (gapValue >= gapMin && gapValue <= gapMax)
+                    {
+                        gapOccupied = true;
+                        break;
+                    }
+                }
+
+                if (!anyOnLine)
+                {
+                    break;
+                }
+
+                if (gapOccupied)
+                {
+                    break;
+                }
+
+                ++depth;
+            }
+
+            return depth;
+        }
+
+        private static void BuildLineMaps(
+            IReadOnlyList<Vector2Int> cells,
+            out Dictionary<int, List<int>> xsByY,
+            out Dictionary<int, List<int>> ysByX)
+        {
+            xsByY = new Dictionary<int, List<int>>();
+            ysByX = new Dictionary<int, List<int>>();
+            for (int i = 0; i < cells.Count; ++i)
+            {
+                Vector2Int cell = cells[i];
+                if (!xsByY.TryGetValue(cell.y, out List<int> xs))
+                {
+                    xs = new List<int>();
+                    xsByY[cell.y] = xs;
+                }
+
+                xs.Add(cell.x);
+
+                if (!ysByX.TryGetValue(cell.x, out List<int> ys))
+                {
+                    ys = new List<int>();
+                    ysByX[cell.x] = ys;
+                }
+
+                ys.Add(cell.y);
+            }
+        }
+
+        private static int CountRuns(List<int> coords)
+        {
+            if (coords.Count == 0)
+            {
+                return 0;
+            }
+
+            coords.Sort();
+            return BuildRuns(coords).Count;
+        }
+
+        private static List<(int min, int max)> BuildRuns(List<int> sortedUniqueOrDup)
+        {
+            List<(int min, int max)> runs = new();
+            if (sortedUniqueOrDup.Count == 0)
+            {
+                return runs;
+            }
+
+            int runMin = sortedUniqueOrDup[0];
+            int runMax = sortedUniqueOrDup[0];
+            for (int i = 1; i < sortedUniqueOrDup.Count; ++i)
+            {
+                int v = sortedUniqueOrDup[i];
+                if (v == runMax || v == runMax + 1)
+                {
+                    runMax = v;
+                    continue;
+                }
+
+                runs.Add((runMin, runMax));
+                runMin = v;
+                runMax = v;
+            }
+
+            runs.Add((runMin, runMax));
+            return runs;
+        }
+
+        private static List<List<Vector2Int>> FloodWithin(List<Vector2Int> cells)
+        {
+            HashSet<Vector2Int> set = new(cells);
             HashSet<Vector2Int> seen = new();
             List<List<Vector2Int>> parts = new();
 
-            foreach (Vector2Int start in set)
+            for (int i = 0; i < cells.Count; ++i)
             {
-                if (start == exclude || !seen.Add(start))
+                Vector2Int start = cells[i];
+                if (!seen.Add(start))
                 {
                     continue;
                 }
@@ -282,16 +550,14 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 List<Vector2Int> part = new();
                 Queue<Vector2Int> queue = new();
                 queue.Enqueue(start);
-
                 while (queue.Count > 0)
                 {
                     Vector2Int cur = queue.Dequeue();
                     part.Add(cur);
-
                     foreach (Vector2Int d in Cardinals)
                     {
                         Vector2Int next = new(cur.x + d.x, cur.y + d.y);
-                        if (next == exclude || !set.Contains(next) || !seen.Add(next))
+                        if (!set.Contains(next) || !seen.Add(next))
                         {
                             continue;
                         }
@@ -306,10 +572,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return parts;
         }
 
-        /// <summary>
-        /// startX와 startY부터 시작해서 그 곳이 visited가 false라면 Area를 하나 만들어서 반환한다. 만약 텅 빈 보드라면 처음에
-        /// Area가 0,0에서부터 시작해서 BFS를 사용해 끝까지 하나의 Area로 묶은 후 좌표들을 반환.
-        /// </summary>
         private static List<Vector2Int> Flood(BoardGrid board, bool[,] visited, int startX, int startY, bool occupied)
         {
             int n = board.BoardSize;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
@@ -44,5 +45,19 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public int Size { get; }
         public float BaseScore { get; }
         public float Total => BaseScore;
+    }
+
+    /// <summary>보드 Area 한 덩어리(찬/빈)의 칸 목록.</summary>
+    public readonly struct AreaPartition
+    {
+        public AreaPartition(bool occupied, IReadOnlyList<Vector2Int> cells)
+        {
+            Occupied = occupied;
+            Cells = cells;
+        }
+
+        public bool Occupied { get; }
+        public IReadOnlyList<Vector2Int> Cells { get; }
+        public int Size => Cells.Count;
     }
 }

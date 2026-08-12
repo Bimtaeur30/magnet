@@ -371,6 +371,37 @@ namespace JTH.Scripts.Data
             };
         }
 
+        /// <summary>Clean Normal 전용. Main + 올클 친화(구 Normal) 번들.</summary>
+        public static List<AreaBundleEntry> CreateClean()
+        {
+            List<AreaBundleEntry> list = CreateNormal();
+            list.AddRange(CreateCleanExtras());
+            return list;
+        }
+
+        private static List<AreaBundleEntry> CreateCleanExtras()
+        {
+            return new List<AreaBundleEntry>
+            {
+                E("n009", 13, 17, 17, 2),
+                E("n010", 36, 35, 36, 2),
+                E("n020", 17, 7, 22, 1),
+                E("n038", 35, 36, 36, 1),
+                E("n042", 9, 5, 9, 1),
+                E("n043", 7, 17, 11, 1),
+                E("n144", 3, 35, 5, 1),
+                E("n145", 22, 25, 22, 1),
+                E("n177", 10, 5, 5, 1),
+                E("n197", 13, 7, 7, 1),
+                E("n209", 36, 35, 35, 1),
+                E("n262", 9, 4, 9, 1),
+                E("n279", 11, 17, 17, 1),
+                E("n302", 35, 13, 36, 1),
+                E("n317", 22, 7, 7, 1),
+                E("n321", 35, 35, 36, 1),
+            };
+        }
+
         private static AreaBundleEntry E(string id, int a, int b, int c, int w = 1) =>
             new(id, a, b, c, w);
     }

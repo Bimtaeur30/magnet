@@ -26,9 +26,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 return 0f;
             }
 
-            // ㄱ/L 계열 — Exact 접대에서 과다 (작은 L3 + L4 + 큰 L5)
-            if (IsSmallL(id)
-                || id is 8 or 29 or 30 or 31 or 32 or 33 or 34 or 42
+            // ㄱ/L 계열 — Exact 접대에서 과다 (L4 + 큰 L5). 작은 L3는 Main 외 허용.
+            if (id is 8 or 29 or 30 or 31 or 32 or 33 or 34 or 42
                 or 12 or 21 or 23 or 24)
             {
                 return 0f;

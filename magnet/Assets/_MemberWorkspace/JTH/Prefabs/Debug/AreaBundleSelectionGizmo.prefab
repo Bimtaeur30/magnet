@@ -45,12 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.AreaBundleSelectionGizmo
   boardConfig: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
-  piece0Color: {r: 0.35, g: 0.95, b: 1, a: 0.85}
-  piece1Color: {r: 1, g: 0.85, b: 0.2, a: 0.85}
-  piece2Color: {r: 0.85, g: 0.35, b: 1, a: 0.85}
   uniqueBlockedColor: {r: 1, g: 0.25, b: 0.35, a: 0.7}
-  drawHandFilled: 1
-  drawHandPreview: 1
-  handGapCells: 1.5
-  handBelowCells: 2
+  tierUnique: {r: 0.7, g: 0.53, b: 1, a: 0.9}
+  tierAllClear: {r: 1, g: 0.84, b: 0.31, a: 0.9}
+  tierHospitality: {r: 1, g: 0.09, b: 0.27, a: 0.9}
+  tierNormalClean: {r: 0.65, g: 0.84, b: 0.65, a: 0.9}
+  tierNormalMain: {r: 0.4, g: 0.75, b: 0.45, a: 0.9}
+  tierEasy: {r: 0.31, g: 0.76, b: 0.97, a: 0.9}
+  tierKill: {r: 1, g: 0.67, b: 0.25, a: 0.9}
+  drawModeLabel: 1
+  drawAreas: 1
+  drawOccupiedAreas: 1
+  drawEmptyAreas: 0
+  areaCubeScale: 0.88
+  occupiedAreaAlpha: 0.35
+  emptyAreaAlpha: 0.12
+  areaBorderThickness: 5
   explainWireScale: 0.75
+  explainWireAlpha: 0.45
+  modeBarHeightCells: 0.35
+  modeBarAboveCells: 1.25

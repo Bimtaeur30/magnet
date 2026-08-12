@@ -48,6 +48,7 @@ namespace JTH.Scripts.Bootstrap
             _blockSpawnBootstrap.Consume(slotIndex);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
+            _blockSpawnBootstrap.RecordPlayerMove(slotIndex, gridOffsets, lastDrop);
 
             PlaySound(blockPlaceSound);
             if (clearedLineResult.ClearedLineCount > 0)

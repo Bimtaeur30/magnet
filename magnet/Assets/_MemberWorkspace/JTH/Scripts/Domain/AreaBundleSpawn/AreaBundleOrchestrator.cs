@@ -106,7 +106,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         private AreaBundleSelectionResult SelectWeightedRandomNormal(BoardGrid board, float boardArea, string reasonPrefix)
         {
             IReadOnlyList<AreaBundleEntry> normal = ResolveList(_pool.NormalBundles, AreaBundleStarterData.CreateNormal());
-            AreaBundleEntry picked = PickWeighted(normal);
+            AreaBundleEntry picked = PickWeighted(normal, banSmallL: true);
             List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(picked);
             LogGate($"올클 상태 가중랜덤 · bundle={picked.BundleId} blocks=[{string.Join(",", picked.Ids)}]");
             return new AreaBundleSelectionResult(
@@ -177,7 +177,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 return picked;
             }
 
-            AreaBundleEntry forced = PickWeighted(easy);
+            AreaBundleEntry forced = PickWeighted(easy, banSmallL: false);
             List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(forced);
             return new AreaBundleSelectionResult(
                 pieces,
@@ -198,6 +198,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             string reasonPrefix)
         {
             bool onCooldown = _allClearCooldownRemaining > 0;
+            int cooldownBefore = _allClearCooldownRemaining;
             if (_allClearCooldownRemaining > 0)
             {
                 --_allClearCooldownRemaining;
@@ -207,6 +208,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             bool boardEmpty = occupied == 0;
             if (boardEmpty)
             {
+                LogAllClear($"스킵 · 빈 보드(올클 상태) → Main 가중랜덤"
+                    + $" · occ=0 boardArea={boardArea:F1}");
                 LogGate("올클 상태(빈 보드) → Normal 가중랜덤");
                 return SelectWeightedRandomNormal(board, boardArea, reasonPrefix);
             }
@@ -218,30 +221,63 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
             if (canTryAllClear)
             {
+                int poolCount = _pool.AllClearBundles.Count;
+                LogAllClear($"시도 · occ={occupied}/{_pool.AllClearMaxOccupied}"
+                    + $" pool={poolCount} p={_pool.AllClearProbability:P0}"
+                    + $" boardArea={boardArea:F1} cooldownWas={cooldownBefore}");
+
                 Stopwatch allClearSw = Stopwatch.StartNew();
-                AreaBundleSelectionResult allClear = TrySelectAllClearExact(board, boardArea, reasonPrefix);
+                AreaBundleSelectionResult allClear = TrySelectAllClearExact(
+                    board, boardArea, reasonPrefix, out AllClearExactDebug acDebug);
                 LogPerf("AllClear Exact", allClearSw.Elapsed.TotalMilliseconds);
+                LogAllClear($"Exact 결과 · tried={acDebug.Tried} skipL={acDebug.SkippedSmallL}"
+                    + $" failEmpty={acDebug.FailedEmpty} failArea={acDebug.FailedArea}"
+                    + $" pass={acDebug.Passed} best={acDebug.BestId ?? "-"}"
+                    + $" pred={(acDebug.HasBest ? acDebug.BestPred.ToString("F1") : "-")}"
+                    + $" passIds=[{acDebug.PassIds}]");
+
                 if (allClear != null)
                 {
                     double allClearRoll = _rng.NextDouble();
                     if (allClearRoll < _pool.AllClearProbability)
                     {
+                        LogAllClear($"지급 · 확률 통과 roll={allClearRoll:F2} < p={_pool.AllClearProbability:P0}"
+                            + $" · bundle={allClear.BundleId} blocks=[{string.Join(",", allClear.BlockIds)}]"
+                            + $" → cooldown={_pool.AllClearCooldownTurns}");
                         LogGate($"올클 Exact 확률 통과 · roll={allClearRoll:F2} < p={_pool.AllClearProbability:P0}"
                             + $" · bundle={allClear.BundleId}");
                         _allClearCooldownRemaining = _pool.AllClearCooldownTurns;
                         return allClear;
                     }
 
+                    LogAllClear($"미지급 · 확률 낙첨 roll={allClearRoll:F2} ≥ p={_pool.AllClearProbability:P0}"
+                        + $" · bundle={allClear.BundleId} → 접대/Normal");
                     LogGate($"올클 Exact 확률 낙첨 · roll={allClearRoll:F2} ≥ p={_pool.AllClearProbability:P0}"
                         + $" · bundle={allClear.BundleId} → 다음 게이트");
                 }
                 else
                 {
+                    LogAllClear($"미지급 · Exact 통과 번들 0 · occ={occupied}");
                     LogGate($"올클 Exact 후보 없음 · occ≤{_pool.AllClearMaxOccupied}");
                 }
             }
             else
             {
+                string skipReason;
+                if (onCooldown)
+                {
+                    skipReason = $"쿨다운(남은턴 진입시={cooldownBefore})";
+                }
+                else if (_pool.AllClearBundles == null || _pool.AllClearBundles.Count == 0)
+                {
+                    skipReason = "풀 비어있음";
+                }
+                else
+                {
+                    skipReason = $"occ>{_pool.AllClearMaxOccupied} (occ={occupied})";
+                }
+
+                LogAllClear($"스킵 · {skipReason}");
                 LogGate(onCooldown
                     ? "올클 스킵 · 쿨다운"
                     : $"올클 스킵 · occ>{_pool.AllClearMaxOccupied} (occ={occupied})");
@@ -291,19 +327,24 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             ShapeWeightProfile profile = boardArea > _pool.SurvivalAreaMax
                 ? ShapeWeightProfile.Clean
                 : ShapeWeightProfile.Main;
+            IReadOnlyList<AreaBundleEntry> areaList = profile == ShapeWeightProfile.Clean
+                ? ResolveList(_pool.CleanBundles, AreaBundleStarterData.CreateClean())
+                : list;
             if (profile == ShapeWeightProfile.Clean)
             {
                 LogGate($"Normal 모드 Clean 통과 · boardArea={boardArea:F1}"
-                    + $" > survivalMax={_pool.SurvivalAreaMax:F1}");
+                    + $" > survivalMax={_pool.SurvivalAreaMax:F1}"
+                    + $" · pool={areaList.Count}");
             }
             else
             {
                 LogGate($"Normal 모드 Main 진입 · boardArea={boardArea:F1}"
-                    + $" ≤ survivalMax={_pool.SurvivalAreaMax:F1}");
+                    + $" ≤ survivalMax={_pool.SurvivalAreaMax:F1}"
+                    + $" · pool={areaList.Count}");
             }
 
             Stopwatch scoreSw = Stopwatch.StartNew();
-            List<ScoredCandidate> scored = ScoreSurvivors(board, list, profile);
+            List<ScoredCandidate> scored = ScoreSurvivors(board, areaList, profile);
             LogPerf($"ScoreSurvivors n={scored.Count}", scoreSw.Elapsed.TotalMilliseconds);
             if (scored.Count == 0)
             {
@@ -317,7 +358,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             LogPerf("DeathReject+ToResult", deathSw.Elapsed.TotalMilliseconds);
             if (areaPick != null && profile == ShapeWeightProfile.Clean)
             {
-                TryQueueCleanChain(board, list, areaPick);
+                TryQueueCleanChain(board, areaList, areaPick);
             }
 
             return areaPick;
@@ -388,12 +429,17 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
         private static void LogGate(string message)
         {
-            Debug.Log($"<color=#80CBC4>[AreaBundle:Gate] {message}</color>");
+            // 올클 디버그 중에는 Gate/Perf 숨김. 필요 시 복구.
+        }
+
+        private static void LogAllClear(string message)
+        {
+            // HandCompare 외 AreaBundle 로그 숨김.
         }
 
         private static void LogPerf(string label, double ms)
         {
-            Debug.Log($"<color=#FFAB91>[AreaBundle:Perf] {label}={ms:F1}ms ({ms / 1000.0:F3}s)</color>");
+            // 올클 디버그 중에는 Gate/Perf 숨김. 필요 시 복구.
         }
 
         private AreaBundleSelectionResult TrySelectHospitality(
@@ -413,11 +459,6 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             List<AreaBundleEntry> matching = new();
             foreach (AreaBundleEntry entry in list)
             {
-                if (ContainsSmallL(entry))
-                {
-                    continue;
-                }
-
                 if (OpportunityDetector.SumFittingWeight(entry, holes) > 0f)
                 {
                     matching.Add(entry);
@@ -429,7 +470,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                 return null;
             }
 
-            List<AreaBundleEntry> candidates = SampleCandidates(matching);
+            List<AreaBundleEntry> candidates = SampleCandidates(matching, banSmallL: false);
             AreaBundleEntry best = null;
             List<IReadOnlyList<Vector2Int>> bestPieces = null;
             float bestPred = float.NegativeInfinity;
@@ -516,25 +557,42 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return $"[{string.Join(",", parts)}]";
         }
 
+        private sealed class AllClearExactDebug
+        {
+            public int Tried;
+            public int SkippedSmallL;
+            public int FailedEmpty;
+            public int FailedArea;
+            public int Passed;
+            public string BestId;
+            public float BestPred;
+            public bool HasBest;
+            public string PassIds;
+        }
+
         private AreaBundleSelectionResult TrySelectAllClearExact(
             BoardGrid board,
             float boardArea,
-            string reasonPrefix)
+            string reasonPrefix,
+            out AllClearExactDebug debug)
         {
             AreaBundleEntry best = null;
             List<IReadOnlyList<Vector2Int>> bestPieces = null;
             float bestPred = float.NegativeInfinity;
+            int tried = 0;
+            int skippedSmallL = 0;
+            int failedEmpty = 0;
+            int failedArea = 0;
+            int passed = 0;
+            List<string> passIds = new();
 
             foreach (AreaBundleEntry entry in _pool.AllClearBundles)
             {
-                if (ContainsSmallL(entry))
-                {
-                    continue;
-                }
-
+                ++tried;
                 List<IReadOnlyList<Vector2Int>> pieces = AreaBundlePieces.Build(entry);
                 if (!AreaBundleMetrics.CanEmptyBoard(board, pieces, _pool.MaxSequencesPerBundle))
                 {
+                    ++failedEmpty;
                     continue;
                 }
 
@@ -542,9 +600,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                     board, pieces, _pool.MaxSequencesPerBundle, out bool any, _pool.AreaScore);
                 if (!any)
                 {
+                    ++failedArea;
                     continue;
                 }
 
+                ++passed;
+                passIds.Add($"{entry.BundleId}:{predicted:F0}");
                 if (best == null || predicted > bestPred)
                 {
                     best = entry;
@@ -552,6 +613,19 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
                     bestPred = predicted;
                 }
             }
+
+            debug = new AllClearExactDebug
+            {
+                Tried = tried,
+                SkippedSmallL = skippedSmallL,
+                FailedEmpty = failedEmpty,
+                FailedArea = failedArea,
+                Passed = passed,
+                BestId = best?.BundleId,
+                BestPred = bestPred,
+                HasBest = best != null,
+                PassIds = string.Join(",", passIds),
+            };
 
             if (best == null)
             {
@@ -578,7 +652,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             IReadOnlyList<AreaBundleEntry> list,
             ShapeWeightProfile profile)
         {
-            List<AreaBundleEntry> candidates = SampleCandidates(list);
+            List<AreaBundleEntry> candidates = SampleCandidates(
+                list, banSmallL: profile == ShapeWeightProfile.Main);
             List<ScoredCandidate> scored = new(candidates.Count);
             double clearMs = 0;
             double scoreMs = 0;
@@ -675,7 +750,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             string reasonPrefix)
         {
             Stopwatch scoreSw = Stopwatch.StartNew();
-            List<AreaBundleEntry> candidates = SampleCandidates(list);
+            List<AreaBundleEntry> candidates = SampleCandidates(list, banSmallL: false);
             List<ScoredCandidate> scored = new(candidates.Count);
             double beamMs = 0;
             double areaMs = 0;
@@ -869,15 +944,24 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return occupied;
         }
 
-        private List<AreaBundleEntry> SampleCandidates(IReadOnlyList<AreaBundleEntry> list)
+        private List<AreaBundleEntry> SampleCandidates(
+            IReadOnlyList<AreaBundleEntry> list,
+            bool banSmallL)
         {
             List<AreaBundleEntry> copy = new(list.Count);
             foreach (AreaBundleEntry e in list)
             {
-                if (e != null && !ContainsSmallL(e))
+                if (e == null)
                 {
-                    copy.Add(e);
+                    continue;
                 }
+
+                if (banSmallL && ContainsSmallL(e))
+                {
+                    continue;
+                }
+
+                copy.Add(e);
             }
 
             Shuffle(copy);
@@ -890,15 +974,22 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return copy;
         }
 
-        private AreaBundleEntry PickWeighted(IReadOnlyList<AreaBundleEntry> list)
+        private AreaBundleEntry PickWeighted(IReadOnlyList<AreaBundleEntry> list, bool banSmallL)
         {
             int total = 0;
             foreach (AreaBundleEntry e in list)
             {
-                if (e != null && !ContainsSmallL(e))
+                if (e == null)
                 {
-                    total += e.Weight;
+                    continue;
                 }
+
+                if (banSmallL && ContainsSmallL(e))
+                {
+                    continue;
+                }
+
+                total += e.Weight;
             }
 
             if (total <= 0)
@@ -917,7 +1008,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             int roll = _rng.Next(total);
             foreach (AreaBundleEntry e in list)
             {
-                if (e == null || ContainsSmallL(e))
+                if (e == null)
+                {
+                    continue;
+                }
+
+                if (banSmallL && ContainsSmallL(e))
                 {
                     continue;
                 }
@@ -931,10 +1027,17 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 
             foreach (AreaBundleEntry e in list)
             {
-                if (e != null && !ContainsSmallL(e))
+                if (e == null)
                 {
-                    return e;
+                    continue;
                 }
+
+                if (banSmallL && ContainsSmallL(e))
+                {
+                    continue;
+                }
+
+                return e;
             }
 
             return list[list.Count - 1];

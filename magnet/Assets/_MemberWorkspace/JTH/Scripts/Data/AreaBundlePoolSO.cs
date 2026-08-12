@@ -7,8 +7,11 @@ namespace JTH.Scripts.Data
     public sealed class AreaBundlePoolSO : ScriptableObject
     {
         [Header("Lists")]
-        [SerializeField, Tooltip("기본(Normal) 번들 — Blocks2 스크린샷 전수. 필터 없음, weight=관측횟수만")]
+        [SerializeField, Tooltip("Main Normal 번들. Clean 전용 올클 친화 번들은 여기 없음")]
         private List<AreaBundleEntry> normalBundles = new();
+
+        [SerializeField, Tooltip("Clean Normal Area 전용(Main + 올클 친화 추가분). Main Area/빈보드 가중랜덤엔 미사용")]
+        private List<AreaBundleEntry> cleanBundles = new();
 
         [SerializeField, Tooltip("Easy 폴백 — 1x1 계열·소형. Relife 1턴도 사용")]
         private List<AreaBundleEntry> easyBundles = new();
@@ -38,8 +41,8 @@ namespace JTH.Scripts.Data
         [SerializeField, Tooltip("Normal/Easy 평가 후보 상한")]
         private int maxCandidatesToScore = 16;
 
-        [SerializeField, Tooltip("번들당 완주 시퀀스 탐색 상한")]
-        private int maxSequencesPerBundle = 48;
+        [SerializeField, Tooltip("번들당 완주 시퀀스 탐색 상한 (권장 120). 올리면 Explain/MaxArea 품질↑·비용↑")]
+        private int maxSequencesPerBundle = 120;
 
         [SerializeField, Tooltip("완주 클리어·올클 추정 빔 폭 (권장 4~8)")]
         private int outcomeBeamWidth = 4;
@@ -48,8 +51,8 @@ namespace JTH.Scripts.Data
         private int maxAreaRefineTopK = 4;
 
         [Header("Clear Priority (Normal)")]
-        [SerializeField, Tooltip("점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 12). 빔 미사용")]
-        private int allClearMaxOccupied = 12;
+        [SerializeField, Tooltip("점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 16). 빔 미사용")]
+        private int allClearMaxOccupied = 16;
 
         [SerializeField, Tooltip("올클 풀 Exact 통과 후보가 있을 때 지급 확률 (권장 0.75)")]
         [Range(0f, 1f)]
@@ -82,8 +85,8 @@ namespace JTH.Scripts.Data
         private int deathBranchBudget = 48;
 
         [Header("Normal Dual Mode (Clean / Main)")]
-        [SerializeField, Tooltip("boardArea ≤ 이면 Main(생존 가중). > 이면 Clean(올클 친화 가중). 권장 0")]
-        private float survivalAreaMax = 0f;
+        [SerializeField, Tooltip("boardArea ≤ 이면 Main(생존 가중). > 이면 Clean(올클 친화 가중). 낮출수록 Main 드묾 (권장 -15)")]
+        private float survivalAreaMax = -15f;
 
         [SerializeField, Tooltip("Clean Normal Area 지급 시 다음 패를 최적 보드에서 미리 뽑을 확률 (권장 0.4)")]
         [Range(0f, 1f)]
@@ -102,6 +105,7 @@ namespace JTH.Scripts.Data
         private float[] uniqueShapeWeights;
 
         public IReadOnlyList<AreaBundleEntry> NormalBundles => normalBundles;
+        public IReadOnlyList<AreaBundleEntry> CleanBundles => cleanBundles;
         public IReadOnlyList<AreaBundleEntry> EasyBundles => easyBundles;
         public IReadOnlyList<AreaBundleEntry> AllClearBundles => allClearBundles;
         public AreaScoreTuning AreaScore => areaScore ??= new AreaScoreTuning();
@@ -233,45 +237,62 @@ namespace JTH.Scripts.Data
             return uniqueShapeWeights;
         }
 
-        /// <summary>Unique 폴더 46장 시각 라벨 빈도 시드. 0=추첨 제외.</summary>
+        /// <summary>
+        /// Unique: 4칸 테트로미노 중심.
+        /// 너무 작으면 해가 많고, 너무 크면 자리가 뻔함 → Death%↑·해 경로↓ 균형.
+        /// </summary>
         private static float DefaultUniqueShapeWeight(int id)
         {
-            if (id is 6 or 15 or 27 or 28)
-            {
-                return 0f;
-            }
-
             return id switch
             {
+                // 1~2칸 — 해 과다 → 낮게
                 1 => 1f,
-                5 => 5f,
-                7 => 14f,
-                9 => 10f,
-                11 => 10f,
-                12 => 8f,
-                13 => 8f,
-                14 => 2f,
-                16 => 1f,
-                17 => 11f,
-                18 => 4f,
-                19 => 5f,
-                20 => 6f,
-                21 => 7f,
-                23 => 2f,
-                24 => 3f,
-                25 => 3f,
-                26 => 3f,
-                29 => 2f,
-                30 => 2f,
-                31 => 1f,
-                32 => 7f,
-                33 => 6f,
-                34 => 4f,
-                35 => 5f,
-                36 => 3f,
-                37 => 1f,
-                38 => 1f,
-                42 => 2f,
+                2 => 1.5f,
+                3 => 1.5f,
+                37 => 1.5f,
+                38 => 1.5f,
+                // 3칸 — 보조 (작은 ㄱ은 언락용으로 중간)
+                4 => 2.5f,
+                5 => 2.5f,
+                6 => 5.5f,
+                15 => 5.5f,
+                27 => 5.5f,
+                28 => 5.5f,
+                39 => 2f,
+                40 => 2f,
+                41 => 2f,
+                // 4칸 T/S/Z — 주력
+                10 => 10f,
+                14 => 10f,
+                16 => 10f,
+                18 => 10f,
+                19 => 10f,
+                20 => 10f,
+                25 => 10f,
+                26 => 10f,
+                // 4칸 L/J — 주력
+                8 => 9f,
+                29 => 9f,
+                30 => 9f,
+                31 => 9f,
+                32 => 9f,
+                33 => 9f,
+                34 => 9f,
+                42 => 9f,
+                // 2×2·I4 — 중간/낮음 (배치 유연하거나 일자로 뻔함)
+                9 => 4.5f,
+                7 => 2.5f,
+                17 => 2.5f,
+                // 5칸+ — 거의 제외 (놓을 곳 적어 유일수가 너무 쉬움)
+                11 => 0.25f,
+                12 => 0.25f,
+                13 => 0f,
+                21 => 0.25f,
+                22 => 0.25f,
+                23 => 0.25f,
+                24 => 0.25f,
+                35 => 0.25f,
+                36 => 0.25f,
                 _ => 0f,
             };
         }
@@ -303,10 +324,11 @@ namespace JTH.Scripts.Data
             }
         }
 
-        [ContextMenu("Fill Starter Normal+Easy+AllClear Bundles")]
+        [ContextMenu("Fill Starter Normal+Clean+Easy+AllClear Bundles")]
         private void FillStarterBundles()
         {
             normalBundles = AreaBundleStarterData.CreateNormal();
+            cleanBundles = AreaBundleStarterData.CreateClean();
             easyBundles = AreaBundleStarterData.CreateEasy();
             allClearBundles = AreaBundleStarterData.CreateAllClear();
             UnityEditor.EditorUtility.SetDirty(this);

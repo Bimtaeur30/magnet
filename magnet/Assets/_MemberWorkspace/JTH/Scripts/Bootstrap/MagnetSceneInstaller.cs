@@ -14,7 +14,15 @@ namespace JTH.Scripts.Bootstrap
         {
             Debug.Assert(blockSpawnBootstrap != null, "[MagnetSceneInstaller] BlockSpawnBootstrap is not assigned.", this);
             Debug.Assert(boardPlacementBootstrap != null, "[MagnetSceneInstaller] BoardPlacementBootstrap is not assigned.", this);
-            Debug.Assert(gameBoard != null, "[gameBoard] BoardPlacementBootstrap is not assigned.", this);
+            Debug.Assert(gameBoard != null, "[MagnetSceneInstaller] GameBoard is not assigned.", this);
+
+            if (blockSpawnBootstrap == null || boardPlacementBootstrap == null || gameBoard == null)
+            {
+                Debug.LogError(
+                    "[MagnetSceneInstaller] Skipping InstallBindings because a required reference is null.",
+                    this);
+                return;
+            }
 
             containerBuilder.RegisterValue(blockSpawnBootstrap);
             containerBuilder.RegisterValue(boardPlacementBootstrap);
