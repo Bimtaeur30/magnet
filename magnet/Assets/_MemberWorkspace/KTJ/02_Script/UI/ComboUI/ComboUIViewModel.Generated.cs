@@ -6,6 +6,14 @@ namespace Game.UI
 {
 public sealed partial class ComboUIViewModel : ObservableObject
 {
+    private UnityEngine.Vector2 comboPosition;
+
+    public UnityEngine.Vector2 ComboPosition
+    {
+        get => comboPosition;
+        set => SetProperty(ref comboPosition, value);
+    }
+
     private UnityEngine.Vector3 comboScale;
 
     public UnityEngine.Vector3 ComboScale

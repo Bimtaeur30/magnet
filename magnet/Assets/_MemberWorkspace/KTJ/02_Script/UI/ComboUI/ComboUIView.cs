@@ -24,7 +24,31 @@ namespace Game.UI
 
         private void OnComboChanged(ComboChangedEvent evt)
         {
-            ViewModel.ShowCombo(evt.Combo);
+            Camera worldCamera = Camera.main;
+            RectTransform parentRect = comboUIComboAnchoredPosition.parent as RectTransform;
+
+            if (worldCamera == null || parentRect == null)
+            {
+                Debug.LogWarning("[ComboUIView] 좌표 변환에 필요한 Camera 또는 부모 RectTransform이 없습니다.", this);
+                return;
+            }
+
+            Vector2 screenPosition = worldCamera.WorldToScreenPoint(evt.WorldPosition);
+            Canvas canvas = comboUIComboAnchoredPosition.GetComponentInParent<Canvas>();
+            Camera uiCamera = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay
+                ? canvas.worldCamera
+                : null;
+
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    parentRect,
+                    screenPosition,
+                    uiCamera,
+                    out Vector2 localPosition))
+            {
+                return;
+            }
+
+            ViewModel.ShowCombo(evt.Combo, localPosition);
         }
     }
 }

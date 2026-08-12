@@ -98,7 +98,7 @@ MonoBehaviour:
     viewModelMember: ComboUIScaleY
     valueType: float
     fieldName: comboUILocalScaleY
-  - enabled: 0
+  - enabled: 1
     objectPath: ComboUI/Combo
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition

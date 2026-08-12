@@ -8,6 +8,7 @@ namespace Game.UI
 {
 public sealed partial class ComboUIView
 {
+    [SerializeField] private RectTransform comboUIComboAnchoredPosition;
     [SerializeField] private RectTransform comboUIComboLocalScale;
     [SerializeField] private CanvasGroup comboUIComboAlpha;
     [SerializeField] private TMP_Text comboUIComboGameObjectTextTMP1Text;
@@ -43,6 +44,11 @@ public sealed partial class ComboUIView
             return;
         }
 
+
+            if ((propertyName == null || propertyName == nameof(ViewModel.ComboPosition)) && comboUIComboAnchoredPosition != null)
+            {
+                comboUIComboAnchoredPosition.anchoredPosition = ViewModel.ComboPosition;
+            }
 
             if ((propertyName == null || propertyName == nameof(ViewModel.ComboScale)) && comboUIComboLocalScale != null)
             {

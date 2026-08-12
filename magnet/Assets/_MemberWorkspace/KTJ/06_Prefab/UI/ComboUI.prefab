@@ -472,7 +472,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 20
+  m_Spacing: 30
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -488,7 +488,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5188161650653403088}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -528,8 +528,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 86.07, y: -87.895}
-  m_SizeDelta: {x: 172.14, y: 0}
+  m_AnchoredPosition: {x: 43.035, y: -87.895}
+  m_SizeDelta: {x: 86.07, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1256504714726829516
 CanvasRenderer:
@@ -559,7 +559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -832,7 +832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 427.48, y: -87.895}
+  m_AnchoredPosition: {x: 394.445, y: -87.895}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5839881588803601639
@@ -924,7 +924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c11662613f81054caa82d5f4e26553e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.ComboUIView
+  MagnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  comboUIComboAnchoredPosition: {fileID: 385495154118484361}
   comboUIComboLocalScale: {fileID: 385495154118484361}
   comboUIComboAlpha: {fileID: 4743013913994711220}
   comboUIComboGameObjectTextTMP1Text: {fileID: 5109412980381907525}
-  MagnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}

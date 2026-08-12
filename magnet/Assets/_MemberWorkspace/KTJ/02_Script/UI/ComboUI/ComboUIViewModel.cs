@@ -13,9 +13,10 @@ namespace Game.UI
         private MotionHandle _alphaHandle;
         private MotionHandle _scaleHandle;
 
-        public void ShowCombo(int combo)
+        public void ShowCombo(int combo, Vector2 position)
         {
             StopComboAnimation();
+            ComboPosition = position;
             TextTMP1 = combo.ToString();
 
             _alphaHandle = LMotion.Create(0f, 1f, ShowDuration)
