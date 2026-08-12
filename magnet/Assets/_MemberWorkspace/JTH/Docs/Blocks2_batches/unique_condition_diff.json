@@ -1,0 +1,881 @@
+{
+  "n": 46,
+  "checklist": {
+    "solvable_full_sequence": {
+      "count": 44,
+      "pct": 95.7
+    },
+    "unique_solution_exactly_1": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "exactly_1_blocked": {
+      "count": 32,
+      "pct": 69.6
+    },
+    "0_blocked_all_free": {
+      "count": 12,
+      "pct": 26.1
+    },
+    "2plus_blocked": {
+      "count": 2,
+      "pct": 4.3
+    },
+    "user_strong_A": {
+      "count": 21,
+      "pct": 45.7
+    },
+    "has_duplicate": {
+      "count": 5,
+      "pct": 10.9
+    },
+    "among_obtf_alone_unlocks": {
+      "count": 10
+    }
+  },
+  "mismatch_cross": {
+    "one_blocked_two_free+multiSol": 10,
+    "all_placeable+multiSol": 12,
+    "one_blocked_two_free+unsolvable": 1,
+    "multi_blocked+multiSol": 1,
+    "multi_blocked+unsolvable": 1
+  },
+  "all_placeable_unique_sol": {
+    "n": 12,
+    "unique_sol": 0
+  },
+  "single_unlock_unique_sol": {
+    "n": 10,
+    "unique_sol": 0
+  },
+  "rows": [
+    {
+      "file": "1916.jpg",
+      "ids": [
+        35,
+        33,
+        1
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "1960.jpg",
+      "ids": [
+        17,
+        33,
+        33
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": true,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1962.jpg",
+      "ids": [
+        13,
+        18,
+        5
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1964.jpg",
+      "ids": [
+        17,
+        24,
+        24
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": true,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1966.jpg",
+      "ids": [
+        36,
+        23,
+        15
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "1972.jpg",
+      "ids": [
+        9,
+        17,
+        34
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1976.jpg",
+      "ids": [
+        13,
+        12,
+        2
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "1978.jpg",
+      "ids": [
+        7,
+        5,
+        15
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "1980.jpg",
+      "ids": [
+        13,
+        28,
+        26
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1982.jpg",
+      "ids": [
+        11,
+        9,
+        2
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "1984.jpg",
+      "ids": [
+        17,
+        9,
+        21
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1990.jpg",
+      "ids": [
+        12,
+        9,
+        19
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1994.jpg",
+      "ids": [
+        12,
+        5,
+        23
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1996.jpg",
+      "ids": [
+        18,
+        4,
+        17
+      ],
+      "user_match": false,
+      "seq_count_cap2": 0,
+      "unique_solution": false,
+      "solvable": false,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "1998.jpg",
+      "ids": [
+        18,
+        16,
+        4
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2002.jpg",
+      "ids": [
+        12,
+        33,
+        20
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2016.jpg",
+      "ids": [
+        5,
+        9,
+        32
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2018.jpg",
+      "ids": [
+        17,
+        20,
+        32
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2020.jpg",
+      "ids": [
+        21,
+        5,
+        17
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2022.jpg",
+      "ids": [
+        29,
+        17,
+        29
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 2,
+      "has_duplicate": true,
+      "pattern": "multi_blocked",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2024.jpg",
+      "ids": [
+        34,
+        30,
+        13
+      ],
+      "user_match": false,
+      "seq_count_cap2": 0,
+      "unique_solution": false,
+      "solvable": false,
+      "blocked_count": 2,
+      "has_duplicate": false,
+      "pattern": "multi_blocked",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2026.jpg",
+      "ids": [
+        17,
+        4,
+        19
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2028.jpg",
+      "ids": [
+        4,
+        25,
+        32
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2030.jpg",
+      "ids": [
+        42,
+        19,
+        31
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2032.jpg",
+      "ids": [
+        4,
+        19,
+        38
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2036.jpg",
+      "ids": [
+        5,
+        4,
+        34
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2038.jpg",
+      "ids": [
+        13,
+        1,
+        34
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2040.jpg",
+      "ids": [
+        12,
+        4,
+        32
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2042.jpg",
+      "ids": [
+        35,
+        5,
+        5
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2044.jpg",
+      "ids": [
+        13,
+        5,
+        20
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2046.jpg",
+      "ids": [
+        13,
+        4,
+        19
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2076.jpg",
+      "ids": [
+        12,
+        25,
+        42
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2078.jpg",
+      "ids": [
+        21,
+        5,
+        24
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2080.jpg",
+      "ids": [
+        21,
+        9,
+        32
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2082.jpg",
+      "ids": [
+        17,
+        25,
+        20
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2084.jpg",
+      "ids": [
+        35,
+        20,
+        12
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2086.jpg",
+      "ids": [
+        35,
+        21,
+        4
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2092.jpg",
+      "ids": [
+        4,
+        36,
+        13
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2095.jpg",
+      "ids": [
+        13,
+        17,
+        26
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2097.jpg",
+      "ids": [
+        35,
+        36,
+        21
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": true,
+      "both_unlock": true,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2099.jpg",
+      "ids": [
+        33,
+        4,
+        26
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2101.jpg",
+      "ids": [
+        21,
+        9,
+        20
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2103.jpg",
+      "ids": [
+        33,
+        9,
+        9
+      ],
+      "user_match": true,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "pattern": "one_blocked_two_free",
+      "alone_unlock": false,
+      "both_unlock": true,
+      "any_free_alone_clears": false
+    },
+    {
+      "file": "2105.jpg",
+      "ids": [
+        4,
+        9,
+        5
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2107.jpg",
+      "ids": [
+        4,
+        17,
+        14
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    },
+    {
+      "file": "2109.jpg",
+      "ids": [
+        12,
+        30,
+        5
+      ],
+      "user_match": false,
+      "seq_count_cap2": 2,
+      "unique_solution": false,
+      "solvable": true,
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "pattern": "all_placeable",
+      "alone_unlock": false,
+      "both_unlock": false,
+      "any_free_alone_clears": true
+    }
+  ]
+}

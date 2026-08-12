@@ -81,6 +81,27 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return sum;
         }
 
+        public static bool IsHalfWeightOnlyFit(IReadOnlyList<int> ids, IReadOnlyList<HospitalityHole> holes)
+        {
+            bool anyFit = false;
+            for (int i = 0; i < ids.Count; ++i)
+            {
+                int id = ids[i];
+                if (!FitsAnyHole(id, holes))
+                {
+                    continue;
+                }
+
+                anyFit = true;
+                if (HospitalityPiecePolicy.FitWeight(id) >= HospitalityPiecePolicy.FullWeight)
+                {
+                    return false;
+                }
+            }
+
+            return anyFit;
+        }
+
         public static int CompareHoleCoverage(AreaBundleEntry a, AreaBundleEntry b, IReadOnlyList<HospitalityHole> holes)
         {
             int weightCmp = SumFittingWeight(a, holes).CompareTo(SumFittingWeight(b, holes));

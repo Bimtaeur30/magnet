@@ -53,16 +53,6 @@ MonoBehaviour:
     id1: 17
     id2: 26
     weight: 2
-  - bundleId: n009
-    id0: 13
-    id1: 17
-    id2: 17
-    weight: 2
-  - bundleId: n010
-    id0: 36
-    id1: 35
-    id2: 36
-    weight: 2
   - bundleId: n011
     id0: 30
     id1: 36
@@ -107,11 +97,6 @@ MonoBehaviour:
     id0: 13
     id1: 25
     id2: 13
-    weight: 1
-  - bundleId: n020
-    id0: 17
-    id1: 7
-    id2: 22
     weight: 1
   - bundleId: n021
     id0: 20
@@ -198,11 +183,6 @@ MonoBehaviour:
     id1: 33
     id2: 31
     weight: 1
-  - bundleId: n038
-    id0: 35
-    id1: 36
-    id2: 36
-    weight: 1
   - bundleId: n039
     id0: 9
     id1: 14
@@ -217,16 +197,6 @@ MonoBehaviour:
     id0: 33
     id1: 22
     id2: 7
-    weight: 1
-  - bundleId: n042
-    id0: 9
-    id1: 5
-    id2: 9
-    weight: 1
-  - bundleId: n043
-    id0: 7
-    id1: 17
-    id2: 11
     weight: 1
   - bundleId: n044
     id0: 36
@@ -728,16 +698,6 @@ MonoBehaviour:
     id1: 7
     id2: 11
     weight: 1
-  - bundleId: n144
-    id0: 3
-    id1: 35
-    id2: 5
-    weight: 1
-  - bundleId: n145
-    id0: 22
-    id1: 25
-    id2: 22
-    weight: 1
   - bundleId: n146
     id0: 25
     id1: 21
@@ -893,11 +853,6 @@ MonoBehaviour:
     id1: 25
     id2: 42
     weight: 1
-  - bundleId: n177
-    id0: 10
-    id1: 5
-    id2: 5
-    weight: 1
   - bundleId: n178
     id0: 15
     id1: 30
@@ -993,11 +948,6 @@ MonoBehaviour:
     id1: 17
     id2: 9
     weight: 1
-  - bundleId: n197
-    id0: 13
-    id1: 7
-    id2: 7
-    weight: 1
   - bundleId: n198
     id0: 17
     id1: 35
@@ -1047,11 +997,6 @@ MonoBehaviour:
     id0: 31
     id1: 17
     id2: 16
-    weight: 1
-  - bundleId: n209
-    id0: 36
-    id1: 35
-    id2: 35
     weight: 1
   - bundleId: n210
     id0: 17
@@ -1313,11 +1258,6 @@ MonoBehaviour:
     id1: 4
     id2: 17
     weight: 1
-  - bundleId: n262
-    id0: 9
-    id1: 4
-    id2: 9
-    weight: 1
   - bundleId: n263
     id0: 28
     id1: 11
@@ -1397,11 +1337,6 @@ MonoBehaviour:
     id0: 22
     id1: 13
     id2: 13
-    weight: 1
-  - bundleId: n279
-    id0: 11
-    id1: 17
-    id2: 17
     weight: 1
   - bundleId: n280
     id0: 11
@@ -1513,11 +1448,6 @@ MonoBehaviour:
     id1: 6
     id2: 8
     weight: 1
-  - bundleId: n302
-    id0: 35
-    id1: 13
-    id2: 36
-    weight: 1
   - bundleId: n303
     id0: 14
     id1: 32
@@ -1588,11 +1518,6 @@ MonoBehaviour:
     id1: 25
     id2: 7
     weight: 1
-  - bundleId: n317
-    id0: 22
-    id1: 7
-    id2: 7
-    weight: 1
   - bundleId: n318
     id0: 19
     id1: 28
@@ -1607,11 +1532,6 @@ MonoBehaviour:
     id0: 7
     id1: 15
     id2: 25
-    weight: 1
-  - bundleId: n321
-    id0: 35
-    id1: 35
-    id2: 36
     weight: 1
   - bundleId: n322
     id0: 12
@@ -1687,11 +1607,6 @@ MonoBehaviour:
   - bundleId: ez11
     id0: 4
     id1: 5
-    id2: 9
-    weight: 1
-  - bundleId: ez12
-    id0: 5
-    id1: 9
     id2: 9
     weight: 1
   - bundleId: ez13
@@ -1805,11 +1720,6 @@ MonoBehaviour:
     id1: 30
     id2: 35
     weight: 1
-  - bundleId: ac09
-    id0: 35
-    id1: 13
-    id2: 36
-    weight: 1
   - bundleId: ac10
     id0: 13
     id1: 13
@@ -1831,8 +1741,8 @@ MonoBehaviour:
     emptyFullScore: 107
     filledTinyMaxSize: 2
     filledTinyPenalty: -8
-    filledFullScore: 67
-    rectCountPenalty: 4
+    filledFullScore: 0
+    cornerRectPenalty: 0.6
     areaCountPenalty: 4
   uniqueAreaThreshold: -15
   uniqueProbability: 0.45
@@ -1841,8 +1751,147 @@ MonoBehaviour:
   maxCandidatesToScore: 16
   maxSequencesPerBundle: 48
   outcomeBeamWidth: 4
-  allClearMaxOccupied: 16
+  maxAreaRefineTopK: 4
+  allClearMaxOccupied: 12
   allClearProbability: 0.75
   allClearCooldownTurns: 1
-  hospitalityContourMinFill: 0.7
+  hospitalityContourMinFill: 0.35
   hospitalityProbability: 0.35
+  hospitalityThreeCellProbability: 0.5
+  deathRejectPercent: 30
+  deathRejectMaxTries: 8
+  deathBranchBudget: 48
+  survivalAreaMax: 0
+  cleanChainProbability: 0.4
+  shapeWeights:
+  - 0
+  - 1
+  - 0.08
+  - 0.08
+  - 0.35
+  - 0.35
+  - 0
+  - 0.2
+  - 0.08
+  - 0.45
+  - 1
+  - 0.2
+  - 0.08
+  - 0.15
+  - 1
+  - 0
+  - 1
+  - 0.2
+  - 1
+  - 1
+  - 1
+  - 0.08
+  - 0.2
+  - 0.08
+  - 0.08
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0.08
+  - 0.08
+  - 0.08
+  - 0.08
+  - 0.08
+  - 0.08
+  - 0.35
+  - 0.35
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0.08
+  cleanShapeWeights:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  uniqueShapeWeights:
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 5
+  - 0
+  - 14
+  - 0
+  - 10
+  - 0
+  - 10
+  - 8
+  - 8
+  - 2
+  - 0
+  - 1
+  - 11
+  - 4
+  - 5
+  - 6
+  - 7
+  - 0
+  - 2
+  - 3
+  - 3
+  - 3
+  - 0
+  - 0
+  - 2
+  - 2
+  - 1
+  - 7
+  - 6
+  - 4
+  - 5
+  - 3
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0
+  - 2

@@ -23,14 +23,14 @@ namespace JTH.Scripts.Data
         public float filledTinyPenalty = -8f;
 
         [Tooltip("보드 전부 찬 Area일 때 점수")]
-        public float filledFullScore = 67f;
+        public float filledFullScore = 0f;
 
-        [Header("Rectangle count")]
-        [Tooltip("찬 칸 greedy 직사각 1개당 점수에서 빼는 양")]
-        public float rectCountPenalty = 4f;
+        [Header("Corner cover rectangle")]
+        [Tooltip("네 모서리 기준·전 찬칸 덮개 직사각 중 최소 면적에 곱하는 패널티 계수")]
+        public float cornerRectPenalty = 0.6f;
 
         [Header("Area count")]
-        [Tooltip("4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐")]
+        [Tooltip("Area(찬=4연결+다리절단·빈=4연결) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐")]
         public float areaCountPenalty = 4f;
     }
 }

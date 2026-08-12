@@ -7,26 +7,26 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public AreaScoreResult(
             float total,
             IReadOnlyList<AreaComponentScore> components,
-            int rectCount,
+            int cornerRectArea,
             float baseArea,
-            float rectPenalty,
+            float cornerRectPenalty,
             int areaCount,
             float areaCountPenalty)
         {
             Total = total;
             Components = components;
-            RectCount = rectCount;
+            CornerRectArea = cornerRectArea;
             BaseArea = baseArea;
-            RectPenalty = rectPenalty;
+            CornerRectPenalty = cornerRectPenalty;
             AreaCount = areaCount;
             AreaCountPenalty = areaCountPenalty;
         }
 
         public float Total { get; }
         public IReadOnlyList<AreaComponentScore> Components { get; }
-        public int RectCount { get; }
+        public int CornerRectArea { get; }
         public float BaseArea { get; }
-        public float RectPenalty { get; }
+        public float CornerRectPenalty { get; }
         public int AreaCount { get; }
         public float AreaCountPenalty { get; }
     }

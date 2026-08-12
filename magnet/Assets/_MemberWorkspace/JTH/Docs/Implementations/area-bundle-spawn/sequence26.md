@@ -1,0 +1,51 @@
+# Sequence 26 — Normal Clean/Main
+
+## 1 — 2026-08-10 · Clean/Main + 체이닝 + Gate 디버그
+
+- 추가: `Scripts/Data/ShapeWeightProfile.cs`
+  - 심볼: `ShapeWeightProfile` — enum (추가)
+    - 설명: `Main` / `Clean` 가중 프로파일.
+    - 이유: Normal Area 이중 가중 구분.
+- 수정: `Scripts/Data/AreaBundlePoolSO.cs`
+  - 심볼: `survivalAreaMax` — 필드 (추가)
+    - 설명: `boardArea ≤` 이면 Main. 기본 0.
+    - 이유: Clean↔Main 게이트.
+  - 심볼: `cleanChainProbability` — 필드 (추가)
+    - 설명: Clean 지급 후 다음 패 예약 확률. 기본 0.4.
+    - 이유: 최적 수 연속 선뽑.
+  - 심볼: `cleanShapeWeights` — 필드 (추가)
+    - 설명: Clean용 Shape 가중. 기본 1·작은 ㄱ 0.
+    - 이유: 올클 친화 Normal.
+  - 심볼: `GetShapeWeight` / `MeanShapeWeight` — 메서드 (수정)
+    - 설명: `ShapeWeightProfile` 인자.
+    - 이유: Main/Clean 배열 선택.
+- 수정: `Scripts/Domain/AreaBundleSpawn/AreaBundleMetrics.cs`
+  - 심볼: `TryGetBoardAfterBestSequence` — 메서드 (추가)
+    - 설명: MaxArea 우승 시퀀스 적용 보드 반환.
+    - 이유: Clean 체이닝 기반 보드.
+  - 심볼: `SearchMaxArea` — 메서드 (수정)
+    - 설명: 최고 점수 보드 참조.
+    - 이유: 체이닝용.
+- 수정: `Scripts/Domain/AreaBundleSpawn/AreaBundleOrchestrator.cs`
+  - 심볼: `_queuedCleanChain` — 필드 (추가)
+    - 설명: Clean 다음 패 예약.
+    - 이유: 한 턴 뒤 지급.
+  - 심볼: `Select` — 메서드 (수정)
+    - 설명: 예약 패 우선 지급 + Gate 로그.
+    - 이유: 체이닝 소비.
+  - 심볼: `TrySelectNormalPriority` — 메서드 (수정)
+    - 설명: 올클/접대 확률·Clean/Main 분기·체이닝 시도. Gate 로그 분리.
+    - 이유: Phase26 핵심.
+  - 심볼: `TryQueueCleanChain` — 메서드 (추가)
+    - 설명: 확률 통과 시 최적 보드에서 Clean Area 다음 패 예약.
+    - 이유: 실수 시 체이닝 미연결.
+  - 심볼: `LogGate` — 메서드 (추가)
+    - 설명: `[AreaBundle:Gate]` 한 줄 로그.
+    - 이유: 디버그 분리 요청.
+  - 심볼: `PickAreaWithDeathReject` — 메서드 (수정)
+    - 설명: profile별 가중·Death 배제 로그.
+    - 이유: Clean/Main 공통 선택.
+- 수정: `ScriptableObjects/AreaBundleSpawn/DefaultAreaBundlePool.asset`
+  - 심볼: `survivalAreaMax` / `cleanChainProbability` / `cleanShapeWeights` — 직렬화 (추가)
+    - 설명: 0 / 0.4 / 대부분 1·작은 ㄱ 0.
+    - 이유: 기본 튜닝.

@@ -1,0 +1,1971 @@
+{
+  "summary": {
+    "n": 46,
+    "patterns": {
+      "one_blocked_two_free": 43,
+      "multi_blocked": 1,
+      "all_placeable": 2
+    },
+    "buckets": {
+      "single_unlock": 7,
+      "match_strong_A": 36,
+      "multi_blocked": 1,
+      "all_placeable": 2
+    },
+    "match_strong_A": 36,
+    "match_weak_both_unlock": 43,
+    "single_unlock_files": [
+      "1916.jpg",
+      "2030.jpg",
+      "2036.jpg",
+      "2084.jpg",
+      "2086.jpg",
+      "2092.jpg",
+      "2097.jpg"
+    ],
+    "duplicate_files": [
+      "1960.jpg",
+      "1964.jpg",
+      "2022.jpg",
+      "2042.jpg",
+      "2103.jpg"
+    ],
+    "legal_forced_both_among_obtf": 5,
+    "obtf_n": 43,
+    "death_by_bucket": {
+      "single_unlock": {
+        "n": 7,
+        "mean": 2.04,
+        "median": 0.0
+      },
+      "match_strong_A": {
+        "n": 36,
+        "mean": 58.51,
+        "median": 64.32
+      },
+      "multi_blocked": {
+        "n": 1,
+        "mean": 0.0,
+        "median": 0.0
+      },
+      "all_placeable": {
+        "n": 2,
+        "mean": 27.14,
+        "median": 27.14
+      }
+    },
+    "compare_death": {
+      "strict_A": {
+        "n": 36,
+        "mean": 58.51,
+        "median": 64.32
+      },
+      "sloppy": {
+        "n": 10,
+        "mean": 6.86,
+        "median": 0.0
+      }
+    }
+  },
+  "hands": [
+    {
+      "ids": [
+        35,
+        33,
+        1
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        2,
+        35
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        33,
+        1
+      ],
+      "unlock_legal": [
+        2,
+        35
+      ],
+      "alone0": true,
+      "alone1": true,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "1916.jpg",
+      "occupied": 29,
+      "death_pct": 0.0,
+      "branches": 49,
+      "budget_exceeded": true,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        11,
+        33,
+        33
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "legal_counts": [
+        0,
+        4,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        33,
+        33
+      ],
+      "unlock_legal": [
+        4,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1960.jpg",
+      "occupied": 33,
+      "death_pct": 33.33,
+      "branches": 6,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        18,
+        17
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        9,
+        12
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        18,
+        17
+      ],
+      "unlock_legal": [
+        9,
+        12
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1962.jpg",
+      "occupied": 23,
+      "death_pct": 87.5,
+      "branches": 32,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        11,
+        24,
+        24
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "legal_counts": [
+        0,
+        4,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        24,
+        24
+      ],
+      "unlock_legal": [
+        4,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1964.jpg",
+      "occupied": 32,
+      "death_pct": 50.0,
+      "branches": 8,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        36,
+        23,
+        15
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        6
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 36,
+      "unlock_ids": [
+        23,
+        15
+      ],
+      "unlock_legal": [
+        1,
+        6
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1966.jpg",
+      "occupied": 39,
+      "death_pct": 81.82,
+      "branches": 11,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        9,
+        17,
+        34
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        4,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 9,
+      "unlock_ids": [
+        17,
+        34
+      ],
+      "unlock_legal": [
+        4,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1972.jpg",
+      "occupied": 39,
+      "death_pct": 55.56,
+      "branches": 9,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        12,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        2,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        12,
+        32
+      ],
+      "unlock_legal": [
+        2,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1976.jpg",
+      "occupied": 41,
+      "death_pct": 33.33,
+      "branches": 6,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s2 is L4 (##/#./#.), not vert2"
+    },
+    {
+      "ids": [
+        7,
+        11,
+        18
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        8,
+        6
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 7,
+      "unlock_ids": [
+        11,
+        18
+      ],
+      "unlock_legal": [
+        8,
+        6
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1978.jpg",
+      "occupied": 34,
+      "death_pct": 69.23,
+      "branches": 26,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        14,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        4,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        14,
+        26
+      ],
+      "unlock_legal": [
+        4,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1980.jpg",
+      "occupied": 35,
+      "death_pct": 66.67,
+      "branches": 12,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        11,
+        9,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        3,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        9,
+        32
+      ],
+      "unlock_legal": [
+        3,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1982.jpg",
+      "occupied": 36,
+      "death_pct": 55.56,
+      "branches": 9,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s2 L4 ##/#./#., not vert2"
+    },
+    {
+      "ids": [
+        11,
+        9,
+        21
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        9,
+        21
+      ],
+      "unlock_legal": [
+        1,
+        1
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1984.jpg",
+      "occupied": 41,
+      "death_pct": 0.0,
+      "branches": 4,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        12,
+        9,
+        19
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        4,
+        3
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        9,
+        19
+      ],
+      "unlock_legal": [
+        4,
+        3
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1990.jpg",
+      "occupied": 38,
+      "death_pct": 63.64,
+      "branches": 11,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        12,
+        17,
+        23
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        5,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        17,
+        23
+      ],
+      "unlock_legal": [
+        5,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1994.jpg",
+      "occupied": 38,
+      "death_pct": 69.23,
+      "branches": 13,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        18,
+        7,
+        17
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 18,
+      "unlock_ids": [
+        7,
+        17
+      ],
+      "unlock_legal": [
+        1,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1996.jpg",
+      "occupied": 44,
+      "death_pct": 0.0,
+      "branches": 7,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s1 vert4 (not vert3)"
+    },
+    {
+      "ids": [
+        18,
+        16,
+        7
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        3,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 18,
+      "unlock_ids": [
+        16,
+        7
+      ],
+      "unlock_legal": [
+        3,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "1998.jpg",
+      "occupied": 40,
+      "death_pct": 56.25,
+      "branches": 16,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        12,
+        33,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        6,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        33,
+        20
+      ],
+      "unlock_legal": [
+        6,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2002.jpg",
+      "occupied": 37,
+      "death_pct": 75.0,
+      "branches": 16,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        17,
+        9,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        10,
+        9
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 17,
+      "unlock_ids": [
+        9,
+        32
+      ],
+      "unlock_legal": [
+        10,
+        9
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2016.jpg",
+      "occupied": 28,
+      "death_pct": 86.67,
+      "branches": 30,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        11,
+        20,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        9,
+        7
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        20,
+        32
+      ],
+      "unlock_legal": [
+        9,
+        7
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2018.jpg",
+      "occupied": 24,
+      "death_pct": 85.71,
+      "branches": 28,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        21,
+        5,
+        11
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        9,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        5,
+        11
+      ],
+      "unlock_legal": [
+        9,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2020.jpg",
+      "occupied": 37,
+      "death_pct": 42.86,
+      "branches": 35,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        29,
+        11,
+        29
+      ],
+      "placeable": [
+        false,
+        true,
+        false
+      ],
+      "blocked_count": 2,
+      "has_duplicate": true,
+      "legal_counts": [
+        0,
+        1,
+        0
+      ],
+      "pattern": "multi_blocked",
+      "matches_strong_A": false,
+      "matches_weak": false,
+      "alone_any": false,
+      "both_unlock": false,
+      "file": "2022.jpg",
+      "occupied": 50,
+      "death_pct": 0.0,
+      "branches": 5,
+      "budget_exceeded": false,
+      "bucket": "multi_blocked",
+      "notes": null
+    },
+    {
+      "ids": [
+        34,
+        30,
+        37
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        6
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 34,
+      "unlock_ids": [
+        30,
+        37
+      ],
+      "unlock_legal": [
+        1,
+        6
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2024.jpg",
+      "occupied": 41,
+      "death_pct": 41.67,
+      "branches": 12,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s2 is diagonal 2 (37), not 3x3"
+    },
+    {
+      "ids": [
+        11,
+        7,
+        19
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        9,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        7,
+        19
+      ],
+      "unlock_legal": [
+        9,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2026.jpg",
+      "occupied": 35,
+      "death_pct": 78.95,
+      "branches": 19,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s0 seam/autocorr=horiz5; s1 vert4"
+    },
+    {
+      "ids": [
+        7,
+        25,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 7,
+      "unlock_ids": [
+        25,
+        32
+      ],
+      "unlock_legal": [
+        1,
+        1
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2028.jpg",
+      "occupied": 40,
+      "death_pct": 0.0,
+      "branches": 4,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s0 vert4 (not vert3)"
+    },
+    {
+      "ids": [
+        42,
+        19,
+        31
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 42,
+      "unlock_ids": [
+        19,
+        31
+      ],
+      "unlock_legal": [
+        1,
+        1
+      ],
+      "alone0": true,
+      "alone1": false,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2030.jpg",
+      "occupied": 44,
+      "death_pct": 0.0,
+      "branches": 10,
+      "budget_exceeded": false,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        7,
+        19,
+        38
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "legal_counts": [
+        1,
+        4,
+        12
+      ],
+      "pattern": "all_placeable",
+      "matches_strong_A": false,
+      "matches_weak": false,
+      "alone_any": false,
+      "both_unlock": false,
+      "file": "2032.jpg",
+      "occupied": 38,
+      "death_pct": 14.29,
+      "branches": 49,
+      "budget_exceeded": true,
+      "bucket": "all_placeable",
+      "notes": null
+    },
+    {
+      "ids": [
+        17,
+        7,
+        34
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        2,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 17,
+      "unlock_ids": [
+        7,
+        34
+      ],
+      "unlock_legal": [
+        2,
+        1
+      ],
+      "alone0": false,
+      "alone1": true,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2036.jpg",
+      "occupied": 42,
+      "death_pct": 0.0,
+      "branches": 13,
+      "budget_exceeded": false,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        5,
+        34
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        8,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        5,
+        34
+      ],
+      "unlock_legal": [
+        8,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2038.jpg",
+      "occupied": 32,
+      "death_pct": 43.33,
+      "branches": 30,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s1 crop empty (piece mid-drag); id 5 from full tray"
+    },
+    {
+      "ids": [
+        12,
+        7,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        11,
+        7
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        7,
+        32
+      ],
+      "unlock_legal": [
+        11,
+        7
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2040.jpg",
+      "occupied": 30,
+      "death_pct": 80.56,
+      "branches": 36,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        35,
+        5,
+        5
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "legal_counts": [
+        0,
+        7,
+        7
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        5,
+        5
+      ],
+      "unlock_legal": [
+        7,
+        7
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2042.jpg",
+      "occupied": 35,
+      "death_pct": 60.87,
+      "branches": 23,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        17,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        3,
+        8
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        17,
+        20
+      ],
+      "unlock_legal": [
+        3,
+        8
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2044.jpg",
+      "occupied": 31,
+      "death_pct": 80.95,
+      "branches": 21,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        13,
+        7,
+        19
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        10,
+        3
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        7,
+        19
+      ],
+      "unlock_legal": [
+        10,
+        3
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2046.jpg",
+      "occupied": 33,
+      "death_pct": 68.42,
+      "branches": 19,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        12,
+        25,
+        42
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        3,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 12,
+      "unlock_ids": [
+        25,
+        42
+      ],
+      "unlock_legal": [
+        3,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2076.jpg",
+      "occupied": 36,
+      "death_pct": 50.0,
+      "branches": 8,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        21,
+        17,
+        24
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        10,
+        2
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        17,
+        24
+      ],
+      "unlock_legal": [
+        10,
+        2
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2078.jpg",
+      "occupied": 37,
+      "death_pct": 65.0,
+      "branches": 20,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        21,
+        9,
+        32
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        5,
+        4
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        9,
+        32
+      ],
+      "unlock_legal": [
+        5,
+        4
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2080.jpg",
+      "occupied": 35,
+      "death_pct": 69.23,
+      "branches": 13,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        11,
+        25,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        6,
+        8
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 11,
+      "unlock_ids": [
+        25,
+        20
+      ],
+      "unlock_legal": [
+        6,
+        8
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2082.jpg",
+      "occupied": 32,
+      "death_pct": 81.82,
+      "branches": 22,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        35,
+        20,
+        12
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        20,
+        12
+      ],
+      "unlock_legal": [
+        1,
+        1
+      ],
+      "alone0": true,
+      "alone1": false,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2084.jpg",
+      "occupied": 39,
+      "death_pct": 0.0,
+      "branches": 14,
+      "budget_exceeded": false,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        35,
+        21,
+        7
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        2,
+        12
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        21,
+        7
+      ],
+      "unlock_legal": [
+        2,
+        12
+      ],
+      "alone0": true,
+      "alone1": false,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2086.jpg",
+      "occupied": 34,
+      "death_pct": 8.16,
+      "branches": 49,
+      "budget_exceeded": true,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        7,
+        36,
+        13
+      ],
+      "placeable": [
+        true,
+        true,
+        false
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        9,
+        2,
+        0
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        7,
+        36
+      ],
+      "unlock_legal": [
+        9,
+        2
+      ],
+      "alone0": false,
+      "alone1": true,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2092.jpg",
+      "occupied": 34,
+      "death_pct": 6.12,
+      "branches": 49,
+      "budget_exceeded": true,
+      "bucket": "single_unlock",
+      "notes": "s0 crop top-clipped; full tray confirms vert4"
+    },
+    {
+      "ids": [
+        13,
+        17,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        12,
+        8
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 13,
+      "unlock_ids": [
+        17,
+        26
+      ],
+      "unlock_legal": [
+        12,
+        8
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2095.jpg",
+      "occupied": 27,
+      "death_pct": 89.19,
+      "branches": 37,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        35,
+        36,
+        21
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        1,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 35,
+      "unlock_ids": [
+        36,
+        21
+      ],
+      "unlock_legal": [
+        1,
+        1
+      ],
+      "alone0": true,
+      "alone1": false,
+      "alone_any": true,
+      "both_unlock": true,
+      "matches_strong_A": false,
+      "matches_weak": true,
+      "file": "2097.jpg",
+      "occupied": 36,
+      "death_pct": 0.0,
+      "branches": 20,
+      "budget_exceeded": false,
+      "bucket": "single_unlock",
+      "notes": null
+    },
+    {
+      "ids": [
+        33,
+        7,
+        26
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        5,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 33,
+      "unlock_ids": [
+        7,
+        26
+      ],
+      "unlock_legal": [
+        5,
+        1
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2099.jpg",
+      "occupied": 41,
+      "death_pct": 63.64,
+      "branches": 11,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": "s1 vert4 (not vert3)"
+    },
+    {
+      "ids": [
+        21,
+        9,
+        20
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        6,
+        3
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 21,
+      "unlock_ids": [
+        9,
+        20
+      ],
+      "unlock_legal": [
+        6,
+        3
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2101.jpg",
+      "occupied": 30,
+      "death_pct": 75.0,
+      "branches": 16,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        33,
+        9,
+        9
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": true,
+      "legal_counts": [
+        0,
+        3,
+        3
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 33,
+      "unlock_ids": [
+        9,
+        9
+      ],
+      "unlock_legal": [
+        3,
+        3
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2103.jpg",
+      "occupied": 39,
+      "death_pct": 42.86,
+      "branches": 7,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        7,
+        9,
+        17
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        4,
+        5
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 7,
+      "unlock_ids": [
+        9,
+        17
+      ],
+      "unlock_legal": [
+        4,
+        5
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2105.jpg",
+      "occupied": 35,
+      "death_pct": 69.23,
+      "branches": 13,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        7,
+        17,
+        14
+      ],
+      "placeable": [
+        false,
+        true,
+        true
+      ],
+      "blocked_count": 1,
+      "has_duplicate": false,
+      "legal_counts": [
+        0,
+        3,
+        1
+      ],
+      "pattern": "one_blocked_two_free",
+      "blocked_id": 7,
+      "unlock_ids": [
+        17,
+        14
+      ],
+      "unlock_legal": [
+        3,
+        1
+      ],
+      "alone0": false,
+      "alone1": false,
+      "alone_any": false,
+      "both_unlock": true,
+      "matches_strong_A": true,
+      "matches_weak": true,
+      "file": "2107.jpg",
+      "occupied": 41,
+      "death_pct": 33.33,
+      "branches": 6,
+      "budget_exceeded": false,
+      "bucket": "match_strong_A",
+      "notes": null
+    },
+    {
+      "ids": [
+        12,
+        30,
+        5
+      ],
+      "placeable": [
+        true,
+        true,
+        true
+      ],
+      "blocked_count": 0,
+      "has_duplicate": false,
+      "legal_counts": [
+        1,
+        1,
+        3
+      ],
+      "pattern": "all_placeable",
+      "matches_strong_A": false,
+      "matches_weak": false,
+      "alone_any": false,
+      "both_unlock": false,
+      "file": "2109.jpg",
+      "occupied": 44,
+      "death_pct": 40.0,
+      "branches": 10,
+      "budget_exceeded": false,
+      "bucket": "all_placeable",
+      "notes": null
+    }
+  ]
+}

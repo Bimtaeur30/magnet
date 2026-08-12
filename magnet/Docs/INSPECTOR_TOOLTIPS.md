@@ -144,12 +144,22 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 |------|------|---------|
 | `Scripts/Data/AreaBundlePoolSO.cs` | `normalBundles` | 기본(Normal) 번들 — Blocks2 스크린샷 전수. 필터 없음, weight=관측횟수만 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `outcomeBeamWidth` | 완주 클리어·올클 추정 빔 폭 (권장 4~8) |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `maxAreaRefineTopK` | 빔 Area 근사 후 MaxArea로 정밀화할 상위 후보 수 (권장 3~5). 0=정밀화 없음 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `allClearProbability` | 올클 가능 후보가 있을 때 그 패를 줄 확률 (권장 0.75). 낙첨 시 올클 후보는 이번 턴 제외 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `allClearCooldownTurns` | 올클 패 지급 후 올클 최우선을 쉬는 턴 수 (권장 1). 빈 보드는 별도로 올클 검사 스킵 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `allClearBundles` | 올클 전용 고정 번들(소수). 점유 칸이 적을 때만 Exact 완주·비움 검사 |
-| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearMaxOccupied` | 점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 16). 빔 미사용 |
-| `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityContourMinFill` | 접대: 4-연결 빈 구멍의 8이웃 윤곽 채움 비율 하한 (권장 0.7) |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `allClearMaxOccupied` | 점유 칸이 이 값 이하일 때만 올클 고정 풀 Exact 검사 (권장 24). 빔 미사용 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityContourMinFill` | 접대: 4-연결 빈 구멍의 8이웃 윤곽 채움 비율 하한 (권장 0.35) |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityProbability` | 접대 후보(Exact 핏 번들)가 있을 때 지급 확률 (권장 0.35). 낙첨 시 Normal |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `hospitalityThreeCellProbability` | 접대 확정 후 핏이 3칸뿐일 때 추가 통과 확률 (권장 0.5). 낙첨 시 Normal |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `shapeWeights` | Main: ShapeId 1~42 가중. boardArea≤survivalAreaMax 일 때 Normal/Easy. 접대/올클 미적용 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `cleanShapeWeights` | Clean: ShapeId 1~42 가중. boardArea>survivalAreaMax 일 때 Normal Area. 기본 1 · 작은 ㄱ만 0 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `uniqueShapeWeights` | Unique 동적 생성 추첨 가중. 기본=Unique 폴더 관측. 0=제외. 작은 ㄱ·미관측 초소형/대각 0 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `survivalAreaMax` | boardArea ≤ 이면 Main(생존 가중). > 이면 Clean(올클 친화 가중). 권장 0 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `cleanChainProbability` | Clean Normal Area 지급 시 다음 패를 최적 보드에서 미리 뽑을 확률 (권장 0.4) |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `deathRejectPercent` | Death%가 이 값 초과면 배제(예산 내 완주 시에만). 권장 30 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `deathRejectMaxTries` | effective Area 상위부터 Death 배제 시도 횟수. 전부 배제 시 1등 채택. 권장 8 |
+| `Scripts/Data/AreaBundlePoolSO.cs` | `deathBranchBudget` | Death 분모(검사 갈래) 상한. 초과 시 검사 중단·통과. 0=무제한. 권장 48 |
 | `Scripts/Data/AreaScoreTuning.cs` | `areaCountPenalty` | 4-연결 Area(찬+빈) 1개당 점수에서 빼는 양. 영역이 적을수록 Total이 높아짐 |
 | `Scripts/Data/AreaScoreTuning.cs` | `rectCountPenalty` | 찬 칸 greedy 직사각 1개당 점수에서 빼는 양 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `areaScore` | 빈/찬 Area size + 찬 직사각·Area 개수 패널티 |
@@ -180,6 +190,16 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `stayColor` | 회색 채움 — 안쪽이 막혀 원래 칸에 제자리 |
 | `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `corridorColor` | 흰 선 — 원점~원래칸 수선 복도(CorridorHalfWidth) |
 | `Scripts/Presentation/CellRelocationTargetGizmo.cs` | `axisColor` | 노란 축 선 — 원점(0,0) → 원래 칸 방향 |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `piece0Color` | 패 슬롯0·보드 배치 와이어 색 (시안). Unique blocked는 uniqueBlockedColor |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `piece1Color` | 패 슬롯1·보드 배치 와이어 색 (노랑) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `piece2Color` | 패 슬롯2·보드 배치 와이어 색 (보라) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `uniqueBlockedColor` | Unique 막힌 피스(슬롯0) 색 (빨강) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `drawHandFilled` | 패 미리보기 채움 여부 (보드 배치 기즈모는 항상 와이어) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `drawHandPreview` | 보드 아래 가로 3슬롯 패 미리보기 |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `handGapCells` | 패 미리보기 슬롯 사이 간격(칸) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `handBelowCells` | 보드 하단에서 패 미리보기까지 간격(칸) |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `tierUnique` / `tierAllClear` / `tierHospitality` / `tierNormalClean` / `tierNormalMain` / `tierEasy` / `tierKill` | 패 아래 모드 띠·라벨 색 |
+| `Scripts/Presentation/AreaBundleSelectionGizmo.cs` | `drawModeLabel` | Scene에 Normal-Clean/올클 등 모드 라벨 표시 |
 | `Scripts/Data/ClearReassemblyMotionConfigSO.cs` | `bounceCells` | 폭발 후 바깥으로 튕기는 거리(칸) |
 | `Scripts/Data/ClearReassemblyMotionConfigSO.cs` | `bounceDuration` | 튕김 LitMotion 시간(초) |
 | `Scripts/Data/ClearReassemblyMotionConfigSO.cs` | `bounceEase` | 튕김(바깥으로 밀려남) LitMotion 이징 (Ease enum) |
@@ -241,4 +261,8 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-08-10 | JTH AreaBundlePoolSO — allClearBundles·allClearMaxOccupied (고정 풀 Exact) |
 | 2026-08-10 | JTH multiClear 제거 · Hospitality(기회 피스) Clear Priority |
 | 2026-08-10 | JTH Hospitality — 구멍 윤곽≥70% Exact 핏 · p=0.75 |
+| 2026-08-10 | JTH AreaBundlePoolSO — shapeWeights (Normal/Easy Area×평균) |
+| 2026-08-10 | JTH AreaBundlePoolSO — deathRejectPercent/MaxTries/BranchBudget |
+| 2026-08-11 | JTH AreaBundlePoolSO — uniqueShapeWeights (Unique 언락 추첨) |
+| 2026-08-11 | JTH AreaBundleSelectionGizmo — 패 선택 시뮬 배치 칸 색 |
 | 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |

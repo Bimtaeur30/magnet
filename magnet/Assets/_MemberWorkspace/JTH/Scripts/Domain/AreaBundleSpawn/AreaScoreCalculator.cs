@@ -7,6 +7,8 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
 {
     public static class AreaScoreCalculator
     {
+        private const int BridgeSplitMinPartSize = 4;
+
         private static readonly Vector2Int[] Cardinals =
         {
             new(1, 0), new(-1, 0), new(0, 1), new(0, -1)
@@ -24,29 +26,30 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             {
                 for (int y = 0; y < n; ++y)
                 {
-                    if (visited[x, y])
+                    if (visited[x, y] || board.IsOccupied(new Vector2Int(x, y)))
                     {
                         continue;
                     }
 
-                    bool occupied = board.IsOccupied(new Vector2Int(x, y));
-                    List<Vector2Int> cells = Flood(board, visited, x, y, occupied);
-                    AreaComponentScore component = ScoreComponent(cells, occupied, cellCount, tuning);
-                    components.Add(component);
-                    baseTotal += component.Total;
+                    List<Vector2Int> emptyCells = Flood(board, visited, x, y, occupied: false);
+                    AreaComponentScore emptyComponent = ScoreComponent(emptyCells, occupied: false, cellCount, tuning);
+                    components.Add(emptyComponent);
+                    baseTotal += emptyComponent.Total;
                 }
             }
 
-            int rectCount = CountRectangles(board);
-            float rectPenalty = tuning.rectCountPenalty * rectCount;
+            AddOccupiedBridgeSplitComponents(board, visited, components, ref baseTotal, cellCount, tuning);
+
+            int cornerRectArea = MinCornerCoverRectArea(board);
+            float cornerRectPenalty = tuning.cornerRectPenalty * cornerRectArea;
             int areaCount = components.Count;
             float areaCountPenalty = tuning.areaCountPenalty * areaCount;
             return new AreaScoreResult(
-                baseTotal - rectPenalty - areaCountPenalty,
+                baseTotal - cornerRectPenalty - areaCountPenalty,
                 components,
-                rectCount,
+                cornerRectArea,
                 baseTotal,
-                rectPenalty,
+                cornerRectPenalty,
                 areaCount,
                 areaCountPenalty);
         }
@@ -54,20 +57,76 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public static float ScoreTotal(BoardGrid board, AreaScoreTuning tuning) =>
             Score(board, tuning).Total;
 
-        public static int CountRectangles(BoardGrid board)
+        /// <summary>
+        /// 보드 네 모서리 각각을 꼭짓점으로, 모든 찬 칸을 덮는 축정렬 직사각 면적 중 최솟값.
+        /// 찬 칸이 없으면 0.
+        /// </summary>
+        public static int MinCornerCoverRectArea(BoardGrid board)
         {
             int n = board.BoardSize;
-            bool[,] occupiedMask = new bool[n, n];
+            int minX = n;
+            int maxX = -1;
+            int minY = n;
+            int maxY = -1;
 
             for (int x = 0; x < n; ++x)
             {
                 for (int y = 0; y < n; ++y)
                 {
-                    occupiedMask[x, y] = board.IsOccupied(new Vector2Int(x, y));
+                    if (!board.IsOccupied(new Vector2Int(x, y)))
+                    {
+                        continue;
+                    }
+
+                    if (x < minX)
+                    {
+                        minX = x;
+                    }
+
+                    if (x > maxX)
+                    {
+                        maxX = x;
+                    }
+
+                    if (y < minY)
+                    {
+                        minY = y;
+                    }
+
+                    if (y > maxY)
+                    {
+                        maxY = y;
+                    }
                 }
             }
 
-            return PartitionCount(occupiedMask);
+            if (maxX < 0)
+            {
+                return 0;
+            }
+
+            int fromBottomLeft = (maxX + 1) * (maxY + 1);
+            int fromBottomRight = (n - minX) * (maxY + 1);
+            int fromTopLeft = (maxX + 1) * (n - minY);
+            int fromTopRight = (n - minX) * (n - minY);
+
+            int best = fromBottomLeft;
+            if (fromBottomRight < best)
+            {
+                best = fromBottomRight;
+            }
+
+            if (fromTopLeft < best)
+            {
+                best = fromTopLeft;
+            }
+
+            if (fromTopRight < best)
+            {
+                best = fromTopRight;
+            }
+
+            return best;
         }
 
         private static AreaComponentScore ScoreComponent(
@@ -123,143 +182,128 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return tuning.filledFullScore * (size - (tuning.filledTinyMaxSize + 1)) / span;
         }
 
-        private static int PartitionCount(bool[,] mask)
+        /// <summary>
+        /// 찬 칸 Area: 4연결로 묶은 뒤, 한 칸을 제거했을 때 양쪽이 각각
+        /// <see cref="BridgeSplitMinPartSize"/> 이상이면 그 칸(다리)에서 끊는다.
+        /// 짧은 돌출은 한 Area로 유지. 빈 칸은 이 경로를 쓰지 않는다.
+        /// </summary>
+        private static void AddOccupiedBridgeSplitComponents(
+            BoardGrid board,
+            bool[,] visited,
+            List<AreaComponentScore> components,
+            ref float baseTotal,
+            int cellCount,
+            AreaScoreTuning tuning)
         {
-            int n = mask.GetLength(0);
-            int[,] prefix = new int[n + 1, n + 1];
-            int count = 0;
-
-            while (TryFindBestRectangle(mask, prefix, n, out int x0, out int y0, out int width, out int height))
-            {
-                Carve(mask, x0, y0, width, height);
-                ++count;
-            }
-
-            return count;
-        }
-
-        private static bool TryFindBestRectangle(
-            bool[,] mask,
-            int[,] prefix,
-            int n,
-            out int bestX,
-            out int bestY,
-            out int bestW,
-            out int bestH)
-        {
-            RebuildPrefix(mask, prefix, n);
-
-            bestX = 0;
-            bestY = 0;
-            bestW = 0;
-            bestH = 0;
-            int bestArea = 0;
-            bool found = false;
-
-            for (int y0 = 0; y0 < n; ++y0)
-            {
-                for (int x0 = 0; x0 < n; ++x0)
-                {
-                    if (!mask[x0, y0])
-                    {
-                        continue;
-                    }
-
-                    for (int y1 = y0; y1 < n; ++y1)
-                    {
-                        for (int x1 = x0; x1 < n; ++x1)
-                        {
-                            int width = x1 - x0 + 1;
-                            int height = y1 - y0 + 1;
-                            int area = width * height;
-                            if (area < bestArea)
-                            {
-                                continue;
-                            }
-
-                            if (RectSum(prefix, x0, y0, x1, y1) != area)
-                            {
-                                continue;
-                            }
-
-                            if (!found || IsBetter(area, y0, x0, width, bestArea, bestY, bestX, bestW))
-                            {
-                                found = true;
-                                bestArea = area;
-                                bestX = x0;
-                                bestY = y0;
-                                bestW = width;
-                                bestH = height;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return found;
-        }
-
-        private static bool IsBetter(
-            int area, int y, int x, int width,
-            int bestArea, int bestY, int bestX, int bestWidth)
-        {
-            if (area != bestArea)
-            {
-                return area > bestArea;
-            }
-
-            if (y != bestY)
-            {
-                return y < bestY;
-            }
-
-            if (x != bestX)
-            {
-                return x < bestX;
-            }
-
-            return width > bestWidth;
-        }
-
-        private static void RebuildPrefix(bool[,] mask, int[,] prefix, int n)
-        {
-            for (int x = 0; x <= n; ++x)
-            {
-                prefix[x, 0] = 0;
-            }
-
-            for (int y = 0; y <= n; ++y)
-            {
-                prefix[0, y] = 0;
-            }
-
+            int n = board.BoardSize;
             for (int x = 0; x < n; ++x)
             {
                 for (int y = 0; y < n; ++y)
                 {
-                    prefix[x + 1, y + 1] = (mask[x, y] ? 1 : 0)
-                        + prefix[x, y + 1]
-                        + prefix[x + 1, y]
-                        - prefix[x, y];
+                    if (visited[x, y] || !board.IsOccupied(new Vector2Int(x, y)))
+                    {
+                        continue;
+                    }
+
+                    List<Vector2Int> raw = Flood(board, visited, x, y, occupied: true);
+                    List<List<Vector2Int>> parts = SplitAtBridges(raw, BridgeSplitMinPartSize);
+                    for (int i = 0; i < parts.Count; ++i)
+                    {
+                        AreaComponentScore component = ScoreComponent(parts[i], occupied: true, cellCount, tuning);
+                        components.Add(component);
+                        baseTotal += component.Total;
+                    }
                 }
             }
         }
 
-        private static int RectSum(int[,] prefix, int x0, int y0, int x1, int y1) =>
-            prefix[x1 + 1, y1 + 1]
-            - prefix[x0, y1 + 1]
-            - prefix[x1 + 1, y0]
-            + prefix[x0, y0];
-
-        private static void Carve(bool[,] mask, int x0, int y0, int width, int height)
+        /// <summary>
+        /// 관절점(다리 칸)을 찾아, 끊으면 큰 덩어리가 둘 이상일 때만 분할을 재귀 적용한다.
+        /// </summary>
+        private static List<List<Vector2Int>> SplitAtBridges(List<Vector2Int> cells, int minPartSize)
         {
-            for (int x = x0; x < x0 + width; ++x)
+            if (cells.Count < minPartSize * 2 + 1)
             {
-                for (int y = y0; y < y0 + height; ++y)
-                {
-                    mask[x, y] = false;
-                }
+                return new List<List<Vector2Int>>(1) { cells };
             }
+
+            List<Vector2Int> ordered = new(cells);
+            ordered.Sort(static (a, b) =>
+            {
+                int cx = a.x.CompareTo(b.x);
+                return cx != 0 ? cx : a.y.CompareTo(b.y);
+            });
+
+            HashSet<Vector2Int> set = new(cells);
+            for (int i = 0; i < ordered.Count; ++i)
+            {
+                Vector2Int cut = ordered[i];
+                List<List<Vector2Int>> parts = FloodPartsExcluding(set, cut);
+                int largeCount = 0;
+                for (int p = 0; p < parts.Count; ++p)
+                {
+                    if (parts[p].Count >= minPartSize)
+                    {
+                        ++largeCount;
+                    }
+                }
+
+                if (largeCount < 2)
+                {
+                    continue;
+                }
+
+                List<List<Vector2Int>> result = new(parts.Count + 1);
+                for (int p = 0; p < parts.Count; ++p)
+                {
+                    List<List<Vector2Int>> nested = SplitAtBridges(parts[p], minPartSize);
+                    result.AddRange(nested);
+                }
+
+                result.Add(new List<Vector2Int>(1) { cut });
+                return result;
+            }
+
+            return new List<List<Vector2Int>>(1) { cells };
+        }
+
+        private static List<List<Vector2Int>> FloodPartsExcluding(HashSet<Vector2Int> set, Vector2Int exclude)
+        {
+            HashSet<Vector2Int> seen = new();
+            List<List<Vector2Int>> parts = new();
+
+            foreach (Vector2Int start in set)
+            {
+                if (start == exclude || !seen.Add(start))
+                {
+                    continue;
+                }
+
+                List<Vector2Int> part = new();
+                Queue<Vector2Int> queue = new();
+                queue.Enqueue(start);
+
+                while (queue.Count > 0)
+                {
+                    Vector2Int cur = queue.Dequeue();
+                    part.Add(cur);
+
+                    foreach (Vector2Int d in Cardinals)
+                    {
+                        Vector2Int next = new(cur.x + d.x, cur.y + d.y);
+                        if (next == exclude || !set.Contains(next) || !seen.Add(next))
+                        {
+                            continue;
+                        }
+
+                        queue.Enqueue(next);
+                    }
+                }
+
+                parts.Add(part);
+            }
+
+            return parts;
         }
 
         /// <summary>

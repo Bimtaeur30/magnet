@@ -1,0 +1,790 @@
+{
+  "budget": 48,
+  "by_bucket": {
+    "all_placeable": {
+      "n": 12,
+      "mean": 15.76,
+      "median": 9.36,
+      "min": 0.0,
+      "max": 46.67
+    },
+    "both_fail": {
+      "n": 1,
+      "mean": 100.0,
+      "median": 100.0,
+      "min": 100.0,
+      "max": 100.0
+    },
+    "match_strong_A": {
+      "n": 21,
+      "mean": 67.03,
+      "median": 70.83,
+      "min": 0.0,
+      "max": 90.24
+    },
+    "multi_blocked": {
+      "n": 2,
+      "mean": 50.0,
+      "median": 50.0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    "single_unlock": {
+      "n": 10,
+      "mean": 27.13,
+      "median": 7.14,
+      "min": 0.0,
+      "max": 75.51
+    }
+  },
+  "compare": {
+    "strict_match_A": {
+      "n": 21,
+      "mean": 67.03,
+      "median": 70.83
+    },
+    "sloppy_non_match": {
+      "n": 25,
+      "mean": 26.42,
+      "median": 8.16
+    }
+  },
+  "rows": [
+    {
+      "file": "1996.jpg",
+      "ids": [
+        18,
+        4,
+        17
+      ],
+      "bucket": "both_fail",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 100.0,
+      "deaths": 4,
+      "branches": 4,
+      "budget_exceeded": false,
+      "occupied": 44,
+      "has_duplicate": false
+    },
+    {
+      "file": "2024.jpg",
+      "ids": [
+        34,
+        30,
+        13
+      ],
+      "bucket": "multi_blocked",
+      "pattern": "multi_blocked",
+      "death_pct": 100.0,
+      "deaths": 1,
+      "branches": 1,
+      "budget_exceeded": false,
+      "occupied": 41,
+      "has_duplicate": false
+    },
+    {
+      "file": "2040.jpg",
+      "ids": [
+        12,
+        4,
+        32
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 90.24,
+      "deaths": 37,
+      "branches": 41,
+      "budget_exceeded": false,
+      "occupied": 30,
+      "has_duplicate": false
+    },
+    {
+      "file": "2038.jpg",
+      "ids": [
+        13,
+        1,
+        34
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 89.8,
+      "deaths": 44,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 32,
+      "has_duplicate": false
+    },
+    {
+      "file": "2095.jpg",
+      "ids": [
+        13,
+        17,
+        26
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 89.19,
+      "deaths": 33,
+      "branches": 37,
+      "budget_exceeded": false,
+      "occupied": 27,
+      "has_duplicate": false
+    },
+    {
+      "file": "1962.jpg",
+      "ids": [
+        13,
+        18,
+        5
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 87.76,
+      "deaths": 43,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 23,
+      "has_duplicate": false
+    },
+    {
+      "file": "1966.jpg",
+      "ids": [
+        36,
+        23,
+        15
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 81.82,
+      "deaths": 9,
+      "branches": 11,
+      "budget_exceeded": false,
+      "occupied": 39,
+      "has_duplicate": false
+    },
+    {
+      "file": "1982.jpg",
+      "ids": [
+        11,
+        9,
+        2
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 75.51,
+      "deaths": 37,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 36,
+      "has_duplicate": false
+    },
+    {
+      "file": "1994.jpg",
+      "ids": [
+        12,
+        5,
+        23
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 75.0,
+      "deaths": 12,
+      "branches": 16,
+      "budget_exceeded": false,
+      "occupied": 38,
+      "has_duplicate": false
+    },
+    {
+      "file": "2002.jpg",
+      "ids": [
+        12,
+        33,
+        20
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 75.0,
+      "deaths": 12,
+      "branches": 16,
+      "budget_exceeded": false,
+      "occupied": 37,
+      "has_duplicate": false
+    },
+    {
+      "file": "2099.jpg",
+      "ids": [
+        33,
+        4,
+        26
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 75.0,
+      "deaths": 12,
+      "branches": 16,
+      "budget_exceeded": false,
+      "occupied": 41,
+      "has_duplicate": false
+    },
+    {
+      "file": "2101.jpg",
+      "ids": [
+        21,
+        9,
+        20
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 75.0,
+      "deaths": 12,
+      "branches": 16,
+      "budget_exceeded": false,
+      "occupied": 30,
+      "has_duplicate": false
+    },
+    {
+      "file": "2046.jpg",
+      "ids": [
+        13,
+        4,
+        19
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 71.43,
+      "deaths": 15,
+      "branches": 21,
+      "budget_exceeded": false,
+      "occupied": 33,
+      "has_duplicate": false
+    },
+    {
+      "file": "2078.jpg",
+      "ids": [
+        21,
+        5,
+        24
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 70.83,
+      "deaths": 17,
+      "branches": 24,
+      "budget_exceeded": false,
+      "occupied": 37,
+      "has_duplicate": false
+    },
+    {
+      "file": "1980.jpg",
+      "ids": [
+        13,
+        28,
+        26
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 69.23,
+      "deaths": 9,
+      "branches": 13,
+      "budget_exceeded": false,
+      "occupied": 35,
+      "has_duplicate": false
+    },
+    {
+      "file": "2080.jpg",
+      "ids": [
+        21,
+        9,
+        32
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 69.23,
+      "deaths": 9,
+      "branches": 13,
+      "budget_exceeded": false,
+      "occupied": 35,
+      "has_duplicate": false
+    },
+    {
+      "file": "1998.jpg",
+      "ids": [
+        18,
+        16,
+        4
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 68.18,
+      "deaths": 15,
+      "branches": 22,
+      "budget_exceeded": false,
+      "occupied": 40,
+      "has_duplicate": false
+    },
+    {
+      "file": "1978.jpg",
+      "ids": [
+        7,
+        5,
+        15
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 67.35,
+      "deaths": 33,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 34,
+      "has_duplicate": false
+    },
+    {
+      "file": "1990.jpg",
+      "ids": [
+        12,
+        9,
+        19
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 63.64,
+      "deaths": 7,
+      "branches": 11,
+      "budget_exceeded": false,
+      "occupied": 38,
+      "has_duplicate": false
+    },
+    {
+      "file": "2044.jpg",
+      "ids": [
+        13,
+        5,
+        20
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 61.22,
+      "deaths": 30,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 31,
+      "has_duplicate": false
+    },
+    {
+      "file": "2042.jpg",
+      "ids": [
+        35,
+        5,
+        5
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 60.87,
+      "deaths": 14,
+      "branches": 23,
+      "budget_exceeded": false,
+      "occupied": 35,
+      "has_duplicate": true
+    },
+    {
+      "file": "1972.jpg",
+      "ids": [
+        9,
+        17,
+        34
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 55.56,
+      "deaths": 5,
+      "branches": 9,
+      "budget_exceeded": false,
+      "occupied": 39,
+      "has_duplicate": false
+    },
+    {
+      "file": "1976.jpg",
+      "ids": [
+        13,
+        12,
+        2
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 52.94,
+      "deaths": 18,
+      "branches": 34,
+      "budget_exceeded": false,
+      "occupied": 41,
+      "has_duplicate": false
+    },
+    {
+      "file": "2076.jpg",
+      "ids": [
+        12,
+        25,
+        42
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 50.0,
+      "deaths": 4,
+      "branches": 8,
+      "budget_exceeded": false,
+      "occupied": 36,
+      "has_duplicate": false
+    },
+    {
+      "file": "2020.jpg",
+      "ids": [
+        21,
+        5,
+        17
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 46.94,
+      "deaths": 23,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 37,
+      "has_duplicate": false
+    },
+    {
+      "file": "1964.jpg",
+      "ids": [
+        17,
+        24,
+        24
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 46.67,
+      "deaths": 7,
+      "branches": 15,
+      "budget_exceeded": false,
+      "occupied": 32,
+      "has_duplicate": true
+    },
+    {
+      "file": "2103.jpg",
+      "ids": [
+        33,
+        9,
+        9
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 42.86,
+      "deaths": 3,
+      "branches": 7,
+      "budget_exceeded": false,
+      "occupied": 39,
+      "has_duplicate": true
+    },
+    {
+      "file": "2109.jpg",
+      "ids": [
+        12,
+        30,
+        5
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 40.0,
+      "deaths": 4,
+      "branches": 10,
+      "budget_exceeded": false,
+      "occupied": 44,
+      "has_duplicate": false
+    },
+    {
+      "file": "2107.jpg",
+      "ids": [
+        4,
+        17,
+        14
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 32.0,
+      "deaths": 8,
+      "branches": 25,
+      "budget_exceeded": false,
+      "occupied": 41,
+      "has_duplicate": false
+    },
+    {
+      "file": "2082.jpg",
+      "ids": [
+        17,
+        25,
+        20
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 30.61,
+      "deaths": 15,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 32,
+      "has_duplicate": false
+    },
+    {
+      "file": "2036.jpg",
+      "ids": [
+        5,
+        4,
+        34
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 19.05,
+      "deaths": 4,
+      "branches": 21,
+      "budget_exceeded": false,
+      "occupied": 42,
+      "has_duplicate": false
+    },
+    {
+      "file": "1960.jpg",
+      "ids": [
+        17,
+        33,
+        33
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 16.67,
+      "deaths": 2,
+      "branches": 12,
+      "budget_exceeded": false,
+      "occupied": 33,
+      "has_duplicate": true
+    },
+    {
+      "file": "2086.jpg",
+      "ids": [
+        35,
+        21,
+        4
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 8.16,
+      "deaths": 4,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 34,
+      "has_duplicate": false
+    },
+    {
+      "file": "2092.jpg",
+      "ids": [
+        4,
+        36,
+        13
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 6.12,
+      "deaths": 3,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 34,
+      "has_duplicate": false
+    },
+    {
+      "file": "2018.jpg",
+      "ids": [
+        17,
+        20,
+        32
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 2.04,
+      "deaths": 1,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 24,
+      "has_duplicate": false
+    },
+    {
+      "file": "2026.jpg",
+      "ids": [
+        17,
+        4,
+        19
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 2.04,
+      "deaths": 1,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 35,
+      "has_duplicate": false
+    },
+    {
+      "file": "1916.jpg",
+      "ids": [
+        35,
+        33,
+        1
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 29,
+      "has_duplicate": false
+    },
+    {
+      "file": "1984.jpg",
+      "ids": [
+        17,
+        9,
+        21
+      ],
+      "bucket": "match_strong_A",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 4,
+      "budget_exceeded": false,
+      "occupied": 41,
+      "has_duplicate": false
+    },
+    {
+      "file": "2016.jpg",
+      "ids": [
+        5,
+        9,
+        32
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 28,
+      "has_duplicate": false
+    },
+    {
+      "file": "2022.jpg",
+      "ids": [
+        29,
+        17,
+        29
+      ],
+      "bucket": "multi_blocked",
+      "pattern": "multi_blocked",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 5,
+      "budget_exceeded": false,
+      "occupied": 50,
+      "has_duplicate": true
+    },
+    {
+      "file": "2028.jpg",
+      "ids": [
+        4,
+        25,
+        32
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 15,
+      "budget_exceeded": false,
+      "occupied": 40,
+      "has_duplicate": false
+    },
+    {
+      "file": "2030.jpg",
+      "ids": [
+        42,
+        19,
+        31
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 10,
+      "budget_exceeded": false,
+      "occupied": 44,
+      "has_duplicate": false
+    },
+    {
+      "file": "2032.jpg",
+      "ids": [
+        4,
+        19,
+        38
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 38,
+      "has_duplicate": false
+    },
+    {
+      "file": "2084.jpg",
+      "ids": [
+        35,
+        20,
+        12
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 14,
+      "budget_exceeded": false,
+      "occupied": 39,
+      "has_duplicate": false
+    },
+    {
+      "file": "2097.jpg",
+      "ids": [
+        35,
+        36,
+        21
+      ],
+      "bucket": "single_unlock",
+      "pattern": "one_blocked_two_free",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 20,
+      "budget_exceeded": false,
+      "occupied": 36,
+      "has_duplicate": false
+    },
+    {
+      "file": "2105.jpg",
+      "ids": [
+        4,
+        9,
+        5
+      ],
+      "bucket": "all_placeable",
+      "pattern": "all_placeable",
+      "death_pct": 0.0,
+      "deaths": 0,
+      "branches": 49,
+      "budget_exceeded": true,
+      "occupied": 35,
+      "has_duplicate": false
+    }
+  ]
+}

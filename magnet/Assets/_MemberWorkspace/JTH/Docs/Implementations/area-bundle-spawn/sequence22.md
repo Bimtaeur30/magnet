@@ -19,4 +19,13 @@
   - 심볼: `TrySelectHospitality` — 메서드 (수정)
     - 설명: SumFittingWeight 사용.
 
-- 문서: `phase22.md` · `phases.md` · `IMPLEMENTATIONS.md`
+## 2 — 2026-08-10 · 3칸 접대 추가 확률
+
+- 수정: `Scripts/Data/AreaBundlePoolSO.cs`
+  - 심볼: `hospitalityThreeCellProbability` / `HospitalityThreeCellProbability` — (추가)
+    - 설명: 접대 35% 통과 후, 핏이 3칸뿐이면 추가 0.5.
+- 수정: `Scripts/Domain/AreaBundleSpawn/OpportunityDetector.cs`
+  - 심볼: `IsHalfWeightOnlyFit` — 메서드 (추가)
+- 수정: `Scripts/Domain/AreaBundleSpawn/AreaBundleOrchestrator.cs`
+  - 심볼: `TrySelectNormalPriority` — 메서드 (수정)
+    - 설명: pHospitality 후, 핏이 3칸뿐이면 pThreeCell 추가 게이트.
