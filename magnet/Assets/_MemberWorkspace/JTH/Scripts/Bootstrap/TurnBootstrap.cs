@@ -69,7 +69,7 @@ namespace JTH.Scripts.Bootstrap
                 placementResult.LastDrop);
 
             RaiseAttackEvent(evt, scoreResult);
-            RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
+            RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter, placementResult);
 
             if (evt.PlacementResult.LastDrop)
             {
@@ -137,14 +137,64 @@ namespace JTH.Scripts.Bootstrap
             }
         }
 
-        private void RaiseComboChangedIfNeeded(int comboBefore, int comboAfter)
+        private void RaiseComboChangedIfNeeded(
+            int comboBefore,
+            int comboAfter,
+            PlacementResult placementResult)
         {
             if (comboAfter == comboBefore)
             {
                 return;
             }
 
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.ComboChangedEvent.Init(comboAfter));
+            Vector3 worldPosition = ResolveComboWorldPosition(placementResult);
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.ComboChangedEvent.Init(comboAfter, worldPosition));
+        }
+
+        /// <summary>
+        /// 콤보 터진(클리어) 칸들의 월드 중심. 클리어가 없으면 배치 블록 중심.
+        /// </summary>
+        private Vector3 ResolveComboWorldPosition(PlacementResult placementResult)
+        {
+            Vector2Int minGrid = new Vector2Int(int.MaxValue, int.MaxValue);
+            Vector2Int maxGrid = new Vector2Int(int.MinValue, int.MinValue);
+            bool hasClearedCell = false;
+
+            foreach (Line line in placementResult.ClearedLineResult.ClearedLines)
+            {
+                foreach (Vector2Int grid in line.GetCells(_gameBoard.Grid.BoardSize))
+                {
+                    hasClearedCell = true;
+                    ExpandBounds(ref minGrid, ref maxGrid, grid);
+                }
+            }
+
+            if (!hasClearedCell)
+            {
+                foreach (Vector2Int grid in placementResult.PlacedGridPositions)
+                {
+                    ExpandBounds(ref minGrid, ref maxGrid, grid);
+                }
+            }
+
+            Vector2 minWorld = _gameBoard.GridToWorld(minGrid);
+            Vector2 maxWorld = _gameBoard.GridToWorld(maxGrid);
+            Vector2 cellWorldSize =
+                _gameBoard.GridToWorld(Vector2Int.right) - _gameBoard.GridToWorld(Vector2Int.zero);
+            return (minWorld + maxWorld + cellWorldSize) * 0.5f;
+        }
+
+        private static void ExpandBounds(ref Vector2Int minGrid, ref Vector2Int maxGrid, Vector2Int grid)
+        {
+            if (grid.x < minGrid.x)
+                minGrid.x = grid.x;
+            if (grid.y < minGrid.y)
+                minGrid.y = grid.y;
+            if (grid.x > maxGrid.x)
+                maxGrid.x = grid.x;
+            if (grid.y > maxGrid.y)
+                maxGrid.y = grid.y;
         }
     }
 }
