@@ -68,6 +68,8 @@ namespace JTH.Scripts.Bootstrap
                 placementResult.FirstDrop,
                 placementResult.LastDrop);
 
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.ScoreChangedEvent.Init(scoreResult.TotalScore));
+
             RaiseAttackEvent(evt, scoreResult);
             RaiseComboChangedIfNeeded(comboBefore, scoreResult.ComboAfter);
 

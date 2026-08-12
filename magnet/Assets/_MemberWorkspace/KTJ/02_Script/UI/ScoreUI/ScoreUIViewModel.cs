@@ -7,54 +7,54 @@ namespace Game.UI
 {
     public sealed partial class ScoreUIViewModel
     {
-        private MotionHandle _currentStageScaleHandle;
-        private Vector3 _currentStageScale = Vector3.one;
+        private MotionHandle _currentScoreScaleHandle;
+        private Vector3 _currentScoreScale = Vector3.one;
 
-        public Vector3 CurrentStageScale
+        public Vector3 CurrentScoreScale
         {
-            get => _currentStageScale;
-            private set => SetProperty(ref _currentStageScale, value);
+            get => _currentScoreScale;
+            private set => SetProperty(ref _currentScoreScale, value);
         }
 
-        public void SetCurrentStage(int stage)
+        public void SetCurrentScore(int score)
         {
-            CurrentStageTxt = stage.ToString();
+            CurrentScoreTxt = score.ToString();
         }
 
-        public void SetBestStage(int stage)
+        public void SetBestScore(int score)
         {
-            BestStageTxt = stage.ToString();
+            BestScoreTxt = score.ToString();
         }
 
-        public void PlayCurrentStageScaleAnimation()
+        public void PlayCurrentScoreScaleAnimation()
         {
-            StopCurrentStageScaleAnimation();
+            StopCurrentScoreScaleAnimation();
 
-            _currentStageScaleHandle = LMotion.Create(1f, 1.2f, 0.08f)
+            _currentScoreScaleHandle = LMotion.Create(1f, 1.2f, 0.08f)
                 .WithEase(Ease.OutQuad)
                 .WithOnComplete(() =>
                 {
-                    _currentStageScaleHandle = LMotion.Create(1.2f, 1f, 0.12f)
+                    _currentScoreScaleHandle = LMotion.Create(1.2f, 1f, 0.12f)
                         .WithEase(Ease.OutBack)
-                        .Bind(SetCurrentStageScale);
+                        .Bind(SetCurrentScoreScale);
                 })
-                .Bind(SetCurrentStageScale);
+                .Bind(SetCurrentScoreScale);
         }
 
-        public void StopCurrentStageScaleAnimation()
+        public void StopCurrentScoreScaleAnimation()
         {
-            if (_currentStageScaleHandle.IsActive())
+            if (_currentScoreScaleHandle.IsActive())
             {
-                _currentStageScaleHandle.Cancel();
-                _currentStageScaleHandle = default;
+                _currentScoreScaleHandle.Cancel();
+                _currentScoreScaleHandle = default;
             }
 
-            CurrentStageScale = Vector3.one;
+            CurrentScoreScale = Vector3.one;
         }
 
-        private void SetCurrentStageScale(float scale)
+        private void SetCurrentScoreScale(float scale)
         {
-            CurrentStageScale = new Vector3(scale, scale, 1f);
+            CurrentScoreScale = new Vector3(scale, scale, 1f);
         }
     }
 }

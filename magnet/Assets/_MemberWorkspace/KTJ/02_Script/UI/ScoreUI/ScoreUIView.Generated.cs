@@ -44,19 +44,19 @@ public sealed partial class ScoreUIView
         }
 
 
-            if ((propertyName == null || propertyName == nameof(ViewModel.CurrentStageTxt)) && scoreUICurrentScoreTxtText != null)
+            if ((propertyName == null || propertyName == nameof(ViewModel.CurrentScoreTxt)) && scoreUICurrentScoreTxtText != null)
             {
-                scoreUICurrentScoreTxtText.text = ViewModel.CurrentStageTxt;
+                scoreUICurrentScoreTxtText.text = ViewModel.CurrentScoreTxt;
             }
 
-            if ((propertyName == null || propertyName == nameof(ViewModel.CurrentStageScale)) && scoreUICurrentScoreTxtLocalScale != null)
+            if ((propertyName == null || propertyName == nameof(ViewModel.CurrentScoreScale)) && scoreUICurrentScoreTxtLocalScale != null)
             {
-                scoreUICurrentScoreTxtLocalScale.localScale = ViewModel.CurrentStageScale;
+                scoreUICurrentScoreTxtLocalScale.localScale = ViewModel.CurrentScoreScale;
             }
 
-            if ((propertyName == null || propertyName == nameof(ViewModel.BestStageTxt)) && scoreUIBestScoreTxtText != null)
+            if ((propertyName == null || propertyName == nameof(ViewModel.BestScoreTxt)) && scoreUIBestScoreTxtText != null)
             {
-                scoreUIBestScoreTxtText.text = ViewModel.BestStageTxt;
+                scoreUIBestScoreTxtText.text = ViewModel.BestScoreTxt;
             }
     }
 }

@@ -10,8 +10,22 @@ namespace PTY.Scripts.Events
     public static class SaveEvents
     {
         public static readonly BestStageUpdatedEvent BestStageUpdatedEvent = new();
+        public static readonly BestScoreUpdatedEvent BestScoreUpdatedEvent = new();
         public static readonly SaveSyncCompletedEvent SaveSyncCompletedEvent = new();
         public static readonly SaveDataLoadedEvent SaveDataLoadedEvent = new();
+    }
+
+    public sealed class BestScoreUpdatedEvent : GameEvent
+    {
+        public int NewBestScore { get; private set; }
+        public int PreviousBestScore { get; private set; }
+
+        public BestScoreUpdatedEvent Init(int newBestScore, int previousBestScore)
+        {
+            NewBestScore = newBestScore;
+            PreviousBestScore = previousBestScore;
+            return this;
+        }
     }
 
     public sealed class BestStageUpdatedEvent : GameEvent

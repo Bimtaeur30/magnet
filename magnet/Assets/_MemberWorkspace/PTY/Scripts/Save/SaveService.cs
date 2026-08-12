@@ -28,6 +28,7 @@ namespace PTY.Scripts.Save
         }
 
         public int BestStage => _data.BestStage;
+        public int BestScore => _data.BestScore;
         public IReadOnlyList<string> UnlockedSkinIds => _data.UnlockedSkinIds;
         public string EquippedSkinId => _data.EquippedSkinId;
         public float TotalPlayTime => _data.TotalPlayTime;
@@ -50,6 +51,19 @@ namespace PTY.Scripts.Save
             _data.BestStage = stage;
             Save();
             _magnetGameChannel.RaiseEvent(SaveEvents.BestStageUpdatedEvent.Init(stage, previousBestStage));
+        }
+
+        public void SubmitScore(int score)
+        {
+            if (score <= _data.BestScore)
+            {
+                return;
+            }
+
+            int previousBestScore = _data.BestScore;
+            _data.BestScore = score;
+            Save();
+            _magnetGameChannel.RaiseEvent(SaveEvents.BestScoreUpdatedEvent.Init(score, previousBestScore));
         }
 
         public void UnlockSkin(string skinId)

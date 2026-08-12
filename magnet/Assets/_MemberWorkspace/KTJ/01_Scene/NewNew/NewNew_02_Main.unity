@@ -4812,6 +4812,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SoundPlayRequester, Magent.KTJ
       objectReference: {fileID: 0}
+    - target: {fileID: 761797636798617803, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: cellSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 761797636798617803, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: cellSpacing
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 854250982699618421, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4963,6 +4971,14 @@ PrefabInstance:
     - target: {fileID: 1466361735406878276, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475536089353045769, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: cellSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475536089353045769, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
+      propertyPath: cellSpacing
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1743405278692645135, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5470,11 +5486,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5765625352056932609, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: cellSize
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5765625352056932609, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: cellSpacing
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5831670855586687436, guid: fd61b48a7e534a1419346ee164adad24, type: 3}
       propertyPath: m_AnchorMax.y

@@ -22,12 +22,14 @@ namespace PTY.Scripts.Save
 
         [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private List<SkinDataSO> skinDefinitions;
+        private int _currentScore;
 
         private void Awake()
         {
             magnetGameChannel.AddListener<SkinUnlockedEvent>(OnSkinUnlocked);
             magnetGameChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
             magnetGameChannel.AddListener<GameOverEvent>(OnGameOver);
+            magnetGameChannel.AddListener<ScoreChangedEvent>(OnScoreChanged);
 
             IReadOnlyCollection<string> validSkinIds = skinDefinitions
                 .Where(skin => skin != null)
@@ -43,6 +45,7 @@ namespace PTY.Scripts.Save
             magnetGameChannel.RemoveListener<SkinUnlockedEvent>(OnSkinUnlocked);
             magnetGameChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
             magnetGameChannel.RemoveListener<GameOverEvent>(OnGameOver);
+            magnetGameChannel.RemoveListener<ScoreChangedEvent>(OnScoreChanged);
         }
 
         private void OnSkinUnlocked(SkinUnlockedEvent evt)
@@ -58,7 +61,13 @@ namespace PTY.Scripts.Save
         private void OnGameOver(GameOverEvent evt)
         {
             _saveService.SubmitStage(evt.FinalStage);
+            _saveService.SubmitScore(_currentScore);
             _saveService.RecordGameOver();
+        }
+
+        private void OnScoreChanged(ScoreChangedEvent evt)
+        {
+            _currentScore = evt.TotalScore;
         }
 
         private void RaiseSaveDataLoaded()

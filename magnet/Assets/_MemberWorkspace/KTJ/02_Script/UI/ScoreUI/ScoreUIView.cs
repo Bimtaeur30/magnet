@@ -15,77 +15,120 @@ namespace Game.UI
         [SerializeField, Min(0.001f)] private float secondsPerNumber = 0.02f;
         [Inject] private ISaveService _saveService;
 
-        private Coroutine _bestStageAnimation;
-        private int _displayedBestStage;
+        private Coroutine _currentScoreAnimation;
+        private Coroutine _bestScoreAnimation;
+        private int _displayedCurrentScore;
+        private int _displayedBestScore;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _displayedBestStage = _saveService?.BestStage ?? 0;
-            ViewModel.SetBestStage(_displayedBestStage);
+            _displayedBestScore = _saveService?.BestScore ?? 0;
+            ViewModel.SetBestScore(_displayedBestScore);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            MagnetGameChannel.AddListener<BestStageUpdatedEvent>(OnBestStageUpdated);
+            MagnetGameChannel.AddListener<ScoreChangedEvent>(OnScoreChanged);
+            MagnetGameChannel.AddListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
         }
 
         protected override void OnDisable()
         {
-            MagnetGameChannel.RemoveListener<BestStageUpdatedEvent>(OnBestStageUpdated);
+            MagnetGameChannel.RemoveListener<ScoreChangedEvent>(OnScoreChanged);
+            MagnetGameChannel.RemoveListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
 
-            StopStageAnimations();
+            StopScoreAnimations();
             base.OnDisable();
         }
 
-        private void OnBestStageUpdated(BestStageUpdatedEvent evt)
+        private void OnScoreChanged(ScoreChangedEvent evt)
         {
-            if (_bestStageAnimation != null)
+            ViewModel.PlayCurrentScoreScaleAnimation();
+
+            if (_currentScoreAnimation != null)
             {
-                StopCoroutine(_bestStageAnimation);
+                StopCoroutine(_currentScoreAnimation);
             }
 
-            _bestStageAnimation = StartCoroutine(AnimateBestStage(evt.NewBestStage));
+            _currentScoreAnimation = StartCoroutine(AnimateCurrentScore(evt.TotalScore));
         }
 
-        private IEnumerator AnimateBestStage(int targetStage)
+        private void OnBestScoreUpdated(BestScoreUpdatedEvent evt)
         {
-            if (targetStage <= _displayedBestStage)
+            if (_bestScoreAnimation != null)
             {
-                _displayedBestStage = targetStage;
-                ViewModel.SetBestStage(_displayedBestStage);
-                _bestStageAnimation = null;
+                StopCoroutine(_bestScoreAnimation);
+            }
+
+            _bestScoreAnimation = StartCoroutine(AnimateBestScore(evt.NewBestScore));
+        }
+
+        private IEnumerator AnimateCurrentScore(int targetScore)
+        {
+            if (targetScore <= _displayedCurrentScore)
+            {
+                _displayedCurrentScore = targetScore;
+                ViewModel.SetCurrentScore(_displayedCurrentScore);
+                _currentScoreAnimation = null;
                 yield break;
             }
 
-            while (_displayedBestStage < targetStage)
+            while (_displayedCurrentScore < targetScore)
             {
-                _displayedBestStage++;
-                ViewModel.SetBestStage(_displayedBestStage);
+                _displayedCurrentScore++;
+                ViewModel.SetCurrentScore(_displayedCurrentScore);
                 yield return new WaitForSecondsRealtime(GetSecondsPerNumber(
-                    targetStage - _displayedBestStage));
+                    targetScore - _displayedCurrentScore));
             }
 
-            _bestStageAnimation = null;
+            _currentScoreAnimation = null;
         }
 
-        private float GetSecondsPerNumber(int stageDifference)
+        private IEnumerator AnimateBestScore(int targetScore)
         {
-            int difference = Mathf.Max(1, stageDifference);
+            if (targetScore <= _displayedBestScore)
+            {
+                _displayedBestScore = targetScore;
+                ViewModel.SetBestScore(_displayedBestScore);
+                _bestScoreAnimation = null;
+                yield break;
+            }
+
+            while (_displayedBestScore < targetScore)
+            {
+                _displayedBestScore++;
+                ViewModel.SetBestScore(_displayedBestScore);
+                yield return new WaitForSecondsRealtime(GetSecondsPerNumber(
+                    targetScore - _displayedBestScore));
+            }
+
+            _bestScoreAnimation = null;
+        }
+
+        private float GetSecondsPerNumber(int scoreDifference)
+        {
+            int difference = Mathf.Max(1, scoreDifference);
             return secondsPerNumber / Mathf.Sqrt(difference);
         }
 
-        private void StopStageAnimations()
+        private void StopScoreAnimations()
         {
-            ViewModel.StopCurrentStageScaleAnimation();
+            ViewModel.StopCurrentScoreScaleAnimation();
 
-            if (_bestStageAnimation != null)
+            if (_currentScoreAnimation != null)
             {
-                StopCoroutine(_bestStageAnimation);
-                _bestStageAnimation = null;
+                StopCoroutine(_currentScoreAnimation);
+                _currentScoreAnimation = null;
+            }
+
+            if (_bestScoreAnimation != null)
+            {
+                StopCoroutine(_bestScoreAnimation);
+                _bestScoreAnimation = null;
             }
         }
     }

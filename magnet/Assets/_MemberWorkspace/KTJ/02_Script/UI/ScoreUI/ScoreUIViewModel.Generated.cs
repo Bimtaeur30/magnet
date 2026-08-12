@@ -6,20 +6,20 @@ namespace Game.UI
 {
 public sealed partial class ScoreUIViewModel : ObservableObject
 {
-    private string currentStageTxt = "0";
+    private string currentScoreTxt = "0";
 
-    public string CurrentStageTxt
+    public string CurrentScoreTxt
     {
-        get => currentStageTxt;
-        set => SetProperty(ref currentStageTxt, value);
+        get => currentScoreTxt;
+        set => SetProperty(ref currentScoreTxt, value);
     }
 
-    private string bestStageTxt = "0";
+    private string bestScoreTxt = "0";
 
-    public string BestStageTxt
+    public string BestScoreTxt
     {
-        get => bestStageTxt;
-        set => SetProperty(ref bestStageTxt, value);
+        get => bestScoreTxt;
+        set => SetProperty(ref bestScoreTxt, value);
     }
 }
 }
