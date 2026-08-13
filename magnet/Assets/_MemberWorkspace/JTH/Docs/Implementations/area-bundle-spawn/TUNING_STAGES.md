@@ -7,14 +7,14 @@
 | 항목 | 값 | 근거 |
 |------|-----|------|
 | `cornerRectPenalty` | **0.6** (평가 확정 후보) | 네 모서리 덮개 직사각 최소면적 × 이 값. Stage 후보였던 1=0.5 · 2=1 · 3=2 · 4=4 |
-| `areaCountPenalty` | **8** | Area 개수 패널티(찬=4연결+깊은홈절단·빈=4연결) — 영역 적을수록 Total↑ |
+| `areaCountPenalty` | **4** | Area 개수 패널티 (0→4) |
+| 나머지 base | **filledFull=67** | emptyFull 107 · filledFull **67** · tiny −12 |
 | `emptyTinyPenalty` | **−15** | R3-4 구멍 관대 |
 | `filledTinyPenalty` | **−12** | tiny 찬 Area (−8→−12) |
-| 나머지 base | **filledFull=20** | emptyFull 107 · filledFull **20** · tiny −12 |
 | `uniqueAreaThreshold` | **−15** | −25는 Unique 부족 → 약간 완화 |
 | `uniqueProbability` | **0.45** | 0.35→조금 더 |
 
-**점수:** `base − cornerRectPenalty×minCornerCoverArea − 8×areaCount`  
+**점수:** `base − cornerRectPenalty×minCornerCoverArea − 4×areaCount`  
 ~~greedy rectCount~~ — Phase34에서 제거  
 
 ## CornerRect Round (평가 중)

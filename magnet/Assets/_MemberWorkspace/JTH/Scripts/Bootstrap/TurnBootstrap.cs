@@ -73,7 +73,7 @@ namespace JTH.Scripts.Bootstrap
 
             if (evt.PlacementResult.LastDrop)
             {
-                _blockSpawnBootstrap.Fill();
+                _blockSpawnBootstrap.Fill(_scoreSession.TotalScore);
             }
 
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))

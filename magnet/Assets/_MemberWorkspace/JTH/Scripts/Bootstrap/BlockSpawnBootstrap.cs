@@ -33,6 +33,7 @@ namespace JTH.Scripts.Bootstrap
         private BlockSupply _supply;
         private AreaBundleDrawer _drawer;
         private int _turnIndex;
+        private int _handStartScore;
         private BoardGrid _handStartBoard;
         private readonly List<PlayerHandMove> _playerMoves = new(BlockSupply.SlotCount);
 
@@ -120,13 +121,14 @@ namespace JTH.Scripts.Bootstrap
             inGameChannel.RaiseEvent(InGameEvents.BlockSelectedEvent.Init(index, block));
         }
 
-        public void Fill()
+        public void Fill(int currentScore = 0)
         {
             _playerMoves.Clear();
 
             BoardGrid grid = _gameBoard.Grid;
             _handStartBoard = grid?.Clone();
-            BlockSpawnContext context = new(shapeSourceSO, grid, 0)
+            _handStartScore = currentScore;
+            BlockSpawnContext context = new(shapeSourceSO, grid, currentScore)
             {
                 TurnIndex = _turnIndex,
                 IsRetrySession = false,
@@ -134,7 +136,47 @@ namespace JTH.Scripts.Bootstrap
             ++_turnIndex;
 
             _supply.Fill(context);
+            LogDeal();
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
+        }
+
+        private void LogDeal()
+        {
+            AreaBundleSelectionResult result = LastSelection;
+            if (result == null)
+            {
+                return;
+            }
+
+            (string label, string color) = ResolveDealStyle(result);
+            Debug.Log($"<color={color}><b>[AreaBundle] {label}</b>"
+                + $" turn={_turnIndex - 1}"
+                + $" heat={result.HeatScore:F0}"
+                + $" bundle={result.BundleId}"
+                + $" blocks=[{string.Join(",", result.BlockIds)}]</color>");
+        }
+
+        private static (string label, string color) ResolveDealStyle(AreaBundleSelectionResult result)
+        {
+            if (result.IsKillHand)
+            {
+                return result.Tier == AreaBundleTier.Easy
+                    ? ("Easy-랜덤", "#FFAB40")
+                    : ("Kill", "#FFAB40");
+            }
+
+            if (result.Reason != null && result.Reason.Contains("AllClear"))
+            {
+                return ("올클리어", "#FFD54F");
+            }
+
+            return result.Tier switch
+            {
+                AreaBundleTier.Unique => ("유일수", "#B388FF"),
+                AreaBundleTier.Easy => ("Easy", "#4FC3F7"),
+                AreaBundleTier.Normal => ("Normal", "#66BB6A"),
+                _ => (result.Tier.ToString(), "#A5D6A7"),
+            };
         }
 
         private void LogHandCompare()
@@ -142,13 +184,12 @@ namespace JTH.Scripts.Bootstrap
             AreaBundleSelectionResult selection = LastSelection;
             IReadOnlyList<AreaBundleExplainStep> recommend =
                 selection?.ExplainSteps ?? System.Array.Empty<AreaBundleExplainStep>();
-            AreaScoreTuning tuning = areaBundlePoolSO.AreaScore;
 
-            float startArea = _handStartBoard != null
-                ? AreaScoreCalculator.ScoreTotal(_handStartBoard, tuning)
-                : float.NaN;
-            bool recOk = TryScoreRecommendPath(_handStartBoard, recommend, tuning, out float recArea);
-            bool actOk = TryScorePlayerPath(_handStartBoard, _playerMoves, tuning, out float actArea);
+            float emptyPenalty = areaBundlePoolSO != null
+                ? areaBundlePoolSO.ResolveEmptyHeatPenalty(_handStartScore)
+                : 2f;
+            bool recOk = TryScoreHeatPath(_handStartBoard, recommend, emptyPenalty, out float recHeat);
+            bool actOk = TryScorePlayerHeatPath(_handStartBoard, _playerMoves, emptyPenalty, out float actHeat);
 
             int cellMatch = 0;
             int compared = Mathf.Min(_playerMoves.Count, recommend.Count);
@@ -162,18 +203,17 @@ namespace JTH.Scripts.Bootstrap
                 .Append(" bundle=").Append(bundle)
                 .Append('\n');
 
-            sb.Append("  area start=").Append(FormatArea(startArea))
-                .Append(" rec=").Append(recOk ? FormatArea(recArea) : "FAIL")
-                .Append(" act=").Append(actOk ? FormatArea(actArea) : "FAIL");
+            sb.Append("  heat rec=").Append(recOk ? FormatHeat(recHeat) : "FAIL")
+                .Append(" act=").Append(actOk ? FormatHeat(actHeat) : "FAIL");
             if (recOk && actOk)
             {
-                float delta = actArea - recArea;
+                float delta = actHeat - recHeat;
                 string vs = delta > 0.01f
                     ? "HIGHER"
                     : delta < -0.01f
                         ? "LOWER"
                         : "SAME";
-                sb.Append(" delta=").Append(delta.ToString("+0.0;-0.0;0.0"))
+                sb.Append(" delta=").Append(delta.ToString("+0;-0;0"))
                     .Append(" actVsRec=").Append(vs);
             }
 
@@ -244,11 +284,11 @@ namespace JTH.Scripts.Bootstrap
             string color = "#FF8A80";
             if (recOk && actOk)
             {
-                if (actArea > recArea + 0.01f)
+                if (actHeat > recHeat + 0.01f)
                 {
                     color = "#69F0AE";
                 }
-                else if (Mathf.Abs(actArea - recArea) <= 0.01f)
+                else if (Mathf.Abs(actHeat - recHeat) <= 0.01f)
                 {
                     color = allMatch ? "#69F0AE" : "#FFD54F";
                 }
@@ -265,70 +305,75 @@ namespace JTH.Scripts.Bootstrap
             Debug.Log($"<color={color}><b>{sb}</b></color>");
         }
 
-        private static bool TryScoreRecommendPath(
+        private static bool TryScoreHeatPath(
             BoardGrid start,
             IReadOnlyList<AreaBundleExplainStep> steps,
-            AreaScoreTuning tuning,
-            out float area)
+            float emptyPenalty,
+            out float heat)
         {
-            area = float.NaN;
+            heat = float.NaN;
             if (start == null)
             {
                 return false;
             }
 
-            if (steps == null || steps.Count == 0)
-            {
-                area = AreaScoreCalculator.ScoreTotal(start, tuning);
-                return true;
-            }
-
             BoardGrid sim = start.Clone();
-            for (int i = 0; i < steps.Count; ++i)
+            float total = 0f;
+            if (steps != null)
             {
-                if (!TryApplyCells(sim, steps[i].Cells))
+                for (int i = 0; i < steps.Count; ++i)
                 {
-                    return false;
+                    if (!TryApplyCellsWithHeat(sim, steps[i].Cells, emptyPenalty, out float gain))
+                    {
+                        return false;
+                    }
+
+                    total += gain;
                 }
             }
 
-            area = AreaScoreCalculator.ScoreTotal(sim, tuning);
+            heat = total;
             return true;
         }
 
-        private static bool TryScorePlayerPath(
+        private static bool TryScorePlayerHeatPath(
             BoardGrid start,
             List<PlayerHandMove> moves,
-            AreaScoreTuning tuning,
-            out float area)
+            float emptyPenalty,
+            out float heat)
         {
-            area = float.NaN;
+            heat = float.NaN;
             if (start == null)
             {
                 return false;
             }
 
-            if (moves == null || moves.Count == 0)
-            {
-                area = AreaScoreCalculator.ScoreTotal(start, tuning);
-                return true;
-            }
-
             BoardGrid sim = start.Clone();
-            for (int i = 0; i < moves.Count; ++i)
+            float total = 0f;
+            if (moves != null)
             {
-                if (!TryApplyCells(sim, moves[i].Cells))
+                for (int i = 0; i < moves.Count; ++i)
                 {
-                    return false;
+                    if (!TryApplyCellsWithHeat(sim, moves[i].Cells, emptyPenalty, out float gain))
+                    {
+                        return false;
+                    }
+
+                    total += gain;
                 }
             }
 
-            area = AreaScoreCalculator.ScoreTotal(sim, tuning);
+            heat = total;
             return true;
         }
 
-        private static bool TryApplyCells(BoardGrid board, IReadOnlyList<Vector2Int> cells)
+        private static bool TryApplyCellsWithHeat(
+            BoardGrid board,
+            IReadOnlyList<Vector2Int> cells,
+            float emptyPenalty,
+            out float gain)
         {
+            gain = 0f;
             if (cells == null || cells.Count == 0)
             {
                 return false;
@@ -343,6 +388,9 @@ namespace JTH.Scripts.Bootstrap
                 }
             }
 
+            int[,] heatMap = LineFillHeatmap.Build(board);
+            gain = LineFillHeatmap.ScoreCells(heatMap, cells, emptyPenalty);
+
             Vector2Int pivot = cells[0];
             Vector2Int[] offsets = new Vector2Int[cells.Count];
             for (int i = 0; i < cells.Count; ++i)
@@ -354,8 +402,8 @@ namespace JTH.Scripts.Bootstrap
             return true;
         }
 
-        private static string FormatArea(float area) =>
-            float.IsNaN(area) ? "NaN" : area.ToString("0.0");
+        private static string FormatHeat(float heat) =>
+            float.IsNaN(heat) ? "NaN" : heat.ToString("0");
 
         private static void AppendRecommendSlots(StringBuilder sb, IReadOnlyList<AreaBundleExplainStep> steps)
         {
