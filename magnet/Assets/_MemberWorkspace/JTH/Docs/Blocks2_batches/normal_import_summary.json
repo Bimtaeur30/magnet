@@ -1,0 +1,267 @@
+{
+  "blocks2_ok": 343,
+  "blocks_root_ok": 325,
+  "total_hands": 668,
+  "unique_ordered_bundles": 561,
+  "unique_multiset_bundles": 484,
+  "ordered_bundles_freq_ge2": 42,
+  "multiset_bundles_freq_ge2": 81,
+  "shots_in_ordered_freq_ge2": 149,
+  "shots_in_multiset_freq_ge2": 265,
+  "freq_hist_ordered": {
+    "1": 519,
+    "5": 2,
+    "2": 29,
+    "11": 1,
+    "6": 1,
+    "3": 5,
+    "4": 2,
+    "29": 1,
+    "12": 1
+  },
+  "freq_hist_multiset": {
+    "1": 403,
+    "2": 52,
+    "3": 16,
+    "4": 4,
+    "5": 2,
+    "12": 1,
+    "8": 2,
+    "17": 1,
+    "6": 1,
+    "7": 1,
+    "29": 1
+  },
+  "top20_ordered": [
+    {
+      "ids": [
+        13,
+        13,
+        13
+      ],
+      "count": 29,
+      "by_src": {
+        "Blocks": 29
+      }
+    },
+    {
+      "ids": [
+        36,
+        13,
+        13
+      ],
+      "count": 12,
+      "by_src": {
+        "Blocks": 12
+      }
+    },
+    {
+      "ids": [
+        13,
+        13,
+        9
+      ],
+      "count": 11,
+      "by_src": {
+        "Blocks2": 11
+      }
+    },
+    {
+      "ids": [
+        13,
+        13,
+        35
+      ],
+      "count": 6,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 5
+      }
+    },
+    {
+      "ids": [
+        7,
+        13,
+        13
+      ],
+      "count": 5,
+      "by_src": {
+        "Blocks2": 2,
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        13,
+        13,
+        24
+      ],
+      "count": 5,
+      "by_src": {
+        "Blocks": 5
+      }
+    },
+    {
+      "ids": [
+        13,
+        13,
+        36
+      ],
+      "count": 4,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        13,
+        11,
+        13
+      ],
+      "count": 4,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        13,
+        18,
+        13
+      ],
+      "count": 3,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 2
+      }
+    },
+    {
+      "ids": [
+        11,
+        13,
+        13
+      ],
+      "count": 3,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 2
+      }
+    },
+    {
+      "ids": [
+        13,
+        25,
+        11
+      ],
+      "count": 3,
+      "by_src": {
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        13,
+        13,
+        20
+      ],
+      "count": 3,
+      "by_src": {
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        13,
+        22,
+        13
+      ],
+      "count": 3,
+      "by_src": {
+        "Blocks": 3
+      }
+    },
+    {
+      "ids": [
+        35,
+        13,
+        12
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 1
+      }
+    },
+    {
+      "ids": [
+        35,
+        22,
+        36
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 2
+      }
+    },
+    {
+      "ids": [
+        9,
+        17,
+        13
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 2
+      }
+    },
+    {
+      "ids": [
+        35,
+        36,
+        36
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 1
+      }
+    },
+    {
+      "ids": [
+        35,
+        7,
+        35
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 2
+      }
+    },
+    {
+      "ids": [
+        7,
+        17,
+        7
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 2
+      }
+    },
+    {
+      "ids": [
+        35,
+        21,
+        13
+      ],
+      "count": 2,
+      "by_src": {
+        "Blocks2": 1,
+        "Blocks": 1
+      }
+    }
+  ],
+  "bundle_count_for_normal": 561
+}
