@@ -70,7 +70,6 @@ namespace GameLib.SoundSystem
         private void HandlePlaySoundEvent(PlaySoundEvent evt)
         {
             SoundClipSO clip = evt.ClipData;
-            Debug.Log(clip.IsBgm);
             // SO 자체가 없으면 아무것도 하지 않는다(보통 호출부에서 이미 걸러짐).
             if (clip == null) return;
 

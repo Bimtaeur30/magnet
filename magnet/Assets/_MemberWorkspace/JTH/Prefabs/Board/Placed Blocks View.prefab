@@ -62,3 +62,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.LineClearHintEffector
   placedBlocksView: {fileID: 4037078885226351211}
+  skinChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
+  presentationChannel: {fileID: 11400000, guid: 80cb95b89e6afca4d9a49d956b300dbd, type: 2}

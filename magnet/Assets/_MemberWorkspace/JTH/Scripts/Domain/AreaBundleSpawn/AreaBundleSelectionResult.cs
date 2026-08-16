@@ -11,9 +11,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             int[] blockIds,
             AreaBundleTier tier,
             string bundleId,
-            float boardAreaScore,
-            float predictedAreaScore,
-            int sequenceCount,
+            float heatScore,
             bool isKillHand,
             string reason,
             IReadOnlyList<AreaBundleExplainStep> explainSteps = null,
@@ -23,9 +21,7 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             BlockIds = blockIds;
             Tier = tier;
             BundleId = bundleId;
-            BoardAreaScore = boardAreaScore;
-            PredictedAreaScore = predictedAreaScore;
-            SequenceCount = sequenceCount;
+            HeatScore = heatScore;
             IsKillHand = isKillHand;
             Reason = reason;
             ExplainSteps = explainSteps ?? System.Array.Empty<AreaBundleExplainStep>();
@@ -36,14 +32,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
         public int[] BlockIds { get; }
         public AreaBundleTier Tier { get; }
         public string BundleId { get; }
-        public float BoardAreaScore { get; }
-        public float PredictedAreaScore { get; }
-        public int SequenceCount { get; }
+        public float HeatScore { get; }
         public bool IsKillHand { get; }
         public string Reason { get; }
         public IReadOnlyList<AreaBundleExplainStep> ExplainSteps { get; }
 
-        /// <summary>Normal Clean/Main 구분. Unique 티어면 Unique 가중 의미.</summary>
+        /// <summary>Unique면 Unique 가중. Normal/Easy는 Main.</summary>
         public ShapeWeightProfile Profile { get; }
     }
 }

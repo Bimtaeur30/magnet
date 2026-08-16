@@ -40,19 +40,19 @@
 | 33 | AllClear 이후 Normal 가중랜덤 | [phase33.md](phase33.md) | [sequence33.md](sequence33.md) | **완료** |
 | 34 | 모서리 덮개 직사각 패널티 | [phase34.md](phase34.md) | [sequence34.md](sequence34.md) | **완료** |
 | 35 | CornerRect 튜닝 단계 CR-1~4 | [phase35.md](phase35.md) | [sequence35.md](sequence35.md) | **완료** |
-| 36 | 찬 Area 다리 절단 | [phase36.md](phase36.md) | [sequence36.md](sequence36.md) | **완료** |
+| 36 | 찬 Area 다리 절단 | [phase36.md](phase36.md) | [sequence36.md](sequence36.md) | **완료** (phase38에서 제거) |
 | 37 | MaxArea 랭킹 비용 축소 | [phase37.md](phase37.md) | [sequence37.md](sequence37.md) | **완료** |
+| 38 | 찬 Area 직교볼록 홈 절단 + Area 기즈모 | [phase38.md](phase38.md) | [sequence38.md](sequence38.md) | **완료** |
+| 39 | Unique 4칸 균형 + 손 최적 배치 기즈모 | [phase39.md](phase39.md) | [sequence39.md](sequence39.md) | **완료** |
+| 40 | 라인필 히트맵 스폰 (Unique/Normal 단순화) | [phase40.md](phase40.md) | [sequence40.md](sequence40.md) | **완료** |
 
 ## grill 확정 요약
 
-- **cascade:** dirty → `p_unique` Unique, 아니면 Normal. Unique 실패→Normal→Easy. **킬 패 없음**(Easy 실패 시 가중 랜덤만).
+- **cascade:** dirty(`occ≥UniqueMinOccupied`, 기본 **40**) → `p_unique` Unique, 아니면 Normal 히트맵. Unique 실패→Normal→Easy. Easy 실패 시만 가중랜덤(isKillHand).
 - **Relife:** Easy **1턴**만 (`IsRetrySession`, 현재 스텁).
-- **처음부터 Easy 게이트 없음.**
-- **선택:** Unique=seq→death→Area / Normal=올클→접대→Area(**완주+라인클리어≥1**, 빔 Area 근사 + MaxArea top-K) / Easy=빔 Area(+top-K).
-- **Unique:** 동적 `UniqueUnlockGenerator` — **막힌1+자유2 → 둘로 클리어 언락**. 샘플 내 **강A(단독 언락 불가) 우선**, 없으면 weak. `uniqueShapeWeights` 가중 추첨(폴더 빈도·0=제외). 중복 허용. 실패 시 Normal→Easy.
-- **Normal:** Blocks2 스크린샷 **전수** (**324**, ID0 인식실패 1건 제외). 필터·모양 편애 없음. weight=관측횟수만.
-- **Easy:** 보장 1x1 패 + 관측 소형/1x1 + 구 Early (26).
-- **Area (Phase 8→36):** `base − cornerRectPenalty×minCornerCoverArea − 4×areaCount`. **찬 칸**=4연결 후 다리절단(끊으면 양쪽≥4이면 분할) · **빈 칸**=4연결. tiny 관대(−15/−8), filledFull=**0**. Unique thresh=**−15**, p=**0.45**. 표: `TUNING_STAGES.md`.
-- **Clear Priority (Phase 9→22→33):** **빈 보드(올클 상태)=Normal 가중랜덤** · 올클 Exact(`occ≤12`, p=0.75) · **Hospitality** · Normal Area=빔 · Easy.
-- **ShapeWeights (Phase 23→27→30):** Normal Area `predicted × mean(w)`. **Clean**=`cleanShapeWeights` · **Main**=`shapeWeights` · **Unique**=`uniqueShapeWeights`(폴더 빈도). Easy=Main. 접대·올클은 ShapeWeights 미적용. Clean 체이닝 p=**0.4** · **지급 시 현재 보드에서 라인클리어≥1 불가면 큐 폐기 후 일반 뽑기**.
-- **Death (Phase 24–25):** Console Death 디버그 **없음**(배제 Gate 로그만). Normal/Easy Area만 `>30%` 배제(상위 8·분모≤48, 초과 시 통과, 전부 배제 시 1등).
+- **제거(선택 경로):** 접대·올클 Exact·Clean/Main·Clean체인·Area MaxArea·완주·라인클리어 필수·Death 배제.
+- **Normal 점수:** `Σheat − emptyPen×(heat==0)`. `emptyPen = clamp01(score/(max/3*2))×n` (n=2, max 기본 **3000**). 올클 즉시 채택(빈 보드 제외).
+- **Unique:** 동적 `UniqueUnlockGenerator` 유지. `uniqueShapeWeights` 4칸 중심.
+- **Normal 풀:** Blocks root+Blocks2 병합 **561** ordered (weight=관측 clamp 1–5). Clean 리스트는 미사용 잔존.
+- **예산:** `maxCandidatesToScore`=**64**.
+- **Area/접대/올클 코드:** Phase40 §2에서 삭제. 선택·기즈모는 히트맵만.

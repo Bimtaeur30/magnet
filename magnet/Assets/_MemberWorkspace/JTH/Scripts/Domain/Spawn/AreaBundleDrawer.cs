@@ -16,7 +16,14 @@ namespace JTH.Scripts.Domain.Spawn
 
         public override List<IReadOnlyList<Vector2Int>> Draw(BlockSpawnContext context, int drawCount)
         {
-            LastResult = _orchestrator.Select(context.Grid, context.TurnIndex, context.IsRetrySession);
+            LastResult = _orchestrator.Select(
+                context.Grid, context.TurnIndex, context.IsRetrySession, context.Score);
+            return LastResult.Pieces;
+        }
+
+        public List<IReadOnlyList<Vector2Int>> DrawEasy(BlockSpawnContext context)
+        {
+            LastResult = _orchestrator.SelectEasyHand(context.Grid, context.Score);
             return LastResult.Pieces;
         }
     }

@@ -3,6 +3,7 @@ using GameLib.EventChannelSystem;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace JTH.Scripts.Domain.Skin
@@ -14,7 +15,7 @@ namespace JTH.Scripts.Domain.Skin
 
         private Dictionary<Block, int> _blockDict;
         
-        private Sprite[] _currentSkin;
+        private SkinDataSO _currentSkin;
 
         private void Awake()
         {
@@ -39,8 +40,10 @@ namespace JTH.Scripts.Domain.Skin
             foreach (Block block in evt.Blocks)
             {
                 _blockDict.Add(block, evt.SkinId);
-                int id = _blockDict[block] % _currentSkin.Length;
-                block.ApplySkin(_currentSkin[id]);
+                if (_currentSkin != null)
+                {
+                    block.ApplySkin(_currentSkin.GetSprite(evt.SkinId));
+                }
             }
         }
 
@@ -48,22 +51,26 @@ namespace JTH.Scripts.Domain.Skin
 
         private void SkinChangedHandler(SkinChangedEvent evt)
         {
-            _currentSkin = evt.CurrentSkin.Sprites;
+            _currentSkin = evt.CurrentSkin;
             ApplySkin();
         }
 
         private void SkinInitializedHandler(SkinInitializedEvent evt)
         {
-            _currentSkin = evt.Skin.Sprites;
+            _currentSkin = evt.Skin;
             ApplySkin();
         }
 
         private void ApplySkin()
         {
+            if (_currentSkin == null)
+            {
+                return;
+            }
+
             foreach (Block block in _blockDict.Keys)
             {
-                int id = _blockDict[block] % _currentSkin.Length;
-                block.ApplySkin(_currentSkin[id]);
+                block.ApplySkin(_currentSkin.GetSprite(_blockDict[block]));
             }
         }
     }

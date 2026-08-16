@@ -1,5 +1,9 @@
 using System.Collections.Generic;
-using JTH.Scripts.Data;
+using _Shared.Magnet.Core.Events;
+using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
+using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
@@ -7,10 +11,16 @@ namespace JTH.Scripts.Presentation
     public sealed class LineClearHintEffector : MonoBehaviour
     {
         [SerializeField] private PlacedBlocksView placedBlocksView;
+        [SerializeField] private EventChannelSO skinChannel;
+        [SerializeField] private EventChannelSO presentationChannel;
 
         private readonly HashSet<Block> _hintedBlocks = new HashSet<Block>();
-        private readonly HashSet<Block> _desiredPlaced = new HashSet<Block>();
+        private readonly HashSet<Block> _desired = new HashSet<Block>();
+        private readonly Dictionary<Block, int> _desiredSeeds = new Dictionary<Block, int>();
         private readonly List<Block> _removeBuffer = new List<Block>(32);
+
+        private SkinDataSO _currentSkin;
+        private int _appliedSkinId = int.MinValue;
 
         private void Awake()
         {
@@ -20,35 +30,70 @@ namespace JTH.Scripts.Presentation
             }
 
             Debug.Assert(placedBlocksView != null, "[LineClearHintEffector] PlacedBlocksView is missing.", this);
+            Debug.Assert(skinChannel != null, "[LineClearHintEffector] skinChannel is not assigned.", this);
+            Debug.Assert(presentationChannel != null, "[LineClearHintEffector] presentationChannel is not assigned.", this);
         }
 
-        public void SetHints(IReadOnlyCollection<Vector2Int> clearedCells, LineClearPreviewConfigSO config)
+        private void OnEnable()
         {
-            if (clearedCells == null || clearedCells.Count == 0 || config == null)
+            skinChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
+        }
+
+        private void OnDisable()
+        {
+            skinChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
+            ClearHints();
+        }
+
+        public void SetHints(
+            IReadOnlyCollection<Vector2Int> clearedCells,
+            IReadOnlyList<Block> previewBlocks,
+            Vector2Int previewPivot,
+            int skinId)
+        {
+            if (clearedCells == null || clearedCells.Count == 0 || _currentSkin == null)
             {
                 ClearHints();
                 return;
             }
 
-            _desiredPlaced.Clear();
+            if (_appliedSkinId != skinId)
+            {
+                ClearHints();
+                _appliedSkinId = skinId;
+            }
+
+            _desired.Clear();
+            _desiredSeeds.Clear();
             foreach (Vector2Int cell in clearedCells)
             {
                 if (placedBlocksView.TryGetBlock(cell, out Block placed))
                 {
-                    _desiredPlaced.Add(placed);
+                    RememberDesired(placed, cell);
                 }
             }
 
+            if (previewBlocks != null)
+            {
+                for (int i = 0; i < previewBlocks.Count; ++i)
+                {
+                    Block preview = previewBlocks[i];
+                    if (preview != null)
+                    {
+                        RememberDesired(preview, previewPivot + preview.Offset);
+                    }
+                }
+            }
+
+            Sprite unifiedSprite = _currentSkin.GetSprite(skinId);
+            AnimationClip clip = _currentSkin.GetHintClip(skinId);
+
             SyncSet(
                 _hintedBlocks,
-                _desiredPlaced,
-                enable: block => block.SetClearHint(
-                    true,
-                    1f,
-                    1f,
-                    config.PulseMinAlpha,
-                    1f,
-                    config.PulsePeriod));
+                _desired,
+                enable: block => block.SetClearHint(true, unifiedSprite, clip));
         }
 
         public void ClearHints()
@@ -62,7 +107,19 @@ namespace JTH.Scripts.Presentation
             }
 
             _hintedBlocks.Clear();
-            _desiredPlaced.Clear();
+            _desired.Clear();
+            _desiredSeeds.Clear();
+            _appliedSkinId = int.MinValue;
+        }
+
+        private void OnSkinChanged(SkinChangedEvent evt)
+        {
+            _currentSkin = evt.CurrentSkin;
+        }
+
+        private void OnSkinInitialized(SkinInitializedEvent evt)
+        {
+            _currentSkin = evt.Skin;
         }
 
         private void SyncSet(HashSet<Block> current, HashSet<Block> desired, System.Action<Block> enable)
@@ -89,6 +146,11 @@ namespace JTH.Scripts.Presentation
 
             foreach (Block block in desired)
             {
+                if (_desiredSeeds.TryGetValue(block, out int seed))
+                {
+                    block.SetShatterSeed(seed);
+                }
+
                 if (current.Contains(block))
                 {
                     continue;
@@ -97,6 +159,53 @@ namespace JTH.Scripts.Presentation
                 enable(block);
                 current.Add(block);
             }
+        }
+
+        private void RememberDesired(Block block, Vector2Int cell)
+        {
+            _desired.Add(block);
+            _desiredSeeds[block] = BlockShatterHint.SeedFromCell(cell);
+        }
+
+        public void PlayBurstForBlock(Block block)
+        {
+            if (block == null || _currentSkin == null || _currentSkin.FireCenteredLineClear)
+            {
+                return;
+            }
+
+            int skinId = _appliedSkinId != int.MinValue
+                ? _appliedSkinId
+                : ResolveSpriteIndex(block.PlacedSprite);
+            PoolItemSO effect = _currentSkin.GetLineClearEffect(skinId);
+            if (effect == null)
+            {
+                return;
+            }
+
+            presentationChannel.RaiseEvent(
+                PresentationEvents.PlayParticleEffectEvent.Init(
+                    effect,
+                    block.VisualCenter,
+                    Quaternion.identity));
+        }
+
+        private int ResolveSpriteIndex(Sprite sprite)
+        {
+            if (sprite == null || _currentSkin == null || _currentSkin.Sprites == null)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < _currentSkin.Sprites.Length; i++)
+            {
+                if (_currentSkin.Sprites[i] == sprite)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
     }
 }

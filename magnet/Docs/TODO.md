@@ -38,6 +38,8 @@
 
 - [ ] SCRUM-22 — 3후보 전부 배치 불가 게임오버 (`game-over` Phase 1)
 
+- [x] Relife 오퍼·수락 이벤트 (`relife` Phase 1). UI는 범위 밖
+
 - [x] SCRUM-21 — ~~보드 90° 회전~~ → **Cancelled** (턴 FSM은 SCRUM-18)
 
 - [ ] SCRUM-23 — line clear 점수·콤보 공식 (`score-logic` Phase 5)

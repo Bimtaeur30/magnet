@@ -26,6 +26,7 @@ namespace JTH.Scripts.Bootstrap
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         
         private ScoreSession _scoreSession;
+        private RelifeSession _relifeSession;
         private int _currentStage;
 
         private void Awake()
@@ -38,18 +39,21 @@ namespace JTH.Scripts.Bootstrap
             Debug.Assert(_gameBoard != null, "[TurnBootstrap] GameBoard was not injected.", this);
 
             _scoreSession = new ScoreSession(scoreConfig);
+            _relifeSession = new RelifeSession(scoreConfig.RelifeMinScore);
         }
 
         private void OnEnable()
         {
             inGameChannel.AddListener<BlockPlacedEvent>(BlockPlacedHandler);
             enemyChannel.AddListener<StageClearEvent>(StageClearHandler);
+            magnetGameChannel.AddListener<RelifeAcceptedEvent>(RelifeAcceptedHandler);
         }
 
         private void OnDisable()
         {
             inGameChannel?.RemoveListener<BlockPlacedEvent>(BlockPlacedHandler);
             enemyChannel?.RemoveListener<StageClearEvent>(StageClearHandler);
+            magnetGameChannel?.RemoveListener<RelifeAcceptedEvent>(RelifeAcceptedHandler);
         }
 
         private void StageClearHandler(StageClearEvent evt)
@@ -75,18 +79,53 @@ namespace JTH.Scripts.Bootstrap
 
             if (evt.PlacementResult.LastDrop)
             {
-                _blockSpawnBootstrap.Fill();
+                _blockSpawnBootstrap.Fill(_scoreSession.TotalScore);
             }
 
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
             {
-                skinChannel.RaiseEvent(
-                    SkinEvents.SkinUnlockCheckEvent.Init(
-                        SkinUnlockTypeEnum.Stage,
-                        _currentStage));
+                if (TryOfferRelife())
+                {
+                    return;
+                }
 
-                magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_currentStage));
+                RaiseGameOver();
             }
+        }
+
+        private bool TryOfferRelife()
+        {
+            if (!_relifeSession.CanOffer(_scoreSession.TotalScore))
+            {
+                return false;
+            }
+
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces =
+                _blockSpawnBootstrap.DrawEasy(_scoreSession.TotalScore);
+            _relifeSession.Offer(pieces);
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.RelifeOfferedEvent.Init(pieces));
+            return true;
+        }
+
+        private void RelifeAcceptedHandler(RelifeAcceptedEvent evt)
+        {
+            IReadOnlyList<IReadOnlyList<Vector2Int>> pieces = _relifeSession.Accept();
+            if (pieces == null)
+            {
+                return;
+            }
+
+            _blockSpawnBootstrap.FillPrepared(pieces, _scoreSession.TotalScore);
+        }
+
+        private void RaiseGameOver()
+        {
+            skinChannel.RaiseEvent(
+                SkinEvents.SkinUnlockCheckEvent.Init(
+                    SkinUnlockTypeEnum.Stage,
+                    _currentStage));
+
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_currentStage));
         }
 
         private void RaiseAttackEvent(BlockPlacedEvent evt, PlacementScoreResult scoreResult)

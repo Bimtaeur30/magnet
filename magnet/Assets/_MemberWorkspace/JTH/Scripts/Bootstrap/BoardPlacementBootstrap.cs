@@ -32,7 +32,8 @@ namespace JTH.Scripts.Bootstrap
         public void PlaceBlock(
             IReadOnlyList<Block> detached,
             IReadOnlyList<Vector2Int> gridOffsets,
-            int slotIndex)
+            int slotIndex,
+            int skinId)
         {
             if (!IsPlacementFree(gridOffsets))
             {
@@ -48,6 +49,7 @@ namespace JTH.Scripts.Bootstrap
             _blockSpawnBootstrap.Consume(slotIndex);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
+            _blockSpawnBootstrap.RecordPlayerMove(slotIndex, gridOffsets, lastDrop);
 
             PlaySound(blockPlaceSound);
             if (clearedLineResult.ClearedLineCount > 0)
@@ -58,7 +60,8 @@ namespace JTH.Scripts.Bootstrap
                 gridOffsets,
                 clearedLineResult,
                 firstDrop,
-                lastDrop);
+                lastDrop,
+                skinId);
 
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
         }

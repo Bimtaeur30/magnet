@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7103513856231945922}
   - component: {fileID: 8446576609969282841}
   - component: {fileID: 73864076358663992}
+  - component: {fileID: 5829103746582103947}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -63,3 +64,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Input.BlockDragDrawer
   shapeBlockPrefab: {fileID: 5012345678901234569, guid: b8c4e1f2938475620a1d3e5f67890123, type: 3}
+--- !u!114 &5829103746582103947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168018122035939864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4e8c1a9b2d4e7f8a0c1d3e5f7a9b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.LineClearExplosionPresenter
+  inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  presentationChannel: {fileID: 11400000, guid: 80cb95b89e6afca4d9a49d956b300dbd, type: 2}
+  skinChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}

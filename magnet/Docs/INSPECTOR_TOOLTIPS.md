@@ -172,9 +172,14 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/BlockVisualConfigSO.cs` | `stagingYExtraBelow` | 보드 하단에서 스테이징 영역까지 추가로 내릴 칸 수. stagingY = -(CellsPerSide + 이 값) |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
-| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMinAlpha` | 클리어될 Place된 칸 알파 숨쉬기 최소 |
-| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMaxAlpha` | (예비) 알파 숨쉬기 최대. Place된 칸은 최대 1 고정 |
-| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulsePeriod` | 숨쉬기 한 주기(초) |
+| `Scripts/Presentation/Block.cs` | `shatterHint` | 클리어 예고 쩌적 셰이더 세기. 클립이 `shatter`를 흔들고, 끄면 0으로 원복 |
+| `Scripts/Presentation/BlockShatterHint.cs` | `shatter` | 클리어 예고 클립이 조절하는 쩌적 세기. 0이면 원본 스프라이트 |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearEffects` | 바리에이션별 라인클리어 칸 이펙트. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `FireCenteredLineClear` | 켜면 클리어 시 칸마다 안 쏘고 줄 가운데에 길쭉한 이펙트 1발 |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `CenterLineClearEffect` | 가운데 1발용 길쭉한 이펙트. `FireCenteredLineClear`가 켜져 있을 때만 사용 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMinAlpha` | *(미사용, 클립 힌트로 대체)* 클리어될 Place된 칸 알파 숨쉬기 최소 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMaxAlpha` | *(미사용, 클립 힌트로 대체)* (예비) 알파 숨쉬기 최대. Place된 칸은 최대 1 고정 |
+| `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulsePeriod` | *(미사용, 클립 힌트로 대체)* 숨쉬기 한 주기(초) |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityRampPerUnit` | Press 시작 포인터 X와의 거리(월드 유닛) 1당 블록 이동 배율 증가량. Block Blast식 감도 램프 |
 | `Scripts/Data/BlockDragConfigSO.cs` | `sensitivityMaxMultiplier` | 드래그 감도 배율 상한. 1이면 램프 없음 |
 | `Scripts/Data/BlockSnapConfigSO.cs` | `duration` | 손 놓은 뒤 Y축 자석 스냅: 칸 1칸 이동에 걸리는 시간(초). 이동 칸 수에 비례 |
@@ -221,6 +226,7 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/ScoreConfigSO.cs` | `BaseMax` | 세션 base 랜덤 상한(포함) |
 | `Scripts/Data/ScoreConfigSO.cs` | `CellScore` | 블럭을 설치했을 때 셀 하나당 점수 |
 | `Scripts/Data/ScoreConfigSO.cs` | `EnemyDamageMultiplier` | 적에게 들어가는 데미지 전역 배수. 1=그대로, 0.5=절반. 점수 UI와 무관하게 공격 데미지만 조절 |
+| `Scripts/Data/ScoreConfigSO.cs` | `RelifeMinScore` | 게임오버 시 이 점수 이상이면 Relife 오퍼. 0이면 점수와 상관없이 오퍼 |
 | `Scripts/Presentation/BoardView.cs` | `config` | 격자 크기·색상 등 보드 시각화 설정 |
 | `Scripts/Presentation/BoardView.cs` | `linesRoot` | 격자·자석 축 LineRenderer의 부모 Transform. 비우면 자동 생성 |
 | `Scripts/Presentation/BoardView.cs` | `placementConfigPreview` | 폭발 테두리 ContextMenu 프리뷰용 PlacementConfig. 비우면 씬/에셋에서 자동 탐색 |
@@ -264,5 +270,6 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-08-10 | JTH AreaBundlePoolSO — shapeWeights (Normal/Easy Area×평균) |
 | 2026-08-10 | JTH AreaBundlePoolSO — deathRejectPercent/MaxTries/BranchBudget |
 | 2026-08-11 | JTH AreaBundlePoolSO — uniqueShapeWeights (Unique 언락 추첨) |
+| 2026-08-16 | JTH ScoreConfigSO.RelifeMinScore — 게임오버 Relife 최소 점수 |
 | 2026-08-11 | JTH AreaBundleSelectionGizmo — 패 선택 시뮬 배치 칸 색 |
 | 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |

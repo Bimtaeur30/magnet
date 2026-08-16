@@ -134,7 +134,8 @@ namespace JTH.Scripts.Input
             _placementBootstrap.PlaceBlock(
                 _drawer.GetStagingBlocks(),
                 gridOffsets,
-                _selectedSlotIndex);
+                _selectedSlotIndex,
+                _selectedBlockData.SkinId);
 
             DisconnectSelection();
         }
@@ -177,13 +178,6 @@ namespace JTH.Scripts.Input
 
         private void UpdateLineClearHints(Vector2Int boardPivot)
         {
-            LineClearPreviewConfigSO previewConfig = placementConfig.LineClearPreview;
-            if (previewConfig == null)
-            {
-                _gameBoard.ClearLineClearHints();
-                return;
-            }
-
             ClearedLineResult cleared = LineClearPreviewDetector.Detect(
                 _gameBoard.Grid,
                 _selectedBlockData.CellOffsets,
@@ -198,7 +192,18 @@ namespace JTH.Scripts.Input
             HashSet<Vector2Int> clearedCells = new HashSet<Vector2Int>(
                 cleared.CollectClearedCells(_gameBoard.Grid.BoardSize));
 
-            _gameBoard.SetLineClearHints(clearedCells, previewConfig);
+            List<Block> previewOnLine = new List<Block>();
+            IReadOnlyList<Block> previewBlocks = _drawer.GetPreviewBlocks();
+            for (int i = 0; i < previewBlocks.Count; ++i)
+            {
+                Block preview = previewBlocks[i];
+                if (preview != null && clearedCells.Contains(boardPivot + preview.Offset))
+                {
+                    previewOnLine.Add(preview);
+                }
+            }
+
+            _gameBoard.SetLineClearHints(clearedCells, previewOnLine, boardPivot, _selectedBlockData.SkinId);
         }
 
         private void OnDrawGizmos()

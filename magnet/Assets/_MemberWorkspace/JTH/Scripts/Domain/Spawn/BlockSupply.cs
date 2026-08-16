@@ -46,6 +46,26 @@ namespace JTH.Scripts.Domain.Spawn
                 _slots.Add(data);
             }
         }
+
+        public void FillFrom(IReadOnlyList<IReadOnlyList<Vector2Int>> cellOffsetsList)
+        {
+            IReadOnlyList<int> skinVariationList = _skinSession.DrawSkinIds(SlotCount);
+
+            Debug.Assert(cellOffsetsList != null && cellOffsetsList.Count == SlotCount
+                && skinVariationList.Count == SlotCount,
+                $"배열의 수가 맞지 않습니다. cellOffsets={cellOffsetsList?.Count}, skinVariationList={skinVariationList.Count}");
+
+            _slots.Clear();
+            for (int i = 0; i < SlotCount; i++)
+            {
+                ShapeBlockData data = new ShapeBlockData
+                {
+                    CellOffsets = cellOffsetsList[i],
+                    SkinId = skinVariationList[i]
+                };
+                _slots.Add(data);
+            }
+        }
         
         public void Consume(int slotIndex)
         {
