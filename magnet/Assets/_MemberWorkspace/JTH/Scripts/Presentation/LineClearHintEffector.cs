@@ -13,6 +13,7 @@ namespace JTH.Scripts.Presentation
 
         private readonly HashSet<Block> _hintedBlocks = new HashSet<Block>();
         private readonly HashSet<Block> _desired = new HashSet<Block>();
+        private readonly Dictionary<Block, int> _desiredSeeds = new Dictionary<Block, int>();
         private readonly List<Block> _removeBuffer = new List<Block>(32);
 
         private SkinDataSO _currentSkin;
@@ -45,6 +46,7 @@ namespace JTH.Scripts.Presentation
         public void SetHints(
             IReadOnlyCollection<Vector2Int> clearedCells,
             IReadOnlyList<Block> previewBlocks,
+            Vector2Int previewPivot,
             int skinId)
         {
             if (clearedCells == null || clearedCells.Count == 0 || _currentSkin == null)
@@ -60,11 +62,12 @@ namespace JTH.Scripts.Presentation
             }
 
             _desired.Clear();
+            _desiredSeeds.Clear();
             foreach (Vector2Int cell in clearedCells)
             {
                 if (placedBlocksView.TryGetBlock(cell, out Block placed))
                 {
-                    _desired.Add(placed);
+                    RememberDesired(placed, cell);
                 }
             }
 
@@ -75,7 +78,7 @@ namespace JTH.Scripts.Presentation
                     Block preview = previewBlocks[i];
                     if (preview != null)
                     {
-                        _desired.Add(preview);
+                        RememberDesired(preview, previewPivot + preview.Offset);
                     }
                 }
             }
@@ -101,6 +104,7 @@ namespace JTH.Scripts.Presentation
 
             _hintedBlocks.Clear();
             _desired.Clear();
+            _desiredSeeds.Clear();
             _appliedSkinId = int.MinValue;
         }
 
@@ -138,6 +142,11 @@ namespace JTH.Scripts.Presentation
 
             foreach (Block block in desired)
             {
+                if (_desiredSeeds.TryGetValue(block, out int seed))
+                {
+                    block.SetShatterSeed(seed);
+                }
+
                 if (current.Contains(block))
                 {
                     continue;
@@ -146,6 +155,12 @@ namespace JTH.Scripts.Presentation
                 enable(block);
                 current.Add(block);
             }
+        }
+
+        private void RememberDesired(Block block, Vector2Int cell)
+        {
+            _desired.Add(block);
+            _desiredSeeds[block] = BlockShatterHint.SeedFromCell(cell);
         }
     }
 }

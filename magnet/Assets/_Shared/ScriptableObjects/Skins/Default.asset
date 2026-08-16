@@ -22,6 +22,17 @@ MonoBehaviour:
   - {fileID: -1093462424022036269, guid: a3a981d8d83abf446aec9cb0c4fa6743, type: 3}
   - {fileID: 8464896235104950443, guid: a3a981d8d83abf446aec9cb0c4fa6743, type: 3}
   - {fileID: -4932891121094291923, guid: a3a981d8d83abf446aec9cb0c4fa6743, type: 3}
+  <HintClips>k__BackingField:
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
+  <LineClearEffects>k__BackingField: []
+  <FireCenteredLineClear>k__BackingField: 0
+  <CenterLineClearEffect>k__BackingField: {fileID: 0}
   icon: {fileID: -3402641767807775510, guid: a3a981d8d83abf446aec9cb0c4fa6743, type: 3}
   unlockType: 0
   unlockValue: 0

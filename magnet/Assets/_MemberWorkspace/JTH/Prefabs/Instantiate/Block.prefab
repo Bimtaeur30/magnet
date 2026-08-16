@@ -50,6 +50,7 @@ MonoBehaviour:
   spriteMask: {fileID: 5249635854888053909}
   boardConfigSO: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
   hintAnimator: {fileID: 9182736451928374650}
+  shatterHint: {fileID: 5720291216663034050}
 --- !u!1 &6426386864964777270
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +62,7 @@ GameObject:
   - component: {fileID: 4168698912887972788}
   - component: {fileID: 242408350722645651}
   - component: {fileID: 9182736451928374650}
+  - component: {fileID: 5720291216663034050}
   m_Layer: 0
   m_Name: Skin
   m_TagString: Untagged
@@ -109,7 +111,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: ae58ff2198d1b8d4382b847d0b946670, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,6 +166,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5720291216663034050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426386864964777270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3a1b6bd93051c4b99707ff97dda029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.BlockShatterHint
+  skinRenderer: {fileID: 242408350722645651}
+  shatter: 0
 --- !u!1 &7240123229978353206
 GameObject:
   m_ObjectHideFlags: 0

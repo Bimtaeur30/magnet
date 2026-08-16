@@ -34,9 +34,10 @@ namespace JTH.Scripts.Presentation
         public void SetLineClearHints(
             IReadOnlyCollection<Vector2Int> clearedCells,
             IReadOnlyList<Block> previewBlocks,
+            Vector2Int previewPivot,
             int skinId)
         {
-            _blocksView.SetLineClearHints(clearedCells, previewBlocks, skinId);
+            _blocksView.SetLineClearHints(clearedCells, previewBlocks, previewPivot, skinId);
         }
 
         public void ClearLineClearHints()

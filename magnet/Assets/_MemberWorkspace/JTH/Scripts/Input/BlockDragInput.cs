@@ -203,7 +203,7 @@ namespace JTH.Scripts.Input
                 }
             }
 
-            _gameBoard.SetLineClearHints(clearedCells, previewOnLine, _selectedBlockData.SkinId);
+            _gameBoard.SetLineClearHints(clearedCells, previewOnLine, boardPivot, _selectedBlockData.SkinId);
         }
 
         private void OnDrawGizmos()

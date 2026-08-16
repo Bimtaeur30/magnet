@@ -13,6 +13,8 @@ namespace JTH.Scripts.Presentation
         [SerializeField] private SpriteMask spriteMask;
         [SerializeField] private BoardConfigSO boardConfigSO;
         [SerializeField] private Animator hintAnimator;
+        [Tooltip("클리어 예고 쩌적 셰이더 세기. 클립이 shatter를 흔들고, 끄면 0으로 원복")]
+        [SerializeField] private BlockShatterHint shatterHint;
 
         private Vector2Int _offset;
 
@@ -43,6 +45,7 @@ namespace JTH.Scripts.Presentation
         private AnimationClip _playingClip;
         private PlayableGraph _hintGraph;
         private AnimationClipPlayable _hintPlayable;
+        private SpriteMaskInteraction _placedMaskInteraction = SpriteMaskInteraction.VisibleInsideMask;
 
         private void Awake()
         {
@@ -58,9 +61,19 @@ namespace JTH.Scripts.Presentation
                 hintAnimator = skinRenderer.GetComponent<Animator>();
             }
 
+            if (shatterHint == null && skinRenderer != null)
+            {
+                shatterHint = skinRenderer.GetComponent<BlockShatterHint>();
+            }
+
             if (hintAnimator != null)
             {
                 hintAnimator.enabled = false;
+            }
+
+            if (shatterHint != null)
+            {
+                shatterHint.ResetShatter();
             }
         }
 
@@ -151,6 +164,14 @@ namespace JTH.Scripts.Presentation
             ApplySprite(_placedSprite);
         }
 
+        public void SetShatterSeed(int seed)
+        {
+            if (shatterHint != null)
+            {
+                shatterHint.SetSeed(seed);
+            }
+        }
+
         private void PlayHintClip(AnimationClip clip)
         {
             StopHintClip();
@@ -161,6 +182,11 @@ namespace JTH.Scripts.Presentation
             }
 
             hintAnimator.enabled = true;
+            if (skinRenderer != null)
+            {
+                _placedMaskInteraction = skinRenderer.maskInteraction;
+                skinRenderer.maskInteraction = SpriteMaskInteraction.None;
+            }
             _hintGraph = PlayableGraph.Create("BlockClearHint");
             _hintGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
             AnimationPlayableOutput output = AnimationPlayableOutput.Create(_hintGraph, "Hint", hintAnimator);
@@ -183,6 +209,17 @@ namespace JTH.Scripts.Presentation
             if (hintAnimator != null)
             {
                 hintAnimator.enabled = false;
+                hintAnimator.transform.localScale = Vector3.one;
+            }
+
+            if (skinRenderer != null)
+            {
+                skinRenderer.maskInteraction = _placedMaskInteraction;
+            }
+
+            if (shatterHint != null)
+            {
+                shatterHint.ResetShatter();
             }
         }
 
@@ -207,7 +244,8 @@ namespace JTH.Scripts.Presentation
             double time = _hintPlayable.GetTime();
             if (time >= duration)
             {
-                _hintPlayable.SetTime(time % duration);
+                _hintPlayable.SetTime(duration);
+                _hintPlayable.SetSpeed(0);
             }
         }
 
@@ -224,6 +262,10 @@ namespace JTH.Scripts.Presentation
             }
 
             RefreshColor();
+            if (shatterHint != null)
+            {
+                shatterHint.Apply();
+            }
         }
 
         private void RefreshColor()

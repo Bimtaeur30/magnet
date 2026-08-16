@@ -172,7 +172,8 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/BlockVisualConfigSO.cs` | `stagingYExtraBelow` | 보드 하단에서 스테이징 영역까지 추가로 내릴 칸 수. stagingY = -(CellsPerSide + 이 값) |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `cellFill` | 블록 칸 스프라이트가 격자 칸 대비 차지하는 비율(0.1~1). 1이면 칸과 동일 크기 |
 | `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
-| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `HintClips` | 바리에이션별 클리어 예고 클립. `Sprites`와 같은 인덱스. 비어 있으면 그 칸은 클립 없이 스프라이트만 통일 |
+| `Scripts/Presentation/Block.cs` | `shatterHint` | 클리어 예고 쩌적 셰이더 세기. 클립이 `shatter`를 흔들고, 끄면 0으로 원복 |
+| `Scripts/Presentation/BlockShatterHint.cs` | `shatter` | 클리어 예고 클립이 조절하는 쩌적 세기. 0이면 원본 스프라이트 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearEffects` | 바리에이션별 라인클리어 칸 이펙트. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `FireCenteredLineClear` | 켜면 클리어 시 칸마다 안 쏘고 줄 가운데에 길쭉한 이펙트 1발 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `CenterLineClearEffect` | 가운데 1발용 길쭉한 이펙트. `FireCenteredLineClear`가 켜져 있을 때만 사용 |
