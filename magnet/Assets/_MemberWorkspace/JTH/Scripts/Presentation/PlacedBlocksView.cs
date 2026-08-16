@@ -78,6 +78,7 @@ namespace JTH.Scripts.Presentation
                     continue;
                 }
 
+                lineClearHintEffector.PlayBurstForBlock(block);
                 PushBlock(block);
             }
         }

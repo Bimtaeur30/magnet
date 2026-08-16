@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using _Shared.Magnet.Core.Events;
 using GameLib.EventChannelSystem;
+using GameLib.ObjectPool.Runtime;
 using Magnet.Core.Events;
 using Magnet.Core.SO.Skin;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace JTH.Scripts.Presentation
     {
         [SerializeField] private PlacedBlocksView placedBlocksView;
         [SerializeField] private EventChannelSO skinChannel;
+        [SerializeField] private EventChannelSO presentationChannel;
 
         private readonly HashSet<Block> _hintedBlocks = new HashSet<Block>();
         private readonly HashSet<Block> _desired = new HashSet<Block>();
@@ -28,6 +31,7 @@ namespace JTH.Scripts.Presentation
 
             Debug.Assert(placedBlocksView != null, "[LineClearHintEffector] PlacedBlocksView is missing.", this);
             Debug.Assert(skinChannel != null, "[LineClearHintEffector] skinChannel is not assigned.", this);
+            Debug.Assert(presentationChannel != null, "[LineClearHintEffector] presentationChannel is not assigned.", this);
         }
 
         private void OnEnable()
@@ -161,6 +165,47 @@ namespace JTH.Scripts.Presentation
         {
             _desired.Add(block);
             _desiredSeeds[block] = BlockShatterHint.SeedFromCell(cell);
+        }
+
+        public void PlayBurstForBlock(Block block)
+        {
+            if (block == null || _currentSkin == null || _currentSkin.FireCenteredLineClear)
+            {
+                return;
+            }
+
+            int skinId = _appliedSkinId != int.MinValue
+                ? _appliedSkinId
+                : ResolveSpriteIndex(block.PlacedSprite);
+            PoolItemSO effect = _currentSkin.GetLineClearEffect(skinId);
+            if (effect == null)
+            {
+                return;
+            }
+
+            presentationChannel.RaiseEvent(
+                PresentationEvents.PlayParticleEffectEvent.Init(
+                    effect,
+                    block.VisualCenter,
+                    Quaternion.identity));
+        }
+
+        private int ResolveSpriteIndex(Sprite sprite)
+        {
+            if (sprite == null || _currentSkin == null || _currentSkin.Sprites == null)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < _currentSkin.Sprites.Length; i++)
+            {
+                if (_currentSkin.Sprites[i] == sprite)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
     }
 }

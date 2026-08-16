@@ -65,25 +65,6 @@ namespace JTH.Scripts.Presentation
             if (_currentSkin.FireCenteredLineClear)
             {
                 PlayCenteredEffects(result.ClearedLineResult);
-                return;
-            }
-
-            PlayCellEffects(result.ClearedLineResult, result.SkinId);
-        }
-
-        private void PlayCellEffects(ClearedLineResult cleared, int skinId)
-        {
-            PoolItemSO effect = _currentSkin.GetLineClearEffect(skinId);
-            if (effect == null)
-            {
-                return;
-            }
-
-            HashSet<Vector2Int> cells = new HashSet<Vector2Int>(
-                cleared.CollectClearedCells(_gameBoard.Grid.BoardSize));
-            foreach (Vector2Int cell in cells)
-            {
-                PlayEffect(effect, _gameBoard.GridToWorldCenter(cell), Quaternion.identity);
             }
         }
 

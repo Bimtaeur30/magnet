@@ -30,6 +30,11 @@ namespace JTH.Scripts.Presentation
 
         public Texture Skin => skinRenderer.sprite.texture;
 
+        public Sprite PlacedSprite => _placedSprite;
+
+        public Vector3 VisualCenter =>
+            skinRenderer != null ? skinRenderer.bounds.center : transform.position;
+
         public const int SortingBandPreview = 1000;
         public const int SortingBandPlaced = 10000;
         public const int SortingBandStaging = 20000;

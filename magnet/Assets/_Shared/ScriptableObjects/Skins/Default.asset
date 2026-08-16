@@ -30,7 +30,14 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
   - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
   - {fileID: 7400000, guid: 03ab3a78a1d45114f911226b702af859, type: 2}
-  <LineClearEffects>k__BackingField: []
+  <LineClearEffects>k__BackingField:
+  - {fileID: 11400000, guid: 7538331bf6637844387c11191afb8be0, type: 2}
+  - {fileID: 11400000, guid: ccbedfae9be1fec4ba641d6b1a97c098, type: 2}
+  - {fileID: 11400000, guid: d1b14cf457bf7014982861c1431fa0ec, type: 2}
+  - {fileID: 11400000, guid: 93ef1e4878c12794387ad4cc9e5afa73, type: 2}
+  - {fileID: 11400000, guid: da32178832623e14692046c300b7a489, type: 2}
+  - {fileID: 11400000, guid: 6cc837110f89d90418310bafadea8b5e, type: 2}
+  - {fileID: 11400000, guid: 715b9958b2999df4f95b669ad80a11ce, type: 2}
   <FireCenteredLineClear>k__BackingField: 0
   <CenterLineClearEffect>k__BackingField: {fileID: 0}
   icon: {fileID: -3402641767807775510, guid: a3a981d8d83abf446aec9cb0c4fa6743, type: 3}
