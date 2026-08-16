@@ -237,7 +237,15 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 
 ### KTJ — `Assets/_MemberWorkspace/KTJ/`
 
-_(아직 등록된 Tooltip 없음)_
+| 스크립트 | 필드 | Tooltip |
+|----------|------|---------|
+| `02_Script/UI/ReviveUI/ReviveUIView.cs` | `sureButton` | 부활을 수락하는 버튼 |
+| 〃 | `noThanksButton` | 부활을 거절하고 게임 오버로 진행하는 버튼 |
+| 〃 | `container` | 부활 제안 UI 전체를 감싸는 오브젝트 |
+| 〃 | `magnetGameChannel` | 점수 및 부활 관련 이벤트 채널 |
+| 〃 | `skinEventChannel` | 부활 블록 이미지에 현재 스킨을 적용하는 이벤트 채널 |
+| 〃 | `cellSize` | 부활 블록 이미지 한 칸의 배치 크기 |
+| 〃 | `cellSpacing` | 부활 블록 이미지 각 칸 사이의 간격 |
 
 ### PTY — `Assets/_MemberWorkspace/PTY/`
 
@@ -271,5 +279,6 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-08-10 | JTH AreaBundlePoolSO — deathRejectPercent/MaxTries/BranchBudget |
 | 2026-08-11 | JTH AreaBundlePoolSO — uniqueShapeWeights (Unique 언락 추첨) |
 | 2026-08-16 | JTH ScoreConfigSO.RelifeMinScore — 게임오버 Relife 최소 점수 |
+| 2026-08-16 | KTJ ReviveUIView — 버튼·Container·이벤트 채널·블록 셀 크기 Tooltip 추가 |
 | 2026-08-11 | JTH AreaBundleSelectionGizmo — 패 선택 시뮬 배치 칸 색 |
 | 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |

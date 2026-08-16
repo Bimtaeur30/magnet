@@ -1,0 +1,948 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8981b4ecea39b648827ae4e8c917316, type: 3}
+  m_Name: ReviveUIBindingProfile
+  m_EditorClassIdentifier: Mvvm.Editor::Mvvm.Editor.MvvmBindingProfile
+  targetPrefab: {fileID: 0}
+  namespaceName: Game.UI
+  viewClassName: ReviveUIView
+  viewModelClassName: ReviveUIViewModel
+  outputFolder: Assets/_MemberWorkspace/KTJ/02_Script/UI/ReviveUI
+  bindings:
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ReviveUIPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ReviveUIX
+    valueType: float
+    fieldName: reviveUIAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ReviveUIY
+    valueType: float
+    fieldName: reviveUIAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ReviveUISize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUISizeDelta
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ReviveUIWidth
+    valueType: float
+    fieldName: reviveUISizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ReviveUIHeight
+    valueType: float
+    fieldName: reviveUISizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ReviveUIRotationZ
+    valueType: float
+    fieldName: reviveUILocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ReviveUIScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUILocalScale
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ReviveUIScaleX
+    valueType: float
+    fieldName: reviveUILocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ReviveUIScaleY
+    valueType: float
+    fieldName: reviveUILocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ContainerPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ContainerX
+    valueType: float
+    fieldName: reviveUIContainerAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ContainerY
+    valueType: float
+    fieldName: reviveUIContainerAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ContainerSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ContainerWidth
+    valueType: float
+    fieldName: reviveUIContainerSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ContainerHeight
+    valueType: float
+    fieldName: reviveUIContainerSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ContainerRotationZ
+    valueType: float
+    fieldName: reviveUIContainerLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ContainerScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ContainerScaleX
+    valueType: float
+    fieldName: reviveUIContainerLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ContainerScaleY
+    valueType: float
+    fieldName: reviveUIContainerLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: Container
+    valueType: UnityEngine.Sprite
+    fieldName: reviveUIContainerSprite
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: ContainerColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerColor
+  - enabled: 0
+    objectPath: ReviveUI/Container
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: ContainerAlpha
+    valueType: float
+    fieldName: reviveUIContainerColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: ColorPanelPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerColorPanelAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: ColorPanelX
+    valueType: float
+    fieldName: reviveUIContainerColorPanelAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: ColorPanelY
+    valueType: float
+    fieldName: reviveUIContainerColorPanelAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: ColorPanelSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerColorPanelSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: ColorPanelWidth
+    valueType: float
+    fieldName: reviveUIContainerColorPanelSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: ColorPanelHeight
+    valueType: float
+    fieldName: reviveUIContainerColorPanelSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: ColorPanelRotationZ
+    valueType: float
+    fieldName: reviveUIContainerColorPanelLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: ColorPanelScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerColorPanelLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: ColorPanelScaleX
+    valueType: float
+    fieldName: reviveUIContainerColorPanelLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: ColorPanelScaleY
+    valueType: float
+    fieldName: reviveUIContainerColorPanelLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: ColorPanel
+    valueType: UnityEngine.Sprite
+    fieldName: reviveUIContainerColorPanelSprite
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: ColorPanelColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerColorPanelColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/ColorPanel
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: ColorPanelAlpha
+    valueType: float
+    fieldName: reviveUIContainerColorPanelColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TitlePosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerTitleAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TitleX
+    valueType: float
+    fieldName: reviveUIContainerTitleAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TitleY
+    valueType: float
+    fieldName: reviveUIContainerTitleAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TitleSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerTitleSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TitleWidth
+    valueType: float
+    fieldName: reviveUIContainerTitleSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TitleHeight
+    valueType: float
+    fieldName: reviveUIContainerTitleSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TitleRotationZ
+    valueType: float
+    fieldName: reviveUIContainerTitleLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TitleScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerTitleLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TitleScaleX
+    valueType: float
+    fieldName: reviveUIContainerTitleLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TitleScaleY
+    valueType: float
+    fieldName: reviveUIContainerTitleLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: Title
+    valueType: string
+    fieldName: reviveUIContainerTitleText
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: TitleColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerTitleColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/Title
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TitleAlpha
+    valueType: float
+    fieldName: reviveUIContainerTitleColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: NoThanksBtnPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerNoThanksBtnAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: NoThanksBtnX
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: NoThanksBtnY
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: NoThanksBtnSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerNoThanksBtnSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: NoThanksBtnWidth
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: NoThanksBtnHeight
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: NoThanksBtnRotationZ
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: NoThanksBtnScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerNoThanksBtnLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: NoThanksBtnScaleX
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: NoThanksBtnScaleY
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: NoThanksBtn
+    valueType: string
+    fieldName: reviveUIContainerNoThanksBtnText
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: NoThanksBtnColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerNoThanksBtnColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/NoThanksBtn
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: NoThanksBtnAlpha
+    valueType: float
+    fieldName: reviveUIContainerNoThanksBtnColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: SureBtnPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: SureBtnX
+    valueType: float
+    fieldName: reviveUIContainerSureBtnAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: SureBtnY
+    valueType: float
+    fieldName: reviveUIContainerSureBtnAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: SureBtnSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: SureBtnWidth
+    valueType: float
+    fieldName: reviveUIContainerSureBtnSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: SureBtnHeight
+    valueType: float
+    fieldName: reviveUIContainerSureBtnSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: SureBtnRotationZ
+    valueType: float
+    fieldName: reviveUIContainerSureBtnLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: SureBtnScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerSureBtnLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: SureBtnScaleX
+    valueType: float
+    fieldName: reviveUIContainerSureBtnLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: SureBtnScaleY
+    valueType: float
+    fieldName: reviveUIContainerSureBtnLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: SureBtn
+    valueType: UnityEngine.Sprite
+    fieldName: reviveUIContainerSureBtnSprite
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: SureBtnColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerSureBtnColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: SureBtnAlpha
+    valueType: float
+    fieldName: reviveUIContainerSureBtnColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.UI.Button
+    targetProperty: onClick
+    mode: 2
+    viewModelMember: SureCommand
+    valueType: Mvvm.IRelayCommand
+    fieldName: reviveUIContainerSureBtnOnClick
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn
+    componentType: UnityEngine.UI.Button
+    targetProperty: interactable
+    mode: 0
+    viewModelMember: SureBtnInteractable
+    valueType: bool
+    fieldName: reviveUIContainerSureBtnInteractable
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMPPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnTextTMPAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMPX
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMPY
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMPSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnTextTMPSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMPWidth
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMPHeight
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMPRotationZ
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMPScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerSureBtnTextTMPLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMPScaleX
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMPScaleY
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP
+    valueType: string
+    fieldName: reviveUIContainerSureBtnTextTMPText
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMPColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerSureBtnTextTMPColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMPAlpha
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMPColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMP1Position
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnTextTMP1AnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMP1X
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1AnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMP1Y
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1AnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMP1Size
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerSureBtnTextTMP1SizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMP1Width
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1SizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMP1Height
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1SizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMP1RotationZ
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1LocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMP1Scale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerSureBtnTextTMP1LocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMP1ScaleX
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1LocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMP1ScaleY
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1LocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: TextTMP1
+    valueType: UnityEngine.Sprite
+    fieldName: reviveUIContainerSureBtnTextTMP1Sprite
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMP1Color
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerSureBtnTextTMP1Color
+  - enabled: 0
+    objectPath: ReviveUI/Container/SureBtn/Text (TMP) (1)
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMP1Alpha
+    valueType: float
+    fieldName: reviveUIContainerSureBtnTextTMP1ColorA
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: BlockSlotsPosition
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerBlockSlotsAnchoredPosition
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: BlockSlotsX
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsAnchoredPositionX
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: BlockSlotsY
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsAnchoredPositionY
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: BlockSlotsSize
+    valueType: UnityEngine.Vector2
+    fieldName: reviveUIContainerBlockSlotsSizeDelta
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: BlockSlotsWidth
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsSizeDeltaX
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: BlockSlotsHeight
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsSizeDeltaY
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: BlockSlotsRotationZ
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsLocalEulerAnglesZ
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: BlockSlotsScale
+    valueType: UnityEngine.Vector3
+    fieldName: reviveUIContainerBlockSlotsLocalScale
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: BlockSlotsScaleX
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsLocalScaleX
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: BlockSlotsScaleY
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsLocalScaleY
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.UI.Image
+    targetProperty: sprite
+    mode: 0
+    viewModelMember: BlockSlots
+    valueType: UnityEngine.Sprite
+    fieldName: reviveUIContainerBlockSlotsSprite
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.UI.Image
+    targetProperty: color
+    mode: 0
+    viewModelMember: BlockSlotsColor
+    valueType: UnityEngine.Color
+    fieldName: reviveUIContainerBlockSlotsColor
+  - enabled: 0
+    objectPath: ReviveUI/Container/BlockSlots
+    componentType: UnityEngine.UI.Image
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: BlockSlotsAlpha
+    valueType: float
+    fieldName: reviveUIContainerBlockSlotsColorA

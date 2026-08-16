@@ -4,7 +4,7 @@
 
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
-| — | — | — | — | 미착수 |
+| `revive-ui` | 부활 제안 UI | — | [phases.md](./Implementations/revive-ui/phases.md) | Phase 1 완료 |
 
 ## 계층 (용어)
 
