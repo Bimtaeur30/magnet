@@ -14,6 +14,7 @@ namespace Magnet.Core.Events
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
         public static readonly RelifeOfferedEvent RelifeOfferedEvent = new();
         public static readonly RelifeAcceptedEvent RelifeAcceptedEvent = new();
+        public static readonly UniqueCorrectPlacementEvent UniqueCorrectPlacementEvent = new();
     }
 
     public sealed class ScoreChangedEvent : GameEvent
@@ -88,6 +89,20 @@ namespace Magnet.Core.Events
     {
         public RelifeAcceptedEvent Init()
         {
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// 유일수 손에서 정답 칸에 놓았을 때. UI 피드백용 셀 월드 중심 배열.
+    /// </summary>
+    public sealed class UniqueCorrectPlacementEvent : GameEvent
+    {
+        public IReadOnlyList<Vector3> WorldPositions { get; private set; }
+
+        public UniqueCorrectPlacementEvent Init(IReadOnlyList<Vector3> worldPositions)
+        {
+            WorldPositions = worldPositions;
             return this;
         }
     }
