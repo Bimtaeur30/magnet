@@ -88,6 +88,7 @@ namespace JTH.Scripts.Bootstrap
             }
 
             _playerMoves.Add(new PlayerHandMove(slotIndex, copy));
+            RaiseUniqueCorrectPlacementIfMatched(slotIndex, copy);
             if (!lastDrop)
             {
                 return;
@@ -95,6 +96,24 @@ namespace JTH.Scripts.Bootstrap
 
             LogHandCompare();
             _playerMoves.Clear();
+        }
+
+        private void RaiseUniqueCorrectPlacementIfMatched(int slotIndex, IReadOnlyList<Vector2Int> cells)
+        {
+            AreaBundleSelectionResult selection = LastSelection;
+            if (selection == null || !selection.IsUniqueCorrectPlacement(slotIndex, cells))
+            {
+                return;
+            }
+
+            Vector3[] worldPositions = new Vector3[cells.Count];
+            for (int i = 0; i < cells.Count; ++i)
+            {
+                worldPositions[i] = _gameBoard.GridToWorldCenter(cells[i]);
+            }
+
+            magnetGameChannel.RaiseEvent(
+                MagnetGameEvents.UniqueCorrectPlacementEvent.Init(worldPositions));
         }
 
         private void OnBlockSelected(BlockSelectedOnUIEvent data)
