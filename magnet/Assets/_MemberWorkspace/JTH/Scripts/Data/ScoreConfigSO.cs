@@ -16,5 +16,8 @@ namespace JTH.Scripts.Data
 
         [Tooltip("적에게 들어가는 데미지 전역 배수. 1=그대로, 0.5=절반. 점수 UI와 무관하게 공격 데미지만 조절")]
         [field: SerializeField, Min(0f)] public float EnemyDamageMultiplier { get; private set; } = 1f;
+
+        [Tooltip("게임오버 시 이 점수 이상이면 Relife 오퍼. 0이면 점수와 상관없이 오퍼")]
+        [field: SerializeField, Min(0)] public int RelifeMinScore { get; private set; } = 100;
     }
 }

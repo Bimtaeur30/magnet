@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
-using JTH.Scripts.Data;
 using JTH.Scripts.Events;
 using UnityEngine;
 
@@ -40,9 +39,10 @@ namespace JTH.Scripts.Presentation
 
         public void SetLineClearHints(
             IReadOnlyCollection<Vector2Int> clearedCells,
-            LineClearPreviewConfigSO config)
+            IReadOnlyList<Block> previewBlocks,
+            int skinId)
         {
-            lineClearHintEffector.SetHints(clearedCells, config);
+            lineClearHintEffector.SetHints(clearedCells, previewBlocks, skinId);
         }
 
         public void ClearLineClearHints()

@@ -12,13 +12,15 @@ namespace JTH.Scripts.Domain.Placement
             IReadOnlyList<Vector2Int> placedGridPositions,
             ClearedLineResult clearedLineResult,
             bool firstDrop,
-            bool lastDrop)
+            bool lastDrop,
+            int skinId)
         {
             Candidates = candidates;
             PlacedGridPositions = placedGridPositions;
             ClearedLineResult = clearedLineResult;
             FirstDrop = firstDrop;
             LastDrop = lastDrop;
+            SkinId = skinId;
         }
 
         public IReadOnlyList<ShapeBlockData> Candidates { get; }
@@ -26,5 +28,6 @@ namespace JTH.Scripts.Domain.Placement
         public ClearedLineResult ClearedLineResult { get; }
         public bool FirstDrop { get; }
         public bool LastDrop { get; }
+        public int SkinId { get; }
     }
 }

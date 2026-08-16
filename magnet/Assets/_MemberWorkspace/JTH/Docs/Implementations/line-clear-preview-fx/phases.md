@@ -5,3 +5,4 @@
 | Phase | 제목 | 계획 | 변경 기록 | 상태 |
 |-------|------|------|-----------|------|
 | 1 | 클리어 줄 힌트 (Effector + sorting 밴드) | [phase1.md](phase1.md) | [sequence1.md](sequence1.md) → [sequence2.md](sequence2.md) | **완료** |
+| 2 | 스킨 클립 힌트 + 클리어 이펙트 | [phase2.md](phase2.md) | [sequence3.md](sequence3.md) | **완료** |

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-using JTH.Scripts.Data;
+using GameLib.EventChannelSystem;
+using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation
@@ -7,10 +9,14 @@ namespace JTH.Scripts.Presentation
     public sealed class LineClearHintEffector : MonoBehaviour
     {
         [SerializeField] private PlacedBlocksView placedBlocksView;
+        [SerializeField] private EventChannelSO skinChannel;
 
         private readonly HashSet<Block> _hintedBlocks = new HashSet<Block>();
-        private readonly HashSet<Block> _desiredPlaced = new HashSet<Block>();
+        private readonly HashSet<Block> _desired = new HashSet<Block>();
         private readonly List<Block> _removeBuffer = new List<Block>(32);
+
+        private SkinDataSO _currentSkin;
+        private int _appliedSkinId = int.MinValue;
 
         private void Awake()
         {
@@ -20,35 +26,67 @@ namespace JTH.Scripts.Presentation
             }
 
             Debug.Assert(placedBlocksView != null, "[LineClearHintEffector] PlacedBlocksView is missing.", this);
+            Debug.Assert(skinChannel != null, "[LineClearHintEffector] skinChannel is not assigned.", this);
         }
 
-        public void SetHints(IReadOnlyCollection<Vector2Int> clearedCells, LineClearPreviewConfigSO config)
+        private void OnEnable()
         {
-            if (clearedCells == null || clearedCells.Count == 0 || config == null)
+            skinChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
+        }
+
+        private void OnDisable()
+        {
+            skinChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
+            ClearHints();
+        }
+
+        public void SetHints(
+            IReadOnlyCollection<Vector2Int> clearedCells,
+            IReadOnlyList<Block> previewBlocks,
+            int skinId)
+        {
+            if (clearedCells == null || clearedCells.Count == 0 || _currentSkin == null)
             {
                 ClearHints();
                 return;
             }
 
-            _desiredPlaced.Clear();
+            if (_appliedSkinId != skinId)
+            {
+                ClearHints();
+                _appliedSkinId = skinId;
+            }
+
+            _desired.Clear();
             foreach (Vector2Int cell in clearedCells)
             {
                 if (placedBlocksView.TryGetBlock(cell, out Block placed))
                 {
-                    _desiredPlaced.Add(placed);
+                    _desired.Add(placed);
                 }
             }
 
+            if (previewBlocks != null)
+            {
+                for (int i = 0; i < previewBlocks.Count; ++i)
+                {
+                    Block preview = previewBlocks[i];
+                    if (preview != null)
+                    {
+                        _desired.Add(preview);
+                    }
+                }
+            }
+
+            Sprite unifiedSprite = _currentSkin.GetSprite(skinId);
+            AnimationClip clip = _currentSkin.GetHintClip(skinId);
+
             SyncSet(
                 _hintedBlocks,
-                _desiredPlaced,
-                enable: block => block.SetClearHint(
-                    true,
-                    1f,
-                    1f,
-                    config.PulseMinAlpha,
-                    1f,
-                    config.PulsePeriod));
+                _desired,
+                enable: block => block.SetClearHint(true, unifiedSprite, clip));
         }
 
         public void ClearHints()
@@ -62,7 +100,18 @@ namespace JTH.Scripts.Presentation
             }
 
             _hintedBlocks.Clear();
-            _desiredPlaced.Clear();
+            _desired.Clear();
+            _appliedSkinId = int.MinValue;
+        }
+
+        private void OnSkinChanged(SkinChangedEvent evt)
+        {
+            _currentSkin = evt.CurrentSkin;
+        }
+
+        private void OnSkinInitialized(SkinInitializedEvent evt)
+        {
+            _currentSkin = evt.Skin;
         }
 
         private void SyncSet(HashSet<Block> current, HashSet<Block> desired, System.Action<Block> enable)

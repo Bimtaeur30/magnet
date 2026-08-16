@@ -16,3 +16,4 @@ MonoBehaviour:
   <BaseMax>k__BackingField: 55
   <CellScore>k__BackingField: 1
   <EnemyDamageMultiplier>k__BackingField: 1
+  <RelifeMinScore>k__BackingField: 100

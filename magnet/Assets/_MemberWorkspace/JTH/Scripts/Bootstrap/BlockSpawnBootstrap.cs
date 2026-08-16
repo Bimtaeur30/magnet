@@ -140,6 +140,47 @@ namespace JTH.Scripts.Bootstrap
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
 
+        public IReadOnlyList<IReadOnlyList<Vector2Int>> DrawEasy(int currentScore)
+        {
+            BoardGrid grid = _gameBoard.Grid;
+            BlockSpawnContext context = new(shapeSourceSO, grid, currentScore)
+            {
+                TurnIndex = _turnIndex,
+                IsRetrySession = true,
+            };
+            List<IReadOnlyList<Vector2Int>> pieces = _drawer.DrawEasy(context);
+            return CopyPieces(pieces);
+        }
+
+        public void FillPrepared(IReadOnlyList<IReadOnlyList<Vector2Int>> cellOffsetsList, int currentScore)
+        {
+            _playerMoves.Clear();
+            BoardGrid grid = _gameBoard.Grid;
+            _handStartBoard = grid?.Clone();
+            _handStartScore = currentScore;
+            _supply.FillFrom(cellOffsetsList);
+            LogDeal();
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
+        }
+
+        private static List<IReadOnlyList<Vector2Int>> CopyPieces(IReadOnlyList<IReadOnlyList<Vector2Int>> source)
+        {
+            List<IReadOnlyList<Vector2Int>> copy = new List<IReadOnlyList<Vector2Int>>(source.Count);
+            for (int i = 0; i < source.Count; ++i)
+            {
+                IReadOnlyList<Vector2Int> piece = source[i];
+                Vector2Int[] cells = new Vector2Int[piece.Count];
+                for (int j = 0; j < piece.Count; ++j)
+                {
+                    cells[j] = piece[j];
+                }
+
+                copy.Add(cells);
+            }
+
+            return copy;
+        }
+
         private void LogDeal()
         {
             AreaBundleSelectionResult result = LastSelection;

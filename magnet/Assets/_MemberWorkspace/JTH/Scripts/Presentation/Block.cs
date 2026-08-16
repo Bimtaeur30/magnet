@@ -1,6 +1,8 @@
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Data;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
 
 namespace JTH.Scripts.Presentation
 {
@@ -10,6 +12,7 @@ namespace JTH.Scripts.Presentation
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]
         [SerializeField] private SpriteMask spriteMask;
         [SerializeField] private BoardConfigSO boardConfigSO;
+        [SerializeField] private Animator hintAnimator;
 
         private Vector2Int _offset;
 
@@ -34,13 +37,12 @@ namespace JTH.Scripts.Presentation
         private float _dimMultiply = 1f;
         private float _alpha = 1f;
 
-        private bool _clearHint;
-        private float _clearHintTime;
-        private float _hintBrightMin = 1f;
-        private float _hintBrightMax = 1.35f;
-        private float _hintAlphaMin = 1f;
-        private float _hintAlphaMax = 1f;
-        private float _hintPeriod = 1.2f;
+        private Sprite _placedSprite;
+        private Sprite _hintSprite;
+        private bool _hintActive;
+        private AnimationClip _playingClip;
+        private PlayableGraph _hintGraph;
+        private AnimationClipPlayable _hintPlayable;
 
         private void Awake()
         {
@@ -50,17 +52,21 @@ namespace JTH.Scripts.Presentation
 
             Vector3 visualOffset = Vector2.one * cellSize / 2;
             spriteMask.transform.localPosition = visualOffset;
+
+            if (hintAnimator == null && skinRenderer != null)
+            {
+                hintAnimator = skinRenderer.GetComponent<Animator>();
+            }
+
+            if (hintAnimator != null)
+            {
+                hintAnimator.enabled = false;
+            }
         }
 
         private void Update()
         {
-            if (!_clearHint)
-            {
-                return;
-            }
-
-            _clearHintTime += Time.deltaTime;
-            RefreshColor();
+            LoopHintClipIfNeeded();
         }
 
         public override void ResetItem()
@@ -74,16 +80,29 @@ namespace JTH.Scripts.Presentation
             ApplySortingBand(SortingBandPlaced);
             SetDimmed(false, 0);
             SetAlpha(Color.white.a);
+            _placedSprite = null;
+        }
+
+        private void OnDisable()
+        {
+            StopHintClip();
+        }
+
+        private void OnDestroy()
+        {
+            StopHintClip();
         }
 
         public void ApplySkin(Sprite skinSprite)
         {
-            if (skinSprite != null)
+            _placedSprite = skinSprite;
+            if (_hintActive)
             {
-                skinRenderer.sprite = skinSprite;
+                ApplySprite(_hintSprite != null ? _hintSprite : skinSprite);
+                return;
             }
 
-            RefreshColor();
+            ApplySprite(skinSprite);
         }
 
         /// <summary>
@@ -105,27 +124,105 @@ namespace JTH.Scripts.Presentation
             RefreshColor();
         }
 
-        public void SetClearHint(
-            bool enabled,
-            float brightnessMin = 1f,
-            float brightnessMax = 1.35f,
-            float alphaMin = 1f,
-            float alphaMax = 1f,
-            float period = 1.2f)
+        public void SetClearHint(bool enabled, Sprite unifiedSprite = null, AnimationClip clip = null)
         {
-            _clearHint = enabled;
             if (!enabled)
             {
-                _clearHintTime = 0f;
-                RefreshColor();
+                ClearHint();
                 return;
             }
 
-            _hintBrightMin = brightnessMin;
-            _hintBrightMax = brightnessMax;
-            _hintAlphaMin = Mathf.Clamp01(alphaMin);
-            _hintAlphaMax = Mathf.Clamp01(alphaMax);
-            _hintPeriod = Mathf.Max(0.05f, period);
+            if (_hintActive && _hintSprite == unifiedSprite && _playingClip == clip)
+            {
+                return;
+            }
+
+            _hintActive = true;
+            _hintSprite = unifiedSprite;
+            ApplySprite(unifiedSprite != null ? unifiedSprite : _placedSprite);
+            PlayHintClip(clip);
+        }
+
+        private void ClearHint()
+        {
+            _hintActive = false;
+            _hintSprite = null;
+            StopHintClip();
+            ApplySprite(_placedSprite);
+        }
+
+        private void PlayHintClip(AnimationClip clip)
+        {
+            StopHintClip();
+            _playingClip = clip;
+            if (hintAnimator == null || clip == null)
+            {
+                return;
+            }
+
+            hintAnimator.enabled = true;
+            _hintGraph = PlayableGraph.Create("BlockClearHint");
+            _hintGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+            AnimationPlayableOutput output = AnimationPlayableOutput.Create(_hintGraph, "Hint", hintAnimator);
+            _hintPlayable = AnimationClipPlayable.Create(_hintGraph, clip);
+            _hintPlayable.SetApplyFootIK(false);
+            output.SetSourcePlayable(_hintPlayable);
+            _hintGraph.Play();
+        }
+
+        private void StopHintClip()
+        {
+            if (_hintGraph.IsValid())
+            {
+                _hintGraph.Destroy();
+            }
+
+            _hintPlayable = default;
+            _playingClip = null;
+
+            if (hintAnimator != null)
+            {
+                hintAnimator.enabled = false;
+            }
+        }
+
+        private void LoopHintClipIfNeeded()
+        {
+            if (!_hintActive || _playingClip == null || !_hintPlayable.IsValid())
+            {
+                return;
+            }
+
+            if (_playingClip.isLooping)
+            {
+                return;
+            }
+
+            float duration = _playingClip.length;
+            if (duration <= 0f)
+            {
+                return;
+            }
+
+            double time = _hintPlayable.GetTime();
+            if (time >= duration)
+            {
+                _hintPlayable.SetTime(time % duration);
+            }
+        }
+
+        private void ApplySprite(Sprite sprite)
+        {
+            if (skinRenderer == null)
+            {
+                return;
+            }
+
+            if (sprite != null)
+            {
+                skinRenderer.sprite = sprite;
+            }
+
             RefreshColor();
         }
 
@@ -136,17 +233,7 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            float bright = 1f;
-            float alpha = _alpha;
-            if (_clearHint)
-            {
-                float t = (_clearHintTime % _hintPeriod) / _hintPeriod;
-                float wave = 0.5f + 0.5f * Mathf.Sin(t * Mathf.PI * 2f);
-                bright = Mathf.Lerp(_hintBrightMin, _hintBrightMax, wave);
-                alpha = Mathf.Lerp(_hintAlphaMin, _hintAlphaMax, wave);
-            }
-
-            Color color = Color.white * bright;
+            Color color = Color.white;
             if (_dimmed)
             {
                 color.r *= _dimMultiply;
@@ -154,7 +241,7 @@ namespace JTH.Scripts.Presentation
                 color.b *= _dimMultiply;
             }
 
-            color.a = alpha;
+            color.a = _alpha;
             skinRenderer.color = color;
         }
 

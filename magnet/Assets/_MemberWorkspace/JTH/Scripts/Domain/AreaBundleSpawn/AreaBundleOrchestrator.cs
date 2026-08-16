@@ -56,6 +56,12 @@ namespace JTH.Scripts.Domain.AreaBundleSpawn
             return SelectNormalOrEasy(board, reason, emptyPenalty);
         }
 
+        public AreaBundleSelectionResult SelectEasyHand(BoardGrid board, int currentScore)
+        {
+            float emptyPenalty = _pool.ResolveEmptyHeatPenalty(currentScore);
+            return SelectEasy(board, "Relife offer Easy", emptyPenalty);
+        }
+
         private AreaBundleSelectionResult TrySelectUniqueDynamic(BoardGrid board)
         {
             UniqueUnlockGenerator.Result gen = UniqueUnlockGenerator.TryGenerate(

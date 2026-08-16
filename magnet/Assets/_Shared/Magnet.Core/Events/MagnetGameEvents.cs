@@ -12,6 +12,8 @@ namespace Magnet.Core.Events
         public static readonly GameOverEvent GameOverEvent = new();
         public static readonly BlockCandidatesUpdatedEvent BlockCandidatesUpdatedEvent = new();
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
+        public static readonly RelifeOfferedEvent RelifeOfferedEvent = new();
+        public static readonly RelifeAcceptedEvent RelifeAcceptedEvent = new();
     }
 
     public sealed class ScoreChangedEvent : GameEvent
@@ -67,6 +69,25 @@ namespace Magnet.Core.Events
         public BlockSelectedOnUIEvent Init(int index)
         {
             Index = index;
+            return this;
+        }
+    }
+
+    public sealed class RelifeOfferedEvent : GameEvent
+    {
+        public IReadOnlyList<IReadOnlyList<Vector2Int>> CellOffsetsList { get; private set; }
+
+        public RelifeOfferedEvent Init(IReadOnlyList<IReadOnlyList<Vector2Int>> cellOffsetsList)
+        {
+            CellOffsetsList = cellOffsetsList;
+            return this;
+        }
+    }
+
+    public sealed class RelifeAcceptedEvent : GameEvent
+    {
+        public RelifeAcceptedEvent Init()
+        {
             return this;
         }
     }

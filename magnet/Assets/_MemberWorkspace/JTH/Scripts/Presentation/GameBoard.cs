@@ -33,9 +33,10 @@ namespace JTH.Scripts.Presentation
 
         public void SetLineClearHints(
             IReadOnlyCollection<Vector2Int> clearedCells,
-            LineClearPreviewConfigSO config)
+            IReadOnlyList<Block> previewBlocks,
+            int skinId)
         {
-            _blocksView.SetLineClearHints(clearedCells, config);
+            _blocksView.SetLineClearHints(clearedCells, previewBlocks, skinId);
         }
 
         public void ClearLineClearHints()
@@ -81,6 +82,13 @@ namespace JTH.Scripts.Presentation
         {
             Vector2 boardLocal = (Vector2)grid * boardConfigSO.CellSize;
             return _blocksView.transform.TransformPoint(boardLocal);
+        }
+
+        public Vector3 GridToWorldCenter(Vector2Int grid)
+        {
+            Vector2 origin = GridToWorld(grid);
+            Vector2 cellWorldSize = GridToWorld(Vector2Int.right) - GridToWorld(Vector2Int.zero);
+            return origin + cellWorldSize * 0.5f;
         }
 
         /// <summary>

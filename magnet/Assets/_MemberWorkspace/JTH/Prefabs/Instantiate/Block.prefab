@@ -49,6 +49,7 @@ MonoBehaviour:
   skinRenderer: {fileID: 242408350722645651}
   spriteMask: {fileID: 5249635854888053909}
   boardConfigSO: {fileID: 11400000, guid: 3478d7f0a1a06ad429fbda3219aa5cba, type: 2}
+  hintAnimator: {fileID: 9182736451928374650}
 --- !u!1 &6426386864964777270
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,6 +60,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4168698912887972788}
   - component: {fileID: 242408350722645651}
+  - component: {fileID: 9182736451928374650}
   m_Layer: 0
   m_Name: Skin
   m_TagString: Untagged
@@ -140,6 +142,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &9182736451928374650
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426386864964777270}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7240123229978353206
 GameObject:
   m_ObjectHideFlags: 0
