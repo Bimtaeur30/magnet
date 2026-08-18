@@ -8,3 +8,4 @@
 | 2 | 스킨 클립 힌트 + 클리어 이펙트 | [phase2.md](phase2.md) | [sequence3.md](sequence3.md) | **완료** |
 | 3 | 기본 스킨 쩌적 힌트 (보로노이 셰이더) | [phase3.md](phase3.md) | [sequence4.md](sequence4.md) | **완료** |
 | 5 | 클리어 조각 파티클 | [phase5.md](phase5.md) | [sequence6.md](sequence6.md) | **완료** |
+| 6 | 스킨 배치/클리어 사운드 | [phase6.md](phase6.md) | [sequence7.md](sequence7.md) | **완료** |

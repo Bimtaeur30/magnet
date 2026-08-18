@@ -1,0 +1,13 @@
+---
+description: 스킨 FX는 SkinDataSO 슬롯만. 클립 이벤트로 사운드 금지
+globs: Assets/_Shared/Magnet.Core/SO/Skin/**/*.cs,Assets/_Shared/ScriptableObjects/Skins/**,Assets/_MemberWorkspace/JTH/Graphics/Animations/**Hint*.anim
+alwaysApply: false
+---
+
+# 스킨 제작
+
+새 스킨·힌트·클리어 FX·사운드는 **코드 없이** `SkinDataSO`에 에셋을 넣는다. 전체 절차: `Docs/SKIN.md`.
+
+- 힌트 클립 → `HintClips`. 쩌적은 `BlockShatterHint.shatter`를 애니한다 (`_Shatter` 직접 키프레임 금지).
+- 사운드 → `PlaceSound`(놨을 때) / `LineClearSound`(터질 때). 스킨당 1개씩, **색 id 배열 아님**. Animation Event·칸마다 Play 금지.
+- 클리어 파티클 → `LineClearEffects` 또는 `FireCenteredLineClear` + `CenterLineClearEffect`.

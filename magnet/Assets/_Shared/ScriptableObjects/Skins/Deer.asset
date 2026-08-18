@@ -16,6 +16,8 @@ MonoBehaviour:
   <SkinId>k__BackingField: Deer
   <Sprites>k__BackingField:
   - {fileID: 21300000, guid: 785c8f7aa35e7c4448b004d7b1c53e87, type: 3}
+  <PlaceSound>k__BackingField: {fileID: 0}
+  <LineClearSound>k__BackingField: {fileID: 0}
   icon: {fileID: 21300000, guid: 785c8f7aa35e7c4448b004d7b1c53e87, type: 3}
   unlockType: 1
   unlockValue: 2

@@ -1,6 +1,8 @@
 ﻿using _Shared.Magnet.Core.SO.Skin;
 using GameLib.ObjectPool.Runtime;
+using GameLib.SoundSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Magnet.Core.SO.Skin
 {
@@ -22,6 +24,13 @@ namespace Magnet.Core.SO.Skin
 
         [Tooltip("가운데 1발용 길쭉한 이펙트. FireCenteredLineClear가 켜져 있을 때만 사용")]
         [field: SerializeField] public PoolItemSO CenterLineClearEffect { get; private set; }
+
+        [Tooltip("블록을 보드에 놨을 때 1발. 색 id와 무관. 비면 BoardPlacementBootstrap.blockPlaceSound")]
+        [field: FormerlySerializedAs("<HintSound>k__BackingField")]
+        [field: SerializeField] public SoundClipSO PlaceSound { get; private set; }
+
+        [Tooltip("줄이 터질 때 1발. 색 id와 무관. 비면 BoardPlacementBootstrap.blockExplodeSound")]
+        [field: SerializeField] public SoundClipSO LineClearSound { get; private set; }
 
         public Sprite icon;
         public SkinUnlockTypeEnum unlockType;

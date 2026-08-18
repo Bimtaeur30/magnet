@@ -18,6 +18,7 @@
 - 코드: `Assets/_MemberWorkspace/[username]/` 만 (남의 Workspace 수정 금지)
 - 개인 문서: `Assets/_MemberWorkspace/[username]/Docs/`
 - 공용: `Docs/DESIGN.md`, `Docs/TODO.md` (본인 `## [username]` 섹션만)
+- 스킨 FX/사운드 제작: `Docs/SKIN.md`
 
 ## Phase / Sequence (새 구현·Phase 작업 시)
 
