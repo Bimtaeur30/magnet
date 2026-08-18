@@ -172,8 +172,8 @@ TextureImporter:
       name: "ChatGPT Image 2026\uB144 8\uC6D4 2\uC77C \uC624\uD6C4 04_24_49_1"
       rect:
         serializedVersion: 2
-        x: 294
-        y: 614
+        x: 293
+        y: 613
         width: 199
         height: 202
       alignment: 0
@@ -194,7 +194,7 @@ TextureImporter:
       name: "ChatGPT Image 2026\uB144 8\uC6D4 2\uC77C \uC624\uD6C4 04_24_49_2"
       rect:
         serializedVersion: 2
-        x: 533
+        x: 532
         y: 613
         width: 199
         height: 202
@@ -239,9 +239,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 771
-        y: 265
+        y: 264
         width: 199
-        height: 202
+        height: 204
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,9 +261,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 532
-        y: 265
+        y: 264
         width: 199
-        height: 202
+        height: 203
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -285,7 +285,7 @@ TextureImporter:
         x: 55
         y: 264
         width: 199
-        height: 202
+        height: 203
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
