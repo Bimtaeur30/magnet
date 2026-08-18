@@ -151,9 +151,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 51
-        y: 526
+        y: 527
         width: 333
-        height: 347
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +172,10 @@ TextureImporter:
       name: JellyBlocks_1
       rect:
         serializedVersion: 2
-        x: 417
-        y: 527
+        x: 418
+        y: 528
         width: 333
-        height: 347
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,9 +195,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 785
-        y: 526
+        y: 527
         width: 333
-        height: 347
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,35 +213,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JellyBlocks_3
-      rect:
-        serializedVersion: 2
-        x: 1151
-        y: 527
-        width: 333
-        height: 347
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 113ec596c046b2eb0800000000000000
-      internalID: -4743587778034605295
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: JellyBlocks_4
       rect:
         serializedVersion: 2
         x: 1151
         y: 527
         width: 333
-        height: 347
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,10 +260,10 @@ TextureImporter:
       name: JellyBlocks_6
       rect:
         serializedVersion: 2
-        x: 1153
+        x: 1152
         y: 143
         width: 333
-        height: 347
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -307,7 +285,7 @@ TextureImporter:
         x: 785
         y: 142
         width: 333
-        height: 347
+        height: 346
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -370,10 +348,10 @@ TextureImporter:
       name: JellyBlocks_8
       rect:
         serializedVersion: 2
-        x: 51
-        y: 141
-        width: 333
-        height: 347
+        x: 52
+        y: 142
+        width: 331
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

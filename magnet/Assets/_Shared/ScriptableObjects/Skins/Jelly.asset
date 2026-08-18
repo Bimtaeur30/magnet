@@ -18,7 +18,6 @@ MonoBehaviour:
   - {fileID: 3615742400838103406, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
   - {fileID: 5048331283229021002, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
   - {fileID: 6536356622500256107, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
-  - {fileID: -4743587778034605295, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
   - {fileID: 2830517656930218933, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
   - {fileID: -7802474584001389496, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
   - {fileID: 8725221410192776103, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
@@ -29,12 +28,10 @@ MonoBehaviour:
   - {fileID: 7400000, guid: cebc49e64900c474498f9ebd237208f9, type: 2}
   - {fileID: 7400000, guid: cebc49e64900c474498f9ebd237208f9, type: 2}
   - {fileID: 7400000, guid: cebc49e64900c474498f9ebd237208f9, type: 2}
-  - {fileID: 7400000, guid: cebc49e64900c474498f9ebd237208f9, type: 2}
   <LineClearEffects>k__BackingField:
   - {fileID: 11400000, guid: 7538331bf6637844387c11191afb8be0, type: 2}
   - {fileID: 11400000, guid: ccbedfae9be1fec4ba641d6b1a97c098, type: 2}
   - {fileID: 11400000, guid: d1b14cf457bf7014982861c1431fa0ec, type: 2}
-  - {fileID: 11400000, guid: 93ef1e4878c12794387ad4cc9e5afa73, type: 2}
   - {fileID: 11400000, guid: da32178832623e14692046c300b7a489, type: 2}
   - {fileID: 11400000, guid: 6cc837110f89d90418310bafadea8b5e, type: 2}
   - {fileID: 11400000, guid: 715b9958b2999df4f95b669ad80a11ce, type: 2}
