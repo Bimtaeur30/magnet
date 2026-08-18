@@ -10,11 +10,15 @@ namespace JTH.Scripts.Presentation
         static readonly int ShatterId = Shader.PropertyToID("_Shatter");
         static readonly int ShatterSeedId = Shader.PropertyToID("_ShatterSeed");
         static readonly int SpriteUVRectId = Shader.PropertyToID("_SpriteUVRect");
+        static readonly int WaterWobbleId = Shader.PropertyToID("_WaterWobble");
 
         [SerializeField] private SpriteRenderer skinRenderer;
 
         [Tooltip("클리어 예고 클립이 조절하는 쩌적 세기. 0이면 원본 스프라이트")]
         public float shatter;
+
+        [Tooltip("물풍선 스킨의 클리어 예고 클립이 조절하는 말랑거림 세기")]
+        public float waterWobble;
 
         private MaterialPropertyBlock _propertyBlock;
         private int _shatterSeed = SeedMin;
@@ -40,6 +44,7 @@ namespace JTH.Scripts.Presentation
             skinRenderer.GetPropertyBlock(_propertyBlock);
             _propertyBlock.SetFloat(ShatterId, shatter);
             _propertyBlock.SetFloat(ShatterSeedId, _shatterSeed);
+            _propertyBlock.SetFloat(WaterWobbleId, waterWobble);
             ApplySpriteUVRect(_propertyBlock);
             skinRenderer.SetPropertyBlock(_propertyBlock);
         }
@@ -72,6 +77,7 @@ namespace JTH.Scripts.Presentation
         public void ResetShatter()
         {
             shatter = 0f;
+            waterWobble = 0f;
             Apply();
         }
 
