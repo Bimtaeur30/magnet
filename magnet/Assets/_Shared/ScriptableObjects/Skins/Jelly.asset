@@ -40,6 +40,6 @@ MonoBehaviour:
   <PlaceSound>k__BackingField: {fileID: 0}
   <LineClearSound>k__BackingField: {fileID: 0}
   icon: {fileID: 3615742400838103406, guid: 3f0304c9d7de52040b83f3a19f760a75, type: 3}
-  unlockType: 1
+  unlockType: 0
   unlockValue: 1
   unlockDescription: 
