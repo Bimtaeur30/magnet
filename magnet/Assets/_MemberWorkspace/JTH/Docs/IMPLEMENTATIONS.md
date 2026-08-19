@@ -46,7 +46,7 @@
 
 | [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (히트맵 Normal · Unique occ≥40) | — | **phase40 완료** | **구현됨 (현재 배선)** |
 
-| [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (스킨 클립 + 클리어 이펙트) | — | **phase5 완료** | **구현됨** |
+| [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (스킨 클립 + 클리어 이펙트 + 사운드) | — | **phase6 완료** | **구현됨** · 스킨 제작은 `Docs/SKIN.md` |
 
 | [relife](./Implementations/relife/phases.md) | Relife 오퍼·수락 (Easy 패 이어하기) | — | **phase1 완료** | **구현됨** |
 

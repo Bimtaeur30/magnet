@@ -57,6 +57,7 @@
 | 용어 | 문서 |
 |------|------|
 | 마일스톤 M0~M10 | `Docs/DESIGN.md` |
+| 스킨 FX 제작 | `Docs/SKIN.md` |
 | 구현 | `IMPLEMENTATIONS.md` |
 | Phase 계획 | `Implementations/[slug]/phaseN.md` |
 | Sequence 기록 | `Implementations/[slug]/sequenceN.md` (Phase와 1:1) |

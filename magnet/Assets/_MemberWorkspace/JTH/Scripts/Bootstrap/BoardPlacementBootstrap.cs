@@ -7,6 +7,8 @@ using JTH.Scripts.Domain.Spawn;
 using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
+using Magnet.Core.Events;
+using Magnet.Core.SO.Skin;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -16,17 +18,33 @@ namespace JTH.Scripts.Bootstrap
     {
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO soundChannel;
+        [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private SoundClipSO blockPlaceSound;
         [SerializeField] private SoundClipSO blockExplodeSound;
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         [Inject] private GameBoard _gameBoard;
 
+        private SkinDataSO _currentSkin;
+
         private void Awake()
         {
             Debug.Assert(inGameChannel != null, "[BoardPlacementBootstrap] inGameChannel is not assigned.", this);
+            Debug.Assert(skinChannel != null, "[BoardPlacementBootstrap] skinChannel is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
             Debug.Assert(_gameBoard != null, "[BoardPlacementBootstrap] GameBoard was not injected.", this);
+        }
+
+        private void OnEnable()
+        {
+            skinChannel.AddListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.AddListener<SkinInitializedEvent>(OnSkinInitialized);
+        }
+
+        private void OnDisable()
+        {
+            skinChannel.RemoveListener<SkinChangedEvent>(OnSkinChanged);
+            skinChannel.RemoveListener<SkinInitializedEvent>(OnSkinInitialized);
         }
 
         public void PlaceBlock(
@@ -51,9 +69,9 @@ namespace JTH.Scripts.Bootstrap
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
             _blockSpawnBootstrap.RecordPlayerMove(slotIndex, gridOffsets, lastDrop);
 
-            PlaySound(blockPlaceSound);
+            PlaySound(ResolvePlaceSound());
             if (clearedLineResult.ClearedLineCount > 0)
-                PlaySound(blockExplodeSound);
+                PlaySound(ResolveLineClearSound());
 
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
@@ -78,6 +96,36 @@ namespace JTH.Scripts.Bootstrap
             }
 
             return true;
+        }
+
+        private void OnSkinChanged(SkinChangedEvent evt)
+        {
+            _currentSkin = evt.CurrentSkin;
+        }
+
+        private void OnSkinInitialized(SkinInitializedEvent evt)
+        {
+            _currentSkin = evt.Skin;
+        }
+
+        private SoundClipSO ResolvePlaceSound()
+        {
+            if (_currentSkin != null && _currentSkin.PlaceSound != null)
+            {
+                return _currentSkin.PlaceSound;
+            }
+
+            return blockPlaceSound;
+        }
+
+        private SoundClipSO ResolveLineClearSound()
+        {
+            if (_currentSkin != null && _currentSkin.LineClearSound != null)
+            {
+                return _currentSkin.LineClearSound;
+            }
+
+            return blockExplodeSound;
         }
 
         private void PlaySound(SoundClipSO clip)

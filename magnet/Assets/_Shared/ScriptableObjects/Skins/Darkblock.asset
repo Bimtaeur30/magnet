@@ -16,6 +16,8 @@ MonoBehaviour:
   <SkinId>k__BackingField: Seahorse
   <Sprites>k__BackingField:
   - {fileID: 21300000, guid: 90fdc815bbffb7c498fb62e7b051c718, type: 3}
+  <PlaceSound>k__BackingField: {fileID: 0}
+  <LineClearSound>k__BackingField: {fileID: 0}
   icon: {fileID: 21300000, guid: 90fdc815bbffb7c498fb62e7b051c718, type: 3}
   unlockType: 1
   unlockValue: 6
