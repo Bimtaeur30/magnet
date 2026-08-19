@@ -125,7 +125,7 @@ namespace JTH.Scripts.Bootstrap
                     SkinUnlockTypeEnum.Stage,
                     _currentStage));
 
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_currentStage));
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_scoreSession.TotalScore));
         }
 
         private void RaiseAttackEvent(BlockPlacedEvent evt, PlacementScoreResult scoreResult)
@@ -183,7 +183,7 @@ namespace JTH.Scripts.Bootstrap
             int comboAfter,
             PlacementResult placementResult)
         {
-            if (comboAfter == comboBefore)
+            if (comboAfter == 0 || comboAfter == comboBefore)
             {
                 return;
             }

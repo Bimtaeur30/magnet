@@ -8,6 +8,7 @@ alwaysApply: false
 
 새 스킨·힌트·클리어 FX·사운드는 **코드 없이** `SkinDataSO`에 에셋을 넣는다. 전체 절차: `Docs/SKIN.md`.
 
-- 힌트 클립 → `HintClips`. 쩌적은 `BlockShatterHint.shatter`를 애니한다 (`_Shatter` 직접 키프레임 금지).
-- 사운드 → `PlaceSound`(놨을 때) / `LineClearSound`(터질 때). 스킨당 1개씩, **색 id 배열 아님**. Animation Event·칸마다 Play 금지.
-- 클리어 파티클 → `LineClearEffects` 또는 `FireCenteredLineClear` + `CenterLineClearEffect`.
+- 힌트 클립 → `HintClips`. 쩌적은 `BlockShatterHint.shatter`를 애니한다 (`_Shatter` 직접 키프레임 금지). 외곽선만 일렁이면 `outlineWave` (물풍선 `waterWobble`과 다름).
+- `RandomizeSprites` 켜면 칸마다 스프라이트 랜덤. `HintClips` 길이는 `Sprites`와 맞춘다. 힌트 때 스프라이트는 통일하지 않는다.
+- 사운드 → `PlaceSound`(놨을 때) / `LineClearSound`(터질 때). 스킨당 1개씩, **색 id 배열 아님**. 한 배치에서 줄이 터지면 PlaceSound는 건너뛴다. Animation Event·칸마다 Play 금지.
+- 클리어 파티클 → `LineClearEffects` 또는 `FireCenteredLineClear` + `CenterLineClearEffect`. 비우면 스킵. 나중에 넣어도 됨.

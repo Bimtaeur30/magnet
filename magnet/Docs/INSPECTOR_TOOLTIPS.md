@@ -174,12 +174,15 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/BlockVisualConfigSO.cs` | `previewAlpha` | 드래그 중 보드 격자 프리뷰(고스트) 블록 알파(0~1). 스테이징에는 적용되지 않음 |
 | `Scripts/Presentation/Block.cs` | `shatterHint` | 클리어 예고 쩌적 셰이더 세기. 클립이 `shatter`를 흔들고, 끄면 0으로 원복 |
 | `Scripts/Presentation/BlockShatterHint.cs` | `shatter` | 클리어 예고 클립이 조절하는 쩌적 세기. 0이면 원본 스프라이트 |
+| `Scripts/Presentation/BlockShatterHint.cs` | `waterWobble` | 물풍선 스킨의 클리어 예고 클립이 조절하는 말랑거림 세기 |
+| `Scripts/Presentation/BlockShatterHint.cs` | `outlineWave` | 물방울 스킨의 클리어 예고 클립이 조절하는 외곽선 일렁임 세기 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `HintClips` | 바리에이션별 클리어 예고 클립. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `RandomizeSprites` | 켜면 칸마다 Sprites 중 하나를 랜덤으로 붙인다. 색 id 인덱스를 쓰지 않는다 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearEffects` | 바리에이션별 라인클리어 칸 이펙트. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `FireCenteredLineClear` | 켜면 클리어 시 칸마다 안 쏘고 줄 가운데에 길쭉한 이펙트 1발 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `CenterLineClearEffect` | 가운데 1발용 길쭉한 이펙트. `FireCenteredLineClear`가 켜져 있을 때만 사용 |
-| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `PlaceSound` | 블록을 보드에 놨을 때 1발. 색 id와 무관. 비면 `BoardPlacementBootstrap.blockPlaceSound` |
-| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearSound` | 줄이 터질 때 1발. 색 id와 무관. 비면 `BoardPlacementBootstrap.blockExplodeSound` |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `PlaceSound` | 블록을 보드에 놨을 때 1발. 그 배치로 줄이 터지면 안 냄. 색 id와 무관. 비면 `BoardPlacementBootstrap.blockPlaceSound` |
+| `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearSound` | 줄이 터질 때 1발. 색 id와 무관. 비면 무음 |
 | `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMinAlpha` | *(미사용, 클립 힌트로 대체)* 클리어될 Place된 칸 알파 숨쉬기 최소 |
 | `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulseMaxAlpha` | *(미사용, 클립 힌트로 대체)* (예비) 알파 숨쉬기 최대. Place된 칸은 최대 1 고정 |
 | `Scripts/Data/LineClearPreviewConfigSO.cs` | `PulsePeriod` | *(미사용, 클립 힌트로 대체)* 숨쉬기 한 주기(초) |

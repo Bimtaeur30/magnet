@@ -154,10 +154,10 @@
 
 ### 4.7 스테이지 · 공격력
 
-- **스테이지:** 적 처치 시 `EnemyManager`가 증가. HUD·GameOver·베스트 저장의 진행도는 Stage.
+- **스테이지:** 적 처치 시 `EnemyManager`가 증가. 스킨 Stage 해금·`SubmitStage`용. GameOver UI 점수는 세션 총점.
 - **공격력:** 배치/라인클리어 공식(`ScoreSession` / `ScoreConfigSO`) 결과는 `EnemyAttackRequestEvent.Damage`로만 사용. UI·저장 진행도와 분리.
-- **콤보(UI):** 체인 첫 클리어는 콤보 0. **그다음** 클리어부터 콤보 1. `ComboChangedEvent`.
-- 게임오버 `GameOverEvent.FinalStage`. 베스트는 `ISaveService.SubmitStage` / `BestStage`.
+- **콤보(UI):** 체인 첫 클리어는 콤보 0. **그다음** 클리어부터 콤보 1. `ComboChangedEvent`는 콤보가 1 이상일 때만.
+- 게임오버 `GameOverEvent.Init(TotalScore)` (필드명 `FinalStage`). GameOver UI 점수. 베스트 점수는 `SaveBridge`가 `ScoreChanged`로 `SubmitScore`.
 
 ### 4.8 스킨 시스템 (코스메틱)
 
@@ -262,8 +262,8 @@
 |--------|-----------|
 | `BlockPlacedEvent` | 블록 부착 완료 |
 | `StageClearEvent` | 스테이지 진행 (적 처치/스폰) |
-| `ComboChangedEvent` | 콤보 갱신 |
-| `GameOverEvent` | 게임 종료 (`FinalStage`) |
+| `ComboChangedEvent` | 콤보 갱신 (콤보 ≥ 1일 때만) |
+| `GameOverEvent` | 게임 종료 (`FinalStage`에 세션 총점) |
 | `BestStageUpdatedEvent` | 베스트 스테이지 갱신 |
 | `TurnStarted` / `TurnEnded` | 핸드 리필 |
 

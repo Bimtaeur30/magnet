@@ -20,7 +20,6 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private EventChannelSO soundChannel;
         [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private SoundClipSO blockPlaceSound;
-        [SerializeField] private SoundClipSO blockExplodeSound;
 
         [Inject] private readonly BlockSpawnBootstrap _blockSpawnBootstrap;
         [Inject] private GameBoard _gameBoard;
@@ -69,9 +68,10 @@ namespace JTH.Scripts.Bootstrap
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
             _blockSpawnBootstrap.RecordPlayerMove(slotIndex, gridOffsets, lastDrop);
 
-            PlaySound(ResolvePlaceSound());
             if (clearedLineResult.ClearedLineCount > 0)
                 PlaySound(ResolveLineClearSound());
+            else
+                PlaySound(ResolvePlaceSound());
 
             PlacementResult placementResult = new PlacementResult(
                 _blockSpawnBootstrap.Candidates,
@@ -125,7 +125,7 @@ namespace JTH.Scripts.Bootstrap
                 return _currentSkin.LineClearSound;
             }
 
-            return blockExplodeSound;
+            return null;
         }
 
         private void PlaySound(SoundClipSO clip)

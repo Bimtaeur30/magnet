@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8395bc0f23de2c4982c74f1e18ab6a5, type: 3}
+  m_Name: WaterDrop
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Skin.SkinDataSO
+  <SkinName>k__BackingField: "\uBB3C\uBC29\uC6B8"
+  <SkinId>k__BackingField: WaterDrop
+  <Sprites>k__BackingField:
+  - {fileID: 681940275018374651, guid: 9b2e6d4c8f1a47e0b3c5d7e9a1f24680, type: 3}
+  - {fileID: -581940275018374652, guid: 9b2e6d4c8f1a47e0b3c5d7e9a1f24680, type: 3}
+  - {fileID: 481940275018374653, guid: 9b2e6d4c8f1a47e0b3c5d7e9a1f24680, type: 3}
+  <RandomizeSprites>k__BackingField: 1
+  <HintClips>k__BackingField:
+  - {fileID: 7400000, guid: 7e4c1a92b0d64f3a9c18e6f4a2b90d71, type: 2}
+  - {fileID: 7400000, guid: 7e4c1a92b0d64f3a9c18e6f4a2b90d71, type: 2}
+  - {fileID: 7400000, guid: 7e4c1a92b0d64f3a9c18e6f4a2b90d71, type: 2}
+  <LineClearEffects>k__BackingField:
+  - {fileID: 11400000, guid: 83bd1dc88eb8f614f8480efa30817bb9, type: 2}
+  - {fileID: 11400000, guid: 02b096d4265f33544bdfcb596e416497, type: 2}
+  - {fileID: 11400000, guid: 0590effd16e989b41b3cae2b5ae67df0, type: 2}
+  <FireCenteredLineClear>k__BackingField: 0
+  <CenterLineClearEffect>k__BackingField: {fileID: 0}
+  <PlaceSound>k__BackingField: {fileID: 0}
+  <LineClearSound>k__BackingField: {fileID: 0}
+  icon: {fileID: 681940275018374651, guid: 9b2e6d4c8f1a47e0b3c5d7e9a1f24680, type: 3}
+  unlockType: 0
+  unlockValue: 0
+  unlockDescription: 

@@ -130,3 +130,46 @@
     - 설명: 놨을 때·터질 때 두 슬롯, 색 id 배열이 아님을 적는다.
     - 이유: 다른 AI가 예고음이나 색별 사운드 배열을 만들지 않게.
 
+## 3 — 2026-08-18 · 터지면 배치음 생략
+
+## 변경 상세
+
+- 파일: `Scripts/Bootstrap/BoardPlacementBootstrap.cs`
+  - 심볼: `BoardPlacementBootstrap.PlaceBlock(...)` — 메서드 (수정)
+    - 설명: 클리어가 있으면 `ResolveLineClearSound()`만 재생하고, 없으면 `ResolvePlaceSound()`만 재생한다.
+    - 이유: 한 배치에서 놨을 때 소리와 터질 때 소리가 겹치지 않게.
+
+- 파일: `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs`
+  - 심볼: `SkinDataSO.PlaceSound` — 프로퍼티 (수정)
+    - 설명: 툴팁에 줄이 터지면 이 소리를 안 낸다고 적는다.
+    - 이유: 인스펙터에서 슬롯 의미가 배치 전용임을 분명히 하려고.
+
+## 4 — 2026-08-19 · 클리어 기본 explode 제거
+
+## 변경 상세
+
+- 파일: `Scripts/Bootstrap/BoardPlacementBootstrap.cs`
+  - 심볼: `BoardPlacementBootstrap.blockExplodeSound` — 필드 `SoundClipSO` (삭제)
+    - 설명: 전역 클리어 fallback 클립 슬롯을 제거한다.
+    - 이유: 돌처럼 `LineClearSound`가 빈 스킨이 기본 explode를 내서 스킨 소리가 아닌 것처럼 들려서.
+  - 심볼: `BoardPlacementBootstrap.ResolveLineClearSound()` — 메서드 (수정)
+    - 설명: `_currentSkin.LineClearSound`가 있으면 그것을, 없으면 null을 반환한다. `PlaySound`가 null이면 Raise하지 않는다.
+    - 이유: 슬롯이 빈 스킨은 터질 때 무음이어야 해서.
+    - 영향: `PlaceBlock` 클리어 분기.
+
+- 파일: `Prefabs/Bootstraps.prefab`
+  - 심볼: `BoardPlacementBootstrap.blockExplodeSound` — 직렬화 참조 (삭제)
+    - 설명: `BlockExplode` 클립 배선을 뺀다.
+    - 이유: 필드가 사라져서.
+
+- 파일: `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs`
+  - 심볼: `SkinDataSO.LineClearSound` — 프로퍼티 (수정)
+    - 설명: 툴팁을 비면 무음으로 고친다.
+    - 이유: 인스펙터에서 전역 explode fallback이 더 없다고 보이게.
+
+- 파일: `Docs/SKIN.md` · `Docs/INSPECTOR_TOOLTIPS.md`
+  - 심볼: `LineClearSound` 빈 슬롯 설명 — 문서 (수정)
+    - 설명: 비면 무음이고 전역 explode를 쓰지 않는다고 적는다.
+    - 이유: 다른 AI가 fallback을 다시 넣지 않게.
+
+

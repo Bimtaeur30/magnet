@@ -87,7 +87,9 @@ namespace JTH.Scripts.Presentation
                 }
             }
 
-            Sprite unifiedSprite = _currentSkin.GetSprite(skinId);
+            Sprite unifiedSprite = _currentSkin.RandomizeSprites
+                ? null
+                : _currentSkin.GetSprite(skinId);
             AnimationClip clip = _currentSkin.GetHintClip(skinId);
 
             SyncSet(
@@ -174,10 +176,12 @@ namespace JTH.Scripts.Presentation
                 return;
             }
 
-            int skinId = _appliedSkinId != int.MinValue
-                ? _appliedSkinId
-                : ResolveSpriteIndex(block.PlacedSprite);
-            PoolItemSO effect = _currentSkin.GetLineClearEffect(skinId);
+            int effectId = _currentSkin.RandomizeSprites
+                ? ResolveSpriteIndex(block.PlacedSprite)
+                : (_appliedSkinId != int.MinValue
+                    ? _appliedSkinId
+                    : ResolveSpriteIndex(block.PlacedSprite));
+            PoolItemSO effect = _currentSkin.GetLineClearEffect(effectId);
             if (effect == null)
             {
                 return;

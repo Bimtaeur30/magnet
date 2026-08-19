@@ -14,6 +14,7 @@ namespace JTH.Scripts.Domain.Skin
         [SerializeField] private EventChannelSO skinChannel;
 
         private Dictionary<Block, int> _blockDict;
+        private readonly Dictionary<Block, int> _visualIndex = new Dictionary<Block, int>();
         
         private SkinDataSO _currentSkin;
 
@@ -42,22 +43,28 @@ namespace JTH.Scripts.Domain.Skin
                 _blockDict.Add(block, evt.SkinId);
                 if (_currentSkin != null)
                 {
-                    block.ApplySkin(_currentSkin.GetSprite(evt.SkinId));
+                    block.ApplySkin(_currentSkin.GetSprite(ResolveVisualIndex(block, evt.SkinId)));
                 }
             }
         }
 
-        private void BlockDestroyedHandler(BlockDestroyedEvent evt) { _blockDict.Remove(evt.Block); }
+        private void BlockDestroyedHandler(BlockDestroyedEvent evt)
+        {
+            _blockDict.Remove(evt.Block);
+            _visualIndex.Remove(evt.Block);
+        }
 
         private void SkinChangedHandler(SkinChangedEvent evt)
         {
             _currentSkin = evt.CurrentSkin;
+            _visualIndex.Clear();
             ApplySkin();
         }
 
         private void SkinInitializedHandler(SkinInitializedEvent evt)
         {
             _currentSkin = evt.Skin;
+            _visualIndex.Clear();
             ApplySkin();
         }
 
@@ -70,8 +77,25 @@ namespace JTH.Scripts.Domain.Skin
 
             foreach (Block block in _blockDict.Keys)
             {
-                block.ApplySkin(_currentSkin.GetSprite(_blockDict[block]));
+                block.ApplySkin(_currentSkin.GetSprite(ResolveVisualIndex(block, _blockDict[block])));
             }
+        }
+
+        private int ResolveVisualIndex(Block block, int skinId)
+        {
+            if (_currentSkin != null && _currentSkin.RandomizeSprites)
+            {
+                if (_visualIndex.TryGetValue(block, out int stored))
+                {
+                    return stored;
+                }
+
+                int picked = _currentSkin.PickVisualIndex(skinId);
+                _visualIndex[block] = picked;
+                return picked;
+            }
+
+            return skinId;
         }
     }
 }
