@@ -9,4 +9,4 @@
 | 2 | 배치 경로 연동 + ScoreChanged | v0.6 | [phase2.md](phase2.md) | [sequence2.md](sequence2.md) |
 | 3 | 턴 콤보 리셋 + GameOver·베스트·스킨 체크 | v0.6 | [phase3.md](phase3.md) | [sequence3.md](sequence3.md) |
 | 4 | ComboChangedEvent | v0.6 | [phase4.md](phase4.md) | [sequence4.md](sequence4.md) |
-| 5 | **Line clear 점수 공식** | **완료** | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) |
+| 5 | **Line clear 점수 공식** | **완료** | [phase5.md](phase5.md) | [sequence5.md](sequence5.md) → [sequence6.md](sequence6.md) (콤보 0·GO 점수) |

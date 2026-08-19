@@ -7,6 +7,7 @@ Shader "Magnet/BlockShatter"
         [PerRendererData] _ShatterSeed ("Shatter Seed", Float) = 1
         [PerRendererData] _SpriteUVRect ("Sprite UV Rect", Vector) = (0, 0, 1, 1)
         [PerRendererData] _WaterWobble ("Water Balloon Wobble", Range(0, 1)) = 0
+        [PerRendererData] _OutlineWave ("Outline Wave", Range(0, 1)) = 0
         _Color ("Tint", Color) = (1, 1, 1, 1)
         _CellCount ("Cell Count", Float) = 3
         _CrackWidth ("Crack Width", Range(0.001, 0.12)) = 0.038
@@ -76,6 +77,7 @@ Shader "Magnet/BlockShatter"
             float _ShatterSeed;
             float4 _SpriteUVRect;
             float _WaterWobble;
+            float _OutlineWave;
 
             struct Attributes
             {
@@ -177,6 +179,20 @@ Shader "Magnet/BlockShatter"
                 positionOS.y += (_WaterWobble * 0.025) * sin(phase * 1.17 + centered.x * 5.7);
                 positionOS.x *= 1.0 + _WaterWobble * 0.035 * sin(phase);
                 positionOS.y *= 1.0 - _WaterWobble * 0.025 * sin(phase);
+
+                float waveAmt = saturate(_OutlineWave);
+                if (waveAmt > 0.001)
+                {
+                    float rad = length(centered);
+                    float ang = atan2(centered.y, centered.x);
+                    float wave =
+                        sin(ang * 4.0 + _Time.y * 3.2 + _ShatterSeed * 0.91) +
+                        0.3 * sin(ang * 2.0 - _Time.y * 2.1 + _ShatterSeed * 1.17);
+                    float2 dir = centered / max(rad, 1e-5);
+                    float rim = saturate(rad * 2.2);
+                    positionOS.xy += dir * wave * 0.034 * waveAmt * rim;
+                }
+
                 uv01 = (uv01 - 0.5) * (1.0 + pop) + 0.5;
 
                 output.positionCS = TransformObjectToHClip(positionOS);
@@ -189,6 +205,20 @@ Shader "Magnet/BlockShatter"
             {
                 float2 rectSize = max(_SpriteUVRect.zw, float2(1e-5, 1e-5));
                 float2 uv01 = (input.uv - _SpriteUVRect.xy) / rectSize;
+                float waveAmt = saturate(_OutlineWave);
+                if (waveAmt > 0.001)
+                {
+                    float2 centered = uv01 - 0.5;
+                    float rad = length(centered);
+                    float ang = atan2(centered.y, centered.x);
+                    float wave =
+                        sin(ang * 4.0 + _Time.y * 3.0 + _ShatterSeed * 0.91) +
+                        0.3 * sin(ang * 2.0 - _Time.y * 1.9 + _ShatterSeed * 1.17);
+                    float rim = smoothstep(0.16, 0.46, rad);
+                    float2 dir = centered / max(rad, 1e-5);
+                    uv01 += dir * wave * 0.036 * waveAmt * rim;
+                }
+
                 float shatter = saturate(_Shatter);
 
                 float2 sampleUV = input.uv;

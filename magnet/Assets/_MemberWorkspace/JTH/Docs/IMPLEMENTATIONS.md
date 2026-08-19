@@ -36,7 +36,7 @@
 
 | [game-over](./Implementations/game-over/phases.md) | 게임 오버 (배치 불가) | [SCRUM-22](https://bimtaeur30.atlassian.net/browse/SCRUM-22) | phase1 계획 | 미착수 |
 
-| [score-logic](./Implementations/score-logic/phases.md) | 점수·콤보 | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase5 완료 (λ·base·tier) | **구현됨** |
+| [score-logic](./Implementations/score-logic/phases.md) | 점수·콤보 | [SCRUM-23](https://bimtaeur30.atlassian.net/browse/SCRUM-23) | phase5 완료 + sequence6 (콤보 0·GO 점수) | **구현됨** |
 
 | [block-selection-algorithm](./Implementations/block-selection-algorithm/phases.md) | 블록 선택 알고리즘 (보드 상태 기반 스폰) | — | phase9 완료 | **Deprecated** (코드 제거 · Docs/`BLOCKBLAST_ANALYSIS`만 유지) |
 
@@ -46,7 +46,7 @@
 
 | [area-bundle-spawn](./Implementations/area-bundle-spawn/phases.md) | Area-번들 스폰 (히트맵 Normal · Unique occ≥40) | — | **phase40 완료** | **구현됨 (현재 배선)** |
 
-| [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (스킨 클립 + 클리어 이펙트 + 사운드) | — | **phase6 완료** | **구현됨** · 스킨 제작은 `Docs/SKIN.md` |
+| [line-clear-preview-fx](./Implementations/line-clear-preview-fx/phases.md) | 프리뷰 라인클리어 예고 (스킨 클립 + 클리어 이펙트 + 사운드) | — | **phase7 완료** | **구현됨** · 물방울 버스트 포함 · 스킨 제작은 `Docs/SKIN.md` |
 
 | [relife](./Implementations/relife/phases.md) | Relife 오퍼·수락 (Easy 패 이어하기) | — | **phase1 완료** | **구현됨** |
 

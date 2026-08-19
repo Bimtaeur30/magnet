@@ -14,11 +14,12 @@
 | 필드 | 단위 | 비면 |
 |------|------|------|
 | `Sprites` | 색 바리에이션 | 스킨 없음 |
+| `RandomizeSprites` | 스킨 전체 | 끄면 `skinId` 인덱스. 켜면 칸마다 스프라이트 랜덤 (힌트 때 스프라이트 통일 안 함) |
 | `HintClips` | `Sprites`와 같은 인덱스 | 그 색은 예고 애니메이션 스킵 (스프라이트만) |
 | `LineClearEffects` | 같은 인덱스, `PoolItemSO` | 그 색은 칸 파티클 스킵 |
 | `FireCenteredLineClear` + `CenterLineClearEffect` | 스킨 전체 | 칸마다 안 쏘고 줄 가운데 1발 |
 | `PlaceSound` | 스킨 전체, `SoundClipSO` | 전역 `blockPlaceSound` |
-| `LineClearSound` | 스킨 전체, `SoundClipSO` | 전역 `blockExplodeSound` |
+| `LineClearSound` | 스킨 전체, `SoundClipSO` | 무음 |
 
 사운드는 **색 id별로 나누지 않는다.** 스킨당 배치 1개 + 클리어 1개.
 
@@ -31,7 +32,8 @@
 1. `AnimationClip`을 만든다. 타깃은 Block Skin의 Animator (Playable 출력).
 2. 쩌적이면 `BlockShatterHint.shatter` (0→1)를 키프레임한다. 셰이더 `_Shatter`를 클립에 직접 넣지 않는다. `LateUpdate`가 MPB로 넣는다.
 3. 스케일이면 Transform만 키프레임한다. 예: `DefaultHintShatter.anim`, `JellyHintBoing.anim`.
-4. `SkinDataSO.HintClips`에 넣는다.
+4. 외곽선만 일렁이면 `BlockShatterHint.outlineWave`. 물풍선처럼 메시 전체가 말랑거리는 `waterWobble`과 다르다. 예: `WaterDropHintWave.anim`.
+5. `SkinDataSO.HintClips`에 넣는다. `Sprites`와 길이를 맞춘다.
 
 **사운드를 클립 Animation Event로 넣지 않는다.** 힌트는 줄의 칸마다 동시에 재생되어 소리가 겹친다.
 
@@ -39,12 +41,12 @@
 
 ## 클리어 FX · 사운드
 
-- 칸 파티클: `LineClearEffects[i]` → 실제 클리어 때 칸 중심에서 1발
+- 칸 파티클: `LineClearEffects[i]` → 실제 클리어 때 칸 중심에서 1발. **비우면 스킵** (나중에 넣어도 됨)
 - 가운데 1발: `FireCenteredLineClear` 켜고 `CenterLineClearEffect` 지정
-- **놨을 때:** `PlaceSound`. 비면 `BoardPlacementBootstrap.blockPlaceSound`
-- **터질 때:** `LineClearSound`. 비면 `BoardPlacementBootstrap.blockExplodeSound`
+- **놨을 때:** `PlaceSound`. 비면 `BoardPlacementBootstrap.blockPlaceSound`. **그 배치로 줄이 터지면 이 소리는 안 내고 `LineClearSound`만 냄**
+- **터질 때:** `LineClearSound`. 비면 무음 (전역 explode fallback 없음)
 
-둘 다 `BoardPlacementBootstrap.PlaceBlock`에서 1발. `SoundClipSO`는 `Create > GGMLib > Sound Clip`. `PlaySoundEvent`로만 재생한다.
+둘 다 `BoardPlacementBootstrap.PlaceBlock`에서 고른다. 한 배치에 두 소리가 겹치지 않는다. `SoundClipSO`는 `Create > GGMLib > Sound Clip`. `PlaySoundEvent`로만 재생한다.
 
 ---
 
@@ -53,7 +55,7 @@
 1. `SkinDataSO` 생성, `Sprites` · `icon` · 해금 값
 2. `SkinDataListSO`에 등록 (인벤토리·장착)
 3. 예고 클립 → `HintClips` (재사용 가능)
-4. 클리어 파티클 `PoolItemSO` → `LineClearEffects` 또는 가운데 1발
+4. 클리어 파티클 `PoolItemSO` → `LineClearEffects` 또는 가운데 1발 (없어도 됨)
 5. `PlaceSound` / `LineClearSound` (`SoundClipSO`, 색 id 배열 아님)
 6. 코드·Block 프리팹·Animation Event 수정 금지
 

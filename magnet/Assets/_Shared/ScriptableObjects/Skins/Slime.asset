@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 6179113141568164264, guid: 8735e068b8454da43b222a35e6817c69, type: 3}
   - {fileID: 4550041410275350288, guid: 8735e068b8454da43b222a35e6817c69, type: 3}
   - {fileID: -2013367635874946571, guid: 8735e068b8454da43b222a35e6817c69, type: 3}
+  <RandomizeSprites>k__BackingField: 0
   <HintClips>k__BackingField:
   - {fileID: 7400000, guid: 59c3bdc386f792e42bc0f8b621afd37f, type: 2}
   - {fileID: 7400000, guid: 59c3bdc386f792e42bc0f8b621afd37f, type: 2}
@@ -43,6 +44,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7b16fc98cde59649b7c4d77e3fe3b3d, type: 2}
   <FireCenteredLineClear>k__BackingField: 0
   <CenterLineClearEffect>k__BackingField: {fileID: 0}
+  <PlaceSound>k__BackingField: {fileID: 0}
+  <LineClearSound>k__BackingField: {fileID: 0}
   icon: {fileID: 3926693055041711479, guid: 8735e068b8454da43b222a35e6817c69, type: 3}
   unlockType: 0
   unlockValue: 1
