@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8395bc0f23de2c4982c74f1e18ab6a5, type: 3}
+  m_Name: Paper
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Skin.SkinDataSO
+  <SkinName>k__BackingField: "\uC885\uC774"
+  <SkinId>k__BackingField: Paper
+  <Sprites>k__BackingField:
+  - {fileID: 5907679018930100163, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: 5268588652703830770, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: 6413452994911073660, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: -7078816507430176200, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: -7750877451279796498, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: 6564292485754165242, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: 5026668393981125427, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  - {fileID: -6564920835030148520, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  <HintClips>k__BackingField:
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  - {fileID: 7400000, guid: 288e4645075ce87469f6bad2614ef4e9, type: 2}
+  <LineClearEffects>k__BackingField:
+  - {fileID: 11400000, guid: 4fc41bc42d9cda949a57df9664ad660c, type: 2}
+  - {fileID: 11400000, guid: 91d2657d490706049bb18b0e857633bf, type: 2}
+  - {fileID: 11400000, guid: 4cfc688bbebbb114dadabfdcba3b4680, type: 2}
+  - {fileID: 11400000, guid: 08dae33da4aad274fb7b57c764fb94af, type: 2}
+  - {fileID: 11400000, guid: e135388113abd16479a40514e94342f6, type: 2}
+  - {fileID: 11400000, guid: 654264b3154668c408fd1be53f541e51, type: 2}
+  - {fileID: 11400000, guid: cf365730870b6344d9b8d54d5ad4efde, type: 2}
+  - {fileID: 11400000, guid: 4caeb798fd409c94aa39b64dea17a733, type: 2}
+  <FireCenteredLineClear>k__BackingField: 0
+  <CenterLineClearEffect>k__BackingField: {fileID: 0}
+  icon: {fileID: 5907679018930100163, guid: fc07d4e37cdda2749873ad09797c367f, type: 3}
+  unlockType: 0
+  unlockValue: 1
+  unlockDescription: 
