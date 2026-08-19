@@ -17,6 +17,24 @@ namespace CodexBridge
         const string Root = "Assets/_MemberWorkspace/JTH/RecommendedThemes";
         const string ShaderPath = "Assets/_MemberWorkspace/JTH/Graphics/Shaders/ThemeBurst.shader";
 
+        [InitializeOnLoadMethod]
+        static void UpgradeLavaFlowWhenNeeded()
+        {
+            const string path = Root + "/Lava/Prefabs/LavaBurst_0.prefab";
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null && !prefab.GetComponent<ParticleSystem>().main.startSize3D)
+                EditorApplication.delayCall += UpdateLavaLineClearEffects;
+        }
+
+        [InitializeOnLoadMethod]
+        static void UpgradeCloudEvaporationWhenNeeded()
+        {
+            const string path = Root + "/Cloud/Prefabs/CloudBurst_0.prefab";
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null && !prefab.GetComponent<ParticleSystem>().main.startSize3D)
+                EditorApplication.delayCall += UpdateCloudEvaporationEffects;
+        }
+
         sealed class Theme
         {
             public string Id, Name;
@@ -62,6 +80,43 @@ namespace CodexBridge
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("[Codex] Built 10 flat recommended theme skins and 80 pooled effects.");
+        }
+
+        [MenuItem("Tools/Codex/Update Lava Flow Line Clear Effects")]
+        public static void UpdateLavaLineClearEffects()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                string path = $"{Root}/Lava/Prefabs/LavaBurst_{i}.prefab";
+                GameObject root = PrefabUtility.LoadPrefabContents(path);
+                var ps = root.GetComponent<ParticleSystem>();
+                ConfigureLavaFlow(ps, root.GetComponent<ParticleSystemRenderer>());
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Codex] Updated Lava line-clear effects to downward melting flow.");
+        }
+
+        [MenuItem("Tools/Codex/Update Cloud Evaporation Line Clear Effects")]
+        public static void UpdateCloudEvaporationEffects()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                string path = $"{Root}/Cloud/Prefabs/CloudBurst_{i}.prefab";
+                GameObject root = PrefabUtility.LoadPrefabContents(path);
+                ConfigureCloudEvaporation(root.GetComponent<ParticleSystem>(), root.GetComponent<ParticleSystemRenderer>());
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Codex] Updated Cloud line-clear effects to rising evaporation.");
+        }
+
+        public static void UpdateSlimeAndCloudLineClearEffects()
+        {
+            SlimeSkinBuilder.UpdateSlimeFlowLineClearEffects();
+            UpdateCloudEvaporationEffects();
         }
 
         static Theme T(string id,string name,int mode,bool crack,string csv)
@@ -124,10 +179,38 @@ namespace CodexBridge
             var shape=ps.shape; shape.shapeType=ParticleSystemShapeType.Circle; shape.radius=.16f;
             var color=ps.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(Color.white,0),new GradientColorKey(theme.Colors[index],1)},alphaKeys=new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(.8f,.55f),new GradientAlphaKey(0,1)}});
             var renderer=go.GetComponent<ParticleSystemRenderer>(); renderer.sharedMaterial=mat; renderer.sortingOrder=55;
+            if(theme.Mode==1) ConfigureLavaFlow(ps,renderer);
+            if(theme.Mode==2) ConfigureCloudEvaporation(ps,renderer);
             var pooled=go.AddComponent<PooledParticleEffect>(); var pso=new SerializedObject(pooled); pso.FindProperty("rootParticleSystem").objectReferenceValue=ps; pso.FindProperty("particleRenderer").objectReferenceValue=renderer; pso.ApplyModifiedPropertiesWithoutUndo();
             string prefabPath=$"{root}/Prefabs/{theme.Id}Burst_{index}.prefab"; GameObject prefab=PrefabUtility.SaveAsPrefabAsset(go,prefabPath); UnityEngine.Object.DestroyImmediate(go);
             string itemPath=$"{root}/Pool/{theme.Id}Burst_{index}.asset"; var item=AssetDatabase.LoadAssetAtPath<PoolItemSO>(itemPath)??ScriptableObject.CreateInstance<PoolItemSO>(); item.name=$"{theme.Id}Burst_{index}"; item.itemName=item.name; item.prefab=prefab; item.initCount=12; if(!AssetDatabase.Contains(item)) AssetDatabase.CreateAsset(item,itemPath);
             var prefabPooled=prefab.GetComponent<PooledParticleEffect>(); var iso=new SerializedObject(prefabPooled); iso.FindProperty("<Item>k__BackingField").objectReferenceValue=item; iso.ApplyModifiedPropertiesWithoutUndo(); PrefabUtility.SavePrefabAsset(prefab); EditorUtility.SetDirty(item); return item;
+        }
+
+        static void ConfigureLavaFlow(ParticleSystem ps, ParticleSystemRenderer renderer)
+        {
+            var main=ps.main; main.duration=1.15f; main.startLifetime=new ParticleSystem.MinMaxCurve(.72f,1.18f); main.startSpeed=new ParticleSystem.MinMaxCurve(.02f,.16f); main.startSize3D=true; main.startSizeX=new ParticleSystem.MinMaxCurve(.10f,.18f); main.startSizeY=new ParticleSystem.MinMaxCurve(.28f,.48f); main.startSizeZ=.1f; main.gravityModifier=new ParticleSystem.MinMaxCurve(.42f,.72f); main.maxParticles=28; main.simulationSpace=ParticleSystemSimulationSpace.World;
+            var emission=ps.emission; emission.rateOverTime=0; emission.SetBursts(new[]{new ParticleSystem.Burst(0,14,22)});
+            var shape=ps.shape; shape.shapeType=ParticleSystemShapeType.Box; shape.scale=new Vector3(.48f,.05f,.01f);
+            var velocity=ps.velocityOverLifetime; velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.World; velocity.x=new ParticleSystem.MinMaxCurve(-.12f,.12f); velocity.y=new ParticleSystem.MinMaxCurve(-.42f,-1.05f);
+            var noise=ps.noise; noise.enabled=true; noise.separateAxes=true; noise.strengthX=new ParticleSystem.MinMaxCurve(.08f,.22f); noise.strengthY=new ParticleSystem.MinMaxCurve(.01f,.06f); noise.frequency=1.35f; noise.scrollSpeed=.35f;
+            var size=ps.sizeOverLifetime; size.enabled=true; size.separateAxes=true; size.x=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.75f),new Keyframe(.3f,1f),new Keyframe(1,.18f))); size.y=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.45f),new Keyframe(.45f,1.15f),new Keyframe(1,.2f))); size.z=1f;
+            var trails=ps.trails; trails.enabled=true; trails.ratio=.72f; trails.lifetime=new ParticleSystem.MinMaxCurve(.12f,.28f); trails.dieWithParticles=true; trails.widthOverTrail=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,1f),new Keyframe(1,0f)));
+            var color=ps.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(new Color(1.35f,.82f,.25f),0),new GradientColorKey(Color.white,.22f),new GradientColorKey(new Color(.42f,.08f,.02f),1)},alphaKeys=new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(.9f,.58f),new GradientAlphaKey(0,1)}});
+            renderer.renderMode=ParticleSystemRenderMode.Billboard; renderer.alignment=ParticleSystemRenderSpace.View; renderer.sortingOrder=55; renderer.trailMaterial=renderer.sharedMaterial;
+        }
+
+        static void ConfigureCloudEvaporation(ParticleSystem ps, ParticleSystemRenderer renderer)
+        {
+            var main=ps.main; main.duration=1.15f; main.startLifetime=new ParticleSystem.MinMaxCurve(.72f,1.28f); main.startSpeed=new ParticleSystem.MinMaxCurve(.04f,.22f); main.startSize3D=true; main.startSizeX=new ParticleSystem.MinMaxCurve(.16f,.34f); main.startSizeY=new ParticleSystem.MinMaxCurve(.12f,.28f); main.startSizeZ=.1f; main.startRotation=new ParticleSystem.MinMaxCurve(-.5f,.5f); main.gravityModifier=new ParticleSystem.MinMaxCurve(-.06f,-.16f); main.maxParticles=32; main.simulationSpace=ParticleSystemSimulationSpace.World;
+            var emission=ps.emission; emission.rateOverTime=new ParticleSystem.MinMaxCurve(5f,9f); emission.SetBursts(new[]{new ParticleSystem.Burst(0,12,19)});
+            var shape=ps.shape; shape.shapeType=ParticleSystemShapeType.Circle; shape.radius=.24f; shape.radiusThickness=1f;
+            var velocity=ps.velocityOverLifetime; velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.World; velocity.x=new ParticleSystem.MinMaxCurve(-.16f,.16f); velocity.y=new ParticleSystem.MinMaxCurve(.18f,.62f);
+            var noise=ps.noise; noise.enabled=true; noise.separateAxes=true; noise.strengthX=new ParticleSystem.MinMaxCurve(.12f,.32f); noise.strengthY=new ParticleSystem.MinMaxCurve(.04f,.14f); noise.frequency=.55f; noise.scrollSpeed=.2f;
+            var size=ps.sizeOverLifetime; size.enabled=true; size.separateAxes=true; size.x=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.18f),new Keyframe(.38f,1f),new Keyframe(1,1.7f))); size.y=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.15f),new Keyframe(.42f,.85f),new Keyframe(1,1.45f))); size.z=1f;
+            var color=ps.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(Color.white,0),new GradientColorKey(new Color(.82f,.92f,1.08f),.45f),new GradientColorKey(new Color(.62f,.76f,.9f),1)},alphaKeys=new[]{new GradientAlphaKey(.82f,0),new GradientAlphaKey(.48f,.48f),new GradientAlphaKey(0,1)}});
+            var trails=ps.trails; trails.enabled=false;
+            renderer.renderMode=ParticleSystemRenderMode.Billboard; renderer.alignment=ParticleSystemRenderSpace.View; renderer.sortingOrder=55; renderer.trailMaterial=null;
         }
 
         static void CreateSkin(Theme theme,Sprite[] sprites,AnimationClip hint,PoolItemSO[] effects)

@@ -25,6 +25,27 @@ namespace CodexBridge
         {
             if (AssetDatabase.LoadAssetAtPath<SkinDataSO>("Assets/_Shared/ScriptableObjects/Skins/Slime.asset") == null)
                 EditorApplication.delayCall += Build;
+            else
+            {
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "/Prefabs/SlimeBurst_0.prefab");
+                if (prefab != null && !prefab.GetComponent<ParticleSystem>().main.startSize3D)
+                    EditorApplication.delayCall += UpdateSlimeFlowLineClearEffects;
+            }
+        }
+
+        [MenuItem("Tools/Codex/Update Slime Flow Line Clear Effects")]
+        public static void UpdateSlimeFlowLineClearEffects()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                string path = $"{Root}/Prefabs/SlimeBurst_{i}.prefab";
+                GameObject root = PrefabUtility.LoadPrefabContents(path);
+                ConfigureSlimeFlow(root.GetComponent<ParticleSystem>(), root.GetComponent<ParticleSystemRenderer>());
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Codex] Updated Slime line-clear effects to sticky downward flow.");
         }
 
         [MenuItem("Tools/Codex/Build Slime Skin")]
@@ -157,6 +178,7 @@ namespace CodexBridge
             var renderer = go.GetComponent<ParticleSystemRenderer>();
             renderer.sharedMaterial = material;
             renderer.sortingOrder = 55;
+            ConfigureSlimeFlow(particle, renderer);
             var pooled = go.AddComponent<PooledParticleEffect>();
             var serialized = new SerializedObject(pooled);
             serialized.FindProperty("rootParticleSystem").objectReferenceValue = particle;
@@ -181,6 +203,19 @@ namespace CodexBridge
             PrefabUtility.SavePrefabAsset(prefab);
             EditorUtility.SetDirty(item);
             return item;
+        }
+
+        static void ConfigureSlimeFlow(ParticleSystem particle, ParticleSystemRenderer renderer)
+        {
+            var main=particle.main; main.duration=1.3f; main.startLifetime=new ParticleSystem.MinMaxCurve(.9f,1.45f); main.startSpeed=new ParticleSystem.MinMaxCurve(.01f,.1f); main.startSize3D=true; main.startSizeX=new ParticleSystem.MinMaxCurve(.13f,.24f); main.startSizeY=new ParticleSystem.MinMaxCurve(.32f,.58f); main.startSizeZ=.1f; main.gravityModifier=new ParticleSystem.MinMaxCurve(.2f,.38f); main.maxParticles=28; main.simulationSpace=ParticleSystemSimulationSpace.World;
+            var emission=particle.emission; emission.rateOverTime=new ParticleSystem.MinMaxCurve(8f,13f); emission.SetBursts(new[]{new ParticleSystem.Burst(0,7,12)});
+            var shape=particle.shape; shape.shapeType=ParticleSystemShapeType.Box; shape.scale=new Vector3(.5f,.04f,.01f);
+            var velocity=particle.velocityOverLifetime; velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.World; velocity.x=new ParticleSystem.MinMaxCurve(-.08f,.08f); velocity.y=new ParticleSystem.MinMaxCurve(-.2f,-.55f);
+            var noise=particle.noise; noise.enabled=true; noise.separateAxes=true; noise.strengthX=new ParticleSystem.MinMaxCurve(.1f,.28f); noise.strengthY=new ParticleSystem.MinMaxCurve(.01f,.04f); noise.frequency=.75f; noise.scrollSpeed=.18f;
+            var size=particle.sizeOverLifetime; size.enabled=true; size.separateAxes=true; size.x=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.65f),new Keyframe(.35f,1f),new Keyframe(1,.12f))); size.y=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,.35f),new Keyframe(.55f,1.25f),new Keyframe(1,.18f))); size.z=1f;
+            var color=particle.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(Color.white,0),new GradientColorKey(new Color(.55f,1.15f,.38f),.32f),new GradientColorKey(new Color(.04f,.24f,.06f),1)},alphaKeys=new[]{new GradientAlphaKey(.95f,0),new GradientAlphaKey(.88f,.62f),new GradientAlphaKey(0,1)}});
+            var trails=particle.trails; trails.enabled=true; trails.ratio=.85f; trails.lifetime=new ParticleSystem.MinMaxCurve(.2f,.38f); trails.dieWithParticles=true; trails.widthOverTrail=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,1f),new Keyframe(1,0f)));
+            renderer.renderMode=ParticleSystemRenderMode.Billboard; renderer.alignment=ParticleSystemRenderSpace.View; renderer.sortingOrder=55; renderer.trailMaterial=renderer.sharedMaterial;
         }
 
         static void RegisterPoolItems(PoolItemSO[] effects)
