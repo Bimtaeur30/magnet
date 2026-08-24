@@ -32,10 +32,13 @@ namespace JTH.Scripts.Input
             }
 
             _controls.Enable();
+            InputSystem.onAfterUpdate -= SamplePointer;
+            InputSystem.onAfterUpdate += SamplePointer;
         }
 
         private void OnDisable()
         {
+            InputSystem.onAfterUpdate -= SamplePointer;
             _controls?.Disable();
         }
 
@@ -68,33 +71,21 @@ namespace JTH.Scripts.Input
 
         public void OnPointer(InputAction.CallbackContext context)
         {
-            _screenPointerPosition = context.ReadValue<Vector2>();
-            OnPointerChange?.Invoke(_screenPointerPosition);
         }
 
         public void OnPointerPress(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
-            {
-                _screenPointerPosition = _controls.Player.Pointer.ReadValue<Vector2>();
+        }
 
-                if (!_isPointerPressed)
-                {
-                    _isPointerPressed = true;
-                }
-
-                return;
-            }
-
-            if (context.canceled && _isPointerPressed)
-            {
-                _isPointerPressed = false;
-                OnPointerReleased?.Invoke();
-            }
+        public void Tick()
+        {
+            SamplePointer();
         }
 
         public Vector3 GetWorldPointerPosition()
         {
+            _screenPointerPosition = ReadScreenPointer(_screenPointerPosition);
+
             Camera camera = Camera.main;
             if (camera == null)
             {
@@ -111,6 +102,90 @@ namespace JTH.Scripts.Input
             _worldPointerPosition = camera.ScreenToWorldPoint(
                 new Vector3(_screenPointerPosition.x, _screenPointerPosition.y, depth));
             return _worldPointerPosition;
+        }
+
+        private void SamplePointer()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
+            Vector2 screenPos = ReadScreenPointer(_screenPointerPosition);
+            bool pressed = IsTouchHeld() || IsMouseHeld();
+            bool moved = screenPos != _screenPointerPosition;
+            _screenPointerPosition = screenPos;
+
+            if (pressed)
+            {
+                _isPointerPressed = true;
+                if (moved)
+                {
+                    OnPointerChange?.Invoke(_screenPointerPosition);
+                }
+
+                return;
+            }
+
+            if (!_isPointerPressed)
+            {
+                return;
+            }
+
+            _isPointerPressed = false;
+            OnPointerReleased?.Invoke();
+        }
+
+        private static Vector2 ReadScreenPointer(Vector2 fallback)
+        {
+            if (TryReadTouchPosition(out Vector2 touchPosition))
+            {
+                return touchPosition;
+            }
+
+            Mouse mouse = Mouse.current;
+            return mouse != null ? mouse.position.ReadValue() : fallback;
+        }
+
+        private static bool IsTouchHeld()
+        {
+            return TryReadTouchPosition(out _);
+        }
+
+        private static bool IsMouseHeld()
+        {
+            Mouse mouse = Mouse.current;
+            return mouse != null && mouse.leftButton.isPressed;
+        }
+
+        private static bool TryReadTouchPosition(out Vector2 position)
+        {
+            Touchscreen touchscreen = Touchscreen.current;
+            if (touchscreen == null)
+            {
+                position = default;
+                return false;
+            }
+
+            if (touchscreen.primaryTouch.press.isPressed)
+            {
+                position = touchscreen.primaryTouch.position.ReadValue();
+                return true;
+            }
+
+            foreach (TouchControl touch in touchscreen.touches)
+            {
+                if (!touch.press.isPressed)
+                {
+                    continue;
+                }
+
+                position = touch.position.ReadValue();
+                return true;
+            }
+
+            position = default;
+            return false;
         }
     }
 }

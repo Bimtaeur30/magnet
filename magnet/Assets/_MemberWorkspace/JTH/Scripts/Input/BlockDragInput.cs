@@ -62,6 +62,11 @@ namespace JTH.Scripts.Input
             _gameBoard?.ClearLineClearHints();
         }
 
+        private void Update()
+        {
+            inputSO.Tick();
+        }
+
         private void OnBlockSelected(BlockSelectedEvent evt)
         {
             _selectedBlockData = evt.BlockData;

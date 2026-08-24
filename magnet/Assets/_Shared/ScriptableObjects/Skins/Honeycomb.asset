@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8395bc0f23de2c4982c74f1e18ab6a5, type: 3}
+  m_Name: Honeycomb
+  m_EditorClassIdentifier: Magnet.Core::Magnet.Core.SO.Skin.SkinDataSO
+  <SkinName>k__BackingField: "\uAFC0\uBC8C\uC9D1"
+  <SkinId>k__BackingField: Honeycomb
+  <Sprites>k__BackingField:
+  - {fileID: 3077644591784730748, guid: 99bbca80b799dd84e84a2387b6f5cc69, type: 3}
+  - {fileID: -8450663641416826651, guid: 99bbca80b799dd84e84a2387b6f5cc69, type: 3}
+  - {fileID: -5193586569400403477, guid: 99bbca80b799dd84e84a2387b6f5cc69, type: 3}
+  <RandomizeSprites>k__BackingField: 1
+  <HintClips>k__BackingField:
+  - {fileID: 7400000, guid: 5890544effd02624c9d5ad7643799b51, type: 2}
+  - {fileID: 7400000, guid: 5890544effd02624c9d5ad7643799b51, type: 2}
+  - {fileID: 7400000, guid: 5890544effd02624c9d5ad7643799b51, type: 2}
+  <LineClearEffects>k__BackingField:
+  - {fileID: 11400000, guid: 6640d53443b589046a7ac4e4fa9e610c, type: 2}
+  - {fileID: 11400000, guid: 33d559a2f5b461e41b2a77af2a77fb83, type: 2}
+  - {fileID: 11400000, guid: 8a86ac95ba73b7d409470b24f0026659, type: 2}
+  <FireCenteredLineClear>k__BackingField: 0
+  <CenterLineClearEffect>k__BackingField: {fileID: 0}
+  <PlaceSound>k__BackingField: {fileID: 0}
+  <LineClearSound>k__BackingField: {fileID: 0}
+  icon: {fileID: 3077644591784730748, guid: 99bbca80b799dd84e84a2387b6f5cc69, type: 3}
+  unlockType: 0
+  unlockValue: 1
+  unlockDescription: 

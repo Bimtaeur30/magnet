@@ -176,6 +176,7 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Presentation/BlockShatterHint.cs` | `shatter` | 클리어 예고 클립이 조절하는 쩌적 세기. 0이면 원본 스프라이트 |
 | `Scripts/Presentation/BlockShatterHint.cs` | `waterWobble` | 물풍선 스킨의 클리어 예고 클립이 조절하는 말랑거림 세기 |
 | `Scripts/Presentation/BlockShatterHint.cs` | `outlineWave` | 물방울 스킨의 클리어 예고 클립이 조절하는 외곽선 일렁임 세기 |
+| `Scripts/Presentation/BlockShatterHint.cs` | `squash` | 꿀벌집 스킨의 클리어 예고 클립이 조절하는 짓눌림 세기 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `HintClips` | 바리에이션별 클리어 예고 클립. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `RandomizeSprites` | 켜면 칸마다 Sprites 중 하나를 랜덤으로 붙인다. 색 id 인덱스를 쓰지 않는다 |
 | `_Shared/Magnet.Core/SO/Skin/SkinDataSO.cs` | `LineClearEffects` | 바리에이션별 라인클리어 칸 이펙트. `Sprites`와 같은 인덱스. 비어 있으면 스킵 |

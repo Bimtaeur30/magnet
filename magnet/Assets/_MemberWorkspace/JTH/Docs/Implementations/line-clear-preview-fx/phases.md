@@ -10,3 +10,4 @@
 | 5 | 클리어 조각 파티클 | [phase5.md](phase5.md) | [sequence6.md](sequence6.md) | **완료** |
 | 6 | 스킨 배치/클리어 사운드 | [phase6.md](phase6.md) | [sequence7.md](sequence7.md) (기본 explode 제거) | **완료** |
 | 7 | 물방울 스킨 (랜덤 스프라이트 + 외곽선 일렁임 + 버스트) | [phase7.md](phase7.md) | [sequence8.md](sequence8.md) (클리어 버스트) | **완료** |
+| 8 | 꿀벌집 스킨 (랜덤 3톤 + 짓눌림 셰이더 + 꿀 스플랫) | [phase8.md](phase8.md) | [sequence9.md](sequence9.md) | **완료** |
