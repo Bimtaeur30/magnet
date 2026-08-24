@@ -44,8 +44,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7b16fc98cde59649b7c4d77e3fe3b3d, type: 2}
   <FireCenteredLineClear>k__BackingField: 0
   <CenterLineClearEffect>k__BackingField: {fileID: 0}
-  <PlaceSound>k__BackingField: {fileID: 0}
-  <LineClearSound>k__BackingField: {fileID: 0}
+  <PlaceSound>k__BackingField: {fileID: 11400000, guid: aacf75ddee3942c09f96cbad8bbdd8ce, type: 2}
+  <LineClearSound>k__BackingField: {fileID: 11400000, guid: 02aa3bf26bdc4c26b9eed36a9fe756dc, type: 2}
   icon: {fileID: 3926693055041711479, guid: 8735e068b8454da43b222a35e6817c69, type: 3}
   unlockType: 0
   unlockValue: 1
