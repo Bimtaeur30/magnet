@@ -12,6 +12,7 @@ namespace JTH.Scripts.Presentation
         static readonly int SpriteUVRectId = Shader.PropertyToID("_SpriteUVRect");
         static readonly int WaterWobbleId = Shader.PropertyToID("_WaterWobble");
         static readonly int OutlineWaveId = Shader.PropertyToID("_OutlineWave");
+        static readonly int SquashId = Shader.PropertyToID("_Squash");
 
         [SerializeField] private SpriteRenderer skinRenderer;
 
@@ -23,6 +24,9 @@ namespace JTH.Scripts.Presentation
 
         [Tooltip("물방울 스킨의 클리어 예고 클립이 조절하는 외곽선 일렁임 세기")]
         public float outlineWave;
+
+        [Tooltip("꿀벌집 스킨의 클리어 예고 클립이 조절하는 짓눌림 세기")]
+        public float squash;
 
         private MaterialPropertyBlock _propertyBlock;
         private int _shatterSeed = SeedMin;
@@ -50,6 +54,7 @@ namespace JTH.Scripts.Presentation
             _propertyBlock.SetFloat(ShatterSeedId, _shatterSeed);
             _propertyBlock.SetFloat(WaterWobbleId, waterWobble);
             _propertyBlock.SetFloat(OutlineWaveId, outlineWave);
+            _propertyBlock.SetFloat(SquashId, squash);
             ApplySpriteUVRect(_propertyBlock);
             skinRenderer.SetPropertyBlock(_propertyBlock);
         }
@@ -84,6 +89,7 @@ namespace JTH.Scripts.Presentation
             shatter = 0f;
             waterWobble = 0f;
             outlineWave = 0f;
+            squash = 0f;
             Apply();
         }
 

@@ -33,7 +33,8 @@
 2. 쩌적이면 `BlockShatterHint.shatter` (0→1)를 키프레임한다. 셰이더 `_Shatter`를 클립에 직접 넣지 않는다. `LateUpdate`가 MPB로 넣는다.
 3. 스케일이면 Transform만 키프레임한다. 예: `DefaultHintShatter.anim`, `JellyHintBoing.anim`.
 4. 외곽선만 일렁이면 `BlockShatterHint.outlineWave`. 물풍선처럼 메시 전체가 말랑거리는 `waterWobble`과 다르다. 예: `WaterDropHintWave.anim`.
-5. `SkinDataSO.HintClips`에 넣는다. `Sprites`와 길이를 맞춘다.
+5. 짓눌려 일그러지면 `BlockShatterHint.squash`. 사방으로 살짝 찌그러지고 테두리를 조금 넘친다. 예: `HoneycombHintSquash.anim`.
+6. `SkinDataSO.HintClips`에 넣는다. `Sprites`와 길이를 맞춘다.
 
 **사운드를 클립 Animation Event로 넣지 않는다.** 힌트는 줄의 칸마다 동시에 재생되어 소리가 겹친다.
 

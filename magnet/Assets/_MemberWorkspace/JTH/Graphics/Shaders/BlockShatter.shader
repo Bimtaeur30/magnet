@@ -8,6 +8,7 @@ Shader "Magnet/BlockShatter"
         [PerRendererData] _SpriteUVRect ("Sprite UV Rect", Vector) = (0, 0, 1, 1)
         [PerRendererData] _WaterWobble ("Water Balloon Wobble", Range(0, 1)) = 0
         [PerRendererData] _OutlineWave ("Outline Wave", Range(0, 1)) = 0
+        [PerRendererData] _Squash ("Honeycomb Squash", Range(0, 1)) = 0
         _Color ("Tint", Color) = (1, 1, 1, 1)
         _CellCount ("Cell Count", Float) = 3
         _CrackWidth ("Crack Width", Range(0.001, 0.12)) = 0.038
@@ -78,6 +79,7 @@ Shader "Magnet/BlockShatter"
             float4 _SpriteUVRect;
             float _WaterWobble;
             float _OutlineWave;
+            float _Squash;
 
             struct Attributes
             {
@@ -193,6 +195,24 @@ Shader "Magnet/BlockShatter"
                     positionOS.xy += dir * wave * 0.034 * waveAmt * rim;
                 }
 
+                float squash = saturate(_Squash);
+                if (squash > 0.001)
+                {
+                    float rad = length(centered);
+                    float2 dir = centered / max(rad, 1e-5);
+                    float ang = atan2(centered.y, centered.x);
+                    float t = _Time.y * 1.15 + _ShatterSeed;
+                    float lobe =
+                        0.70 +
+                        0.28 * sin(ang * 2.2 + t + _ShatterSeed) +
+                        0.16 * sin(ang * 3.4 - t * 0.85 + _ShatterSeed * 1.7);
+                    float rim = smoothstep(0.07, 0.40, rad);
+                    positionOS.xy += dir * squash * 0.085 * lobe * rim;
+                    positionOS.x += squash * 0.032 * sin(centered.y * 6.4 + ang * 1.6 + t);
+                    positionOS.y += squash * 0.032 * sin(centered.x * 5.8 - ang * 1.4 + t * 1.13);
+                    positionOS.xy *= 1.0 - squash * 0.038 * (1.0 - rim);
+                }
+
                 uv01 = (uv01 - 0.5) * (1.0 + pop) + 0.5;
 
                 output.positionCS = TransformObjectToHClip(positionOS);
@@ -219,9 +239,22 @@ Shader "Magnet/BlockShatter"
                     uv01 += dir * wave * 0.036 * waveAmt * rim;
                 }
 
+                float squashAmt = saturate(_Squash);
+                if (squashAmt > 0.001)
+                {
+                    float2 crush = uv01 - 0.5;
+                    float rad = length(crush);
+                    float ang = atan2(crush.y, crush.x);
+                    float t = _Time.y * 1.05 + _ShatterSeed;
+                    crush.x += squashAmt * 0.042 * sin(crush.y * 7.0 + ang * 2.0 + t);
+                    crush.y += squashAmt * 0.042 * sin(crush.x * 6.4 - ang * 1.6 + t * 1.1);
+                    crush *= 1.0 - squashAmt * 0.075 * (1.0 - smoothstep(0.08, 0.42, rad));
+                    uv01 = saturate(crush + 0.5);
+                }
+
                 float shatter = saturate(_Shatter);
 
-                float2 sampleUV = input.uv;
+                float2 sampleUV = _SpriteUVRect.xy + uv01 * rectSize;
                 float3 pieceTint = 1.0;
                 float3 crackTint = 1.0;
                 float inCrack = 0.0;
