@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 7835153938380078827, guid: 1ba8ac596bc9e1d43aa254225b1b0699, type: 3}
   - {fileID: 8472596062639425091, guid: 1ba8ac596bc9e1d43aa254225b1b0699, type: 3}
   - {fileID: 2062911926286308273, guid: 1ba8ac596bc9e1d43aa254225b1b0699, type: 3}
+  <RandomizeSprites>k__BackingField: 0
   <HintClips>k__BackingField:
   - {fileID: 7400000, guid: cf2996ad5deee254bbe31f7dbd705f6d, type: 2}
   - {fileID: 7400000, guid: cf2996ad5deee254bbe31f7dbd705f6d, type: 2}

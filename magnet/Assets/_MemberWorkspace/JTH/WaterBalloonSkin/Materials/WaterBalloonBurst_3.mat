@@ -28,6 +28,6 @@ Material:
     - _RimPower: 3
     - _Softness: 0.055
     m_Colors:
-    - _Tint: {r: 0.18, g: 0.9, b: 0.14, a: 1}
+    - _Tint: {r: 0.02, g: 0.6, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
