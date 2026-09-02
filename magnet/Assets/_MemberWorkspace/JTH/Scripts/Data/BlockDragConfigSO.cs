@@ -14,5 +14,11 @@ namespace JTH.Scripts.Data
 
         [Tooltip("마지막 피봇이 존재할 때 얼마나 떨어져도 유지되는지에 대한 값(칸 단위)")]
         [field: SerializeField] public float LastPivotSnapThreshold { get; private set; } = 1.5f;
+
+        [Tooltip("블록 선택 시 스테이징 시작 위치를 보드 최하단보다 이만큼(칸 단위) 더 아래에 둔다. " +
+                 "탭·손떨림만으로는 스냅 존에 닿지 않게 하는 데드존. " +
+                 "실제 스냅까지 필요한 의도적 드래그 = (이 값 - LastPivotSnapThreshold)칸. " +
+                 "0이면 예전처럼 보드 첫 줄에 바로 붙는다.")]
+        [field: SerializeField, Min(0f)] public float StagingDropCells { get; private set; } = 3f;
     }
 }

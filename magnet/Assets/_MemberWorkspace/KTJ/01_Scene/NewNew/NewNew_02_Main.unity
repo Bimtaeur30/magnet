@@ -2625,7 +2625,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6710601027194802740, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 849339147}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
 --- !u!114 &806042097 stripped
@@ -2650,6 +2653,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9025cbe3e8b804f87111251a38627e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.BlockSpawnBootstrap
+--- !u!4 &806042099 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6710601027194802740, guid: 953b27c0866a8bc4886a24cb15dfa155, type: 3}
+  m_PrefabInstance: {fileID: 806042096}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &849339146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 849339147}
+  - component: {fileID: 849339148}
+  m_Layer: 0
+  m_Name: GameFeedbackBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &849339147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849339146}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 806042099}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &849339148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849339146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dac1052ca00c3469ae178167af4684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Bootstrap.GameFeedbackBootstrap
+  inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  soundChannel: {fileID: 11400000, guid: 1cf1cfafafa2f2b4393f1db5ba074e5f, type: 2}
+  config: {fileID: 11400000, guid: b812b2a550c136541b3be7b07d496679, type: 2}
 --- !u!1 &907653180
 GameObject:
   m_ObjectHideFlags: 0
@@ -7834,7 +7890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 874310182387051420, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 321.41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 874310182387051420, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7846,7 +7902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 874310182387051420, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -87.895
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1541650142517170176, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7858,7 +7914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541650142517170176, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 86.07
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1541650142517170176, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7890,11 +7946,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4157127420860016034, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 394.445
+      value: 351.41
       objectReference: {fileID: 0}
     - target: {fileID: 4157127420860016034, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -87.895
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6154739377247155928, guid: ffde42fe6a22e214db8889c0d4d87541, type: 3}
       propertyPath: m_Pivot.x
