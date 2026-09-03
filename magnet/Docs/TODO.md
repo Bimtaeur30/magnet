@@ -66,8 +66,8 @@
     3. 인게임 씬에 `GameFeedbackBootstrap` 컴포넌트 추가하고 `inGameChannel`/`magnetGameChannel`/`soundChannel`/`config` 4개 Inspector 참조 연결
   - 진동은 `Handheld.Vibrate()` 단발이라 세기 구분은 안 됨(강도 차등 필요하면 별도 네이티브 진동 플러그인 도입 — 범위 밖)
 
-- **Track 4 — 시작 보드 프리필 재도입** (신규 구현, 기존 파일 안 건드림 — Track 1·3과 파일 안 겹침 → 병렬 가능)
-  - [ ] `board-start-prefill` — "처음에 비워져 있음" = 원작은 새 게임 시작 시 8×8 보드를 피스 단위로 50~65% 미리 채워놓고 시작(`JTH/Docs/START_BOARD_PREFILL_ANALYSIS.md` 참고). 예전에 `BoardPrefillGenerator`로 구현했다가 사용자 요청으로 삭제(`block-selection-algorithm` sequence9 #15) — **재도입 결정됨(2026-09-02)**. 분석 문서의 방법 1~5 그대로 재구현. `IMPLEMENTATIONS.md`에 신규 slug로 등록 후 phase1부터 진행
+- **Track 4 — 시작 보드 프리필 재도입** (신규 구현)
+  - [x] `board-start-prefill` — "처음에 비워져 있음" 대응. **칸-확률 채움(FillProbability 0.6) + Normal 번들 모양 구멍** 방식으로 재도입(2026-09-03). 분석 문서의 "피스 단위 배치·피스 단위 색" 결론은 폐기 — 튜닝 단순·예측 가능 우선(`START_BOARD_PREFILL_ANALYSIS.md` 갱신). `Implementations/board-start-prefill/` phase1 완료. 같은 커밋에 퍼펙트/올클리어 이벤트(`HandOptimalSolver`, `PerfectClearEvent`/`AllClearEvent`, 점유율 0.4 게이트) 동반. **남은 것: Unity 에디터 컴파일·플레이 확인**
 
 **QA 피드백 중 JTH 범위 밖 (담당자 전달 필요 — UI/스킨/사운드디자인):**
 

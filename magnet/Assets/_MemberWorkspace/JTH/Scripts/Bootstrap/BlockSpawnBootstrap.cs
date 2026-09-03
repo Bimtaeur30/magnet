@@ -27,15 +27,31 @@ namespace JTH.Scripts.Bootstrap
         [SerializeField] private SkinDataListSO skinDataListSO;
         [SerializeField] private BlockShapeSourceSO shapeSourceSO;
         [SerializeField] private AreaBundlePoolSO areaBundlePoolSO;
+        [Tooltip("새 게임 시작 보드 프리필 설정. 비우거나 Enabled=false면 빈 보드로 시작")]
+        [SerializeField] private BoardPrefillConfigSO boardPrefillConfigSO;
+
+        [Tooltip("퍼펙트 판정용 핸드 최적 탐색을 돌릴 보드 점유율 하한(0~1). 이 값 미만이면 탐색을 건너뛴다 " +
+                 "— 빈 보드일수록 탐색 공간이 커 프레임 히칭 위험. 0이면 항상 탐색")]
+        [SerializeField, Range(0f, 1f)] private float perfectSolveMinOccupancy = 0.4f;
 
         [Inject] private GameBoard _gameBoard;
 
         private BlockSupply _supply;
+        private SkinSession _skinSession;
         private AreaBundleDrawer _drawer;
         private int _turnIndex;
         private int _handStartScore;
         private BoardGrid _handStartBoard;
         private readonly List<PlayerHandMove> _playerMoves = new(BlockSupply.SlotCount);
+
+        private HandOptimalResult _handOptimal = HandOptimalResult.Unsolved;
+        private int _handClearedLines;
+
+        /// <summary>
+        /// 직전 핸드(3피스)를 마지막 배치까지 끝냈을 때, 누적 클리어 라인 수가 그 핸드의 최적값과 같았는지.
+        /// 마지막 배치 시점에만 갱신된다.
+        /// </summary>
+        public bool LastHandWasPerfect { get; private set; }
 
         public IReadOnlyList<ShapeBlockData> Candidates => _supply.Candidates;
 
@@ -53,12 +69,56 @@ namespace JTH.Scripts.Bootstrap
             magnetGameChannel.AddListener<BlockSelectedOnUIEvent>(OnBlockSelected);
 
             _drawer = new AreaBundleDrawer(new AreaBundleOrchestrator(areaBundlePoolSO));
-            _supply = new BlockSupply(_drawer, new SkinSession(skinDataListSO));
+            _skinSession = new SkinSession(skinDataListSO);
+            _supply = new BlockSupply(_drawer, _skinSession);
         }
 
         private void Start()
         {
+            PrefillBoard();
             Fill();
+        }
+
+        /// <summary>
+        /// 새 게임 시작 보드를 미리 채운다. 첫 손 3개는 이 보드를 기준으로 뽑히므로 Fill() 전에 돌아야 한다.
+        /// 이어하기가 구현되면 "새 게임일 때만" 조건을 여기에 건다.
+        /// </summary>
+        private void PrefillBoard()
+        {
+            if (boardPrefillConfigSO == null || !boardPrefillConfigSO.Enabled)
+            {
+                return;
+            }
+
+            BoardGrid grid = _gameBoard != null ? _gameBoard.Grid : null;
+            if (grid == null)
+            {
+                return;
+            }
+
+            System.Random rng = boardPrefillConfigSO.Seed >= 0
+                ? new System.Random(boardPrefillConfigSO.Seed)
+                : new System.Random();
+
+            List<Vector2Int> cells = BoardPrefillGenerator.Generate(
+                grid.BoardSize,
+                boardPrefillConfigSO,
+                areaBundlePoolSO != null ? areaBundlePoolSO.NormalBundles : null,
+                rng);
+
+            if (cells.Count == 0)
+            {
+                return;
+            }
+
+            int variantCount = _skinSession != null ? _skinSession.MaxVariant : 1;
+            List<int> skinIds = new List<int>(cells.Count);
+            for (int i = 0; i < cells.Count; ++i)
+            {
+                skinIds.Add(rng.Next(variantCount));
+            }
+
+            _gameBoard.PrefillCells(cells, skinIds);
         }
 
         private void OnDestroy()
@@ -77,9 +137,14 @@ namespace JTH.Scripts.Bootstrap
         }
 
         /// <summary>
-        /// 플레이어 한 수 기록. 손 3개 모두 두면 추천 Explain과 Area를 비교 출력한다.
+        /// 플레이어 한 수 기록. 손 3개 모두 두면 추천 Explain과 Area를 비교 출력하고,
+        /// 누적 클리어 수를 핸드 최적값과 비교해 <see cref="LastHandWasPerfect"/>를 갱신한다.
         /// </summary>
-        public void RecordPlayerMove(int slotIndex, IReadOnlyList<Vector2Int> cells, bool lastDrop)
+        public void RecordPlayerMove(
+            int slotIndex,
+            IReadOnlyList<Vector2Int> cells,
+            bool lastDrop,
+            int clearedLineCount)
         {
             Vector2Int[] copy = new Vector2Int[cells.Count];
             for (int i = 0; i < cells.Count; ++i)
@@ -88,12 +153,14 @@ namespace JTH.Scripts.Bootstrap
             }
 
             _playerMoves.Add(new PlayerHandMove(slotIndex, copy));
+            _handClearedLines += clearedLineCount;
             RaiseUniqueCorrectPlacementIfMatched(slotIndex, copy);
             if (!lastDrop)
             {
                 return;
             }
 
+            LastHandWasPerfect = _handOptimal.IsValid && _handClearedLines == _handOptimal.MaxClearedLines;
             LogHandCompare();
             _playerMoves.Clear();
         }
@@ -155,6 +222,7 @@ namespace JTH.Scripts.Bootstrap
             ++_turnIndex;
 
             _supply.Fill(context);
+            SolveHandOptimal();
             LogDeal();
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
@@ -178,8 +246,35 @@ namespace JTH.Scripts.Bootstrap
             _handStartBoard = grid?.Clone();
             _handStartScore = currentScore;
             _supply.FillFrom(cellOffsetsList);
+            SolveHandOptimal();
             LogDeal();
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
+        }
+
+        /// <summary>
+        /// 핸드가 확정된 직후 1회. 이 3피스를 전부 놓았을 때 지울 수 있는 최대 라인 수를 미리 구해둔다.
+        /// 마지막 배치에서 플레이어 누적 클리어 수와 비교해 퍼펙트를 판정한다.
+        /// 보드 점유율이 <see cref="perfectSolveMinOccupancy"/> 미만이면 탐색 자체를 건너뛴다
+        /// (빈 보드는 합법 배치가 폭증해 완전탐색이 무거움 + 퍼펙트도 사실상 의미 없음).
+        /// </summary>
+        private void SolveHandOptimal()
+        {
+            _handClearedLines = 0;
+            LastHandWasPerfect = false;
+            _handOptimal = HandOptimalResult.Unsolved;
+
+            if (_handStartBoard == null)
+            {
+                return;
+            }
+
+            int cellTotal = _handStartBoard.BoardSize * _handStartBoard.BoardSize;
+            if (cellTotal <= 0 || _handStartBoard.CountOccupied() < cellTotal * perfectSolveMinOccupancy)
+            {
+                return;
+            }
+
+            _handOptimal = HandOptimalSolver.Solve(_handStartBoard, _supply.Candidates);
         }
 
         private static List<IReadOnlyList<Vector2Int>> CopyPieces(IReadOnlyList<IReadOnlyList<Vector2Int>> source)

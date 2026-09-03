@@ -17,6 +17,7 @@ namespace JTH.Scripts.Bootstrap
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
         [SerializeField] private EventChannelSO inGameChannel;
+        [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private EventChannelSO soundChannel;
         [SerializeField] private EventChannelSO skinChannel;
         [SerializeField] private SoundClipSO blockPlaceSound;
@@ -29,6 +30,7 @@ namespace JTH.Scripts.Bootstrap
         private void Awake()
         {
             Debug.Assert(inGameChannel != null, "[BoardPlacementBootstrap] inGameChannel is not assigned.", this);
+            Debug.Assert(magnetGameChannel != null, "[BoardPlacementBootstrap] magnetGameChannel is not assigned.", this);
             Debug.Assert(skinChannel != null, "[BoardPlacementBootstrap] skinChannel is not assigned.", this);
             Debug.Assert(_blockSpawnBootstrap != null, "[BoardPlacementBootstrap] BlockSpawnBootstrap was not injected.", this);
             Debug.Assert(_gameBoard != null, "[BoardPlacementBootstrap] GameBoard was not injected.", this);
@@ -66,7 +68,10 @@ namespace JTH.Scripts.Bootstrap
             _blockSpawnBootstrap.Consume(slotIndex);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
-            _blockSpawnBootstrap.RecordPlayerMove(slotIndex, gridOffsets, lastDrop);
+            _blockSpawnBootstrap.RecordPlayerMove(
+                slotIndex, gridOffsets, lastDrop, clearedLineResult.ClearedLineCount);
+
+            RaiseClearMilestone(lastDrop);
 
             if (clearedLineResult.ClearedLineCount > 0)
                 PlaySound(ResolveLineClearSound());
@@ -82,6 +87,24 @@ namespace JTH.Scripts.Bootstrap
                 skinId);
 
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
+        }
+
+        /// <summary>
+        /// 라인 클리어까지 반영된 시점에 올클리어 / 퍼펙트를 판정해 알린다.
+        /// 둘 다 성립하면 올클리어만 발행한다.
+        /// </summary>
+        private void RaiseClearMilestone(bool lastDrop)
+        {
+            if (_gameBoard.Grid.IsEmpty())
+            {
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.AllClearEvent);
+                return;
+            }
+
+            if (lastDrop && _blockSpawnBootstrap.LastHandWasPerfect)
+            {
+                magnetGameChannel.RaiseEvent(MagnetGameEvents.PerfectClearEvent);
+            }
         }
 
         private bool IsPlacementFree(IReadOnlyList<Vector2Int> gridOffsets)
