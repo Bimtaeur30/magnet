@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Presentation.PlacedBlocksView
   inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
   blockBlastEffect: {fileID: 11400000, guid: 1b5776490b718304e81b069ee5fd4ed5, type: 2}
+  blockItemSO: {fileID: 11400000, guid: b51c4a19962282843b8a79a3b40f7c38, type: 2}
   poolManagerSO: {fileID: 11400000, guid: 216d7df7e62c8cd4bbf1f480547d8199, type: 2}
   lineClearHintEffector: {fileID: 3258992457057210996}
 --- !u!114 &3258992457057210996

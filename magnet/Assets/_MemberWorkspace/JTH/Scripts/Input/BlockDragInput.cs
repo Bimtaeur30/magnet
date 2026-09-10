@@ -25,10 +25,14 @@ namespace JTH.Scripts.Input
         private BlockDragDrawer _drawer;
         private DragSensitivityRamp _sensitivityRamp;
 
+        private const float MinDragSqrDistanceToPlace = 0.0001f;
+        private const float DragClampMarginCells = 2f;
+
         private ShapeBlockData _selectedBlockData;
         private int _selectedSlotIndex;
         private Vector2 _currentPivot;
         private Vector2Int? _lastBoardPivot;
+        private bool _hasMoved;
 
         private void Awake()
         {
@@ -71,6 +75,7 @@ namespace JTH.Scripts.Input
         {
             _selectedBlockData = evt.BlockData;
             _selectedSlotIndex = evt.SlotIndex;
+            _hasMoved = false;
             _sensitivityRamp.Reset();
             _drawer.ClearAll();
             _gameBoard.ClearLineClearHints();
@@ -79,7 +84,7 @@ namespace JTH.Scripts.Input
 
             Vector2 worldPointerPos = inputSO.GetWorldPointerPosition();
             float startXPosition = placementConfig.Drag.StagingBlockStartXPositions[_selectedSlotIndex];
-            Vector2 startPosition = new Vector2(startXPosition, _gameBoard.GetStartStagingY());
+            Vector2 startPosition = new Vector2(startXPosition, StagingStartY());
 
             int maxX = int.MinValue, maxY = int.MinValue;
 
@@ -108,7 +113,12 @@ namespace JTH.Scripts.Input
             }
 
             Vector2 delta = _sensitivityRamp.UpdateDelta(inputSO.GetWorldPointerPosition());
-            _currentPivot += delta;
+            if (delta.sqrMagnitude > MinDragSqrDistanceToPlace)
+            {
+                _hasMoved = true;
+            }
+
+            _currentPivot = ClampPivot(_currentPivot + delta);
 
             UpdateViews();
         }
@@ -122,7 +132,9 @@ namespace JTH.Scripts.Input
                 return;
             }
 
-            if (_lastBoardPivot == null
+            // 드래그 없이 탭만 한 경우: 배치하지 않고 슬롯으로 되돌린다.
+            if (!_hasMoved
+                || _lastBoardPivot == null
                 || !PlacementService.CanPlace(
                     _selectedBlockData.CellOffsets, _lastBoardPivot.Value, _gameBoard.Grid))
             {
@@ -150,8 +162,41 @@ namespace JTH.Scripts.Input
             _selectedBlockData = null;
             _selectedSlotIndex = -1;
             _lastBoardPivot = null;
+            _hasMoved = false;
             _gameBoard.ClearLineClearHints();
             _drawer.ClearAll();
+        }
+
+        /// <summary>
+        /// 스테이징(선택 직후) 블록의 시작 Y. 보드 최하단보다 StagingDropCells 칸만큼 아래에 둬서
+        /// 탭·손떨림만으로는 스냅 존에 닿지 않게 한다. 실제 스냅까지 필요한 의도적 드래그는
+        /// (StagingDropCells - LastPivotSnapThreshold)칸.
+        /// </summary>
+        private float StagingStartY()
+        {
+            return _gameBoard.GetStartStagingY()
+                   - boardConfig.CellSize * placementConfig.Drag.StagingDropCells;
+        }
+
+        /// <summary>
+        /// 드래그 중 블록이 보드 밖으로 한없이 밀려나 화면 밑으로 사라지지 않도록,
+        /// 보드 영역 + 여유 칸만큼으로 피벗 이동 범위를 제한한다.
+        /// </summary>
+        private Vector2 ClampPivot(Vector2 pivot)
+        {
+            int lastCell = boardConfig.CellCount - 1;
+            Vector2 boardMin = _gameBoard.GridToWorld(Vector2Int.zero);
+            Vector2 boardMax = _gameBoard.GridToWorld(new Vector2Int(lastCell, lastCell));
+
+            float margin = boardConfig.CellSize * DragClampMarginCells;
+            float minX = Mathf.Min(boardMin.x, boardMax.x) - margin;
+            float maxX = Mathf.Max(boardMin.x, boardMax.x) + margin;
+            float minY = Mathf.Min(StagingStartY(), Mathf.Min(boardMin.y, boardMax.y)) - margin;
+            float maxY = Mathf.Max(boardMin.y, boardMax.y) + margin;
+
+            return new Vector2(
+                Mathf.Clamp(pivot.x, minX, maxX),
+                Mathf.Clamp(pivot.y, minY, maxY));
         }
 
         private void UpdateViews()

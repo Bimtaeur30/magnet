@@ -56,6 +56,24 @@ namespace JTH.Scripts.Presentation
             }
         }
 
+        /// <summary>
+        /// 시작 보드 프리필. 칸 뷰를 만들고 그리드 점유까지 반영한다.
+        /// </summary>
+        public void PrefillCells(IReadOnlyList<Vector2Int> cells, IReadOnlyList<int> skinIds)
+        {
+            if (cells == null || cells.Count == 0)
+            {
+                return;
+            }
+
+            _blocksView.SpawnCells(cells, skinIds);
+
+            for (int i = 0; i < cells.Count; ++i)
+            {
+                Grid.SetOccupied(cells[i], true);
+            }
+        }
+
         public void ReturnUnplacedBlocks(IReadOnlyList<Block> detached) =>
             _blocksView.ReturnBlocks(detached);
 

@@ -15,6 +15,21 @@ namespace Magnet.Core.Events
         public static readonly RelifeOfferedEvent RelifeOfferedEvent = new();
         public static readonly RelifeAcceptedEvent RelifeAcceptedEvent = new();
         public static readonly UniqueCorrectPlacementEvent UniqueCorrectPlacementEvent = new();
+        public static readonly PerfectClearEvent PerfectClearEvent = new();
+        public static readonly AllClearEvent AllClearEvent = new();
+    }
+
+    /// <summary>
+    /// 핸드 3피스를 전부 놓았고, 누적 클리어 라인 수가 그 핸드로 낼 수 있는 최적값과 같을 때.
+    /// 같은 배치로 올클리어까지 났다면 <see cref="AllClearEvent"/>만 나가고 이 이벤트는 생략된다.
+    /// </summary>
+    public sealed class PerfectClearEvent : GameEvent
+    {
+    }
+
+    /// <summary>배치 후 라인 클리어가 끝난 시점에 보드가 완전히 빈 상태가 됐을 때.</summary>
+    public sealed class AllClearEvent : GameEvent
+    {
     }
 
     public sealed class ScoreChangedEvent : GameEvent

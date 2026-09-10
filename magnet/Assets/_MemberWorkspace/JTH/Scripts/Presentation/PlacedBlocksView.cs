@@ -10,6 +10,8 @@ namespace JTH.Scripts.Presentation
     {
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private PoolItemSO blockBlastEffect;
+        [Tooltip("시작 보드 프리필에서 칸 Block을 꺼낼 풀 아이템. ShapeBlock이 쓰는 것과 같은 것")]
+        [SerializeField] private PoolItemSO blockItemSO;
         [SerializeField] private PoolManagerSO poolManagerSO;
         [SerializeField] private LineClearHintEffector lineClearHintEffector;
 
@@ -61,6 +63,49 @@ namespace JTH.Scripts.Presentation
             {
                 Vector2Int cell = gridOffsets[i];
                 ReplaceCell(cell, detached[i]);
+            }
+        }
+
+        /// <summary>
+        /// 시작 보드 프리필용. 칸마다 Block을 풀에서 꺼내 skinId(색 변형)로 등록하고 배치한다.
+        /// </summary>
+        public void SpawnCells(IReadOnlyList<Vector2Int> cells, IReadOnlyList<int> skinIds)
+        {
+            if (cells == null || skinIds == null || blockItemSO == null)
+            {
+                return;
+            }
+
+            int count = Mathf.Min(cells.Count, skinIds.Count);
+            List<Block> spawned = new List<Block>(count);
+            Dictionary<int, List<Block>> bySkinId = new Dictionary<int, List<Block>>();
+
+            for (int i = 0; i < count; i++)
+            {
+                Block block = poolManagerSO.Pop<Block>(blockItemSO);
+                block.transform.SetParent(transform);
+                block.name = $"Prefill_{cells[i].x}_{cells[i].y}";
+                spawned.Add(block);
+
+                int skinId = skinIds[i];
+                if (!bySkinId.TryGetValue(skinId, out List<Block> group))
+                {
+                    group = new List<Block>();
+                    bySkinId[skinId] = group;
+                }
+
+                group.Add(block);
+            }
+
+            // 색 변형별로 묶어서 알린다. 스킨 매니저가 이 시점에 스프라이트를 입힌다.
+            foreach (KeyValuePair<int, List<Block>> pair in bySkinId)
+            {
+                inGameChannel.RaiseEvent(InGameEvents.BlockCreatedEvent.Init(pair.Value, pair.Key));
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                ReplaceCell(cells[i], spawned[i]);
             }
         }
 

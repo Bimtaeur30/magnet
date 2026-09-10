@@ -164,6 +164,21 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 | `Scripts/Data/AreaScoreTuning.cs` | `rectCountPenalty` | 찬 칸 greedy 직사각 1개당 점수에서 빼는 양 |
 | `Scripts/Data/AreaBundlePoolSO.cs` | `areaScore` | 빈/찬 Area size + 찬 직사각·Area 개수 패널티 |
 
+#### JTH — Board Start Prefill (board-start-prefill, 2026-09-03)
+
+| 파일 | 필드 | Tooltip |
+|------|------|---------|
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `Enabled` | 끄면 예전처럼 빈 보드로 시작한다 |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `FillProbability` | 칸 하나가 채워질 확률. 0.6이면 64칸 중 평균 약 38칸 |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `Seed` | -1이면 매판 랜덤. 0 이상이면 그 값으로 고정(QA·디버그 재현용) |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `HoleBundleMaxCells` | 구멍 뚫기에 쓸 Normal 번들의 셀 수 상한. 큼지막한 번들을 걸러낸다 |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `HoleClusterRadius` | 번들의 피스 3개를 이 반경 안에 흩어 뚫는다. 0이면 모두 같은 앵커 |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `MinEmptyCellsAfterHole` | 구멍을 뚫고도 남은 칸이 이보다 적으면 다시 생성한다(전멸 방지 하한) |
+| `Scripts/Data/BoardPrefillConfigSO.cs` | `MaxGenerateAttempts` | 위 조건을 못 맞췄을 때 재생성 시도 횟수 |
+| `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `boardPrefillConfigSO` | 새 게임 시작 보드 프리필 설정. 비우거나 Enabled=false면 빈 보드로 시작 |
+| `Scripts/Bootstrap/BlockSpawnBootstrap.cs` | `perfectSolveMinOccupancy` | 퍼펙트 판정용 핸드 최적 탐색을 돌릴 보드 점유율 하한(0~1). 이 값 미만이면 탐색을 건너뛴다 — 빈 보드일수록 탐색 공간이 커 프레임 히칭 위험. 0이면 항상 탐색 |
+| `Scripts/Presentation/PlacedBlocksView.cs` | `blockItemSO` | 시작 보드 프리필에서 칸 Block을 꺼낼 풀 아이템. ShapeBlock이 쓰는 것과 같은 것 |
+
 ### JTH — `Assets/_MemberWorkspace/JTH/` (v0.6 · 일부 deprecated)
 
 | 파일 | 필드 | Tooltip |

@@ -19,6 +19,9 @@ namespace JTH.Scripts.Domain.Skin
             }
         }
 
+        /// <summary>스킨 하나가 가진 색 변형 개수의 최대치. 프리필 랜덤 색 추첨 범위로 쓴다.</summary>
+        public int MaxVariant => _maxVariant < 1 ? 1 : _maxVariant;
+
         public IReadOnlyList<int> DrawSkinIds(int drawCount)
         {
             List<int> variants = new List<int>();
