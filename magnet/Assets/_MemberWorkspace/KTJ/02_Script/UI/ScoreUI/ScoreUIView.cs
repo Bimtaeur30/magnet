@@ -11,6 +11,8 @@ namespace Game.UI
 {
     public sealed partial class ScoreUIView : MvvmView<ScoreUIViewModel>
     {
+        private const float MaxScoreAnimationDuration = 1f;
+
         [SerializeField] private EventChannelSO MagnetGameChannel;
         [SerializeField, Min(0.001f)] private float secondsPerNumber = 0.02f;
         [Inject] private ISaveService _saveService;
@@ -77,8 +79,17 @@ namespace Game.UI
                 yield break;
             }
 
+            float animationStartTime = Time.realtimeSinceStartup;
+
             while (_displayedCurrentScore < targetScore)
             {
+                if (Time.realtimeSinceStartup - animationStartTime >= MaxScoreAnimationDuration)
+                {
+                    _displayedCurrentScore = targetScore;
+                    ViewModel.SetCurrentScore(_displayedCurrentScore);
+                    break;
+                }
+
                 _displayedCurrentScore++;
                 ViewModel.SetCurrentScore(_displayedCurrentScore);
                 yield return new WaitForSecondsRealtime(GetSecondsPerNumber(
@@ -98,8 +109,17 @@ namespace Game.UI
                 yield break;
             }
 
+            float animationStartTime = Time.realtimeSinceStartup;
+
             while (_displayedBestScore < targetScore)
             {
+                if (Time.realtimeSinceStartup - animationStartTime >= MaxScoreAnimationDuration)
+                {
+                    _displayedBestScore = targetScore;
+                    ViewModel.SetBestScore(_displayedBestScore);
+                    break;
+                }
+
                 _displayedBestScore++;
                 ViewModel.SetBestScore(_displayedBestScore);
                 yield return new WaitForSecondsRealtime(GetSecondsPerNumber(

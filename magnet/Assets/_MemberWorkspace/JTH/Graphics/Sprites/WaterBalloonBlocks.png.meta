@@ -162,10 +162,10 @@ TextureImporter:
       name: WaterBalloonBlocks_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 443.5
-        width: 443.5
-        height: 443.5
+        x: 27
+        y: 449
+        width: 395
+        height: 422
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,10 +184,10 @@ TextureImporter:
       name: WaterBalloonBlocks_1
       rect:
         serializedVersion: 2
-        x: 443.5
-        y: 443.5
-        width: 443.5
-        height: 443.5
+        x: 467
+        y: 449
+        width: 402
+        height: 423
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,10 +206,10 @@ TextureImporter:
       name: WaterBalloonBlocks_2
       rect:
         serializedVersion: 2
-        x: 887
-        y: 443.5
-        width: 443.5
-        height: 443.5
+        x: 904
+        y: 449
+        width: 403
+        height: 422
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,10 +228,10 @@ TextureImporter:
       name: WaterBalloonBlocks_3
       rect:
         serializedVersion: 2
-        x: 1330.5
-        y: 443.5
-        width: 443.5
-        height: 443.5
+        x: 1352
+        y: 449
+        width: 403
+        height: 423
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,10 +250,10 @@ TextureImporter:
       name: WaterBalloonBlocks_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 443.5
-        height: 443.5
+        x: 25
+        y: 14
+        width: 396
+        height: 422
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,10 +272,10 @@ TextureImporter:
       name: WaterBalloonBlocks_5
       rect:
         serializedVersion: 2
-        x: 443.5
-        y: 0
-        width: 443.5
-        height: 443.5
+        x: 465
+        y: 14
+        width: 406
+        height: 422
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: WaterBalloonBlocks_6
       rect:
         serializedVersion: 2
-        x: 887
-        y: 0
-        width: 443.5
-        height: 443.5
+        x: 902
+        y: 15
+        width: 406
+        height: 421
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -316,10 +316,10 @@ TextureImporter:
       name: WaterBalloonBlocks_7
       rect:
         serializedVersion: 2
-        x: 1330.5
-        y: 0
-        width: 443.5
-        height: 443.5
+        x: 1351
+        y: 14
+        width: 407
+        height: 422
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

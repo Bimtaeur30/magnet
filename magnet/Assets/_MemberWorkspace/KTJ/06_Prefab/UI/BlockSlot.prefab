@@ -108,6 +108,8 @@ MonoBehaviour:
   MagnetChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   SkinEventChannel: {fileID: 11400000, guid: 7d622aba19f815a4c9c8a2516b92e767, type: 2}
   SlotView: {fileID: 1871098308356962546}
+  cellSize: 60
+  cellSpacing: 5
 --- !u!1 &8673396092395346950
 GameObject:
   m_ObjectHideFlags: 0

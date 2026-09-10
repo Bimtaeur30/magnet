@@ -135,10 +135,10 @@ TextureImporter:
       name: HoneycombBlocks_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 320
-        height: 347
+        x: 10
+        y: 10
+        width: 300
+        height: 327
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,10 +157,10 @@ TextureImporter:
       name: HoneycombBlocks_1
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
-        width: 320
-        height: 347
+        x: 335
+        y: 13
+        width: 289
+        height: 321
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,10 +179,10 @@ TextureImporter:
       name: HoneycombBlocks_2
       rect:
         serializedVersion: 2
-        x: 640
-        y: 0
-        width: 320
-        height: 347
+        x: 656
+        y: 15
+        width: 287
+        height: 317
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

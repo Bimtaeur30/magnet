@@ -246,6 +246,8 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 
 | 스크립트 | 필드 | Tooltip |
 |----------|------|---------|
+| `02_Script/UI/_etc/ToggleActiveBtn_UI.cs` | `btn` | 토글을 실행할 버튼. 비워 두면 같은 오브젝트의 Button을 사용합니다. |
+| 〃 | `additionalButtons` | 같은 대상을 토글할 추가 버튼 목록. 빈 항목과 중복 버튼은 무시합니다. |
 | `02_Script/UI/ReviveUI/ReviveUIView.cs` | `sureButton` | 부활을 수락하는 버튼 |
 | 〃 | `noThanksButton` | 부활을 거절하고 게임 오버로 진행하는 버튼 |
 | 〃 | `container` | 부활 제안 UI 전체를 감싸는 오브젝트 |

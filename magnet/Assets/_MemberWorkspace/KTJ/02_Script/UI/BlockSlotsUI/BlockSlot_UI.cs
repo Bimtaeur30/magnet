@@ -1,12 +1,17 @@
+using System;
 using System.Collections.Generic;
 using Game.UI;
 using GameLib.EventChannelSystem;
+using LitMotion;
+using LitMotion.Extensions;
 using Magnet.Core.Events;
 using Magnet.Core.SO.Skin;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(RectTransform))]
 public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private EventChannelSO MagnetChannel;
@@ -23,15 +28,28 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     private int _skinId;
     private bool _isOccupied;
 
+    private Vector3 _originalScale;
+    private MotionHandle _scaleMotion;
+    private RectTransform _mRectTransform;
+
     private void Awake()
     {
         _blockContainer = SlotView.transform as RectTransform;
+        _mRectTransform = gameObject.GetComponent<RectTransform>();
+        _originalScale = _mRectTransform.localScale;
 
         SkinEventChannel.AddListener<SkinInitializedEvent>(HandleSkinInitialized);
         SkinEventChannel.AddListener<SkinChangedEvent>(HandleSkinChanged);
 
         // 기존 단일 이미지 바인딩은 동적 셀 UI와 겹치지 않도록 숨긴다.
         SetLegacyBlockImageAlpha(0f);
+    }
+
+    private void OnDisable()
+    {
+        if (_scaleMotion.IsActive())
+            _scaleMotion.Cancel();
+        _mRectTransform.localScale = _originalScale;
     }
 
     private void OnDestroy()
@@ -86,6 +104,20 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
         }
 
         ApplyCurrentSkin();
+        SetSkinAnimationEffect();
+    }
+
+    private void SetSkinAnimationEffect()
+    {
+        if (_scaleMotion.IsActive())
+            _scaleMotion.Cancel();
+
+        _mRectTransform.localScale = _originalScale;
+        _scaleMotion = LMotion
+            .Create(_originalScale, _originalScale * 1.2f, 0.25f)
+            .WithEase(Ease.OutQuad)
+            .WithLoops(2, LoopType.Yoyo)
+            .BindToLocalScale(_mRectTransform);
     }
 
     public void EmptySlot()

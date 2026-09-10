@@ -5,6 +5,7 @@
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
 | `revive-ui` | 부활 제안 UI | — | [phases.md](./Implementations/revive-ui/phases.md) | Phase 1 완료 |
+| `toggle-active-button` | 여러 토글 버튼 Inspector 지정 | — | [phases.md](./Implementations/toggle-active-button/phases.md) | Phase 1 구현 완료 · Unity 검증 대기 |
 
 ## 계층 (용어)
 
