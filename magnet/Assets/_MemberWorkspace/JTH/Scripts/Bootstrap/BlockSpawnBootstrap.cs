@@ -144,7 +144,8 @@ namespace JTH.Scripts.Bootstrap
             int slotIndex,
             IReadOnlyList<Vector2Int> cells,
             bool lastDrop,
-            int clearedLineCount)
+            int clearedLineCount,
+            bool neighborsMostlyFilled)
         {
             Vector2Int[] copy = new Vector2Int[cells.Count];
             for (int i = 0; i < cells.Count; ++i)
@@ -154,7 +155,7 @@ namespace JTH.Scripts.Bootstrap
 
             _playerMoves.Add(new PlayerHandMove(slotIndex, copy));
             _handClearedLines += clearedLineCount;
-            RaiseUniqueCorrectPlacementIfMatched(slotIndex, copy);
+            RaiseUniqueCorrectPlacementIfMatched(slotIndex, copy, neighborsMostlyFilled);
             if (!lastDrop)
             {
                 return;
@@ -165,10 +166,12 @@ namespace JTH.Scripts.Bootstrap
             _playerMoves.Clear();
         }
 
-        private void RaiseUniqueCorrectPlacementIfMatched(int slotIndex, IReadOnlyList<Vector2Int> cells)
+        private void RaiseUniqueCorrectPlacementIfMatched(
+            int slotIndex, IReadOnlyList<Vector2Int> cells, bool neighborsMostlyFilled)
         {
             AreaBundleSelectionResult selection = LastSelection;
-            if (selection == null || !selection.IsUniqueCorrectPlacement(slotIndex, cells))
+            bool isUniqueCorrect = selection != null && selection.IsUniqueCorrectPlacement(slotIndex, cells);
+            if (!isUniqueCorrect && !neighborsMostlyFilled)
             {
                 return;
             }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
+using JTH.Scripts.Domain.Board;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Spawn;
@@ -16,6 +17,9 @@ namespace JTH.Scripts.Bootstrap
 {
     public sealed class BoardPlacementBootstrap : MonoBehaviour
     {
+        /// <summary>방금 놓은 블럭의 8방향 인접 칸이 이 비율 이상 차 있으면 따봉 이벤트를 발행한다.</summary>
+        private const float NeighborFillThreshold = 0.75f;
+
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO magnetGameChannel;
         [SerializeField] private EventChannelSO soundChannel;
@@ -67,9 +71,12 @@ namespace JTH.Scripts.Bootstrap
             _gameBoard.AddBlock(detached, gridOffsets);
             _blockSpawnBootstrap.Consume(slotIndex);
 
+            // 라인 클리어 반영 전, 방금 놓은 그 자리 기준으로 인접 칸 점유율을 본다.
+            bool neighborsMostlyFilled = AreNeighborsMostlyFilled(gridOffsets);
+
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
             _blockSpawnBootstrap.RecordPlayerMove(
-                slotIndex, gridOffsets, lastDrop, clearedLineResult.ClearedLineCount);
+                slotIndex, gridOffsets, lastDrop, clearedLineResult.ClearedLineCount, neighborsMostlyFilled);
 
             RaiseClearMilestone(lastDrop);
 
@@ -119,6 +126,64 @@ namespace JTH.Scripts.Bootstrap
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 방금 놓은 블럭 칸들의 8방향(대각선 포함) 인접 칸 중 블럭 자신을 뺀 나머지가
+        /// <see cref="NeighborFillThreshold"/> 이상 채워져 있는지. 보드 밖(벽)은 채워진 것으로 본다.
+        /// 라인 클리어가 반영되기 전 상태에서 판정한다.
+        /// </summary>
+        private bool AreNeighborsMostlyFilled(IReadOnlyList<Vector2Int> placedCells)
+        {
+            BoardGrid grid = _gameBoard.Grid;
+            if (grid == null || placedCells == null || placedCells.Count == 0)
+            {
+                return false;
+            }
+
+            HashSet<Vector2Int> placed = new HashSet<Vector2Int>(placedCells.Count);
+            for (int i = 0; i < placedCells.Count; ++i)
+            {
+                placed.Add(placedCells[i]);
+            }
+
+            HashSet<Vector2Int> neighbors = new HashSet<Vector2Int>();
+            for (int i = 0; i < placedCells.Count; ++i)
+            {
+                Vector2Int origin = placedCells[i];
+                for (int dx = -1; dx <= 1; ++dx)
+                {
+                    for (int dy = -1; dy <= 1; ++dy)
+                    {
+                        if (dx == 0 && dy == 0)
+                        {
+                            continue;
+                        }
+
+                        Vector2Int cell = new Vector2Int(origin.x + dx, origin.y + dy);
+                        if (!placed.Contains(cell))
+                        {
+                            neighbors.Add(cell);
+                        }
+                    }
+                }
+            }
+
+            if (neighbors.Count == 0)
+            {
+                return false;
+            }
+
+            int filled = 0;
+            foreach (Vector2Int cell in neighbors)
+            {
+                if (!grid.IsInBounds(cell) || grid.IsOccupied(cell))
+                {
+                    ++filled;
+                }
+            }
+
+            return (float)filled / neighbors.Count >= NeighborFillThreshold;
         }
 
         private void OnSkinChanged(SkinChangedEvent evt)
