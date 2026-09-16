@@ -1,7 +1,7 @@
+using Magnet.Contracts;
 using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
 using JTH.Scripts.Data;
-using JTH.Scripts.Events;
 using Magnet.Core.Events;
 using UnityEngine;
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
-using JTH.Scripts.Events;
+using Magnet.Core.Events;
 using UnityEngine;
 
 namespace JTH.Scripts.Presentation

@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5620918448878734302
 CanvasRenderer:
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_GradationGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.47450984, b: 0.80128515, a: 1}
-    key1: {r: 0.63252676, g: 0, b: 0.8117647, a: 1}
+    key1: {r: 0.7260049, g: 0.8117647, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -181,7 +181,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65487
+    ctime1: 65535
     ctime2: 0
     ctime3: 0
     ctime4: 0

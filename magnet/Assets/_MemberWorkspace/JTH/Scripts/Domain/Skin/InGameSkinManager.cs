@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Events;
-using JTH.Scripts.Presentation;
+using Magnet.Contracts;
 using Magnet.Core.Events;
 using Magnet.Core.SO.Skin;
 using UnityEngine;
@@ -13,14 +12,14 @@ namespace JTH.Scripts.Domain.Skin
         [SerializeField] private EventChannelSO inGameChannel;
         [SerializeField] private EventChannelSO skinChannel;
 
-        private Dictionary<Block, int> _blockDict;
-        private readonly Dictionary<Block, int> _visualIndex = new Dictionary<Block, int>();
+        private Dictionary<IBlockSkinTarget, int> _blockDict;
+        private readonly Dictionary<IBlockSkinTarget, int> _visualIndex = new Dictionary<IBlockSkinTarget, int>();
         
         private SkinDataSO _currentSkin;
 
         private void Awake()
         {
-            _blockDict = new Dictionary<Block, int>();
+            _blockDict = new Dictionary<IBlockSkinTarget, int>();
 
             inGameChannel.AddListener<BlockCreatedEvent>(BlockCreatedHandler);
             inGameChannel.AddListener<BlockDestroyedEvent>(BlockDestroyedHandler);
@@ -38,7 +37,7 @@ namespace JTH.Scripts.Domain.Skin
 
         private void BlockCreatedHandler(BlockCreatedEvent evt)
         {
-            foreach (Block block in evt.Blocks)
+            foreach (IBlockSkinTarget block in evt.Blocks)
             {
                 _blockDict.Add(block, evt.SkinId);
                 if (_currentSkin != null)
@@ -75,13 +74,13 @@ namespace JTH.Scripts.Domain.Skin
                 return;
             }
 
-            foreach (Block block in _blockDict.Keys)
+            foreach (IBlockSkinTarget block in _blockDict.Keys)
             {
                 block.ApplySkin(_currentSkin.GetSprite(ResolveVisualIndex(block, _blockDict[block])));
             }
         }
 
-        private int ResolveVisualIndex(Block block, int skinId)
+        private int ResolveVisualIndex(IBlockSkinTarget block, int skinId)
         {
             if (_currentSkin != null && _currentSkin.RandomizeSprites)
             {

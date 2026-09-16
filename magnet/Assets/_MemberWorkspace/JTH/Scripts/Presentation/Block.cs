@@ -1,3 +1,4 @@
+using Magnet.Contracts;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Data;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.Playables;
 
 namespace JTH.Scripts.Presentation
 {
-    public sealed class Block : AbstractMonoPoolable
+    public sealed class Block : AbstractMonoPoolable, IBlockSkinTarget
     {
         [SerializeField] private SpriteRenderer skinRenderer;
         [Tooltip("칸 스킨 클리핑용. SetSortingOrder에서 Custom Range로 인접 마스크와 격리")]

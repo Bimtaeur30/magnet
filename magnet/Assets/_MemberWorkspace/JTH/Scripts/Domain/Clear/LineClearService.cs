@@ -1,3 +1,4 @@
+using Magnet.Contracts;
 using System.Collections.Generic;
 using JTH.Scripts.Presentation;
 using UnityEngine;

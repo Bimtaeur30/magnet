@@ -7,7 +7,6 @@ using JTH.Scripts.Domain.BlockSelection.Simulation;
 using JTH.Scripts.Domain.Board;
 using JTH.Scripts.Domain.Skin;
 using JTH.Scripts.Domain.Spawn;
-using JTH.Scripts.Events;
 using JTH.Scripts.Input;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
