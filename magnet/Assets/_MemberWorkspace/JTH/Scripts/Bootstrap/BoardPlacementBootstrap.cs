@@ -74,6 +74,7 @@ namespace JTH.Scripts.Bootstrap
             bool neighborsMostlyFilled = AreNeighborsMostlyFilled(gridOffsets);
 
             ClearedLineResult clearedLineResult = LineClearService.DetectAndApply(_gameBoard);
+            RaiseBlockClearedEvents(clearedLineResult);
             _blockSpawnBootstrap.RecordPlayerMove(
                 slotIndex, gridOffsets, lastDrop, clearedLineResult.ClearedLineCount, neighborsMostlyFilled);
 
@@ -93,6 +94,26 @@ namespace JTH.Scripts.Bootstrap
                 skinId);
 
             inGameChannel.RaiseEvent(InGameEvents.BlockPlacedEvent.Init(placementResult));
+        }
+
+        /// <summary>
+        /// 라인 클리어로 부서진 칸마다 <see cref="BlockClearedEvent"/>를 발행한다.
+        /// 가로·세로가 교차하는 칸은 한 번만 보낸다.
+        /// </summary>
+        private void RaiseBlockClearedEvents(ClearedLineResult clearedLineResult)
+        {
+            if (clearedLineResult.ClearedLineCount <= 0)
+            {
+                return;
+            }
+
+            HashSet<Vector2Int> clearedCells =
+                new HashSet<Vector2Int>(clearedLineResult.CollectClearedCells(_gameBoard.Grid.BoardSize));
+            foreach (Vector2Int cell in clearedCells)
+            {
+                magnetGameChannel.RaiseEvent(
+                    MagnetGameEvents.BlockClearedEvent.Init(_gameBoard.GridToWorldCenter(cell)));
+            }
         }
 
         /// <summary>
