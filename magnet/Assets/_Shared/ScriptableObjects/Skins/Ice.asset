@@ -33,14 +33,14 @@ MonoBehaviour:
   - {fileID: 7400000, guid: ad3c344b8aae1804db1ce73caaac5414, type: 2}
   - {fileID: 7400000, guid: ad3c344b8aae1804db1ce73caaac5414, type: 2}
   <LineClearEffects>k__BackingField:
-  - {fileID: 11400000, guid: d8ee36f04c537b34b92e0912cb9eb5e3, type: 2}
-  - {fileID: 11400000, guid: f8234d3dce2f3824591df7a162090059, type: 2}
-  - {fileID: 11400000, guid: 95b1dcd9f49fd7548931ffa2c2205a96, type: 2}
-  - {fileID: 11400000, guid: c7975e003d625d64a976601aed80ec3b, type: 2}
-  - {fileID: 11400000, guid: 4a4c86b3d6d29de4eb16b8665b299162, type: 2}
-  - {fileID: 11400000, guid: 1b27b4356db82b149bf89d4e5ef7d42a, type: 2}
-  - {fileID: 11400000, guid: c584629bc05e5fb4c9c08e44927a3008, type: 2}
-  - {fileID: 11400000, guid: 3d98f6d5bb556d94d8c1ed1d387fa15e, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000001, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000002, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000003, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000004, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000005, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000006, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000007, type: 2}
+  - {fileID: 11400000, guid: a3000000000000000000000000000008, type: 2}
   <FireCenteredLineClear>k__BackingField: 0
   <CenterLineClearEffect>k__BackingField: {fileID: 0}
   <PlaceSound>k__BackingField: {fileID: 11400000, guid: 0f9e060b2ec5472fa24b00152bd705d7, type: 2}

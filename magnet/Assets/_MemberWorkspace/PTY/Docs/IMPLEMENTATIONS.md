@@ -9,6 +9,7 @@
 | [presentation-events](./Implementations/presentation-events/phases.md) | 연출 이벤트 구조 (파티클 풀 인프라 + 블록 파괴 파티클) | SCRUM-26 | phase2 완료 | 파티클 프리팹·텍스처 스왑까지 구현됨 · 실제 스킨/게임플레이 이벤트 연결은 다음 단계 |
 | [sound-manager](./Implementations/sound-manager/phases.md) | 사운드 매니저 (BGM/SFX 재생 + Master/BGM/SFX AudioMixer 볼륨 조절) | — | phase2 완료 | 재생 인프라 + 볼륨 조절(이벤트 기반) 완료 · BGM 페이드는 다음 Phase |
 | [skin-icon-generation](./Implementations/skin-icon-generation/phases.md) | 스킨 변경 시 블록 아이콘 런타임 재생성 + UI 텍스처 타입 수정 | — | phase1 완료 | Request/Response 리스너 + 텍스처 타입 수정 완료 · Request를 raise하는 UI 호출부는 범위 밖 |
+| [ice-crystal-burst](./Implementations/ice-crystal-burst/phases.md) | 얼음 스킨 전용 결정 파편 파티클 | — | phase1 완료 | 전용 셰이더·8색 머티리얼·프리팹·Pool 연결 완료 · Unity 시각 확인 대기 |
 
 ## 계층 (용어)
 
