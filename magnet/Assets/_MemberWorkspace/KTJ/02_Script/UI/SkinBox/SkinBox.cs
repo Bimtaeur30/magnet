@@ -5,7 +5,7 @@ using Magnet.Core.SO.Skin;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SkinBox : MonoBehaviour, IPointerDownHandler
+public class SkinBox : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private GameObject Check;
     [SerializeField] private SkinBoxView View;
@@ -34,7 +34,7 @@ public class SkinBox : MonoBehaviour, IPointerDownHandler
         Check.SetActive(value);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         EquipSkinBoxEvent?.Invoke(_myIdx);
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using Magnet.Contracts;
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using _Shared.Magnet.Core.SO.Skin;
 using JTH.Scripts.Data;
@@ -6,7 +7,6 @@ using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Score;
 using JTH.Scripts.Domain.Turn;
-using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Core.Events;
 using Reflex.Attributes;

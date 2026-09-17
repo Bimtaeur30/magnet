@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8981b4ecea39b648827ae4e8c917316, type: 3}
+  m_Name: AllClearUIBindingProfile 1
+  m_EditorClassIdentifier: Mvvm.Editor::Mvvm.Editor.MvvmBindingProfile
+  targetPrefab: {fileID: 0}
+  namespaceName: Game.UI
+  viewClassName: AllClearUIView
+  viewModelClassName: AllClearUIViewModel
+  outputFolder: Assets/_MemberWorkspace/KTJ/02_Script/UI/AllClearUI
+  bindings:
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: AllClearUIPosition
+    valueType: UnityEngine.Vector2
+    fieldName: allClearUIAnchoredPosition
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: AllClearUIX
+    valueType: float
+    fieldName: allClearUIAnchoredPositionX
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: AllClearUIY
+    valueType: float
+    fieldName: allClearUIAnchoredPositionY
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: AllClearUISize
+    valueType: UnityEngine.Vector2
+    fieldName: allClearUISizeDelta
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: AllClearUIWidth
+    valueType: float
+    fieldName: allClearUISizeDeltaX
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: AllClearUIHeight
+    valueType: float
+    fieldName: allClearUISizeDeltaY
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: AllClearUIRotationZ
+    valueType: float
+    fieldName: allClearUILocalEulerAnglesZ
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: AllClearUIScale
+    valueType: UnityEngine.Vector3
+    fieldName: allClearUILocalScale
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: AllClearUIScaleX
+    valueType: float
+    fieldName: allClearUILocalScaleX
+  - enabled: 1
+    objectPath: AllClearUI
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: AllClearUIScaleY
+    valueType: float
+    fieldName: allClearUILocalScaleY
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition
+    mode: 0
+    viewModelMember: TextTMPPosition
+    valueType: UnityEngine.Vector2
+    fieldName: allClearUITextTMPAnchoredPosition
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.x
+    mode: 0
+    viewModelMember: TextTMPX
+    valueType: float
+    fieldName: allClearUITextTMPAnchoredPositionX
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: anchoredPosition.y
+    mode: 0
+    viewModelMember: TextTMPY
+    valueType: float
+    fieldName: allClearUITextTMPAnchoredPositionY
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta
+    mode: 0
+    viewModelMember: TextTMPSize
+    valueType: UnityEngine.Vector2
+    fieldName: allClearUITextTMPSizeDelta
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.x
+    mode: 0
+    viewModelMember: TextTMPWidth
+    valueType: float
+    fieldName: allClearUITextTMPSizeDeltaX
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: sizeDelta.y
+    mode: 0
+    viewModelMember: TextTMPHeight
+    valueType: float
+    fieldName: allClearUITextTMPSizeDeltaY
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localEulerAngles.z
+    mode: 0
+    viewModelMember: TextTMPRotationZ
+    valueType: float
+    fieldName: allClearUITextTMPLocalEulerAnglesZ
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale
+    mode: 0
+    viewModelMember: TextTMPScale
+    valueType: UnityEngine.Vector3
+    fieldName: allClearUITextTMPLocalScale
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.x
+    mode: 0
+    viewModelMember: TextTMPScaleX
+    valueType: float
+    fieldName: allClearUITextTMPLocalScaleX
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: UnityEngine.RectTransform
+    targetProperty: localScale.y
+    mode: 0
+    viewModelMember: TextTMPScaleY
+    valueType: float
+    fieldName: allClearUITextTMPLocalScaleY
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: text
+    mode: 0
+    viewModelMember: TextTMP
+    valueType: string
+    fieldName: allClearUITextTMPText
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color
+    mode: 0
+    viewModelMember: TextTMPColor
+    valueType: UnityEngine.Color
+    fieldName: allClearUITextTMPColor
+  - enabled: 1
+    objectPath: AllClearUI/Text (TMP)
+    componentType: TMPro.TextMeshProUGUI
+    targetProperty: color.a
+    mode: 0
+    viewModelMember: TextTMPAlpha
+    valueType: float
+    fieldName: allClearUITextTMPColorA

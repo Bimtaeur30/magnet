@@ -1,0 +1,31 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Magnet.Contracts
+{
+    public sealed class PlacementResult
+    {
+        public PlacementResult(
+            IReadOnlyList<ShapeBlockData> candidates,
+            IReadOnlyList<Vector2Int> placedGridPositions,
+            ClearedLineResult clearedLineResult,
+            bool firstDrop,
+            bool lastDrop,
+            int skinId)
+        {
+            Candidates = candidates;
+            PlacedGridPositions = placedGridPositions;
+            ClearedLineResult = clearedLineResult;
+            FirstDrop = firstDrop;
+            LastDrop = lastDrop;
+            SkinId = skinId;
+        }
+
+        public IReadOnlyList<ShapeBlockData> Candidates { get; }
+        public IReadOnlyList<Vector2Int> PlacedGridPositions { get; }
+        public ClearedLineResult ClearedLineResult { get; }
+        public bool FirstDrop { get; }
+        public bool LastDrop { get; }
+        public int SkinId { get; }
+    }
+}

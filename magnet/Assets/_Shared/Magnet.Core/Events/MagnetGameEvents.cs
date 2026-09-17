@@ -15,6 +15,38 @@ namespace Magnet.Core.Events
         public static readonly RelifeOfferedEvent RelifeOfferedEvent = new();
         public static readonly RelifeAcceptedEvent RelifeAcceptedEvent = new();
         public static readonly UniqueCorrectPlacementEvent UniqueCorrectPlacementEvent = new();
+        public static readonly PerfectClearEvent PerfectClearEvent = new();
+        public static readonly AllClearEvent AllClearEvent = new();
+        public static readonly BlockClearedEvent BlockClearedEvent = new();
+    }
+
+    /// <summary>
+    /// 라인 클리어로 보드 칸 블럭 하나가 부서졌을 때. 부서진 칸마다 한 번씩 발행된다
+    /// (가로·세로 교차 칸도 한 번만). 미리보기 정리·배치 취소 등 풀 반환에는 발행되지 않는다.
+    /// </summary>
+    public sealed class BlockClearedEvent : GameEvent
+    {
+        /// <summary>부서진 칸의 월드 중심.</summary>
+        public Vector3 WorldPosition { get; private set; }
+
+        public BlockClearedEvent Init(Vector3 worldPosition)
+        {
+            WorldPosition = worldPosition;
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// 핸드 3피스를 전부 놓았고, 누적 클리어 라인 수가 그 핸드로 낼 수 있는 최적값과 같을 때.
+    /// 같은 배치로 올클리어까지 났다면 <see cref="AllClearEvent"/>만 나가고 이 이벤트는 생략된다.
+    /// </summary>
+    public sealed class PerfectClearEvent : GameEvent
+    {
+    }
+
+    /// <summary>배치 후 라인 클리어가 끝난 시점에 보드가 완전히 빈 상태가 됐을 때.</summary>
+    public sealed class AllClearEvent : GameEvent
+    {
     }
 
     public sealed class ScoreChangedEvent : GameEvent

@@ -50,6 +50,8 @@
 
 | [relife](./Implementations/relife/phases.md) | Relife 오퍼·수락 (Easy 패 이어하기) | — | **phase1 완료** | **구현됨** |
 
+| [board-start-prefill](./Implementations/board-start-prefill/phases.md) | 시작 보드 프리필 (칸-확률 채움 + 번들 구멍) + 퍼펙트/올클 이벤트 | — | **phase1 완료** | **구현됨** · 에디터 확인 대기 · `START_BOARD_PREFILL_ANALYSIS.md` |
+
 
 
 **스폰 알고리즘** (보드 상태·난이도 곡선): DESIGN §4.9 → … → 현재 **`area-bundle-spawn`**(Unique + Normal 히트맵). `BlockBlastCatalog`·`PlacementSimulator` 공유.

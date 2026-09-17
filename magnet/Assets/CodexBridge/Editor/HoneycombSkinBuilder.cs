@@ -212,8 +212,10 @@ namespace CodexBridge
             var velocity = particle.velocityOverLifetime;
             velocity.enabled = true;
             velocity.space = ParticleSystemSimulationSpace.World;
-            velocity.radial = new ParticleSystem.MinMaxCurve(0.35f, 0.85f);
+            velocity.x = new ParticleSystem.MinMaxCurve(0f, 0f);
             velocity.y = new ParticleSystem.MinMaxCurve(-0.12f, -0.38f);
+            velocity.z = new ParticleSystem.MinMaxCurve(0f, 0f);
+            velocity.radial = new ParticleSystem.MinMaxCurve(0.35f, 0.85f);
 
             var limit = particle.limitVelocityOverLifetime;
             limit.enabled = true;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainScene
   m_EditorClassIdentifier: SoundSystem_Assembly::GameLib.SoundSystem.SoundClipSO
   audioType: 1
-  audioClip: {fileID: 8300000, guid: 71dfc3c0168bc654c936253f976150c5, type: 3}
+  audioClip: {fileID: 8300000, guid: 266482c674c683546ab7101904073937, type: 3}
   isLoop: 1
   randomizePitch: 0
   isSpatialBlend: 0

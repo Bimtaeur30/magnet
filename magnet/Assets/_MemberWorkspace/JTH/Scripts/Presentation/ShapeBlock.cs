@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Data;
-using JTH.Scripts.Events;
+using Magnet.Core.Events;
 using Magnet.Contracts;
 using UnityEngine;
 

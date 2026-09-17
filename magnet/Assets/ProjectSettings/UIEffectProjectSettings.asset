@@ -69,7 +69,15 @@ ShaderVariantCollection:
         passType: 0
       - keywords: GRADATION_GRADIENT
         passType: 0
+      - keywords: GRADATION_GRADIENT TARGET_HUE
+        passType: 0
+      - keywords: GRADATION_GRADIENT TARGET_LUMINANCE
+        passType: 0
+      - keywords: GRADATION_GRADIENT TONE_RETRO
+        passType: 0
       - keywords: GRADATION_GRADIENT TRANSITION_FADE
+        passType: 0
+      - keywords: GRADATION_GRADIENT TRANSITION_SHINY
         passType: 0
       - keywords: GRADATION_GRADIENT UNITY_UI_ALPHACLIP
         passType: 0
@@ -87,6 +95,8 @@ ShaderVariantCollection:
       - keywords: COLOR_FILTER
         passType: 0
       - keywords: COLOR_FILTER GRADATION_GRADIENT
+        passType: 0
+      - keywords: GRADATION_GRADIENT
         passType: 0
   - first: {fileID: 4800000, guid: e65241fa80a374114b3f55ed746c04d9, type: 3}
     second:

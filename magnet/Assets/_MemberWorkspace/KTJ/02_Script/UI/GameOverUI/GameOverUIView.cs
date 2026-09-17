@@ -13,7 +13,7 @@ namespace Game.UI
         [SerializeField] private EventChannelSO UIChannel;
         [SerializeField] private EventChannelSO soundChannel;
         [SerializeField] private SoundClipSO gameOverSound;
-
+        
         protected override void Awake()
         {
             base.Awake();

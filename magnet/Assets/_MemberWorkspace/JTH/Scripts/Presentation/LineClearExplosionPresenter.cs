@@ -1,10 +1,10 @@
+using Magnet.Contracts;
 using System.Collections.Generic;
 using _Shared.Magnet.Core.Events;
 using GameLib.EventChannelSystem;
 using GameLib.ObjectPool.Runtime;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Events;
 using Magnet.Core.Events;
 using Magnet.Core.SO.Skin;
 using Reflex.Attributes;
