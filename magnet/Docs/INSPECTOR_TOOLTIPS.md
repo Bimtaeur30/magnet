@@ -261,6 +261,9 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 
 | 스크립트 | 필드 | Tooltip |
 |----------|------|---------|
+| `02_Script/UI/AllClearUI/AllClearUIView.cs` | `tweenDuration` | 텍스트 알파와 로컬 스케일이 0에서 1까지 변하는 시간(초). |
+| 〃 | `visibleDuration` | 등장 트윈 완료 후 초기 상태로 돌아가기까지 유지하는 시간(초). |
+| 〃 | `allClearParticle` | 올클리어 시 함께 재생할 선택적 파티클 인스턴스. 비워도 텍스트는 정상 동작합니다. |
 | `02_Script/UI/_etc/ToggleActiveBtn_UI.cs` | `btn` | 토글을 실행할 버튼. 비워 두면 같은 오브젝트의 Button을 사용합니다. |
 | 〃 | `additionalButtons` | 같은 대상을 토글할 추가 버튼 목록. 빈 항목과 중복 버튼은 무시합니다. |
 | `02_Script/UI/ReviveUI/ReviveUIView.cs` | `sureButton` | 부활을 수락하는 버튼 |

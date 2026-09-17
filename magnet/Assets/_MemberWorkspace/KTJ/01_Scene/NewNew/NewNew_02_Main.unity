@@ -2144,28 +2144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b0bd7f5b55c3b42ace3daed9c3414a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::Game.UI.AllClearUIView
-  allClearUIAnchoredPosition: {fileID: 416237832}
-  allClearUIAnchoredPositionX: {fileID: 416237832}
-  allClearUIAnchoredPositionY: {fileID: 416237832}
-  allClearUISizeDelta: {fileID: 416237832}
-  allClearUISizeDeltaX: {fileID: 416237832}
-  allClearUISizeDeltaY: {fileID: 416237832}
-  allClearUILocalEulerAnglesZ: {fileID: 416237832}
-  allClearUILocalScale: {fileID: 416237832}
-  allClearUILocalScaleX: {fileID: 416237832}
-  allClearUILocalScaleY: {fileID: 416237832}
-  allClearUITextTMPAnchoredPosition: {fileID: 893128046}
-  allClearUITextTMPAnchoredPositionX: {fileID: 893128046}
-  allClearUITextTMPAnchoredPositionY: {fileID: 893128046}
-  allClearUITextTMPSizeDelta: {fileID: 893128046}
-  allClearUITextTMPSizeDeltaX: {fileID: 893128046}
-  allClearUITextTMPSizeDeltaY: {fileID: 893128046}
-  allClearUITextTMPLocalEulerAnglesZ: {fileID: 893128046}
+  magnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  tweenDuration: 0.25
+  visibleDuration: 1
+  allClearParticle: {fileID: 0}
   allClearUITextTMPLocalScale: {fileID: 893128046}
-  allClearUITextTMPLocalScaleX: {fileID: 893128046}
-  allClearUITextTMPLocalScaleY: {fileID: 893128046}
-  allClearUITextTMPText: {fileID: 893128049}
-  allClearUITextTMPColor: {fileID: 893128049}
   allClearUITextTMPColorA: {fileID: 893128049}
 --- !u!1001 &419437304
 PrefabInstance:
@@ -9100,7 +9083,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 616.92, y: 117.19}
+  m_SizeDelta: {x: 556.53, y: 140.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893128047
 MonoBehaviour:
@@ -9183,14 +9166,14 @@ MonoBehaviour:
   m_ShadowMode: 4
   m_ShadowDistance: {x: 8, y: 8}
   m_ShadowIteration: 1
-  m_ShadowFade: 0.9
+  m_ShadowFade: 1
   m_ShadowMirrorScale: 0.5
   m_ShadowBlurIntensity: 1
   m_ShadowColorFilter: 4
-  m_ShadowColor: {r: 0.054512277, g: 0.15078706, b: 0.46226418, a: 1}
+  m_ShadowColor: {r: 0.07778564, g: 0.14256369, b: 0.3584906, a: 1}
   m_ShadowColorGlow: 0
-  m_GradationMode: 4
-  m_GradationIntensity: 1
+  m_GradationMode: 2
+  m_GradationIntensity: 0.806
   m_GradationColorFilter: 1
   m_GradationColor1: {r: 1, g: 1, b: 1, a: 1}
   m_GradationColor2: {r: 1, g: 1, b: 1, a: 1}
@@ -9199,21 +9182,21 @@ MonoBehaviour:
   m_GradationGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.19045192, b: 0, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
+    key1: {r: 1, g: 0.6617902, b: 0, a: 1}
+    key2: {r: 0.5531815, g: 1, b: 0, a: 0}
+    key3: {r: 0, g: 1, b: 0.7019229, a: 0}
+    key4: {r: 0, g: 0.8253043, b: 0.75941086, a: 0}
+    key5: {r: 0, g: 0.09419727, b: 1, a: 0}
+    key6: {r: 0.946939, g: 0, b: 1, a: 0}
+    key7: {r: 1, g: 0, b: 0.55149746, a: 0}
     ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
+    ctime1: 10365
+    ctime2: 21458
+    ctime3: 31629
+    ctime4: 40009
+    ctime5: 47565
+    ctime6: 56671
+    ctime7: 62871
     atime0: 0
     atime1: 65535
     atime2: 0
@@ -9224,9 +9207,9 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: 0
-    m_NumColorKeys: 2
+    m_NumColorKeys: 8
     m_NumAlphaKeys: 2
-  m_GradationOffset: 0
+  m_GradationOffset: 1
   m_GradationScale: 1
   m_GradationRotation: 0
   m_GradationWrapMode: 0
@@ -9287,7 +9270,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Prefect Clear!
+  m_text: ALL Clear!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -9296,8 +9279,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9314,8 +9297,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11763,7 +11746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::BlockBreakGlowEffect
   glowEffectSpriteRenderer: {fileID: 1352461728}
-  inGameEventChannelSO: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
+  magnetGameEventChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
   glowEffectParticle: {fileID: 606623787}
 --- !u!212 &1352461728
 SpriteRenderer:

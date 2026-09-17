@@ -4,6 +4,7 @@
 
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
+| `all-clear-ui` | 올클리어 텍스트 트윈 및 선택적 파티클 | — | [phases.md](./Implementations/all-clear-ui/phases.md) | Phase 1 구현 및 Editor 코드 검증 완료 · 실제 씬 Play 확인 대기 |
 | `revive-ui` | 부활 제안 UI | — | [phases.md](./Implementations/revive-ui/phases.md) | Phase 1 완료 |
 | `toggle-active-button` | 여러 토글 버튼 Inspector 지정 | — | [phases.md](./Implementations/toggle-active-button/phases.md) | Phase 1 구현 완료 · Unity 검증 대기 |
 
@@ -37,3 +38,6 @@ Docs/
 
 - **`phaseN.md`** — 목표(완료 기준) · 구현 내용(클래스·책임·방식 상세) · 범위 밖 · 코드·에셋 맵
 - **`sequenceN.md`** — `## N — 날짜 · 제목` 섹션을 순서대로 추가 (파일 분리 X). 각 항목: **바뀐 것**(생성/수정/삭제 파일) · **메모**
+
+## 입체 텍스트 셰이더
+- [extruded-text](./Implementations/extruded-text/phases.md): Phase 1 구현, Unity 셰이더 검증 완료 · 시각 QA 대기.

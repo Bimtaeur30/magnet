@@ -8,19 +8,19 @@ using UnityEngine;
 public class BlockBreakGlowEffect : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer glowEffectSpriteRenderer;
-    [SerializeField] private EventChannelSO inGameEventChannelSO;
+    [SerializeField] private EventChannelSO magnetGameEventChannel;
     [SerializeField] private ParticleSystem glowEffectParticle;
 
     private void Awake()
     {
-        inGameEventChannelSO.AddListener<BlockDestroyedEvent>(HandleBlockDestroyedEvent);
+        magnetGameEventChannel.AddListener<BlockClearedEvent >(HandleBlockClearedEvent);
     }
     private void OnDisable()
     {
-        inGameEventChannelSO.RemoveListener<BlockDestroyedEvent>(HandleBlockDestroyedEvent);
+        magnetGameEventChannel.RemoveListener<BlockClearedEvent >(HandleBlockClearedEvent);
     }
 
-    private void HandleBlockDestroyedEvent(BlockDestroyedEvent obj)
+    private void HandleBlockClearedEvent(BlockClearedEvent  obj)
     {
         LMotion.Create(0f, 1f, 0.5f).WithLoops(2, LoopType.Yoyo).Bind(alpha =>
         {
