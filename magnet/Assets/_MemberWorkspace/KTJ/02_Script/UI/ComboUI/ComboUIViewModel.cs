@@ -12,10 +12,12 @@ namespace Game.UI
 
         private MotionHandle _alphaHandle;
         private MotionHandle _scaleHandle;
+        private float scaleMultiplier = 1f;
 
-        public void ShowCombo(int combo, Vector2 position)
+        public void ShowCombo(int combo, Vector2 position, float fitScale = 1f)
         {
             StopComboAnimation();
+            scaleMultiplier = fitScale;
             ComboPosition = position;
             TextTMP1 = combo.ToString();
 
@@ -57,7 +59,7 @@ namespace Game.UI
 
         private void SetComboScale(float scale)
         {
-            ComboScale = Vector3.one * scale;
+            ComboScale = Vector3.one * (scale * scaleMultiplier);
         }
 
         private static void Cancel(ref MotionHandle handle)

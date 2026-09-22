@@ -105,9 +105,8 @@ namespace JTH.Scripts.Presentation
 
         public Vector3 GridToWorldCenter(Vector2Int grid)
         {
-            Vector2 origin = GridToWorld(grid);
-            Vector2 cellWorldSize = GridToWorld(Vector2Int.right) - GridToWorld(Vector2Int.zero);
-            return origin + cellWorldSize * 0.5f;
+            Vector2 boardLocalCenter = ((Vector2)grid + Vector2.one * 0.5f) * boardConfigSO.CellSize;
+            return (Vector2)_blocksView.transform.TransformPoint(boardLocalCenter);
         }
 
         /// <summary>
