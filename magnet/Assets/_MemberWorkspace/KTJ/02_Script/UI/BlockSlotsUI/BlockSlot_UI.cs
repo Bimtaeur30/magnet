@@ -27,6 +27,15 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
     private int _index;
     private int _skinId;
     private bool _isOccupied;
+    private bool _selectionHidden;
+
+    public void SetSelectionHidden(bool hidden)
+    {
+        _selectionHidden = hidden;
+        foreach (Image blockCell in _blockCells)
+            if (blockCell != null)
+                blockCell.enabled = !hidden;
+    }
 
     private Vector3 _originalScale;
     private MotionHandle _scaleMotion;
@@ -100,6 +109,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
             Image cellImage = cellObject.GetComponent<Image>();
             cellImage.raycastTarget = false;
+            cellImage.enabled = !_selectionHidden;
             _blockCells.Add(cellImage);
         }
 

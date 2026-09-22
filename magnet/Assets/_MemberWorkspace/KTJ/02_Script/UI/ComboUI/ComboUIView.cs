@@ -152,7 +152,31 @@ namespace Game.UI
                 new Vector3(screenPosition.x, screenPosition.y, depth));
             comboParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             comboParticle.transform.position = worldPosition;
+            SetParticleSorting();
             comboParticle.Play(true);
+        }
+
+        private void SetParticleSorting()
+        {
+            // Sorting Layer가 order보다 우선한다. 계속 증가하는 블록 order와 분리한다.
+            int layerId = SortingLayer.NameToID("ComboParticles");
+            var rootGroup = comboParticle.GetComponent<UnityEngine.Rendering.SortingGroup>();
+            if (rootGroup == null)
+                rootGroup = comboParticle.gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
+            // 부모의 SortingGroup이 블록 레이어에 묶어 두지 않도록 독립 정렬한다.
+            rootGroup.sortAtRoot = true;
+
+            foreach (var renderer in comboParticle.GetComponentsInChildren<ParticleSystemRenderer>(true))
+            {
+                renderer.sortingLayerID = layerId;
+                renderer.sortingOrder = short.MaxValue;
+            }
+
+            foreach (var group in comboParticle.GetComponentsInChildren<UnityEngine.Rendering.SortingGroup>(true))
+            {
+                group.sortingLayerID = layerId;
+                group.sortingOrder = short.MaxValue;
+            }
         }
     }
 }

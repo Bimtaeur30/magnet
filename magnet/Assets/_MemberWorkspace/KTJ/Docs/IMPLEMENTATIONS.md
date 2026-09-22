@@ -4,7 +4,8 @@
 
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
-| `nice-combo-layout` | 따봉 칸 중심 및 콤보 화면 제한 | — | [phases.md](./Implementations/nice-combo-layout/phases.md) | Phase 1 Unity 컴파일·Editor 수치 검증 완료 (2026-09-23) · 실제 씬 시각 확인 대기 |
+| `slot-drag-visibility` | 선택 슬롯 숨김 및 취소 복구 | — | [phases.md](./Implementations/slot-drag-visibility/phases.md) | Phase 1 Unity 컴파일·Editor 코드 검증 완료 · 실제 Play 입력 확인 대기 |
+| `nice-combo-layout` | 따봉 칸 중심·콤보 화면 제한·파티클 정렬 | — | [phases.md](./Implementations/nice-combo-layout/phases.md) | Phase 1 Unity 컴파일·Editor 수치/정렬 검증 완료 (2026-09-23) · 실제 씬 시각 확인 대기 |
 | `all-clear-ui` | 올클리어 텍스트 트윈·Gradation 및 올클리어/콤보 파티클 | — | [phases.md](./Implementations/all-clear-ui/phases.md) | Phase 1 Gradation/콤보 파티클 추가 및 Unity 컴파일·Editor 코드 검증 완료 (2026-09-23) · 실제 씬 시각 확인 대기 |
 | `revive-ui` | 부활 제안 UI | — | [phases.md](./Implementations/revive-ui/phases.md) | Phase 1 완료 |
 | `toggle-active-button` | 여러 토글 버튼 Inspector 지정 | — | [phases.md](./Implementations/toggle-active-button/phases.md) | Phase 1 구현 완료 · Unity 검증 대기 |
