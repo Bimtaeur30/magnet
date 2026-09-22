@@ -3,6 +3,7 @@
     public enum SkinUnlockTypeEnum
     {
         Default,
-        Stage
+        Stage,
+        Score
     }
 }

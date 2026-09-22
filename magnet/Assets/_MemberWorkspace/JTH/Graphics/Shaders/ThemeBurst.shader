@@ -5,6 +5,7 @@ Shader "Magnet/ThemeBurst"
         _Tint ("Tint", Color) = (1,1,1,1)
         _Mode ("Theme Mode", Float) = 0
         _Softness ("Edge Softness", Range(.001,.15)) = .025
+        [Toggle] _UseVertexColor ("Use Vertex Color", Float) = 0
     }
     SubShader
     {
@@ -22,6 +23,7 @@ Shader "Magnet/ThemeBurst"
             float4 _Tint;
             float _Mode;
             float _Softness;
+            float _UseVertexColor;
             struct A { float4 positionOS:POSITION; float4 color:COLOR; float2 uv:TEXCOORD0; };
             struct V { float4 positionCS:SV_POSITION; float4 color:COLOR; float2 uv:TEXCOORD0; };
             V vert(A v) { V o; o.positionCS=TransformObjectToHClip(v.positionOS.xyz); o.color=v.color; o.uv=v.uv; return o; }
@@ -44,6 +46,7 @@ Shader "Magnet/ThemeBurst"
                 else shape=1-smoothstep(.74,.74+_Softness,r*(1+.1*sin(a*3+.4)+.07*sin(a*5+1.7))); // ink blot
                 float rim=saturate(r)*shape;
                 float3 col=lerp(_Tint.rgb*.55,_Tint.rgb*1.35+.08,rim)+extra;
+                col*=lerp(1,i.color.rgb,_UseVertexColor); // 파티클 Start Color 반영 (기본 꺼짐)
                 return half4(col,shape*i.color.a);
             }
             ENDHLSL

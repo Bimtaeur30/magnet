@@ -11,7 +11,7 @@ namespace PTY.Scripts.Save.Local
     {
         private const string FileName = "save.json";
 
-        private static string FilePath => Path.Combine(Application.persistentDataPath, FileName);
+        public static string FilePath => Path.Combine(Application.persistentDataPath, FileName);
 
         public GameSaveData Load()
         {
