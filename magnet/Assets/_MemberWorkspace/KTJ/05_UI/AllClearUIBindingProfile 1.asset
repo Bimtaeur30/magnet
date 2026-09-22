@@ -18,7 +18,7 @@ MonoBehaviour:
   viewModelClassName: AllClearUIViewModel
   outputFolder: Assets/_MemberWorkspace/KTJ/02_Script/UI/AllClearUI
   bindings:
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition
@@ -26,7 +26,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIPosition
     valueType: UnityEngine.Vector2
     fieldName: allClearUIAnchoredPosition
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.x
@@ -34,7 +34,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIX
     valueType: float
     fieldName: allClearUIAnchoredPositionX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.y
@@ -42,7 +42,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIY
     valueType: float
     fieldName: allClearUIAnchoredPositionY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta
@@ -50,7 +50,7 @@ MonoBehaviour:
     viewModelMember: AllClearUISize
     valueType: UnityEngine.Vector2
     fieldName: allClearUISizeDelta
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.x
@@ -58,7 +58,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIWidth
     valueType: float
     fieldName: allClearUISizeDeltaX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.y
@@ -66,7 +66,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIHeight
     valueType: float
     fieldName: allClearUISizeDeltaY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z
@@ -74,7 +74,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIRotationZ
     valueType: float
     fieldName: allClearUILocalEulerAnglesZ
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: localScale
@@ -82,7 +82,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIScale
     valueType: UnityEngine.Vector3
     fieldName: allClearUILocalScale
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.x
@@ -90,7 +90,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIScaleX
     valueType: float
     fieldName: allClearUILocalScaleX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.y
@@ -98,7 +98,7 @@ MonoBehaviour:
     viewModelMember: AllClearUIScaleY
     valueType: float
     fieldName: allClearUILocalScaleY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition
@@ -106,7 +106,7 @@ MonoBehaviour:
     viewModelMember: TextTMPPosition
     valueType: UnityEngine.Vector2
     fieldName: allClearUITextTMPAnchoredPosition
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.x
@@ -114,7 +114,7 @@ MonoBehaviour:
     viewModelMember: TextTMPX
     valueType: float
     fieldName: allClearUITextTMPAnchoredPositionX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: anchoredPosition.y
@@ -122,7 +122,7 @@ MonoBehaviour:
     viewModelMember: TextTMPY
     valueType: float
     fieldName: allClearUITextTMPAnchoredPositionY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta
@@ -130,7 +130,7 @@ MonoBehaviour:
     viewModelMember: TextTMPSize
     valueType: UnityEngine.Vector2
     fieldName: allClearUITextTMPSizeDelta
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.x
@@ -138,7 +138,7 @@ MonoBehaviour:
     viewModelMember: TextTMPWidth
     valueType: float
     fieldName: allClearUITextTMPSizeDeltaX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: sizeDelta.y
@@ -146,7 +146,7 @@ MonoBehaviour:
     viewModelMember: TextTMPHeight
     valueType: float
     fieldName: allClearUITextTMPSizeDeltaY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: localEulerAngles.z
@@ -162,7 +162,7 @@ MonoBehaviour:
     viewModelMember: TextTMPScale
     valueType: UnityEngine.Vector3
     fieldName: allClearUITextTMPLocalScale
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.x
@@ -170,7 +170,7 @@ MonoBehaviour:
     viewModelMember: TextTMPScaleX
     valueType: float
     fieldName: allClearUITextTMPLocalScaleX
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: UnityEngine.RectTransform
     targetProperty: localScale.y
@@ -178,7 +178,7 @@ MonoBehaviour:
     viewModelMember: TextTMPScaleY
     valueType: float
     fieldName: allClearUITextTMPLocalScaleY
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: TMPro.TextMeshProUGUI
     targetProperty: text
@@ -186,7 +186,7 @@ MonoBehaviour:
     viewModelMember: TextTMP
     valueType: string
     fieldName: allClearUITextTMPText
-  - enabled: 1
+  - enabled: 0
     objectPath: AllClearUI/Text (TMP)
     componentType: TMPro.TextMeshProUGUI
     targetProperty: color

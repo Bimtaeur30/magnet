@@ -1,0 +1,5 @@
+{
+  "name": "Magnet.KTJ.ExtrudedText.Editor",
+  "references": ["Unity.TextMeshPro", "UnityEngine.UI"],
+  "includePlatforms": ["Editor"]
+}
