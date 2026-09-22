@@ -59,6 +59,10 @@ ShaderVariantCollection:
         passType: 0
       - keywords: COLOR_FILTER EDGE_SHINY
         passType: 0
+      - keywords: COLOR_FILTER GRADATION_COLOR2
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_COLOR4
+        passType: 0
       - keywords: COLOR_FILTER GRADATION_GRADIENT
         passType: 0
       - keywords: COLOR_FILTER GRADATION_GRADIENT UNITY_UI_ALPHACLIP

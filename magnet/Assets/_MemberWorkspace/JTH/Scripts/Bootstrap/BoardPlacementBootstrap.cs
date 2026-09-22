@@ -5,7 +5,6 @@ using JTH.Scripts.Domain.Board;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
 using JTH.Scripts.Domain.Spawn;
-using JTH.Scripts.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using Magnet.Core.Events;

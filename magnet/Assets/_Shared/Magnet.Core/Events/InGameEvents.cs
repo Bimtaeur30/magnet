@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using GameLib.EventChannelSystem;
-using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 
-namespace JTH.Scripts.Events
+namespace Magnet.Core.Events
 {
     public static class InGameEvents
     {
@@ -29,10 +27,10 @@ namespace JTH.Scripts.Events
     
     public sealed class BlockCreatedEvent : GameEvent
     {
-        public IReadOnlyList<Block> Blocks { get; private set; }
+        public IReadOnlyList<IBlockSkinTarget> Blocks { get; private set; }
         public int SkinId { get; private set; }
 
-        public BlockCreatedEvent Init(IReadOnlyList<Block> blocks, int skinId)
+        public BlockCreatedEvent Init(IReadOnlyList<IBlockSkinTarget> blocks, int skinId)
         {
             Blocks = blocks;
             SkinId = skinId;
@@ -43,9 +41,9 @@ namespace JTH.Scripts.Events
     
     public sealed class BlockDestroyedEvent : GameEvent
     {
-        public Block Block { get; private set; }
+        public IBlockSkinTarget Block { get; private set; }
 
-        public BlockDestroyedEvent Init(Block block)
+        public BlockDestroyedEvent Init(IBlockSkinTarget block)
         {
             Block = block;
             

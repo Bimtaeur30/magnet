@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using JTH.Scripts.Domain.Clear;
-using Magnet.Contracts;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace JTH.Scripts.Domain.Placement
+namespace Magnet.Contracts
 {
     public sealed class PlacementResult
     {

@@ -4,7 +4,7 @@ using JTH.Scripts.Bootstrap;
 using JTH.Scripts.Data;
 using JTH.Scripts.Domain.Clear;
 using JTH.Scripts.Domain.Placement;
-using JTH.Scripts.Events;
+using Magnet.Core.Events;
 using JTH.Scripts.Presentation;
 using Magnet.Contracts;
 using Reflex.Attributes;

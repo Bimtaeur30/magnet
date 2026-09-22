@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JTH.Scripts.Domain.Clear
+namespace Magnet.Contracts
 {
     public readonly struct Line
     {
