@@ -125,6 +125,7 @@ namespace JTH.Scripts.Bootstrap
                 return;
             }
 
+            Debug.Log("[GameFeedbackBootstrap] Vibrate called");
             VibrationSettings.Vibrate();
         }
     }
