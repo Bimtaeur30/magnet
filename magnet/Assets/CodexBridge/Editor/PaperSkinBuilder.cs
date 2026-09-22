@@ -157,6 +157,7 @@ namespace CodexBridge
             var renderer = go.GetComponent<ParticleSystemRenderer>();
             renderer.sharedMaterial = material;
             renderer.sortingOrder = 55;
+            SkinBurstMotion.ConfigurePaper(go);
             var pooled = go.AddComponent<PooledParticleEffect>();
             var serialized = new SerializedObject(pooled);
             serialized.FindProperty("rootParticleSystem").objectReferenceValue = particle;

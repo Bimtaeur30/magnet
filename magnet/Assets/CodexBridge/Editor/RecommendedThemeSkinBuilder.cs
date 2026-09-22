@@ -113,6 +113,26 @@ namespace CodexBridge
             Debug.Log("[Codex] Updated Cloud line-clear effects to rising evaporation.");
         }
 
+        [MenuItem("Tools/Codex/Update Themed Motion Line Clear Effects")]
+        public static void UpdateThemeMotionEffects()
+        {
+            foreach (Theme theme in Themes)
+            {
+                if (theme.Mode == 2) continue;
+                for (int i = 0; i < 8; i++)
+                {
+                    string path = $"{Root}/{theme.Id}/Prefabs/{theme.Id}Burst_{i}.prefab";
+                    GameObject root = PrefabUtility.LoadPrefabContents(path);
+                    if (theme.Mode == 1) SkinBurstMotion.AddLavaEmbers(root);
+                    else ConfigureThemeMotion(theme.Mode, root);
+                    PrefabUtility.SaveAsPrefabAsset(root, path);
+                    PrefabUtility.UnloadPrefabContents(root);
+                }
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Codex] Updated recommended theme line-clear effects with per-theme motion.");
+        }
+
         public static void UpdateSlimeAndCloudLineClearEffects()
         {
             SlimeSkinBuilder.UpdateSlimeFlowLineClearEffects();
@@ -180,7 +200,8 @@ namespace CodexBridge
             var color=ps.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(Color.white,0),new GradientColorKey(theme.Colors[index],1)},alphaKeys=new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(.8f,.55f),new GradientAlphaKey(0,1)}});
             var renderer=go.GetComponent<ParticleSystemRenderer>(); renderer.sharedMaterial=mat; renderer.sortingOrder=55;
             if(theme.Mode==1) ConfigureLavaFlow(ps,renderer);
-            if(theme.Mode==2) ConfigureCloudEvaporation(ps,renderer);
+            else if(theme.Mode==2) ConfigureCloudEvaporation(ps,renderer);
+            else ConfigureThemeMotion(theme.Mode,go);
             var pooled=go.AddComponent<PooledParticleEffect>(); var pso=new SerializedObject(pooled); pso.FindProperty("rootParticleSystem").objectReferenceValue=ps; pso.FindProperty("particleRenderer").objectReferenceValue=renderer; pso.ApplyModifiedPropertiesWithoutUndo();
             string prefabPath=$"{root}/Prefabs/{theme.Id}Burst_{index}.prefab"; GameObject prefab=PrefabUtility.SaveAsPrefabAsset(go,prefabPath); UnityEngine.Object.DestroyImmediate(go);
             string itemPath=$"{root}/Pool/{theme.Id}Burst_{index}.asset"; var item=AssetDatabase.LoadAssetAtPath<PoolItemSO>(itemPath)??ScriptableObject.CreateInstance<PoolItemSO>(); item.name=$"{theme.Id}Burst_{index}"; item.itemName=item.name; item.prefab=prefab; item.initCount=12; if(!AssetDatabase.Contains(item)) AssetDatabase.CreateAsset(item,itemPath);
@@ -198,6 +219,7 @@ namespace CodexBridge
             var trails=ps.trails; trails.enabled=true; trails.ratio=.72f; trails.lifetime=new ParticleSystem.MinMaxCurve(.12f,.28f); trails.dieWithParticles=true; trails.widthOverTrail=new ParticleSystem.MinMaxCurve(1f,new AnimationCurve(new Keyframe(0,1f),new Keyframe(1,0f)));
             var color=ps.colorOverLifetime; color.enabled=true; color.color=new ParticleSystem.MinMaxGradient(new Gradient{colorKeys=new[]{new GradientColorKey(new Color(1.35f,.82f,.25f),0),new GradientColorKey(Color.white,.22f),new GradientColorKey(new Color(.42f,.08f,.02f),1)},alphaKeys=new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(.9f,.58f),new GradientAlphaKey(0,1)}});
             renderer.renderMode=ParticleSystemRenderMode.Billboard; renderer.alignment=ParticleSystemRenderSpace.View; renderer.sortingOrder=55; renderer.trailMaterial=renderer.sharedMaterial;
+            SkinBurstMotion.AddLavaEmbers(ps.gameObject);
         }
 
         static void ConfigureCloudEvaporation(ParticleSystem ps, ParticleSystemRenderer renderer)
@@ -212,6 +234,86 @@ namespace CodexBridge
             var trails=ps.trails; trails.enabled=false;
             renderer.renderMode=ParticleSystemRenderMode.Billboard; renderer.alignment=ParticleSystemRenderSpace.View; renderer.sortingOrder=55; renderer.trailMaterial=null;
         }
+
+        // 테마별로 모양뿐 아니라 움직임 자체가 다르게 보이도록 구성한다.
+        static void ConfigureThemeMotion(int mode,GameObject root)
+        {
+            var ps=root.GetComponent<ParticleSystem>(); var renderer=root.GetComponent<ParticleSystemRenderer>();
+            SkinBurstMotion.Reset(ps,renderer);
+            SkinBurstMotion.RemoveChild(root,"Crumbs"); SkinBurstMotion.RemoveChild(root,"BounceFloor");
+            var main=ps.main; var emission=ps.emission; var shape=ps.shape; var color=ps.colorOverLifetime;
+            var size=ps.sizeOverLifetime; var rotation=ps.rotationOverLifetime; var velocity=ps.velocityOverLifetime; var limit=ps.limitVelocityOverLifetime;
+            switch(mode)
+            {
+                case 0: // Ice: 날카로운 파편이 빠르게 튀며 회전하다 떨어짐
+                    main.duration=.6f; main.startLifetime=R(.3f,.55f); main.startSpeed=R(2.4f,4.4f); main.startSize3D=true; main.startSizeX=R(.06f,.11f); main.startSizeY=R(.15f,.3f); main.startSizeZ=.1f; main.startRotation=R(0f,Mathf.PI*2f); main.gravityModifier=1.25f; main.maxParticles=20;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,10,15)}); shape.radius=.12f;
+                    rotation.enabled=true; rotation.z=R(-12f,12f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,1),(.7f,1),(1,.2f));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.75f,1),(1,0));
+                    break;
+                case 3: // Hologram: 픽셀이 위로 흩어지며 깜빡이다 꺼짐
+                    main.duration=.9f; main.startLifetime=R(.45f,.85f); main.startSpeed=0f; main.startSize=R(.05f,.1f); main.maxParticles=32;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,18,26)}); shape.shapeType=ParticleSystemShapeType.Rectangle; shape.scale=new Vector3(.46f,.46f,1f);
+                    velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.Local; velocity.x=R(-.08f,.08f); velocity.y=R(.25f,.75f); velocity.z=R(0f,0f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,1),(.55f,1),(.56f,.6f),(.85f,.6f),(.86f,.3f),(1,.3f));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.18f,.25f),(.3f,1),(.45f,.35f),(.58f,.9f),(.72f,.2f),(.84f,.7f),(1,0));
+                    break;
+                case 4: // Galaxy: 중심에서 나선팔을 그리며 돌아나가고 반짝임
+                    // 버스트 한 번이면 고리째 돌기만 하므로, 짧게 연속 방출해 나선팔이 생기게 한다.
+                    main.duration=.4f; main.startLifetime=R(.75f,1.05f); main.startSpeed=R(.05f,.15f); main.startSize=R(.06f,.16f); main.startRotation=R(0f,Mathf.PI*2f); main.maxParticles=30;
+                    emission.rateOverTime=55f; emission.SetBursts(new[]{new ParticleSystem.Burst(0,3,5)}); shape.shapeType=ParticleSystemShapeType.Circle; shape.radius=.03f; shape.arc=360f; shape.arcMode=ParticleSystemShapeMultiModeValue.Loop; shape.arcSpeed=2.2f;
+                    velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.Local; velocity.x=R(0f,0f); velocity.y=R(0f,0f); velocity.z=R(0f,0f);
+                    velocity.orbitalX=R(0f,0f); velocity.orbitalY=R(0f,0f); velocity.orbitalZ=R(4.5f,6.5f); velocity.radial=R(.45f,.8f);
+                    rotation.enabled=true; rotation.z=R(1.5f,4f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,0),(.1f,1),(.28f,.5f),(.46f,1.1f),(.64f,.5f),(.82f,.9f),(1,0));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.7f,.9f),(1,0));
+                    break;
+                case 5: // Chocolate: 좁은 분수처럼 조각이 솟구쳐 돌고, 가루 부스러기가 흩뿌려짐
+                    main.duration=.9f; main.startLifetime=R(.55f,.85f); main.startSpeed=R(2.8f,4f); main.startSize3D=true; main.startSizeX=R(.1f,.2f); main.startSizeY=R(.08f,.16f); main.startSizeZ=.1f; main.startRotation=R(0f,Mathf.PI*2f); main.gravityModifier=1.6f; main.maxParticles=12;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,5,8)}); shape.shapeType=ParticleSystemShapeType.Cone; shape.angle=18f; shape.radius=.16f; shape.rotation=new Vector3(-90f,0f,0f);
+                    rotation.enabled=true; rotation.z=R(-9f,9f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,1),(.8f,1),(1,.35f));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.8f,1),(1,0));
+                    SkinBurstMotion.AddChocolateCrumbs(root);
+                    break;
+                case 6: // Candy: 톡 부풀어 튀어오른 뒤 그대로 떨어짐
+                    main.duration=1.2f; main.startLifetime=R(.9f,1.2f); main.startSpeed=R(1.6f,2.8f); main.startSize=R(.08f,.17f); main.startRotation=R(0f,Mathf.PI*2f); main.gravityModifier=1.5f; main.maxParticles=18;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,9,13)}); shape.shapeType=ParticleSystemShapeType.Cone; shape.angle=55f; shape.radius=.14f; shape.rotation=new Vector3(-90f,0f,0f);
+                    rotation.enabled=true; rotation.z=R(-8f,8f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,.2f),(.08f,1.3f),(.16f,.92f),(.24f,1.05f),(.85f,1),(1,0));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.85f,1),(1,0));
+                    break;
+                case 7: // Wood: 진행 방향으로 늘어나는 가시 조각
+                    main.duration=.7f; main.startLifetime=R(.35f,.6f); main.startSpeed=R(2.2f,4.2f); main.startSize=R(.06f,.11f); main.gravityModifier=.95f; main.maxParticles=20;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,10,16)}); shape.radius=.18f;
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,1),(.75f,1),(1,.3f));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.75f,1),(1,0));
+                    renderer.renderMode=ParticleSystemRenderMode.Stretch; renderer.velocityScale=.04f; renderer.lengthScale=2.6f;
+                    break;
+                case 8: // Fabric: 보풀이 좌우로 살랑이며 천천히 가라앉음
+                    main.duration=1.5f; main.startLifetime=R(1f,1.5f); main.startSpeed=R(.6f,1.2f); main.startSize=R(.08f,.17f); main.startRotation=R(0f,Mathf.PI*2f); main.gravityModifier=R(.12f,.2f); main.maxParticles=20;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,10,15)}); shape.radius=.2f;
+                    var sway=new AnimationCurve(new Keyframe(0,0),new Keyframe(.2f,.7f),new Keyframe(.45f,-.6f),new Keyframe(.7f,.5f),new Keyframe(1,-.3f));
+                    var swayInv=new AnimationCurve(new Keyframe(0,0),new Keyframe(.2f,-.7f),new Keyframe(.45f,.6f),new Keyframe(.7f,-.5f),new Keyframe(1,.3f));
+                    var flat=new AnimationCurve(new Keyframe(0,0),new Keyframe(1,0));
+                    velocity.enabled=true; velocity.space=ParticleSystemSimulationSpace.Local; velocity.x=new ParticleSystem.MinMaxCurve(1f,sway,swayInv); velocity.y=new ParticleSystem.MinMaxCurve(1f,flat,flat); velocity.z=new ParticleSystem.MinMaxCurve(1f,flat,flat);
+                    limit.enabled=true; limit.limit=.8f; limit.dampen=.12f;
+                    rotation.enabled=true; rotation.z=R(-2.5f,2.5f);
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,.6f),(.2f,1),(1,.7f));
+                    color.color=SkinBurstMotion.Alpha((0,.95f),(.6f,.8f),(1,0));
+                    break;
+                case 9: // Ink: 크고 작은 방울이 확 튀어 멈춘 뒤, 번지면서 천천히 흘러내림
+                    main.duration=1.1f; main.startLifetime=R(.7f,1.05f); main.startSpeed=R(2.4f,4.6f); main.startSize=R(.04f,.26f); main.startRotation=R(0f,Mathf.PI*2f); main.gravityModifier=.45f; main.maxParticles=22;
+                    emission.SetBursts(new[]{new ParticleSystem.Burst(0,11,16)}); shape.radius=.08f;
+                    limit.enabled=true; limit.limit=.14f; limit.dampen=.35f;
+                    size.enabled=true; size.size=SkinBurstMotion.Curve((0,.55f),(.15f,1),(.7f,1.3f),(1,1.1f));
+                    color.color=SkinBurstMotion.Alpha((0,1),(.6f,.95f),(1,0));
+                    break;
+            }
+        }
+
+        static ParticleSystem.MinMaxCurve R(float min,float max)=>new ParticleSystem.MinMaxCurve(min,max);
 
         static void CreateSkin(Theme theme,Sprite[] sprites,AnimationClip hint,PoolItemSO[] effects)
         {

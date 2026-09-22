@@ -161,7 +161,7 @@ namespace JTH.Scripts.Bootstrap
             }
 
             LastHandWasPerfect = _handOptimal.IsValid && _handClearedLines == _handOptimal.MaxClearedLines;
-            LogHandCompare();
+            // LogHandCompare(); // 임시 비활성화
             _playerMoves.Clear();
         }
 
@@ -225,7 +225,7 @@ namespace JTH.Scripts.Bootstrap
 
             _supply.Fill(context);
             SolveHandOptimal();
-            LogDeal();
+            // LogDeal(); // 임시 비활성화
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
 
@@ -249,7 +249,7 @@ namespace JTH.Scripts.Bootstrap
             _handStartScore = currentScore;
             _supply.FillFrom(cellOffsetsList);
             SolveHandOptimal();
-            LogDeal();
+            // LogDeal(); // 임시 비활성화
             magnetGameChannel.RaiseEvent(MagnetGameEvents.BlockCandidatesUpdatedEvent.Init(_supply.Candidates));
         }
 

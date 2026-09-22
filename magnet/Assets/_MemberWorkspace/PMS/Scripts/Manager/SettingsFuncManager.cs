@@ -1,6 +1,7 @@
 ﻿using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
 using Magnet.Core.SceneTransition;
+using Magnet.Core.Settings;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
@@ -20,14 +21,19 @@ namespace PMS.Scripts.Manager
         [Header("Scene")]
         [SerializeField] private string titleSceneName = "TitleScene";
 
-        private bool isVibrationOn = true;
         private bool isBgmOn = true;
         private bool isSfxOn = true;
 
         // 진동 토글 (UI에 연결할.)
         public void ToggleVibration()
         {
-            isVibrationOn = !isVibrationOn;
+            VibrationSettings.IsEnabled = !VibrationSettings.IsEnabled;
+        }
+
+        // 진동 토글의 OnToggleChanged(bool)에 연결.
+        public void SetVibrationEnabled(bool isOn)
+        {
+            VibrationSettings.IsEnabled = isOn;
         }
 
         // BGM 토글 (UI에 연결할.)
@@ -75,11 +81,7 @@ namespace PMS.Scripts.Manager
         // 휴대폰을 진동 시켜줌
         public void PlayVibration()
         {
-            if (!isVibrationOn) return;
-
-            #if UNITY_ANDROID || UNITY_IOS
-            Handheld.Vibrate();
-            #endif
+            VibrationSettings.Vibrate();
         }
 
         // 타이틀로. 타이틀 인덱스가 0이면 주석에 있는거 써도 됨

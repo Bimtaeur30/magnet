@@ -31,18 +31,19 @@ Shader "Magnet/ThemeBurst"
                 float r=length(p);
                 float a=atan2(p.y,p.x);
                 float shape;
-                if (_Mode < .5) shape=1-smoothstep(.66,.66+_Softness,max(abs(p.x+p.y*.42),abs(p.y-p.x*.25))); // ice
+                float3 extra=0;
+                if (_Mode < .5) shape=1-smoothstep(.9,.9+_Softness,abs(p.x+p.y*.18)/.42+abs(p.y)/.98); // ice shard
                 else if (_Mode < 1.5) shape=1-smoothstep(.76,.76+_Softness,r*(1+.15*sin(a*5))); // lava
                 else if (_Mode < 2.5) { float c=min(length(p-float2(-.22,.05)),min(length(p-float2(.22,.06)),length(p-float2(0,-.18)))); shape=1-smoothstep(.45,.45+_Softness,c); }
-                else if (_Mode < 3.5) shape=(1-smoothstep(.66,.66+_Softness,max(abs(p.x),abs(p.y)))); // pixels
-                else if (_Mode < 4.5) shape=1-smoothstep(.7,.7+_Softness,r*(.72+.28*abs(sin(a*5)))); // stars
-                else if (_Mode < 5.5) shape=1-smoothstep(.7,.7+_Softness,max(abs(p.x),abs(p.y))); // crumbs
-                else if (_Mode < 6.5) shape=1-smoothstep(.68,.68+_Softness,max(abs(p.x+p.y*.3),abs(p.y-p.x*.3))); // candy
-                else if (_Mode < 7.5) shape=1-smoothstep(.7,.7+_Softness,max(abs(p.x),abs(p.y*.42))); // wood chip
-                else if (_Mode < 8.5) shape=1-smoothstep(.68,.68+_Softness,max(abs(p.x+p.y*.24),abs(p.y))); // fabric
-                else shape=1-smoothstep(.76,.76+_Softness,r*(1+.2*sin(a*7))); // ink
+                else if (_Mode < 3.5) { shape=1-smoothstep(.66,.66+_Softness,max(abs(p.x),abs(p.y))); shape*=.62+.38*step(.5,frac(i.uv.y*3)); } // pixels + scanline
+                else if (_Mode < 4.5) { shape=1-smoothstep(.7,.7+_Softness,r*(.72+.28*abs(sin(a*2.5)))); extra=(1-smoothstep(0,.35,r)).xxx*.5; } // 5-point star + core
+                else if (_Mode < 5.5) shape=1-smoothstep(.72,.72+_Softness,r*(1+.14*sin(a*3+.7)+.08*sin(a*7+2.1))); // lumpy crumb
+                else if (_Mode < 6.5) { shape=1-smoothstep(.74,.74+_Softness,r); extra=(1-smoothstep(0,.22,length(p-float2(-.28,.3)))).xxx*.75; } // glossy candy
+                else if (_Mode < 7.5) shape=1-smoothstep(.9,.9+_Softness,abs(p.x)/.98+abs(p.y)/.34); // wood splinter
+                else if (_Mode < 8.5) shape=(1-smoothstep(.42,.86,r*(1+.06*sin(a*4))))*(.72+.28*sin((p.x-p.y)*14)); // fabric fluff with weave
+                else shape=1-smoothstep(.74,.74+_Softness,r*(1+.1*sin(a*3+.4)+.07*sin(a*5+1.7))); // ink blot
                 float rim=saturate(r)*shape;
-                float3 col=lerp(_Tint.rgb*.55,_Tint.rgb*1.35+.08,rim);
+                float3 col=lerp(_Tint.rgb*.55,_Tint.rgb*1.35+.08,rim)+extra;
                 return half4(col,shape*i.color.a);
             }
             ENDHLSL

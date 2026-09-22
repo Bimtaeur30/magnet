@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DefaultGameFeedbackConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.GameFeedbackConfigSO
   <ComboTiers>k__BackingField: []
-  <ComboTierHaptics>k__BackingField: 0
+  <ComboTierHaptics>k__BackingField: 1
   <BigClearLineThreshold>k__BackingField: 3
   <BigClearSound>k__BackingField: {fileID: 0}
-  <BigClearHaptics>k__BackingField: 0
+  <BigClearHaptics>k__BackingField: 1
   <PlacementHaptics>k__BackingField: 0
-  <LineClearHaptics>k__BackingField: 0
+  <LineClearHaptics>k__BackingField: 1
