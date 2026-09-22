@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Magent.KTJ::BlockSlotContainer
   MagnetGameChannel: {fileID: 11400000, guid: b0cfd545a80a92b4e81e10413add1fc3, type: 2}
+  inGameChannel: {fileID: 11400000, guid: 37f63028654fbab4db6e5729456eca77, type: 2}
   Slots:
   - {fileID: 8712803070018963998}
   - {fileID: 4365023566007534614}

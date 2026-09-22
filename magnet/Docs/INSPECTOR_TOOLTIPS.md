@@ -261,6 +261,7 @@ Health Zone·Health Weights·Health Normalize·Blame·Hospitality·Pressure 공�
 
 | 스크립트 | 필드 | Tooltip |
 |----------|------|---------|
+| `02_Script/UI/BlockSlotsUI/BlockSlotContainer.cs` | `inGameChannel` | 블록 선택 확정과 선택 종료를 수신하는 인게임 이벤트 채널. |
 | `02_Script/UI/AllClearUI/AllClearUIView.cs` | `tweenDuration` | 텍스트 등장과 퇴장 각각의 트윈 시간(초). |
 | 〃 | `visibleDuration` | 등장 트윈 완료 후 퇴장 시작까지 유지하는 시간(초). |
 | 〃 | `allClearParticle` | 올클리어 시 함께 재생할 선택적 파티클 인스턴스. 비워도 텍스트는 정상 동작합니다. |

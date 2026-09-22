@@ -63,7 +63,7 @@ namespace JTH.Scripts.Input
             }
 
             inGameChannel?.RemoveListener<BlockSelectedEvent>(OnBlockSelected);
-            _gameBoard?.ClearLineClearHints();
+            DisconnectSelection();
         }
 
         private void Update()
@@ -159,12 +159,16 @@ namespace JTH.Scripts.Input
 
         private void DisconnectSelection()
         {
+            bool hadSelection = _selectedBlockData != null;
+            int slotIndex = _selectedSlotIndex;
             _selectedBlockData = null;
             _selectedSlotIndex = -1;
             _lastBoardPivot = null;
             _hasMoved = false;
-            _gameBoard.ClearLineClearHints();
-            _drawer.ClearAll();
+            _gameBoard?.ClearLineClearHints();
+            _drawer?.ClearAll();
+            if (hadSelection && inGameChannel != null)
+                inGameChannel.RaiseEvent(InGameEvents.BlockSelectionEndedEvent.Init(slotIndex));
         }
 
         /// <summary>

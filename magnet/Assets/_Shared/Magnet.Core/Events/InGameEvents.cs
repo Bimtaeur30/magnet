@@ -7,6 +7,7 @@ namespace Magnet.Core.Events
     public static class InGameEvents
     {
         public static readonly BlockSelectedEvent BlockSelectedEvent = new();
+        public static readonly BlockSelectionEndedEvent BlockSelectionEndedEvent = new();
         public static readonly BlockCreatedEvent BlockCreatedEvent = new();
         public static readonly BlockDestroyedEvent BlockDestroyedEvent = new();
         public static readonly BlockPlacedEvent BlockPlacedEvent = new();
@@ -25,6 +26,17 @@ namespace Magnet.Core.Events
         }
     }
     
+    public sealed class BlockSelectionEndedEvent : GameEvent
+    {
+        public int SlotIndex { get; private set; }
+
+        public BlockSelectionEndedEvent Init(int slotIndex)
+        {
+            SlotIndex = slotIndex;
+            return this;
+        }
+    }
+
     public sealed class BlockCreatedEvent : GameEvent
     {
         public IReadOnlyList<IBlockSkinTarget> Blocks { get; private set; }
