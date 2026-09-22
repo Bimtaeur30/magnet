@@ -84,6 +84,18 @@ namespace JTH.Scripts.Domain.Score
             return new PlacementScoreResult(delta, _totalScore, Combo, comboAlive);
         }
 
+        /// <summary>
+        /// 콤보를 끊는다. 점수는 유지. 죽었을 때 호출하며, 부활해도 이어지지 않는다.
+        /// </summary>
+        public void BreakCombo()
+        {
+            _chainClears = 0;
+            _clearedThisTurn = false;
+            _clearedLastTurn = false;
+            _clearedBeforeLastTurn = false;
+            _clearedTwoLineFirstDrop = false;
+        }
+
         public void Reset()
         {
             _totalScore = 0;

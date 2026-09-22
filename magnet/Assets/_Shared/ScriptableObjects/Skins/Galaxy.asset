@@ -46,6 +46,6 @@ MonoBehaviour:
   <PlaceSound>k__BackingField: {fileID: 11400000, guid: 9909f2c86548496091d756210a5f856a, type: 2}
   <LineClearSound>k__BackingField: {fileID: 11400000, guid: 69d654c11ae3468d8e2453695cb0008e, type: 2}
   icon: {fileID: -8031308981673214900, guid: 9af128ae52f1d5e44a060a021119a708, type: 3}
-  unlockType: 0
-  unlockValue: 1
-  unlockDescription: 
+  unlockType: 2
+  unlockValue: 150000
+  unlockDescription: "150,000\uC810 \uB2EC\uC131"

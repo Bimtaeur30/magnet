@@ -84,6 +84,9 @@ namespace JTH.Scripts.Bootstrap
 
             if (TurnService.IsGameOver(_gameBoard.Grid, _blockSpawnBootstrap.Candidates))
             {
+                // 광고 부활로 이어가더라도 콤보는 끊는다.
+                _scoreSession.BreakCombo();
+
                 if (TryOfferRelife())
                 {
                     return;
@@ -124,6 +127,11 @@ namespace JTH.Scripts.Bootstrap
                 SkinEvents.SkinUnlockCheckEvent.Init(
                     SkinUnlockTypeEnum.Stage,
                     _currentStage));
+
+            skinChannel.RaiseEvent(
+                SkinEvents.SkinUnlockCheckEvent.Init(
+                    SkinUnlockTypeEnum.Score,
+                    _scoreSession.TotalScore));
 
             magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(_scoreSession.TotalScore));
         }
