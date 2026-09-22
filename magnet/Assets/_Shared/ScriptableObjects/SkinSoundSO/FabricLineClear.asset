@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FabricLineClear
   m_EditorClassIdentifier: SoundSystem_Assembly::GameLib.SoundSystem.SoundClipSO
   audioType: 0
-  audioClip: {fileID: 8300000, guid: f95711c7c3ad79a4d84b769d59046004, type: 3}
+  audioClip: {fileID: 8300000, guid: 5032805835616d44ca83854bda33cd14, type: 3}
   isLoop: 0
   randomizePitch: 0
   isSpatialBlend: 0

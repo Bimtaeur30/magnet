@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5620918448878734302
 CanvasRenderer:
@@ -154,15 +154,15 @@ MonoBehaviour:
   m_BlendType: 1
   m_SrcBlendMode: 1
   m_DstBlendMode: 10
-  m_ShadowMode: 0
-  m_ShadowDistance: {x: 1, y: -1}
-  m_ShadowIteration: 5
+  m_ShadowMode: 4
+  m_ShadowDistance: {x: 1, y: 1}
+  m_ShadowIteration: 2
   m_ShadowFade: 1
   m_ShadowMirrorScale: 0.5
   m_ShadowBlurIntensity: 1
   m_ShadowColorFilter: 4
   m_ShadowColor: {r: 1024, g: 1024, b: 1024, a: 1}
-  m_ShadowColorGlow: 1
+  m_ShadowColorGlow: 0
   m_GradationMode: 4
   m_GradationIntensity: 1
   m_GradationColorFilter: 1
@@ -172,8 +172,8 @@ MonoBehaviour:
   m_GradationColor4: {r: 1, g: 1, b: 1, a: 1}
   m_GradationGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.47450984, b: 0.80128515, a: 1}
-    key1: {r: 0.7260049, g: 0.8117647, b: 0, a: 1}
+    key0: {r: 0.75786155, g: 0.7807408, b: 1, a: 1}
+    key1: {r: 0, g: 0.26888633, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}

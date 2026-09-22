@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WoodLineClear
   m_EditorClassIdentifier: SoundSystem_Assembly::GameLib.SoundSystem.SoundClipSO
   audioType: 0
-  audioClip: {fileID: 8300000, guid: 651f52031ba7fd64fae1e7e6a591289f, type: 3}
+  audioClip: {fileID: 8300000, guid: 9f537c80f84fac947a5f8794bca501bb, type: 3}
   isLoop: 0
   randomizePitch: 0
   isSpatialBlend: 0

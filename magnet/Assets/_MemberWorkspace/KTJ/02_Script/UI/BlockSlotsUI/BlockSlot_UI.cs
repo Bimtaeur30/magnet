@@ -114,7 +114,7 @@ public class BlockSlot_UI : MonoBehaviour, IPointerDownHandler
 
         _mRectTransform.localScale = _originalScale;
         _scaleMotion = LMotion
-            .Create(_originalScale, _originalScale * 1.2f, 0.25f)
+            .Create(_originalScale, _originalScale * 1.1f, 0.2f)
             .WithEase(Ease.OutQuad)
             .WithLoops(2, LoopType.Yoyo)
             .BindToLocalScale(_mRectTransform);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StoneLineClear
   m_EditorClassIdentifier: SoundSystem_Assembly::GameLib.SoundSystem.SoundClipSO
   audioType: 0
-  audioClip: {fileID: 8300000, guid: ea65167394016c7448ffd5ba40bcb360, type: 3}
+  audioClip: {fileID: 8300000, guid: d52011460ee1698459617c9b4c0809da, type: 3}
   isLoop: 0
   randomizePitch: 0
   isSpatialBlend: 0

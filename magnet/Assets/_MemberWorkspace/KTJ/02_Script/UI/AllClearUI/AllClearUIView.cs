@@ -57,6 +57,7 @@ namespace Game.UI
             float totalDuration = appearDuration + Mathf.Max(0f, visibleDuration);
             animationMotion = LMotion.Create(0f, totalDuration, totalDuration)
                 .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
+                .WithEase(Ease.OutBack)
                 .WithOnComplete(ResetVisuals)
                 .Bind(elapsed =>
                 {
