@@ -3,6 +3,7 @@ using GameLib.EventChannelSystem;
 using GameLib.SoundSystem;
 using JTH.Scripts.Data;
 using Magnet.Core.Events;
+using Magnet.Core.Settings;
 using UnityEngine;
 
 namespace JTH.Scripts.Bootstrap
@@ -115,6 +116,7 @@ namespace JTH.Scripts.Bootstrap
 
         /// <summary>
         /// 세기 구분 없는 단발 진동. 강도 차등이 필요하면 별도 네이티브 진동 플러그인 도입이 필요하다(범위 밖).
+        /// 설정 메뉴의 진동 on/off는 VibrationSettings가 처리한다.
         /// </summary>
         private void Vibrate(bool enabled)
         {
@@ -123,9 +125,8 @@ namespace JTH.Scripts.Bootstrap
                 return;
             }
 
-#if UNITY_ANDROID || UNITY_IOS
-            Handheld.Vibrate();
-#endif
+            Debug.Log("[GameFeedbackBootstrap] Vibrate called");
+            VibrationSettings.Vibrate();
         }
     }
 }

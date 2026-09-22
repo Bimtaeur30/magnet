@@ -3951,6 +3951,34 @@ PrefabInstance:
       propertyPath: isOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6199891143709726747}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetVibrationEnabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PMS.Scripts.Manager.SettingsFuncManager, Magent.PMS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756716062148966485, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
+      propertyPath: onToggleChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5802423052109459507, guid: 30714cbec9b8a7d418c31f22fbbbe11c, type: 3}
       propertyPath: m_SizeDelta.x
       value: -20

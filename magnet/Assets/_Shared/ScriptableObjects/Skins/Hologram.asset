@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: -1433091329293908853, guid: 9a9dc1cbdb8f980419d2c583e9d4bdfa, type: 3}
   - {fileID: -2445642679559444812, guid: 9a9dc1cbdb8f980419d2c583e9d4bdfa, type: 3}
   - {fileID: 8664573996991316391, guid: 9a9dc1cbdb8f980419d2c583e9d4bdfa, type: 3}
+  <RandomizeSprites>k__BackingField: 0
   <HintClips>k__BackingField:
   - {fileID: 7400000, guid: 1646b7cfdd0bd79429006064b3691dd8, type: 2}
   - {fileID: 7400000, guid: 1646b7cfdd0bd79429006064b3691dd8, type: 2}
@@ -33,14 +34,14 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 1646b7cfdd0bd79429006064b3691dd8, type: 2}
   - {fileID: 7400000, guid: 1646b7cfdd0bd79429006064b3691dd8, type: 2}
   <LineClearEffects>k__BackingField:
-  - {fileID: 11400000, guid: edfa4455977fe6c4faa99669db469e7f, type: 2}
-  - {fileID: 11400000, guid: a83bee530e145db4faa530ac074005c7, type: 2}
-  - {fileID: 11400000, guid: 6e6b4c66ff510cc4cb796843f22b8b2f, type: 2}
-  - {fileID: 11400000, guid: 1c36c5917fe80b6409b1e57751ae355a, type: 2}
-  - {fileID: 11400000, guid: 5384d2a32dc408142995792d8cc8454c, type: 2}
-  - {fileID: 11400000, guid: 030f38a18e7747942b6cd313957cf7db, type: 2}
-  - {fileID: 11400000, guid: c0dd112519a47194b879bd1e47b740c9, type: 2}
-  - {fileID: 11400000, guid: f1fa2c546ffa4c345a686f61d7bfc63d, type: 2}
+  - {fileID: 11400000, guid: 17796efa2c73df84eba6f73f0d0bfa6c, type: 2}
+  - {fileID: 11400000, guid: 3d1e116ac23374747bacba030974adda, type: 2}
+  - {fileID: 11400000, guid: b8b5a048cc4d4544c879e55dae5d3950, type: 2}
+  - {fileID: 11400000, guid: 35e3204dbd237b74c9324d3cd03ddad5, type: 2}
+  - {fileID: 11400000, guid: 0b1bb87ef6c23a64387b42cb5a60f7b9, type: 2}
+  - {fileID: 11400000, guid: cad67281099fdf547848b00383507210, type: 2}
+  - {fileID: 11400000, guid: 175ee22958e19494f92dd0bfd884856c, type: 2}
+  - {fileID: 11400000, guid: edfbac84d95ec154baee8a56fe6303bd, type: 2}
   <FireCenteredLineClear>k__BackingField: 0
   <CenterLineClearEffect>k__BackingField: {fileID: 0}
   <PlaceSound>k__BackingField: {fileID: 11400000, guid: c481ebb439cc42f5a3c1b88f405743ce, type: 2}
