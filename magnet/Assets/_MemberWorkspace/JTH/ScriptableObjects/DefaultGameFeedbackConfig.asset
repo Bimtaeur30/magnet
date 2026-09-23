@@ -12,10 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224ac5cdb565ed8438d9e910c2de2600, type: 3}
   m_Name: DefaultGameFeedbackConfig
   m_EditorClassIdentifier: Magnet.JTH::JTH.Scripts.Data.GameFeedbackConfigSO
-  <ComboTiers>k__BackingField: []
+  <ComboTiers>k__BackingField:
+  - ComboThreshold: 1
+    Sound: {fileID: 11400000, guid: db3aa1afb4a44700a26470f6386cf3ac, type: 2}
+  - ComboThreshold: 2
+    Sound: {fileID: 11400000, guid: 73739823813140febd948dd7a5bcb88b, type: 2}
+  - ComboThreshold: 3
+    Sound: {fileID: 11400000, guid: b551a420e03a4508aaaca7560c4c27c7, type: 2}
+  - ComboThreshold: 4
+    Sound: {fileID: 11400000, guid: 7831c486e52643a8a1139665bb66854a, type: 2}
+  - ComboThreshold: 5
+    Sound: {fileID: 11400000, guid: ed9f5d69c57e420ca7a20186038f7498, type: 2}
+  - ComboThreshold: 6
+    Sound: {fileID: 11400000, guid: 66f085f99ab041fb9424380b77ff9648, type: 2}
+  - ComboThreshold: 7
+    Sound: {fileID: 11400000, guid: 40c1b8922b5a43a6baf73c331644214e, type: 2}
   <ComboTierHaptics>k__BackingField: 1
   <BigClearLineThreshold>k__BackingField: 3
   <BigClearSound>k__BackingField: {fileID: 0}
   <BigClearHaptics>k__BackingField: 1
   <PlacementHaptics>k__BackingField: 0
   <LineClearHaptics>k__BackingField: 1
+  <AllClearSound>k__BackingField: {fileID: 11400000, guid: 9b838bc8bd2d492bb36f7655aba7ee51, type: 2}

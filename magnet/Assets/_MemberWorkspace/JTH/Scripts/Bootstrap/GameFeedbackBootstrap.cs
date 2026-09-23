@@ -35,6 +35,7 @@ namespace JTH.Scripts.Bootstrap
         private void OnEnable()
         {
             magnetGameChannel.AddListener<ComboChangedEvent>(OnComboChanged);
+            magnetGameChannel.AddListener<AllClearEvent>(OnAllClear);
             magnetGameChannel.AddListener<GameOverEvent>(OnGameOver);
             inGameChannel.AddListener<BlockPlacedEvent>(OnBlockPlaced);
         }
@@ -42,22 +43,34 @@ namespace JTH.Scripts.Bootstrap
         private void OnDisable()
         {
             magnetGameChannel?.RemoveListener<ComboChangedEvent>(OnComboChanged);
+            magnetGameChannel?.RemoveListener<AllClearEvent>(OnAllClear);
             magnetGameChannel?.RemoveListener<GameOverEvent>(OnGameOver);
             inGameChannel?.RemoveListener<BlockPlacedEvent>(OnBlockPlaced);
         }
 
+        // ComboChangedEvent는 콤보가 0이 아닌 값으로 바뀔 때만 오므로 사운드는 매번 재생한다.
         private void OnComboChanged(ComboChangedEvent evt)
         {
             int tierIndex = ResolveComboTierIndex(evt.Combo);
-            if (tierIndex < 0 || tierIndex <= _lastComboTierIndex)
+            if (tierIndex < 0)
             {
                 return;
             }
 
             PlaySound(config.ComboTiers[tierIndex].Sound, evt.WorldPosition);
-            Vibrate(config.ComboTierHaptics);
 
+            if (tierIndex <= _lastComboTierIndex)
+            {
+                return;
+            }
+
+            Vibrate(config.ComboTierHaptics);
             _lastComboTierIndex = tierIndex;
+        }
+
+        private void OnAllClear(AllClearEvent evt)
+        {
+            PlaySound(config.AllClearSound, Vector3.zero);
         }
 
         private void OnBlockPlaced(BlockPlacedEvent evt)

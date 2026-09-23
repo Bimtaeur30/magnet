@@ -42,6 +42,8 @@
 | 파일 | 필드 | Tooltip |
 |------|------|---------|
 | `Scripts/Data/BoardConfigSO.cs` | `boardSize` | 8×8 격자 한 변 칸 수. Block Blast 기본 8 |
+| `Scripts/Data/GameFeedbackConfigSO.cs` | `ComboTiers` | 콤보 티어 목록 (오름차순). 콤보가 오를 때마다 해당 콤보 수에 맞는 가장 높은 티어 사운드 재생. 마지막 티어 이상은 마지막 사운드 반복 |
+| `Scripts/Data/GameFeedbackConfigSO.cs` | `AllClearSound` | 올클리어(보드가 완전히 비었을 때) 재생할 사운드. 비우면 재생 안 함 |
 | `Scripts/Data/BlockBlastPoolSO.cs` | `shapes` | Block Blast 표준 polyomino 목록 (1x1~Z4). 인게임 추첨 풀 |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `TooEmptyFillMax` | fillRate가 이 값 미만이면 TooEmpty 구간 (권장 0.12) |
 | `Scripts/Data/BlockSelectionTuningSO.cs` | `TooDirtyFillMin` | fillRate가 이 값 초과면 TooDirty 구간 (권장 0.55) |
@@ -312,3 +314,4 @@ _(아직 등록된 Tooltip 없음)_
 | 2026-08-16 | KTJ ReviveUIView — 버튼·Container·이벤트 채널·블록 셀 크기 Tooltip 추가 |
 | 2026-08-11 | JTH AreaBundleSelectionGizmo — 패 선택 시뮬 배치 칸 색 |
 | 2026-08-02 | JTH AreaBundlePoolSO — Normal Blocks2 전수 평등(325) · MultiClear hard=6 |
+| 2026-09-23 | JTH GameFeedbackConfigSO.ComboTiers(콤보마다 재생)·AllClearSound 추가 |

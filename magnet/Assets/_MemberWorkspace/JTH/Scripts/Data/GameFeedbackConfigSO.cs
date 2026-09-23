@@ -18,11 +18,11 @@ namespace JTH.Scripts.Data
             [Tooltip("이 콤보 수 이상부터 이 티어 사운드로 전환. ComboTiers 리스트는 오름차순으로 등록")]
             public int ComboThreshold;
 
-            [Tooltip("이 티어 진입 순간 재생할 사운드. 비우면 이 티어는 사운드 없음")]
+            [Tooltip("콤보가 오를 때마다 재생할 사운드. 비우면 이 티어는 사운드 없음")]
             public SoundClipSO Sound;
         }
 
-        [Tooltip("콤보 티어 목록 (오름차순). 예: 2콤보부터 A, 5콤보부터 B로 점점 격해지는 사운드")]
+        [Tooltip("콤보 티어 목록 (오름차순). 콤보가 오를 때마다 해당 콤보 수에 맞는 가장 높은 티어 사운드 재생. 마지막 티어 이상은 마지막 사운드 반복")]
         [field: SerializeField] public List<ComboTierEntry> ComboTiers { get; private set; } = new();
 
         [Tooltip("콤보 티어가 새로 올라갈 때 진동. 기본 off — 이 에셋을 비워두면 기능 추가 전과 동일하게 동작")]
@@ -42,5 +42,8 @@ namespace JTH.Scripts.Data
 
         [Tooltip("줄이 클리어될 때마다(대량 여부 무관) 진동. 기본 off")]
         [field: SerializeField] public bool LineClearHaptics { get; private set; } = false;
+
+        [Tooltip("올클리어(보드가 완전히 비었을 때) 재생할 사운드. 비우면 재생 안 함")]
+        [field: SerializeField] public SoundClipSO AllClearSound { get; private set; }
     }
 }
