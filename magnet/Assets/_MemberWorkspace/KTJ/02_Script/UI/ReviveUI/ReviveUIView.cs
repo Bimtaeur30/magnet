@@ -84,7 +84,7 @@ namespace Game.UI
         private void HandleNoThanksButtonClicked()
         {
             CloseOffer();
-            magnetGameChannel.RaiseEvent(MagnetGameEvents.GameOverEvent.Init(currentScore));
+            magnetGameChannel.RaiseEvent(MagnetGameEvents.RelifeDeclinedEvent);
         }
 
         private void CloseOffer()

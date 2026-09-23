@@ -4,6 +4,8 @@
 
 | 구현 (slug) | 제목 | Jira | Phase 인덱스 | 상태 |
 |-------------|------|------|--------------|------|
+| `placement-haptic` | 블록 설치 짧은 진동 | — | [phases.md](./Implementations/placement-haptic/phases.md) | Phase 1 Unity 및 Android/iOS 조건부 C# 컴파일 완료 · 실기기 확인 대기 |
+| `best-score-sync` | 베스트 스코어 재활성화 동기화 | — | [phases.md](./Implementations/best-score-sync/phases.md) | Phase 1 Unity 컴파일·Editor 코드 검증 완료 (2026-09-23) · 실제 Play 확인 대기 |
 | `slot-drag-visibility` | 선택 슬롯 숨김 및 취소 복구 | — | [phases.md](./Implementations/slot-drag-visibility/phases.md) | Phase 1 Unity 컴파일·Editor 코드 검증 완료 · 실제 Play 입력 확인 대기 |
 | `nice-combo-layout` | 따봉 칸 중심·콤보 화면 제한·파티클 정렬 | — | [phases.md](./Implementations/nice-combo-layout/phases.md) | Phase 1 Unity 컴파일·Editor 수치/정렬 검증 완료 (2026-09-23) · 실제 씬 시각 확인 대기 |
 | `all-clear-ui` | 올클리어 텍스트 트윈·Gradation 및 올클리어/콤보 파티클 | — | [phases.md](./Implementations/all-clear-ui/phases.md) | Phase 1 Gradation/콤보 파티클 추가 및 Unity 컴파일·Editor 코드 검증 완료 (2026-09-23) · 실제 씬 시각 확인 대기 |

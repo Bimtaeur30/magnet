@@ -1,5 +1,7 @@
 # Phase 1 — 부활 제안 표시와 선택 처리
 
+2026-09-23 수정: No Thanks는 RelifeDeclinedEvent를 발행하고 TurnBootstrap의 공통 게임오버 경로에서 스킨 해금 검사 후 GameOverEvent를 발행한다. 기존 아래 초기 구현 설명의 직접 GameOverEvent 발행 방식은 더 이상 사용하지 않는다.
+
 ## 목표와 완료 기준
 
 - `RelifeOfferedEvent` 수신 시 부활 Container를 활성화한다.
