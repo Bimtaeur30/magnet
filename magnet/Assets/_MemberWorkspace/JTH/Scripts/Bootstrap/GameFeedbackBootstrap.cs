@@ -10,8 +10,8 @@ namespace JTH.Scripts.Bootstrap
 {
     /// <summary>
     /// 콤보 상승 / 대량 라인클리어 피드백(사운드 전환 + 진동) 담당.
-    /// 배치·클리어 기본음(BoardPlacementBootstrap)과는 별개로 위에 얹는 추가 연출 레이어라
-    /// 기존 코드는 건드리지 않는다. 실제 사운드 클립·티어 값은 GameFeedbackConfigSO 에셋에서
+    /// 배치·클리어 기본음(BoardPlacementBootstrap)과는 별개로 위에 얹는 추가 연출 레이어다.
+    /// 실제 사운드 클립·티어 값은 GameFeedbackConfigSO 에셋에서
     /// 사운드 담당이 채우면 됨 (코드 수정 불필요).
     /// </summary>
     public sealed class GameFeedbackBootstrap : MonoBehaviour
@@ -66,7 +66,7 @@ namespace JTH.Scripts.Bootstrap
 
             if (config.PlacementHaptics)
             {
-                Vibrate(true);
+                VibrationSettings.VibratePlacement();
             }
 
             if (clearedLineCount <= 0)

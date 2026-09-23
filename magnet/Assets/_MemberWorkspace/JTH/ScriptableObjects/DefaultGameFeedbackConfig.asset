@@ -17,5 +17,5 @@ MonoBehaviour:
   <BigClearLineThreshold>k__BackingField: 3
   <BigClearSound>k__BackingField: {fileID: 0}
   <BigClearHaptics>k__BackingField: 1
-  <PlacementHaptics>k__BackingField: 0
+  <PlacementHaptics>k__BackingField: 1
   <LineClearHaptics>k__BackingField: 1
