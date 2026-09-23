@@ -47,6 +47,7 @@ namespace JTH.Scripts.Bootstrap
             inGameChannel.AddListener<BlockPlacedEvent>(BlockPlacedHandler);
             enemyChannel.AddListener<StageClearEvent>(StageClearHandler);
             magnetGameChannel.AddListener<RelifeAcceptedEvent>(RelifeAcceptedHandler);
+            magnetGameChannel.AddListener<RelifeDeclinedEvent>(RelifeDeclinedHandler);
         }
 
         private void OnDisable()
@@ -54,6 +55,7 @@ namespace JTH.Scripts.Bootstrap
             inGameChannel?.RemoveListener<BlockPlacedEvent>(BlockPlacedHandler);
             enemyChannel?.RemoveListener<StageClearEvent>(StageClearHandler);
             magnetGameChannel?.RemoveListener<RelifeAcceptedEvent>(RelifeAcceptedHandler);
+            magnetGameChannel?.RemoveListener<RelifeDeclinedEvent>(RelifeDeclinedHandler);
         }
 
         private void StageClearHandler(StageClearEvent evt)
@@ -119,6 +121,12 @@ namespace JTH.Scripts.Bootstrap
             }
 
             _blockSpawnBootstrap.FillPrepared(pieces, _scoreSession.TotalScore);
+        }
+
+        private void RelifeDeclinedHandler(RelifeDeclinedEvent evt)
+        {
+            if (_relifeSession.Decline())
+                RaiseGameOver();
         }
 
         private void RaiseGameOver()

@@ -38,5 +38,17 @@ namespace JTH.Scripts.Domain.Turn
             Used = true;
             return pieces;
         }
+
+        public bool Decline()
+        {
+            if (PendingPieces == null)
+            {
+                return false;
+            }
+
+            PendingPieces = null;
+            Used = true;
+            return true;
+        }
     }
 }

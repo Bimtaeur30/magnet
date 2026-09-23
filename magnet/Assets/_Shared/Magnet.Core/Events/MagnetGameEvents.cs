@@ -14,6 +14,7 @@ namespace Magnet.Core.Events
         public static readonly BlockSelectedOnUIEvent BlockSelectedOnUIEvent = new();
         public static readonly RelifeOfferedEvent RelifeOfferedEvent = new();
         public static readonly RelifeAcceptedEvent RelifeAcceptedEvent = new();
+        public static readonly RelifeDeclinedEvent RelifeDeclinedEvent = new();
         public static readonly UniqueCorrectPlacementEvent UniqueCorrectPlacementEvent = new();
         public static readonly PerfectClearEvent PerfectClearEvent = new();
         public static readonly AllClearEvent AllClearEvent = new();
@@ -123,6 +124,10 @@ namespace Magnet.Core.Events
         {
             return this;
         }
+    }
+
+    public sealed class RelifeDeclinedEvent : GameEvent
+    {
     }
 
     /// <summary>

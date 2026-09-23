@@ -22,20 +22,16 @@ namespace Game.UI
         private int _displayedCurrentScore;
         private int _displayedBestScore;
 
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _displayedBestScore = _saveService?.BestScore ?? 0;
-            ViewModel.SetBestScore(_displayedBestScore);
-        }
-
         protected override void OnEnable()
         {
             base.OnEnable();
 
             MagnetGameChannel.AddListener<ScoreChangedEvent>(OnScoreChanged);
             MagnetGameChannel.AddListener<BestScoreUpdatedEvent>(OnBestScoreUpdated);
+
+            // 비활성 중 놓친 갱신과 중단된 숫자 애니메이션을 저장값으로 복구한다.
+            _displayedBestScore = _saveService?.BestScore ?? 0;
+            ViewModel.SetBestScore(_displayedBestScore);
         }
 
         protected override void OnDisable()
